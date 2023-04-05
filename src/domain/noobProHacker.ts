@@ -1,4 +1,4 @@
-type LineInfo = {
+type LineDetail = {
    minecraft_id: string;
    image_url: string;
    youtube_url: string;
@@ -6,16 +6,20 @@ type LineInfo = {
 };
 
 export type NoobProHacker = {
-   episode: string;
-   date: Date;
-   lines: {
+   contentInfo: {
+      episode: number;
+      main_subject: string;
+      date: string;
+      youtube_url: string;
+   };
+   lineInfo: {
       subject: string;
       youtube_url: string;
       line_ranking: number;
       line_details: {
-         noob: LineInfo;
-         pro: LineInfo;
-         hacker: LineInfo;
+         noob: LineDetail;
+         pro: LineDetail;
+         hacker: LineDetail;
       };
    }[];
 };

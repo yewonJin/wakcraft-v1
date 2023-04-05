@@ -7,6 +7,8 @@ const Container = styled.nav`
    display: flex;
    height: 80px;
    color: white;
+   background-color: rgba(0, 0, 0, 0.5);
+   z-index: 10;
 `;
 
 const Title = styled.h2`
@@ -16,7 +18,7 @@ const Title = styled.h2`
 `;
 
 const SubContainer = styled.div`
-   width: 1580px;
+   width: 1058px;
    margin: 0px auto;
    display: flex;
 
@@ -29,10 +31,10 @@ export default function NavBar() {
       <Container>
          <SubContainer>
             <Title>
-               <Link href="/">WAKCRAFT</Link>
+               <Link href={'/'}>WAKCRAFT</Link>
             </Title>
-            <Link href="/">눕프로해커</Link>
-            <Link href="/search">건축가</Link>
+            <Link href={'/'}>눕프로해커</Link>
+            <Link href={'/search'}>건축가</Link>
             <Link href="/tier">티어</Link>
          </SubContainer>
       </Container>

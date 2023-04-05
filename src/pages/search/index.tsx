@@ -1,21 +1,28 @@
-import { getArchitects } from '@/api/architect';
+import { getArchitects } from '@/services/api/architect';
+import Link from 'next/link';
 import { dehydrate, QueryClient, useQuery, UseQueryResult } from 'react-query';
 import styled from 'styled-components';
 
-const Container = styled.div`
+const Container = styled.ul`
    display: flex;
    flex-direction: column;
-   gap: 10px;
-   width: 1200px;
+   width: 1058px;
    margin: 0px auto;
-   margin-top: 30px;
    font-size: 20px;
+   padding-top: 100px;
+
+   > li {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 50px;
+   }
 `;
 
 export const getServerSideProps = async () => {
    const queryClient = new QueryClient();
    await queryClient.prefetchQuery('architect', getArchitects);
-
+  
    return {
       props: {
          dehydratedState: dehydrate(queryClient),
@@ -38,9 +45,9 @@ export default function Search() {
       <Container>
          {data.map((item, index) => {
             return (
-               <a href={'search' + '/' + item.minecraft_id} key={'data_' + index}>
-                  {item.minecraft_id}
-               </a>
+               <li key={item.wakzoo_id}>
+                  <Link href={`/search/${item.minecraft_id}`}>{item.wakzoo_id + ' / ' + item.tier[0]}</Link>
+               </li>
             );
          })}
       </Container>

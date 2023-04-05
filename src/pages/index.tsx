@@ -1,52 +1,62 @@
-import TextBox from '@/components/TextBox';
+import TextBox from '@/Components/Common/TextBox';
 import Head from 'next/head';
 import Image from 'next/image';
 import styled from 'styled-components';
-import thumbnail1 from '../../public/thumbnail.png';
-import thumbnail2 from '../../public/thumbnail2.png';
-import thumbnail3 from '../../public/thumbnail3.png';
+import hacker from '../../public/Naruto-hacker.png';
+import pro from '../../public/Naruto-noob.png';
+import noob from '../../public/Naruto-pro.png';
 
 const Container = styled.main`
-   width: 100%;
-   height: 100vh;
-   padding-top: 80px;
-   background-color: rgba(0, 0, 0, 0.7);
-   background-image: url('./thumbnail3.png');
-   background-size: cover;
-   background-blend-mode: darken;
-   margin: 0px auto;
-   display: flex;
-   align-items: center;
-   justify-content: center;
-   padding-bottom: 280px;
+   height: 1600px;
    box-sizing: border-box;
 `;
 
 const SubContainer = styled.div`
+   position: relative;
+   z-index: 2;
+   width: 100%;
+   height: 100vh;
    display: flex;
-   flex-direction: column;
    align-items: center;
+   justify-content: center;
+   flex-direction: column;
    box-sizing: border-box;
 `;
+
+const BackgroundImage = styled.div`
+   position: absolute;
+   width: 100%;
+   height: 100%;
+   top: 0px;
+   left: 0px;
+   z-index: -1;
+   background-color: rgba(0, 0, 0, 0.5);
+   background-image: url('./thumbnail3.png');
+   background-size: cover;
+   filter: blur(3px);
+   background-blend-mode: darken;
+`;
+
 const TopContainer = styled.div`
    display: flex;
    flex-direction: column;
-   width: 1580px;
+   width: 1058px;
    padding-bottom: 0px;
    color: white;
 `;
 
 const Category = styled.ul`
    display: flex;
-   gap: 45px;
+   gap: 35px;
    margin: 0px;
    margin-top: 40px;
    margin-bottom: 60px;
    font-weight: 500;
 
    > li {
+      text-align: center;
       list-style: none;
-      font-size: 20px;
+      font-size: 18px;
       color: #ddd;
    }
 
@@ -62,7 +72,17 @@ const MainContainer = styled.div`
    display: flex;
    align-items: center;
    box-sizing: border-box;
-   gap: 35px;
+   gap: 49px;
+
+   > div {
+      padding-bottom: 20px;
+      backdrop-filter: blur(5px);
+
+      > img:hover {
+         cursor: pointer;
+         scale: 1.02;
+      }
+   }
 `;
 
 const ContentContainer = styled.div`
@@ -72,24 +92,18 @@ const ContentContainer = styled.div`
    justify-content: space-between;
 `;
 
-const TierBox = styled.span`
-   display: flex;
-   justify-content: center;
-   align-items: center;
-   width: 100px;
-   height: 60px;
-   border-radius: 10px;
-   font-size: 18px;
-   color: white;
-   background-color: #c760a3;
-`;
-
 const Content = styled.div`
    flex: 1;
    margin-left: 20px;
    display: flex;
    gap: 7px;
    flex-direction: column;
+`;
+
+const Divider = styled.div`
+   width: 1px;
+   height: 100%;
+   background-color: #cacaca;
 `;
 
 const BBox = styled.ul`
@@ -124,28 +138,35 @@ export default function Home() {
             <link rel="icon" href="/favicon.ico" />
          </Head>
          <Container>
+            <BackgroundImage />
             <SubContainer>
                <TopContainer>
                   <TextBox
-                     text="제 24회"
-                     fontSize="32px"
+                     text="제 4회"
+                     fontSize="28px"
                      fontWeight="500"
-                     lineHeight="44px"
+                     lineHeight="36px"
                      margin="0px 0px 5px 0px"
                      color="#868686"
                   />
-                  <TextBox text="눕프로해커" fontSize="42px" fontWeight="500" lineHeight="54px" />
+                  <TextBox text="눕프로해커 : 나루토 편" fontSize="36px" fontWeight="500" lineHeight="48px" />
                   <Category>
-                     <li>미스포츈</li>
-                     <li>파이크</li>
-                     <li>요네</li>
-                     <li>마스터 이</li>
-                     <li>이즈리얼</li>
+                     <Divider />
+                     <li>가아라</li>
+                     <Divider />
+                     <li>오로치마루</li>
+                     <Divider />
+                     <li>카카시</li>
+                     <Divider />
+                     <li>사스케</li>
+                     <Divider />
+                     <li>나루토</li>
+                     <Divider />
                   </Category>
                </TopContainer>
                <MainContainer>
                   <div>
-                     <Image src={thumbnail1} width={500} alt="noob" />
+                     <Image src={noob} width={320} alt="noob" />
                      <ContentContainer>
                         <Content>
                            <BBox>
@@ -156,7 +177,7 @@ export default function Home() {
                      </ContentContainer>
                   </div>
                   <div>
-                     <Image src={thumbnail2} width={500} alt="noob" />
+                     <Image src={pro} width={320} alt="noob" />
                      <ContentContainer>
                         <Content>
                            <BBox>
@@ -167,7 +188,7 @@ export default function Home() {
                      </ContentContainer>
                   </div>
                   <div>
-                     <Image src={thumbnail3} width={500} alt="noob" />
+                     <Image src={hacker} width={320} alt="noob" />
                      <ContentContainer>
                         <Content>
                            <BBox>

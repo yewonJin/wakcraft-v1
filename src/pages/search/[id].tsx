@@ -1,5 +1,7 @@
-import { getArchitectById } from '@/api/architect';
+import { getArchitectById } from '@/services/api/architect';
+import { useQueryArchitectById } from '@/services/ArchitectAdapters';
 import { useRouter } from 'next/router';
+import { Suspense } from 'react';
 import { dehydrate, QueryClient, useQuery, UseQueryResult } from 'react-query';
 import styled from 'styled-components';
 
@@ -8,7 +10,7 @@ import Portfolio from './Portfolio';
 const Container = styled.div`
    width: 1200px;
    margin: 0px auto;
-   margin-top: 30px;
+   padding-top: 120px;
 `;
 
 const Profile = styled.div`
@@ -30,40 +32,11 @@ const ProfileImage = styled.span`
    background-color: #cacaca;
 `;
 
-type ArchitectType = {
-   wakzoo_id: string;
-   minecraft_id: string;
-   tier: string[];
-   portfolio: {
-      noobProHacker: {
-         episode: number;
-         subject: string;
-         line: string;
-         image_url: string;
-         youtube_url: string;
-         ranking: number;
-      }[];
-   };
-};
-
-export const getServerSideProps = async (context: any) => {
-   const { id } = context.query;
-
-   const queryClient = new QueryClient();
-   await queryClient.prefetchQuery('architect', () => getArchitectById(id));
-
-   return {
-      props: {
-         dehydratedState: dehydrate(queryClient),
-      },
-   };
-};
-
 export default function Page() {
    const router = useRouter();
    const { id } = router.query;
 
-   const { data }: UseQueryResult<ArchitectType> = useQuery('architect', () => getArchitectById(id as string));
+   const data = useQueryArchitectById();
 
    if (!data) return <div>no data</div>;
 

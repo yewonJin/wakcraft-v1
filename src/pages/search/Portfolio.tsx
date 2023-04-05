@@ -1,8 +1,12 @@
 import Image from 'next/image';
 import styled from 'styled-components';
 import thumbnail1 from '../../../public/thumbnail.png';
+import hacker from '../../../public/Naruto-hacker.png';
+
 import thumbnail2 from '../../../public/thumbnail2.png';
 import thumbnail3 from '../../../public/thumbnail3.png';
+import { translateTier } from '@/utils/lib';
+import { Architect } from '@/Domain/architect';
 
 const Container = styled.div`
    width: 100%;
@@ -92,23 +96,7 @@ const RankingContanier = styled.div`
    }
 `;
 
-type ArchitectType = {
-   wakzoo_id: string;
-   minecraft_id: string;
-   tier: string[];
-   portfolio: {
-      noobProHacker: {
-         episode: number;
-         subject: string;
-         line: string;
-         image_url: string;
-         youtube_url: string;
-         ranking: number;
-      }[];
-   };
-};
-
-export default function Portfolio({ info }: { info: ArchitectType}) {
+export default function Portfolio({ info }: { info: Architect }) {
    return (
       <Container>
          <Title>포트폴리오</Title>
@@ -118,7 +106,7 @@ export default function Portfolio({ info }: { info: ArchitectType}) {
                   <Box key={'noobProHacker_' + index}>
                      <Image alt="hi" src={thumbnail1} />
                      <ContentContainer>
-                        <TierBox>{item.line}</TierBox>
+                        <TierBox>{translateTier(item.line)}</TierBox>
                         <Content>
                            <h2>{item.subject}</h2>
                            <h3>{`제 ${item.episode}회 눕프핵`}</h3>
@@ -131,7 +119,6 @@ export default function Portfolio({ info }: { info: ArchitectType}) {
                   </Box>
                );
             })}
-        
          </Wrapper>
       </Container>
    );
