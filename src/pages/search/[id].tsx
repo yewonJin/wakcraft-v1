@@ -1,19 +1,11 @@
-import { getArchitectById } from '@/services/api/architect';
-import { useQueryArchitectById } from '@/services/ArchitectAdapters';
-import { useRouter } from 'next/router';
-import { Suspense } from 'react';
-import { dehydrate, QueryClient, useQuery, UseQueryResult } from 'react-query';
 import styled from 'styled-components';
 
 import Portfolio from './Portfolio';
+import { useQueryArchitectById } from '@/Services/ArchitectAdapters';
+import { CommonLayout } from '@/Components/Common/CommonLayout';
+import TextBox from '@/Components/Common/TextBox';
 
-const Container = styled.div`
-   width: 1200px;
-   margin: 0px auto;
-   padding-top: 120px;
-`;
-
-const Profile = styled.div`
+const ProfileBox = styled.div`
    display: flex;
    gap: 1.2rem;
    align-items: center;
@@ -33,20 +25,17 @@ const ProfileImage = styled.span`
 `;
 
 export default function Page() {
-   const router = useRouter();
-   const { id } = router.query;
-
    const data = useQueryArchitectById();
 
    if (!data) return <div>no data</div>;
 
    return (
-      <Container>
-         <Profile>
+      <CommonLayout>
+         <ProfileBox>
             <ProfileImage />
-            <ProfileName>{data.minecraft_id}</ProfileName>
-         </Profile>
+            <TextBox text={data.minecraft_id} fontSize="20px" lineHeight="28px"/>
+         </ProfileBox>
          <Portfolio info={data} />
-      </Container>
+      </CommonLayout>
    );
 }

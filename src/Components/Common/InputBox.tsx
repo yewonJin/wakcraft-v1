@@ -1,5 +1,5 @@
+import { ChangeEvent, HTMLInputTypeAttribute } from 'react';
 import styled from 'styled-components';
-import { ChangeEvent, Dispatch, HTMLInputTypeAttribute, SetStateAction } from 'react';
 
 type InputStyleType = {
    width?: string;

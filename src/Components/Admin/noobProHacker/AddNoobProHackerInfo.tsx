@@ -1,8 +1,9 @@
+import { ChangeEvent, Dispatch, SetStateAction } from 'react';
+import styled from 'styled-components';
+
 import InputBox from '@/Components/Common/InputBox';
 import TextBox from '@/Components/Common/TextBox';
 import { NoobProHacker } from '@/Domain/noobProHacker';
-import { ChangeEvent, Dispatch, SetStateAction } from 'react';
-import styled from 'styled-components';
 
 const ListLayout = styled.ul`
    display: flex;

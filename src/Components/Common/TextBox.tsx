@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { memo } from 'react';
 
 type TextBoxType = {
    text: string;
@@ -41,4 +40,4 @@ function TextBox(props: TextBoxType) {
    return <Text {...restProps}>{text}</Text>;
 }
 
-export default memo(TextBox);
+export default TextBox;

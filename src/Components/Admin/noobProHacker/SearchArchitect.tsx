@@ -1,9 +1,9 @@
+import { ChangeEvent, useState, Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
 
 import { NoobProHacker } from '@/Domain/noobProHacker';
 import { useQueryArchitectWithoutPortfolio } from '@/Services/ArchitectAdapters';
 import { fuzzySearch } from '@/utils/fuzzySearch';
-import { ChangeEvent, useState, Dispatch, SetStateAction } from 'react';
 import { AddArchitect } from './AddArchitect';
 import InputBox from '@/Components/Common/InputBox';
 

@@ -1,6 +1,7 @@
-import { Architect } from '@/Domain/architect';
+import { useMutation, useQuery, useQueryClient, UseQueryResult } from 'react-query';
 import { useRouter } from 'next/router';
-import { QueryClient, useMutation, useQuery, useQueryClient, UseQueryResult } from 'react-query';
+
+import { Architect } from '@/Domain/architect';
 import { addArchitects, getArchitectById, getArchitects, getArchitectsWithoutPortfolio } from './api/architect';
 
 export const useQueryArchitect = () => {

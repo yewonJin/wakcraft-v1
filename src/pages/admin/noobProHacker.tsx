@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 
 import { AddNoobProHackerInfo } from '@/Components/Admin/noobProHacker/AddNoobProHackerInfo';
@@ -7,7 +8,6 @@ import { NoobProHackerForm } from '@/Components/Admin/noobProHacker/NoobProHacke
 import { SearchArchitect } from '@/Components/Admin/noobProHacker/SearchArchitect';
 import { CommonLayout } from '@/Components/Common/CommonLayout';
 import TextBox from '@/Components/Common/TextBox';
-import { useState } from 'react';
 import { NoobProHacker, createNoobProHacker } from '@/Domain/noobProHacker';
 
 const Container = styled.div`

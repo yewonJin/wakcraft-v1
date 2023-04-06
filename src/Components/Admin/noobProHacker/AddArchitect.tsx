@@ -1,6 +1,6 @@
+import { ChangeEvent, useState } from 'react';
 import styled from 'styled-components';
 
-import { ChangeEvent, useState } from 'react';
 import { useMutationArchitect } from '@/Services/ArchitectAdapters';
 import TextBox from '@/Components/Common/TextBox';
 import InputBox from '@/Components/Common/InputBox';

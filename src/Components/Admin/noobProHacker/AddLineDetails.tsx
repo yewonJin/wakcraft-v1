@@ -1,7 +1,7 @@
+import { ChangeEvent, Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
 
 import { createNoobProHacker, NoobProHacker } from '@/Domain/noobProHacker';
-import { ChangeEvent, Dispatch, SetStateAction } from 'react';
 import { checkEmptyInDeepObject, translateTier } from '@/utils/lib';
 import TextBox from '@/Components/Common/TextBox';
 import InputBox from '@/Components/Common/InputBox';
