@@ -8,9 +8,14 @@ const LineInfoLayout = styled.div`
       display: flex;
       gap: 10px;
       > li {
+         width: 20%;
+         text-align: center;
          padding: 25px 20px;
          background-color: white;
          list-style: none;
+         :hover{
+            cursor: pointer;
+         }
       }
    }
 `;
@@ -31,15 +36,20 @@ type LineInfo = {
       pro: LineDetail;
       hacker: LineDetail;
    };
-}
+};
 
-
-export function NoobProHackerLineInfo({value}: {value: LineInfo[]}) {
+export function NoobProHackerLineInfo({
+   value,
+   handleClick,
+}: {
+   value: LineInfo[];
+   handleClick: (num: number) => void;
+}) {
    return (
       <LineInfoLayout>
          <ul>
-            {value.map((item) => {
-               return item.subject
+            {value.map((item, index) => {
+               return <li onClick={() => handleClick(index)} key={item.subject}>{index + 1 + '라인 : ' + item.subject}</li>;
             })}
          </ul>
          <div></div>

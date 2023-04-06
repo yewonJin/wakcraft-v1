@@ -1,7 +1,7 @@
 import { Architect } from '@/Domain/architect';
 import { useRouter } from 'next/router';
-import { useQuery, UseQueryResult } from 'react-query';
-import { getArchitectById, getArchitects, getArchitectsWithoutPortfolio } from './api/architect';
+import { QueryClient, useMutation, useQuery, useQueryClient, UseQueryResult } from 'react-query';
+import { addArchitects, getArchitectById, getArchitects, getArchitectsWithoutPortfolio } from './api/architect';
 
 export const useQueryArchitect = () => {
    const { data: result }: UseQueryResult<Architect> = useQuery('architect', getArchitects);
@@ -28,4 +28,19 @@ export const useQueryArchitectWithoutPortfolio = () => {
    );
 
    return result;
+};
+
+export const useMutationArchitect = () => {
+   const queryClient = useQueryClient();
+
+   var myHeaders = new Headers();
+   myHeaders.append('Content-Type', 'application/json');
+
+   const mutation = useMutation((body: any) => addArchitects(body), {
+      onSuccess: () => {
+         queryClient.invalidateQueries('architectWithoutPortfolio');
+      },
+   });
+
+   return mutation;
 };

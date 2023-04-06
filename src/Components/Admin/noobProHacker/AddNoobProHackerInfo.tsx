@@ -1,5 +1,4 @@
 import { NoobProHacker } from '@/Domain/noobProHacker';
-import NoobProhacker from '@/pages/admin/noobProHacker';
 import { ChangeEvent, Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
 

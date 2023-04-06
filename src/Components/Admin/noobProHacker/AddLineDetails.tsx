@@ -58,10 +58,14 @@ export function AddLineDetails({
    value,
    setValue,
    currentLineIndex,
+   handleClick,
+   setEmptyState,
 }: {
    value: NoobProHacker['lineInfo'];
    setValue: Dispatch<SetStateAction<NoobProHacker['lineInfo']>>;
    currentLineIndex: number;
+   handleClick: (num: number) => void;
+   setEmptyState: (boo: boolean) => void;
 }) {
    const handleCommonChange = (e: ChangeEvent<HTMLInputElement>) => {
       const newArr = [...value];
@@ -184,6 +188,43 @@ export function AddLineDetails({
                e.preventDefault();
 
                console.log(checkEmptyInDeepObject(value[currentLineIndex]));
+
+               if (checkEmptyInDeepObject(value[currentLineIndex])) {
+                  handleClick(currentLineIndex > 5 ? currentLineIndex : currentLineIndex+1);
+                  setEmptyState(false);
+
+                  if (value.length < 5) {
+                     const newArr = [...value];
+
+                     newArr.push({
+                        subject: '',
+                        youtube_url: '',
+                        line_ranking: 0,
+                        line_details: {
+                           noob: {
+                              minecraft_id: '',
+                              image_url: '',
+                              youtube_url: '',
+                              ranking: 0,
+                           },
+                           pro: {
+                              minecraft_id: '',
+                              image_url: '',
+                              youtube_url: '',
+                              ranking: 0,
+                           },
+                           hacker: {
+                              minecraft_id: '',
+                              image_url: '',
+                              youtube_url: '',
+                              ranking: 0,
+                           },
+                        },
+                     });
+
+                     setValue(newArr);
+                  }
+               }
             }}
          >
             제출하기

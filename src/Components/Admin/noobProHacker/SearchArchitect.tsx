@@ -1,13 +1,14 @@
 import { NoobProHacker } from '@/Domain/noobProHacker';
-import { useQueryArchitectWithoutPortfolio } from '@/Services/ArchitectAdapters';
+import { useMutationArchitect, useQueryArchitectWithoutPortfolio } from '@/Services/ArchitectAdapters';
 import { fuzzySearch } from '@/utils/fuzzySearch';
 
 import { ChangeEvent, useState, Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
+import { AddArchitect } from './AddArchitect';
 
 const Layout = styled.div`
-   flex: 1;
    display: flex;
+   width: 350px;
    flex-direction: column;
    gap: 10px;
    padding: 10px;
@@ -42,17 +43,36 @@ const InputBox = styled.input<{ width?: string }>`
    width: ${props => props.width || '150px'};
 `;
 
+type ArchitectInfo = {
+   minecraft_id: string;
+   wakzoo_id: string;
+   tier: string;
+};
+
 export function SearchArchitect({
    value,
    setValue,
+   isEmpty,
+   setEmptyState,
+   currentLineIndex
 }: {
    value: NoobProHacker['lineInfo'];
    setValue: Dispatch<SetStateAction<NoobProHacker['lineInfo']>>;
+   isEmpty: boolean;
+   setEmptyState: (boo: boolean) => void;
+   currentLineIndex: number;
 }) {
    const [input, setInput] = useState('');
+   const [architectInfo, setArchitectInfo] = useState<ArchitectInfo>({
+      minecraft_id: '',
+      wakzoo_id: '',
+      tier: '',
+   })
    const [lineCount, setLineCount] = useState(0);
 
    const data = useQueryArchitectWithoutPortfolio();
+
+   const mutation = useMutationArchitect();
 
    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
       setInput(e.target.value);
@@ -61,34 +81,12 @@ export function SearchArchitect({
    if (!data) return <Layout></Layout>;
 
    const handleClick = (minecraft_id: string) => {
+      if(value[currentLineIndex].line_details.hacker.minecraft_id !== '') return;
+
       if (lineCount === 0) {
          const newArr = [...value];
 
-         newArr.push({
-            subject: '',
-            youtube_url: '',
-            line_ranking: 0,
-            line_details: {
-               noob: {
-                  minecraft_id: minecraft_id,
-                  image_url: '',
-                  youtube_url: '',
-                  ranking: 0,
-               },
-               pro: {
-                  minecraft_id: '',
-                  image_url: '',
-                  youtube_url: '',
-                  ranking: 0,
-               },
-               hacker: {
-                  minecraft_id: '',
-                  image_url: '',
-                  youtube_url: '',
-                  ranking: 0,
-               },
-            },
-         });
+         newArr[currentLineIndex].line_details.noob.minecraft_id = minecraft_id;
 
          setLineCount(1);
 
@@ -96,7 +94,7 @@ export function SearchArchitect({
       } else if (lineCount === 1) {
          const newArr = [...value];
 
-         newArr[value.length - 1].line_details.pro.minecraft_id = minecraft_id;
+         newArr[currentLineIndex].line_details.pro.minecraft_id = minecraft_id;
 
          setLineCount(2);
 
@@ -104,14 +102,12 @@ export function SearchArchitect({
       } else {
          const newArr = [...value];
 
-         newArr[value.length - 1].line_details.hacker.minecraft_id = minecraft_id;
-
-         setLineCount(0);
+         newArr[currentLineIndex].line_details.hacker.minecraft_id = minecraft_id;
 
          setValue(newArr);
-      }
 
-      console.log(value);
+         setLineCount(0);
+      }
    };
 
    return (
@@ -128,6 +124,7 @@ export function SearchArchitect({
                   );
                })}
          </ul>
+         <AddArchitect architectInfo={architectInfo} setArchitectInfo={setArchitectInfo} mutation={mutation}/>
       </Layout>
    );
 }
