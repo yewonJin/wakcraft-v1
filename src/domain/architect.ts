@@ -38,6 +38,25 @@ export type Architect = {
    };
 };
 
+export const createTierArray = (): Tier[] => {
+   return [
+      '마카게',
+      '오마카세',
+      '해커',
+      '해장국',
+      '국밥',
+      '미지근한 국밥',
+      '식은 국밥',
+      '프로',
+      '계추',
+      '계륵',
+      '안 나쁜 눕',
+      '그냥 눕',
+      '진짜 눕',
+      '언랭',
+   ];
+};
+
 /** TODO: 건축가의 현재 티어  */
 export const currentTier = (architect: Architect) => {
    const { tier } = architect;
