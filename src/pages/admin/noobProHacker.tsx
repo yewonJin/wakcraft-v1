@@ -8,7 +8,7 @@ import { SearchArchitect } from '@/Components/Admin/noobProHacker/SearchArchitec
 import { CommonLayout } from '@/Components/Common/CommonLayout';
 import TextBox from '@/Components/Common/TextBox';
 import { useState } from 'react';
-import { NoobProHacker } from '@/Domain/noobProHacker';
+import { NoobProHacker, NoobProHackerEmptyObject } from '@/Domain/noobProHacker';
 
 const Container = styled.div`
    display: flex;
@@ -17,38 +17,28 @@ const Container = styled.div`
 `;
 
 export default function NoobProhacker() {
-   const [contentInfo, setContentInfo] = useState<NoobProHacker['contentInfo']>(initialNoobProHacker.contentInfo);
-   const [lineInfo, setLineInfo] = useState<NoobProHacker['lineInfo']>(initialNoobProHacker.lineInfo);
-   const [currentLineIndex, setCurrentLineIndex] = useState(0);
+   const [contentInfo, setContentInfo] = useState<NoobProHacker['contentInfo']>(NoobProHackerEmptyObject.contentInfo);
+   const [lineInfo, setLineInfo] = useState<NoobProHacker['lineInfo']>(NoobProHackerEmptyObject.lineInfo);
+   const [curLineIndex, setCurLineIndex] = useState(0);
    const [isEmpty, setIsEmpty] = useState(true);
 
-   const handleClick = (num: number) => {
-      setCurrentLineIndex(num);
-   };
+   const setStateCurLineIndex = (index: number) => setCurLineIndex(index);
+   const setEmptyState = (boolean: boolean) => setIsEmpty(boolean);
 
-   const setEmptyState = (boo: boolean) => {
-      setIsEmpty(boo);
-   };
    return (
       <CommonLayout>
          <NoobProHackerForm>
             <TextBox text="눕프로해커" fontSize="28px" lineHeight="42px" fontWeight="500" margin="0px 0px 10px 0px" />
-            <AddNoobProHackerInfo value={contentInfo} setValue={setContentInfo} />
-            <NoobProHackerLineInfo value={lineInfo} handleClick={handleClick} />
+            <AddNoobProHackerInfo contentInfo={contentInfo} setContentInfo={setContentInfo} />
+            <NoobProHackerLineInfo lineInfo={lineInfo} setStateCurLineIndex={setStateCurLineIndex} />
             <Container>
-               <SearchArchitect
-                  value={lineInfo}
-                  setValue={setLineInfo}
-                  isEmpty={isEmpty}
-                  setEmptyState={setEmptyState}
-                  currentLineIndex={currentLineIndex}
-               />
-               {lineInfo[currentLineIndex] && (
+               <SearchArchitect lineInfo={lineInfo} setLineInfo={setLineInfo} curLineIndex={curLineIndex} />
+               {lineInfo[curLineIndex] && (
                   <AddLineDetails
-                     value={lineInfo}
-                     setValue={setLineInfo}
-                     currentLineIndex={currentLineIndex}
-                     handleClick={handleClick}
+                     lineInfo={lineInfo}
+                     setLineInfo={setLineInfo}
+                     curLineIndex={curLineIndex}
+                     setStateCurLineIndex={setStateCurLineIndex}
                      setEmptyState={setEmptyState}
                   />
                )}
@@ -57,39 +47,3 @@ export default function NoobProhacker() {
       </CommonLayout>
    );
 }
-
-const initialNoobProHacker: NoobProHacker = {
-   contentInfo: {
-      episode: 0,
-      main_subject: '',
-      date: '',
-      youtube_url: '',
-   },
-   lineInfo: [
-      {
-         subject: '',
-         youtube_url: '',
-         line_ranking: 0,
-         line_details: {
-            noob: {
-               minecraft_id: '',
-               youtube_url: '',
-               image_url: '',
-               ranking: 0,
-            },
-            pro: {
-               minecraft_id: '',
-               youtube_url: '',
-               image_url: '',
-               ranking: 0,
-            },
-            hacker: {
-               minecraft_id: '',
-               youtube_url: '',
-               image_url: '',
-               ranking: 0,
-            },
-         },
-      },
-   ],
-};

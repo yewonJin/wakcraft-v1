@@ -1,10 +1,11 @@
-import { NoobProHacker } from '@/Domain/noobProHacker';
-import { useMutationArchitect, useQueryArchitectWithoutPortfolio } from '@/Services/ArchitectAdapters';
-import { fuzzySearch } from '@/utils/fuzzySearch';
-
-import { ChangeEvent, useState, Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
+
+import { NoobProHacker } from '@/Domain/noobProHacker';
+import { useQueryArchitectWithoutPortfolio } from '@/Services/ArchitectAdapters';
+import { fuzzySearch } from '@/utils/fuzzySearch';
+import { ChangeEvent, useState, Dispatch, SetStateAction } from 'react';
 import { AddArchitect } from './AddArchitect';
+import InputBox from '@/Components/Common/InputBox';
 
 const Layout = styled.div`
    display: flex;
@@ -13,118 +14,81 @@ const Layout = styled.div`
    gap: 10px;
    padding: 10px;
    background-color: #cacaca;
-
-   > input {
-      height: 40px;
-      font-size: 16px;
-      border-radius: 15px;
-      outline: none;
-      border: 0px;
-      text-align: center;
-   }
-
-   ul {
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-      > li {
-         list-style: none;
-         padding: 0px 20px;
-         :hover {
-            cursor: pointer;
-            background-color: white;
-         }
-      }
-   }
 `;
 
-const InputBox = styled.input<{ width?: string }>`
-   width: ${props => props.width || '150px'};
+const ArchitectList = styled.ul`
+   height: 100%;
+   display: flex;
+   flex-direction: column;
+   gap: 5px;
 `;
 
-type ArchitectInfo = {
-   minecraft_id: string;
-   wakzoo_id: string;
-   tier: string;
-};
+const ArchitectItem = styled.li`
+   list-style: none;
+   padding: 0px 20px;
+   :hover {
+      cursor: pointer;
+      background-color: white;
+   }
+`;
 
 export function SearchArchitect({
-   value,
-   setValue,
-   isEmpty,
-   setEmptyState,
-   currentLineIndex
+   lineInfo,
+   setLineInfo,
+   curLineIndex,
 }: {
-   value: NoobProHacker['lineInfo'];
-   setValue: Dispatch<SetStateAction<NoobProHacker['lineInfo']>>;
-   isEmpty: boolean;
-   setEmptyState: (boo: boolean) => void;
-   currentLineIndex: number;
+   lineInfo: NoobProHacker['lineInfo'];
+   setLineInfo: Dispatch<SetStateAction<NoobProHacker['lineInfo']>>;
+   curLineIndex: number;
 }) {
-   const [input, setInput] = useState('');
-   const [architectInfo, setArchitectInfo] = useState<ArchitectInfo>({
-      minecraft_id: '',
-      wakzoo_id: '',
-      tier: '',
-   })
+   const [searchInput, setSearchInput] = useState('');
    const [lineCount, setLineCount] = useState(0);
 
-   const data = useQueryArchitectWithoutPortfolio();
-
-   const mutation = useMutationArchitect();
+   const ArchitectsInfo = useQueryArchitectWithoutPortfolio();
 
    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-      setInput(e.target.value);
+      setSearchInput(e.target.value);
    };
 
-   if (!data) return <Layout></Layout>;
+   if (!ArchitectsInfo) return <Layout>Error</Layout>;
 
    const handleClick = (minecraft_id: string) => {
-      if(value[currentLineIndex].line_details.hacker.minecraft_id !== '') return;
+      if (lineInfo[curLineIndex].line_details.hacker.minecraft_id !== '') return;
 
-      if (lineCount === 0) {
-         const newArr = [...value];
+      const line = ['noob', 'pro', 'hacker'][lineCount] as 'noob' | 'pro' | 'hacker';
 
-         newArr[currentLineIndex].line_details.noob.minecraft_id = minecraft_id;
+      const newArr = [...lineInfo];
 
-         setLineCount(1);
+      newArr[curLineIndex].line_details[line].minecraft_id = minecraft_id;
 
-         setValue(newArr);
-      } else if (lineCount === 1) {
-         const newArr = [...value];
-
-         newArr[currentLineIndex].line_details.pro.minecraft_id = minecraft_id;
-
-         setLineCount(2);
-
-         setValue(newArr);
-      } else {
-         const newArr = [...value];
-
-         newArr[currentLineIndex].line_details.hacker.minecraft_id = minecraft_id;
-
-         setValue(newArr);
-
-         setLineCount(0);
-      }
+      setLineCount(lineCount == 2 ? 0 : lineCount + 1);
+      setLineInfo(newArr);
    };
 
    return (
       <Layout>
-         <InputBox value={input} onChange={handleChange} width="100%" placeholder="건축가 검색" />
-         <ul>
-            {data
-               .filter(item => fuzzySearch(item.minecraft_id, input))
-               .map(item => {
-                  return (
-                     <li key={item.minecraft_id} onClick={() => handleClick(item.minecraft_id)}>
-                        {item.minecraft_id + ' / ' + item.wakzoo_id + ' / ' + item.tier[item.tier.length - 1]}
-                     </li>
-                  );
-               })}
-         </ul>
-         <AddArchitect architectInfo={architectInfo} setArchitectInfo={setArchitectInfo} mutation={mutation}/>
+         <InputBox
+            name="search"
+            type="text"
+            value={searchInput}
+            onChange={handleChange}
+            width="100%"
+            height="40px"
+            borderRadius="15px"
+            textAlign="center"
+            border="0px"
+            placeholder="건축가 검색"
+         />
+         <ArchitectList>
+            {ArchitectsInfo.filter(item => fuzzySearch(item.minecraft_id, searchInput)).map(item => {
+               return (
+                  <ArchitectItem key={item.minecraft_id} onClick={() => handleClick(item.minecraft_id)}>
+                     {item.minecraft_id + ' / ' + item.wakzoo_id + ' / ' + item.tier[item.tier.length - 1]}
+                  </ArchitectItem>
+               );
+            })}
+         </ArchitectList>
+         <AddArchitect />
       </Layout>
    );
 }

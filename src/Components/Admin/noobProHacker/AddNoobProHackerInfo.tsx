@@ -1,13 +1,15 @@
+import InputBox from '@/Components/Common/InputBox';
+import TextBox from '@/Components/Common/TextBox';
 import { NoobProHacker } from '@/Domain/noobProHacker';
 import { ChangeEvent, Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
 
-const Container = styled.ul`
+const ListLayout = styled.ul`
    display: flex;
    gap: 20px;
 `;
 
-const Wrapper = styled.li`
+const ListItem = styled.li`
    list-style: none;
    display: flex;
    flex-direction: column;
@@ -20,19 +22,15 @@ const Wrapper = styled.li`
    }
 `;
 
-const InputBox = styled.input<{ width?: string }>`
-   width: ${props => props.width || '150px'};
-`;
-
 export function AddNoobProHackerInfo({
-   value,
-   setValue,
+   contentInfo,
+   setContentInfo,
 }: {
-   value: NoobProHacker['contentInfo'];
-   setValue: Dispatch<SetStateAction<NoobProHacker['contentInfo']>>;
+   contentInfo: NoobProHacker['contentInfo'];
+   setContentInfo: Dispatch<SetStateAction<NoobProHacker['contentInfo']>>;
 }) {
    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-      setValue(prev => {
+      setContentInfo(prev => {
          return {
             ...prev,
 
@@ -42,23 +40,29 @@ export function AddNoobProHackerInfo({
    };
 
    return (
-      <Container>
-         <Wrapper>
-            <h3>회차</h3>
-            <InputBox onChange={handleChange} value={value.episode} name="episode" type="number" width="60px" />
-         </Wrapper>
-         <Wrapper>
-            <h3>주제</h3>
-            <InputBox onChange={handleChange} value={value.main_subject} name="main_subject" width="150px" />
-         </Wrapper>
-         <Wrapper>
-            <h3>날짜</h3>
-            <InputBox onChange={handleChange} value={value.date} name="date" type="date" />
-         </Wrapper>
-         <Wrapper>
-            <h3>유튜브 링크</h3>
-            <InputBox onChange={handleChange} value={value.youtube_url} name="youtube_url" width="300px" />
-         </Wrapper>
-      </Container>
+      <ListLayout>
+         <ListItem>
+            <TextBox text="회차" fontSize="18px" fontWeight="32px" />
+            <InputBox onChange={handleChange} value={contentInfo.episode} name="episode" type="number" width="60px" />
+         </ListItem>
+         <ListItem>
+            <TextBox text="메인 주제" fontSize="18px" fontWeight="32px" />
+            <InputBox
+               onChange={handleChange}
+               value={contentInfo.main_subject}
+               type="text"
+               name="main_subject"
+               width="150px"
+            />
+         </ListItem>
+         <ListItem>
+            <TextBox text="날짜" fontSize="18px" fontWeight="32px" />
+            <InputBox onChange={handleChange} value={contentInfo.date} name="date" type="date" />
+         </ListItem>
+         <ListItem>
+            <TextBox text="유튜브 링크" fontSize="18px" fontWeight="32px" />
+            <InputBox onChange={handleChange} value={contentInfo.youtube_url} type="text" name="youtube_url" width="300px" />
+         </ListItem>
+      </ListLayout>
    );
 }

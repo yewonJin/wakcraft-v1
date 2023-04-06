@@ -1,9 +1,4 @@
-type LineDetail = {
-   minecraft_id: string;
-   image_url: string;
-   youtube_url: string;
-   ranking: number;
-};
+type Ranking = 0 | 1 | 2 | 3 | 4 | 5;
 
 export type NoobProHacker = {
    contentInfo: {
@@ -15,11 +10,47 @@ export type NoobProHacker = {
    lineInfo: {
       subject: string;
       youtube_url: string;
-      line_ranking: number;
+      line_ranking: Ranking;
       line_details: {
-         noob: LineDetail;
-         pro: LineDetail;
-         hacker: LineDetail;
+         noob: { minecraft_id: string; image_url: string; youtube_url: string; ranking: Ranking };
+         pro: { minecraft_id: string; image_url: string; youtube_url: string; ranking: Ranking };
+         hacker: { minecraft_id: string; image_url: string; youtube_url: string; ranking: Ranking };
       };
    }[];
 };
+
+export const NoobProHackerEmptyObject: NoobProHacker = Object.create({
+   contentInfo: {
+      episode: 0,
+      main_subject: '',
+      date: '',
+      youtube_url: '',
+   },
+   lineInfo: [
+      {
+         subject: '',
+         youtube_url: '',
+         line_ranking: 0,
+         line_details: {
+            noob: {
+               minecraft_id: '',
+               youtube_url: '',
+               image_url: '',
+               ranking: 0,
+            },
+            pro: {
+               minecraft_id: '',
+               youtube_url: '',
+               image_url: '',
+               ranking: 0,
+            },
+            hacker: {
+               minecraft_id: '',
+               youtube_url: '',
+               image_url: '',
+               ranking: 0,
+            },
+         },
+      },
+   ],
+});

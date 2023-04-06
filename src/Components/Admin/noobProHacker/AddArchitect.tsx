@@ -1,62 +1,90 @@
 import styled from 'styled-components';
-import { ChangeEvent, useState, Dispatch, SetStateAction } from 'react';
-import { UseMutationResult } from 'react-query';
 
-const Layout = styled.form`
+import { ChangeEvent, useState } from 'react';
+import { useMutationArchitect } from '@/Services/ArchitectAdapters';
+import TextBox from '@/Components/Common/TextBox';
+import InputBox from '@/Components/Common/InputBox';
+import { checkEmptyInDeepObject } from '@/utils/lib';
+
+const Layout = styled.div`
    display: flex;
    gap: 10px;
-
-   > div > input {
-      width: 100px;
-   }
 `;
 
-type ArchitectInfo = {
-   minecraft_id: string;
-   wakzoo_id: string;
-   tier: string;
-};
+const Wrapper = styled.div`
+   display: flex;
+   flex-direction: column;
+   gap: 5px;
+   height: 60px;
+`;
 
-export function AddArchitect({
-   architectInfo,
-   setArchitectInfo,
-   mutation,
-}: {
-   architectInfo: ArchitectInfo;
-   setArchitectInfo: Dispatch<SetStateAction<ArchitectInfo>>;
-   mutation: UseMutationResult<any, unknown, any, unknown>;
-}) {
-   const HandleChange = (e: ChangeEvent<HTMLInputElement>) => {
-      setArchitectInfo(prev => {
+export function AddArchitect() {
+   const [architectInput, setArchitectInput] = useState({
+      minecraft_id: '',
+      wakzoo_id: '',
+      tier: '',
+   });
+
+   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+      setArchitectInput(prev => {
          return { ...prev, [e.target.name]: e.target.value };
       });
    };
 
-   return (
-      <Layout
-         onSubmit={e => {
-            e.preventDefault();
-         }}
-      >
-         <div>
-            <h3>마크 아이디</h3>
-            <input name="minecraft_id" value={architectInfo.minecraft_id} onChange={HandleChange} />
-         </div>
-         <div>
-            <h3>왁물원 아이디</h3>
-            <input name="wakzoo_id" value={architectInfo.wakzoo_id} onChange={HandleChange} />
-         </div>
-         <div>
-            <h3>티어</h3>
-            <input name="tier" value={architectInfo.tier} onChange={HandleChange} />
-         </div>
-         <button
-            onClick={e => {
-               e.preventDefault();
+   const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+      e.preventDefault();
 
-               mutation.mutate(architectInfo);
-            }}
-         ></button>
+      if (checkEmptyInDeepObject(architectInput)) {
+         setArchitectInput({
+            minecraft_id: '',
+            wakzoo_id: '',
+            tier: '',
+         });
+         mutation.mutate(architectInput);
+      }
+   };
+   
+   const mutation = useMutationArchitect();
+
+   return (
+      <Layout>
+         <Wrapper>
+            <TextBox text={'마크 id'} />
+            <InputBox
+               type="text"
+               name="minecraft_id"
+               value={architectInput.minecraft_id}
+               onChange={handleChange}
+               width="90px"
+               height="25px"
+               border="1px solid #313131"
+            />
+         </Wrapper>
+         <Wrapper>
+            <TextBox text={'왁물원 id'} />
+            <InputBox
+               type="text"
+               name="wakzoo_id"
+               value={architectInput.wakzoo_id}
+               onChange={handleChange}
+               width="90px"
+               height="25px"
+               border="1px solid #313131"
+            />
+         </Wrapper>
+         <Wrapper>
+            <TextBox text={'티어'} />
+            <InputBox
+               type="text"
+               name="tier"
+               value={architectInput.tier}
+               onChange={handleChange}
+               width="90px"
+               height="25px"
+               border="1px solid #313131"
+            />
+         </Wrapper>
+         <button onClick={handleClick}>추가</button>
       </Layout>
    );
 }
