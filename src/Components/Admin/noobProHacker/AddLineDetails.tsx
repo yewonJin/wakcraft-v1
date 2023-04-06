@@ -1,26 +1,30 @@
-import { NoobProHacker, NoobProHackerEmptyObject } from '@/Domain/noobProHacker';
 import styled from 'styled-components';
+
+import { createNoobProHacker, NoobProHacker } from '@/Domain/noobProHacker';
 import { ChangeEvent, Dispatch, SetStateAction } from 'react';
 import { checkEmptyInDeepObject, translateTier } from '@/utils/lib';
+import TextBox from '@/Components/Common/TextBox';
+import InputBox from '@/Components/Common/InputBox';
 
 const Layout = styled.div`
+   width: calc(100% - 350px);
    display: flex;
    flex-direction: column;
-   gap: 10px;
-   flex: 2;
-   gap: 10px;
+   gap: 15px;
    padding: 15px;
+   box-sizing: border-box;
    background-color: #cacaca;
 `;
 
 const Container = styled.div`
    display: flex;
    gap: 20px;
+`;
 
-   > div {
-      display: flex;
-      gap: 10px;
-   }
+const Wrapper = styled.div<{ flexDirection?: string }>`
+   display: flex;
+   flex-direction: ${props => props.flexDirection || 'row'};
+   gap: 10px;
 `;
 
 const LineList = styled.ul`
@@ -28,26 +32,21 @@ const LineList = styled.ul`
    flex-direction: column;
    gap: 10px;
    height: 100%;
+`;
 
-   > li {
-      padding: 20px;
-      list-style: none;
-      max-height: 33%;
-      flex: 1;
-      background-color: white;
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-   }
+const LineItem = styled.li`
+   padding: 20px;
+   list-style: none;
+   max-height: 33%;
+   background-color: white;
+   display: flex;
+   flex-direction: column;
+   gap: 15px;
 `;
 
 const LineInfoBox = styled.div`
    display: flex;
    gap: 20px;
-`;
-
-const InputBox = styled.input<{ width?: string }>`
-   width: ${props => props.width || '150px'};
 `;
 
 type LineType = 'noob' | 'pro' | 'hacker';
@@ -67,95 +66,116 @@ export function AddLineDetails({
    setStateCurLineIndex: (num: number) => void;
    setEmptyState: (boo: boolean) => void;
 }) {
-   const handleCommonChange = (e: ChangeEvent<HTMLInputElement>) => {
+   const handleChange = (e: ChangeEvent<HTMLInputElement>, line?: 'noob' | 'pro' | 'hacker') => {
       const newArr = [...lineInfo];
 
-      newArr[curLineIndex] = {
-         ...newArr[curLineIndex],
-         [e.target.name]: e.target.name === 'line_ranking' ? parseInt(e.target.value) : e.target.value,
-      };
-      setLineInfo(newArr);
-   };
+      if (line) {
+         newArr[curLineIndex].line_details[line] = {
+            ...newArr[curLineIndex].line_details[line],
+            [e.target.name]: e.target.name === 'ranking' ? parseInt(e.target.value) : e.target.value,
+         };
+      } else {
+         newArr[curLineIndex] = {
+            ...newArr[curLineIndex],
+            [e.target.name]: e.target.name === 'line_ranking' ? parseInt(e.target.value) : e.target.value,
+         };
+      }
 
-   const handleChange = (e: ChangeEvent<HTMLInputElement>, line: 'noob' | 'pro' | 'hacker') => {
-      const newArr = [...lineInfo];
-
-      newArr[curLineIndex].line_details[line] = {
-         ...newArr[curLineIndex].line_details[line],
-         [e.target.name]: e.target.name === 'ranking' ? parseInt(e.target.value) : e.target.value,
-      };
       setLineInfo(newArr);
    };
 
    return (
       <Layout>
          <Container>
-            <div>
-               <h3>라인 주제</h3>
+            <Wrapper>
+               <TextBox text="라인 주제" fontSize="18px" lineHeight="26px" />
                <InputBox
-                  onChange={handleCommonChange}
+                  type="text"
+                  onChange={handleChange}
                   value={lineInfo[curLineIndex].subject}
                   name="subject"
                   width="120px"
                />
-            </div>
-            <div>
-               <h3>라인 랭킹</h3>
+            </Wrapper>
+            <Wrapper>
+               <TextBox text="라인 랭킹" fontSize="18px" lineHeight="26px" />
                <InputBox
-                  onChange={handleCommonChange}
+                  onChange={handleChange}
                   value={lineInfo[curLineIndex].line_ranking}
                   name="line_ranking"
                   type="number"
                   width="120px"
                />
-            </div>
-            <div>
-               <h3>유튜브 주소</h3>
+            </Wrapper>
+            <Wrapper>
+               <TextBox text="유튜브 링크" fontSize="18px" lineHeight="26px" />
                <InputBox
-                  onChange={handleCommonChange}
+                  onChange={handleChange}
                   value={lineInfo[curLineIndex].youtube_url}
                   name="youtube_url"
                   type="string"
                   width="120px"
                />
-            </div>
+            </Wrapper>
+            <button
+               onClick={e => {
+                  e.preventDefault();
+                  setLineInfo(lineInfo.filter((_, index) => index !== curLineIndex));
+
+                  setStateCurLineIndex(curLineIndex - 1);
+               }}
+            >
+               라인 삭제
+            </button>
          </Container>
          <LineList>
             {lineArr.map(item => (
-               <li key={item}>
-                  <h2>{translateTier(item)}</h2>
-                  마인크래프트 아이디 :
-                  {lineInfo[curLineIndex]?.line_details ? lineInfo[curLineIndex].line_details[item].minecraft_id : ''}
+               <LineItem key={item}>
+                  <TextBox text={translateTier(item)} fontSize="24px" lineHeight="32px" fontWeight="500" />
+                  <Wrapper>
+                     <TextBox text="마인크래프트 아이디 : " />
+                     <TextBox
+                        fontWeight="500"
+                        text={
+                           lineInfo[curLineIndex]?.line_details
+                              ? lineInfo[curLineIndex].line_details[item].minecraft_id
+                              : ''
+                        }
+                     />
+                  </Wrapper>
                   <LineInfoBox>
-                     <div>
-                        <h3>이미지 링크</h3>
+                     <Wrapper flexDirection="column">
+                        <TextBox text="이미지 링크" fontSize="18px" lineHeight="26px" />
                         <InputBox
+                           type="text"
                            onChange={e => handleChange(e, item)}
                            value={lineInfo[curLineIndex].line_details[item].image_url}
                            name="image_url"
-                           width="150px"
+                           width="250px"
                         />
-                     </div>
-                     <div>
-                        <h3>유튜브 링크</h3>
+                     </Wrapper>
+                     <Wrapper flexDirection="column">
+                        <TextBox text="유튜브" fontSize="18px" lineHeight="26px" />
                         <InputBox
+                           type="text"
                            onChange={e => handleChange(e, item)}
                            value={lineInfo[curLineIndex].line_details[item].youtube_url}
                            name="youtube_url"
-                           width="150px"
+                           width="250px"
                         />
-                     </div>
-                     <div>
-                        <h3>개인 랭킹</h3>
+                     </Wrapper>
+                     <Wrapper flexDirection="column">
+                        <TextBox text="개인 랭킹" fontSize="18px" lineHeight="26px" />
                         <InputBox
+                           type="text"
                            onChange={e => handleChange(e, item)}
                            value={lineInfo[curLineIndex].line_details[item].ranking}
                            name="ranking"
                            width="150px"
                         />
-                     </div>
+                     </Wrapper>
                   </LineInfoBox>
-               </li>
+               </LineItem>
             ))}
          </LineList>
          <button
@@ -168,31 +188,7 @@ export function AddLineDetails({
                   if (lineInfo.length < 5) {
                      const newArr = [...lineInfo];
 
-                     newArr.push({
-                        subject: '',
-                        youtube_url: '',
-                        line_ranking: 0,
-                        line_details: {
-                           noob: {
-                              minecraft_id: '',
-                              youtube_url: '',
-                              image_url: '',
-                              ranking: 0,
-                           },
-                           pro: {
-                              minecraft_id: '',
-                              youtube_url: '',
-                              image_url: '',
-                              ranking: 0,
-                           },
-                           hacker: {
-                              minecraft_id: '',
-                              youtube_url: '',
-                              image_url: '',
-                              ranking: 0,
-                           },
-                        },
-                     });
+                     newArr.push(createNoobProHacker().lineInfo[0]);
 
                      setStateCurLineIndex(curLineIndex > 5 ? curLineIndex : curLineIndex + 1);
 

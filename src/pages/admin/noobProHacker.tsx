@@ -8,17 +8,16 @@ import { SearchArchitect } from '@/Components/Admin/noobProHacker/SearchArchitec
 import { CommonLayout } from '@/Components/Common/CommonLayout';
 import TextBox from '@/Components/Common/TextBox';
 import { useState } from 'react';
-import { NoobProHacker, NoobProHackerEmptyObject } from '@/Domain/noobProHacker';
+import { NoobProHacker, createNoobProHacker } from '@/Domain/noobProHacker';
 
 const Container = styled.div`
    display: flex;
    gap: 20px;
-   height: 650px;
 `;
 
 export default function NoobProhacker() {
-   const [contentInfo, setContentInfo] = useState<NoobProHacker['contentInfo']>(NoobProHackerEmptyObject.contentInfo);
-   const [lineInfo, setLineInfo] = useState<NoobProHacker['lineInfo']>(NoobProHackerEmptyObject.lineInfo);
+   const [contentInfo, setContentInfo] = useState<NoobProHacker['contentInfo']>(createNoobProHacker().contentInfo);
+   const [lineInfo, setLineInfo] = useState<NoobProHacker['lineInfo']>(createNoobProHacker().lineInfo);
    const [curLineIndex, setCurLineIndex] = useState(0);
    const [isEmpty, setIsEmpty] = useState(true);
 

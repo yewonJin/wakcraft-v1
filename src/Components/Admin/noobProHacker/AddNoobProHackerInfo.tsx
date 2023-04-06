@@ -14,12 +14,6 @@ const ListItem = styled.li`
    display: flex;
    flex-direction: column;
    gap: 7px;
-
-   > input {
-      padding: 0px 5px;
-      font-size: 18px;
-      height: 30px;
-   }
 `;
 
 export function AddNoobProHackerInfo({
@@ -33,7 +27,6 @@ export function AddNoobProHackerInfo({
       setContentInfo(prev => {
          return {
             ...prev,
-
             [e.target.name]: e.target.value,
          };
       });
@@ -61,7 +54,13 @@ export function AddNoobProHackerInfo({
          </ListItem>
          <ListItem>
             <TextBox text="유튜브 링크" fontSize="18px" fontWeight="32px" />
-            <InputBox onChange={handleChange} value={contentInfo.youtube_url} type="text" name="youtube_url" width="300px" />
+            <InputBox
+               onChange={handleChange}
+               value={contentInfo.youtube_url}
+               type="text"
+               name="youtube_url"
+               width="300px"
+            />
          </ListItem>
       </ListLayout>
    );

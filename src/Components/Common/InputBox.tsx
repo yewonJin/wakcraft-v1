@@ -16,12 +16,11 @@ const Input = styled.input<InputStyleType>`
    width: ${props => props.width || 'auto'};
    height: ${props => props.height || 'auto'};
    border-radius: ${props => props.borderRadius || '0px'};
-   border: ${props => props.border || ''};
+   border: ${props => props.border || '1px solid #313131'};
    text-align: ${props => props.textAlign || ''};
    font-size: ${props => props.fontSize || '16px'};
    line-height: ${props => props.lineHeight || '24px'};
-   padding: ${props => props.padding || '0px'};
-
+   padding: ${props => props.padding || '0px 5px'};
    outline: none;
 `;
 

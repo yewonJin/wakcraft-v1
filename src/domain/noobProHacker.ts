@@ -19,38 +19,40 @@ export type NoobProHacker = {
    }[];
 };
 
-export const NoobProHackerEmptyObject: NoobProHacker = Object.create({
-   contentInfo: {
-      episode: 0,
-      main_subject: '',
-      date: '',
-      youtube_url: '',
-   },
-   lineInfo: [
-      {
-         subject: '',
+export const createNoobProHacker = (): NoobProHacker => {
+   return {
+      contentInfo: {
+         episode: 0,
+         main_subject: '',
+         date: '',
          youtube_url: '',
-         line_ranking: 0,
-         line_details: {
-            noob: {
-               minecraft_id: '',
-               youtube_url: '',
-               image_url: '',
-               ranking: 0,
-            },
-            pro: {
-               minecraft_id: '',
-               youtube_url: '',
-               image_url: '',
-               ranking: 0,
-            },
-            hacker: {
-               minecraft_id: '',
-               youtube_url: '',
-               image_url: '',
-               ranking: 0,
+      },
+      lineInfo: [
+         {
+            subject: '',
+            youtube_url: '',
+            line_ranking: 0,
+            line_details: {
+               noob: {
+                  minecraft_id: '',
+                  youtube_url: '',
+                  image_url: '',
+                  ranking: 0,
+               },
+               pro: {
+                  minecraft_id: '',
+                  youtube_url: '',
+                  image_url: '',
+                  ranking: 0,
+               },
+               hacker: {
+                  minecraft_id: '',
+                  youtube_url: '',
+                  image_url: '',
+                  ranking: 0,
+               },
             },
          },
-      },
-   ],
-});
+      ],
+   };
+};
