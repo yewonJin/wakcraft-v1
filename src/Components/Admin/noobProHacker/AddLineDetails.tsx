@@ -1,11 +1,9 @@
-import { ChangeEvent, Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
 
-import { createNoobProHackerObject, NoobProHacker } from '@/Domain/noobProHacker';
-import { checkEmptyInDeepObject, translateTier } from '@/utils/lib';
 import TextBox from '@/Components/Common/TextBox';
 import InputBox from '@/Components/Common/InputBox';
 import { useCreateLineInfo } from '@/Application/createNoobProHacker';
+import { translateTier } from '@/utils/lib';
 
 const Layout = styled.div`
    width: calc(100% - 350px);

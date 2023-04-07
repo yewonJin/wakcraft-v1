@@ -6,8 +6,8 @@ import { NoobProHackerLineInfo } from '@/Components/Admin/noobProHacker/NoobProH
 import { NoobProHackerForm } from '@/Components/Admin/noobProHacker/NoobProHackerForm';
 import { SearchArchitect } from '@/Components/Admin/noobProHacker/SearchArchitect';
 import { CommonLayout } from '@/Components/Common/CommonLayout';
-import TextBox from '@/Components/Common/TextBox';
 import { useCreateLineInfo } from '@/Application/createNoobProHacker';
+import TextBox from '@/Components/Common/TextBox';
 
 const Container = styled.div`
    display: flex;

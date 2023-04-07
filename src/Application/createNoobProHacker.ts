@@ -1,4 +1,4 @@
-import { ChangeEvent, useState, useCallback } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { useRecoilState } from 'recoil';
 
 import { createNoobProHackerObject, NoobProHacker } from '@/Domain/noobProHacker';
@@ -10,6 +10,10 @@ import {
    lineInfoState,
    searchInputState,
 } from '@/Services/store/noobProHacker';
+
+const replaceItemAtIndex = (arr: NoobProHacker['lineInfo'], index: number, newValue: NoobProHacker['lineInfo'][0]) => {
+   return [...arr.slice(0, index), newValue, ...arr.slice(index + 1)];
+};
 
 export const useCreateContentInfo = () => {
    const [contentInfo, setContentInfo] = useState<NoobProHacker['contentInfo']>(
@@ -28,10 +32,6 @@ export const useCreateContentInfo = () => {
    return { contentInfo, handleChange };
 };
 
-const replaceItemAtIndex = (arr: NoobProHacker['lineInfo'], index: number, newValue: NoobProHacker['lineInfo'][0]) => {
-   return [...arr.slice(0, index), newValue, ...arr.slice(index + 1)];
-};
-
 export const useCreateLineInfo = () => {
    const [lineInfo, setLineInfo] = useRecoilState(lineInfoState);
    const [curLineIndex, setCurLineIndex] = useRecoilState(curLineIndexState);
@@ -39,34 +39,18 @@ export const useCreateLineInfo = () => {
    const [searchInput, setSearchInput] = useRecoilState(searchInputState);
    const [lineDetailIndex, setLineDetailIndex] = useRecoilState(lineDetailIndexState);
 
-   const setStateCurLineIndex = (index: number) => setCurLineIndex(index);
-   const setEmptyState = (boolean: boolean) => setIsEmpty(boolean);
+   /** 어느 라인을 수정할지 선택하는 함수*/
+   const setStateCurLineIndex = (index: number) => {
+      setCurLineIndex(index);
+   };
+
+   /** 빈 상태를 업데이트하는 함수 */
+   const setEmptyState = (boolean: boolean) => {
+      setIsEmpty(boolean);
+   };
 
    const handleSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => {
       setSearchInput(e.target.value);
-   };
-
-   const handleArchitectClick = (minecraft_id: string) => {
-      if (lineInfo[curLineIndex].line_details.hacker.minecraft_id !== '') return;
-
-      const line = ['noob', 'pro', 'hacker'][lineDetailIndex] as 'noob' | 'pro' | 'hacker';
-
-      const newValue = {
-         ...lineInfo[curLineIndex],
-         line_details: {
-            ...lineInfo[curLineIndex].line_details,
-            [line]: {
-               ...lineInfo[curLineIndex].line_details[line],
-               minecraft_id: minecraft_id,
-            },
-         },
-      };
-
-      const newArr = replaceItemAtIndex(lineInfo, curLineIndex, newValue);
-
-      setLineDetailIndex(lineDetailIndex == 2 ? 0 : lineDetailIndex + 1);
-
-      setLineInfo(newArr);
    };
 
    const handleLineDetailsChange = (e: ChangeEvent<HTMLInputElement>, line?: 'noob' | 'pro' | 'hacker') => {
@@ -94,6 +78,31 @@ export const useCreateLineInfo = () => {
       }
    };
 
+   /** 검색한 건축가를 라인에 추가하는 함수 */
+   const addArchitectToLine = (minecraft_id: string) => {
+      if (lineInfo[curLineIndex].line_details.hacker.minecraft_id !== '') return;
+
+      const line = ['noob', 'pro', 'hacker'][lineDetailIndex] as 'noob' | 'pro' | 'hacker';
+
+      const newValue = {
+         ...lineInfo[curLineIndex],
+         line_details: {
+            ...lineInfo[curLineIndex].line_details,
+            [line]: {
+               ...lineInfo[curLineIndex].line_details[line],
+               minecraft_id: minecraft_id,
+            },
+         },
+      };
+
+      const newArr = replaceItemAtIndex(lineInfo, curLineIndex, newValue);
+
+      setLineDetailIndex(lineDetailIndex == 2 ? 0 : lineDetailIndex + 1);
+
+      setLineInfo(newArr);
+   };
+
+   /** 현재 보고있는 라인을 초기화하는 함수 */
    const resetLineInfo = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       e.preventDefault();
 
@@ -104,6 +113,7 @@ export const useCreateLineInfo = () => {
       setStateCurLineIndex(curLineIndex - 1);
    };
 
+   /** 입력한 라인을 새로 추가하는 함수 */
    const addLineInfo = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       e.preventDefault();
 
@@ -130,7 +140,7 @@ export const useCreateLineInfo = () => {
       searchInput,
       handleSearchInputChange,
       handleLineDetailsChange,
-      handleArchitectClick,
+      addArchitectToLine,
       resetLineInfo,
       addLineInfo,
    };

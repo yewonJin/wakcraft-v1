@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import { useQueryArchitectWithoutPortfolio } from '@/Services/ArchitectAdapters';
 import { fuzzySearch } from '@/utils/fuzzySearch';
 import { AddArchitect } from './AddArchitect';
-import InputBox from '@/Components/Common/InputBox';
 import { useCreateLineInfo } from '@/Application/createNoobProHacker';
+import InputBox from '@/Components/Common/InputBox';
 
 const Layout = styled.div`
    display: flex;
@@ -35,7 +35,7 @@ export function SearchArchitect() {
    const {
       searchInput,
       handleSearchInputChange: handleChange,
-      handleArchitectClick: handleClick,
+      addArchitectToLine,
    } = useCreateLineInfo();
 
    const ArchitectsInfo = useQueryArchitectWithoutPortfolio();
@@ -59,7 +59,7 @@ export function SearchArchitect() {
          <ArchitectList>
             {ArchitectsInfo.filter(item => fuzzySearch(item.minecraft_id, searchInput)).map(item => {
                return (
-                  <ArchitectItem key={item.minecraft_id} onClick={() => handleClick(item.minecraft_id)}>
+                  <ArchitectItem key={item.minecraft_id} onClick={() => addArchitectToLine(item.minecraft_id)}>
                      {item.minecraft_id + ' / ' + item.wakzoo_id + ' / ' + item.tier[item.tier.length - 1]}
                   </ArchitectItem>
                );
