@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import { useCreateNoobProHacker } from '@/application/createNoobProHacker';
+
 const Form = styled.form`
    display: flex;
    flex-direction: column;
@@ -7,5 +9,12 @@ const Form = styled.form`
 `;
 
 export function NoobProHackerForm({ children }: { children: React.ReactNode }) {
-   return <Form>{children}</Form>;
+   const { addNoobProHacker } = useCreateNoobProHacker();
+
+   return (
+      <Form>
+         {children}
+         <button onClick={addNoobProHacker}>add</button>
+      </Form>
+   );
 }

@@ -1,24 +1,24 @@
 import { ChangeEvent, useState } from 'react';
 import { useRecoilState } from 'recoil';
 
-import { createNoobProHackerObject, NoobProHacker } from '@/Domain/noobProHacker';
+import { createNoobProHackerObject, NoobProHacker } from '@/domain/noobProHacker';
 import { checkEmptyInDeepObject } from '@/utils/lib';
 import {
+   contentInfoState,
    curLineIndexState,
    isEmptyState,
    lineDetailIndexState,
    lineInfoState,
    searchInputState,
-} from '@/Services/store/noobProHacker';
+} from '@/services/store/noobProHacker';
+import { useMutationNoobProHacker } from '@/services/NoobProHackerAdapters';
 
 const replaceItemAtIndex = (arr: NoobProHacker['lineInfo'], index: number, newValue: NoobProHacker['lineInfo'][0]) => {
    return [...arr.slice(0, index), newValue, ...arr.slice(index + 1)];
 };
 
 export const useCreateContentInfo = () => {
-   const [contentInfo, setContentInfo] = useState<NoobProHacker['contentInfo']>(
-      createNoobProHackerObject().contentInfo,
-   );
+   const [contentInfo, setContentInfo] = useRecoilState(contentInfoState);
 
    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
       setContentInfo(prev => {
@@ -151,4 +151,37 @@ export const useCreateLineInfo = () => {
       resetLineInfo,
       addLineInfo,
    };
+};
+
+export const useCreateNoobProHacker = () => {
+   const { lineInfo } = useCreateLineInfo();
+   const { contentInfo } = useCreateContentInfo();
+
+   const mutation = useMutationNoobProHacker();
+
+   const addNoobProHacker = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+      e.preventDefault();
+
+      if (!checkEmptyInDeepObject(contentInfo)) {
+         console.log('컨텐츠 미완성');
+         return;
+      }
+
+      if (lineInfo.length < 5) {
+         console.log('라인 부족');
+         return;
+      }
+      
+      if (checkEmptyInDeepObject(lineInfo[4])) {
+         console.log('라인: 5 미완성');
+         return;
+      }
+
+      mutation.mutate({
+         contentInfo,
+         lineInfo,
+      });
+   };
+
+   return { addNoobProHacker };
 };
