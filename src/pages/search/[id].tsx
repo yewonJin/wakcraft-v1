@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 
 import Portfolio from './Portfolio';
-import { useQueryArchitectById } from '@/Services/ArchitectAdapters';
-import { CommonLayout } from '@/Components/Common/CommonLayout';
-import TextBox from '@/Components/Common/TextBox';
+import { useQueryArchitectById } from '@/services/ArchitectAdapters';
+import { CommonLayout } from '@/components/Common/CommonLayout';
+import TextBox from '@/components/Common/TextBox';
 
 const ProfileBox = styled.div`
    display: flex;

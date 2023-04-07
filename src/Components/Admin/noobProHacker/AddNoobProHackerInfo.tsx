@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
-import { useCreateContentInfo } from '@/Application/createNoobProHacker';
-import InputBox from '@/Components/Common/InputBox';
-import TextBox from '@/Components/Common/TextBox';
+import { useCreateContentInfo } from '@/application/createNoobProHacker';
+import InputBox from '@/components/Common/InputBox';
+import TextBox from '@/components/Common/TextBox';
 
 const ListLayout = styled.ul`
    display: flex;

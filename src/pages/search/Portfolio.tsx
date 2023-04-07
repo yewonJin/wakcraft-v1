@@ -6,7 +6,7 @@ import hacker from '../../../public/Naruto-hacker.png';
 import thumbnail2 from '../../../public/thumbnail2.png';
 import thumbnail3 from '../../../public/thumbnail3.png';
 import { translateTier } from '@/utils/lib';
-import { Architect } from '@/Domain/architect';
+import { Architect } from '@/domain/architect';
 
 const Container = styled.div`
    width: 100%;

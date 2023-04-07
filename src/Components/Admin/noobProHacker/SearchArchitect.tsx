@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 
-import { useQueryArchitectWithoutPortfolio } from '@/Services/ArchitectAdapters';
+import { useQueryArchitectWithoutPortfolio } from '@/services/ArchitectAdapters';
 import { fuzzySearch } from '@/utils/fuzzySearch';
 import { AddArchitect } from './AddArchitect';
-import { useCreateLineInfo } from '@/Application/createNoobProHacker';
-import InputBox from '@/Components/Common/InputBox';
+import { useCreateLineInfo } from '@/application/createNoobProHacker';
+import InputBox from '@/components/Common/InputBox';
 
 const Layout = styled.div`
    display: flex;

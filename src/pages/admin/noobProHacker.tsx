@@ -1,13 +1,13 @@
 import styled from 'styled-components';
 
-import { AddNoobProHackerInfo } from '@/Components/Admin/noobProHacker/AddNoobProHackerInfo';
-import { AddLineDetails } from '@/Components/Admin/noobProHacker/AddLineDetails';
-import { NoobProHackerLineInfo } from '@/Components/Admin/noobProHacker/NoobProHackerLineInfo';
-import { NoobProHackerForm } from '@/Components/Admin/noobProHacker/NoobProHackerForm';
-import { SearchArchitect } from '@/Components/Admin/noobProHacker/SearchArchitect';
-import { CommonLayout } from '@/Components/Common/CommonLayout';
-import { useCreateLineInfo } from '@/Application/createNoobProHacker';
-import TextBox from '@/Components/Common/TextBox';
+import { AddLineDetails } from '@/components/Admin/noobProHacker/AddLineDetails';
+import { NoobProHackerLineInfo } from '@/components/Admin/noobProHacker/NoobProHackerLineInfo';
+import { NoobProHackerForm } from '@/components/Admin/noobProHacker/NoobProHackerForm';
+import { SearchArchitect } from '@/components/Admin/noobProHacker/SearchArchitect';
+import { CommonLayout } from '@/components/Common/CommonLayout';
+import { useCreateLineInfo } from '@/application/createNoobProHacker';
+import TextBox from '@/components/Common/TextBox';
+import { AddNoobProHackerInfo } from '@/components/Admin/noobProHacker/AddNoobProHackerInfo';
 
 const Container = styled.div`
    display: flex;
@@ -16,8 +16,6 @@ const Container = styled.div`
 
 export default function NoobProhacker() {
    const { lineInfo, curLineIndex } = useCreateLineInfo();
-
-   console.log(lineInfo);
 
    return (
       <CommonLayout>

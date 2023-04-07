@@ -1,9 +1,9 @@
 import { ChangeEvent, useState } from 'react';
 import styled from 'styled-components';
 
-import { useMutationArchitect } from '@/Services/ArchitectAdapters';
-import TextBox from '@/Components/Common/TextBox';
-import InputBox from '@/Components/Common/InputBox';
+import { useMutationArchitect } from '@/services/ArchitectAdapters';
+import TextBox from '@/components/Common/TextBox';
+import InputBox from '@/components/Common/InputBox';
 import { checkEmptyInDeepObject } from '@/utils/lib';
 
 const Layout = styled.div`

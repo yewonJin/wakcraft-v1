@@ -1,4 +1,4 @@
-import { NoobProHacker } from '@/Domain/noobProHacker';
+import { NoobProHacker } from '@/domain/noobProHacker';
 
 export const addNoobProHacker = async (body: NoobProHacker) => {
    var myHeaders = new Headers();

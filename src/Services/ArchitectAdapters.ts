@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient, UseQueryResult } from 'react-query';
 import { useRouter } from 'next/router';
 
-import { Architect } from '@/Domain/architect';
+import { Architect } from '@/domain/architect';
 import { addArchitects, getArchitectById, getArchitects, getArchitectsWithoutPortfolio } from './api/architect';
 
 export const useQueryArchitect = () => {
