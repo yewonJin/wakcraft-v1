@@ -106,11 +106,18 @@ export const useCreateLineInfo = () => {
    const resetLineInfo = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       e.preventDefault();
 
-      if (curLineIndex === 0) return;
+      if (curLineIndex === 0) {
+         const newValue = createNoobProHackerObject().lineInfo[0];
 
-      setLineInfo(lineInfo.filter((_, index) => index !== curLineIndex));
+         const newArr = replaceItemAtIndex(lineInfo, curLineIndex, newValue);
 
-      setStateCurLineIndex(curLineIndex - 1);
+         setLineInfo(newArr);
+      } else {
+         setLineInfo(lineInfo.filter((_, index) => index !== curLineIndex));
+         setStateCurLineIndex(curLineIndex - 1);
+      }
+
+      setLineDetailIndex(0);
    };
 
    /** 입력한 라인을 새로 추가하는 함수 */
