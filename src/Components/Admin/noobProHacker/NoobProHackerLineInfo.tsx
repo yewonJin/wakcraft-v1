@@ -1,3 +1,4 @@
+import { useCreateLineInfo } from '@/Application/createNoobProHacker';
 import { NoobProHacker } from '@/Domain/noobProHacker';
 import styled from 'styled-components';
 
@@ -20,13 +21,9 @@ const LineItem = styled.li`
    }
 `;
 
-export function NoobProHackerLineInfo({
-   lineInfo,
-   setStateCurLineIndex,
-}: {
-   lineInfo: NoobProHacker['lineInfo'];
-   setStateCurLineIndex: (index: number) => void;
-}) {
+export function NoobProHackerLineInfo() {
+   const { lineInfo, setStateCurLineIndex } = useCreateLineInfo();
+
    return (
       <LineList>
          {lineInfo.map((item, index) => {

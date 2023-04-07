@@ -19,7 +19,7 @@ export type NoobProHacker = {
    }[];
 };
 
-export const createNoobProHacker = (): NoobProHacker => {
+export const createNoobProHackerObject = (): NoobProHacker => {
    return {
       contentInfo: {
          episode: 0,

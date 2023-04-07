@@ -1,11 +1,10 @@
-import { ChangeEvent, useState, Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
 
-import { NoobProHacker } from '@/Domain/noobProHacker';
 import { useQueryArchitectWithoutPortfolio } from '@/Services/ArchitectAdapters';
 import { fuzzySearch } from '@/utils/fuzzySearch';
 import { AddArchitect } from './AddArchitect';
 import InputBox from '@/Components/Common/InputBox';
+import { useCreateLineInfo } from '@/Application/createNoobProHacker';
 
 const Layout = styled.div`
    display: flex;
@@ -32,38 +31,16 @@ const ArchitectItem = styled.li`
    }
 `;
 
-export function SearchArchitect({
-   lineInfo,
-   setLineInfo,
-   curLineIndex,
-}: {
-   lineInfo: NoobProHacker['lineInfo'];
-   setLineInfo: Dispatch<SetStateAction<NoobProHacker['lineInfo']>>;
-   curLineIndex: number;
-}) {
-   const [searchInput, setSearchInput] = useState('');
-   const [lineCount, setLineCount] = useState(0);
+export function SearchArchitect() {
+   const {
+      searchInput,
+      handleSearchInputChange: handleChange,
+      handleArchitectClick: handleClick,
+   } = useCreateLineInfo();
 
    const ArchitectsInfo = useQueryArchitectWithoutPortfolio();
 
-   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-      setSearchInput(e.target.value);
-   };
-
    if (!ArchitectsInfo) return <Layout>Error</Layout>;
-
-   const handleClick = (minecraft_id: string) => {
-      if (lineInfo[curLineIndex].line_details.hacker.minecraft_id !== '') return;
-
-      const line = ['noob', 'pro', 'hacker'][lineCount] as 'noob' | 'pro' | 'hacker';
-
-      const newArr = [...lineInfo];
-
-      newArr[curLineIndex].line_details[line].minecraft_id = minecraft_id;
-
-      setLineCount(lineCount == 2 ? 0 : lineCount + 1);
-      setLineInfo(newArr);
-   };
 
    return (
       <Layout>

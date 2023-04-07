@@ -1,10 +1,11 @@
 import { ChangeEvent, Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
 
-import { createNoobProHacker, NoobProHacker } from '@/Domain/noobProHacker';
+import { createNoobProHackerObject, NoobProHacker } from '@/Domain/noobProHacker';
 import { checkEmptyInDeepObject, translateTier } from '@/utils/lib';
 import TextBox from '@/Components/Common/TextBox';
 import InputBox from '@/Components/Common/InputBox';
+import { useCreateLineInfo } from '@/Application/createNoobProHacker';
 
 const Layout = styled.div`
    width: calc(100% - 350px);
@@ -53,36 +54,14 @@ type LineType = 'noob' | 'pro' | 'hacker';
 
 const lineArr: LineType[] = ['noob', 'pro', 'hacker'];
 
-export function AddLineDetails({
-   lineInfo,
-   setLineInfo,
-   curLineIndex,
-   setStateCurLineIndex,
-   setEmptyState,
-}: {
-   lineInfo: NoobProHacker['lineInfo'];
-   setLineInfo: Dispatch<SetStateAction<NoobProHacker['lineInfo']>>;
-   curLineIndex: number;
-   setStateCurLineIndex: (num: number) => void;
-   setEmptyState: (boo: boolean) => void;
-}) {
-   const handleChange = (e: ChangeEvent<HTMLInputElement>, line?: 'noob' | 'pro' | 'hacker') => {
-      const newArr = [...lineInfo];
-
-      if (line) {
-         newArr[curLineIndex].line_details[line] = {
-            ...newArr[curLineIndex].line_details[line],
-            [e.target.name]: e.target.name === 'ranking' ? parseInt(e.target.value) : e.target.value,
-         };
-      } else {
-         newArr[curLineIndex] = {
-            ...newArr[curLineIndex],
-            [e.target.name]: e.target.name === 'line_ranking' ? parseInt(e.target.value) : e.target.value,
-         };
-      }
-
-      setLineInfo(newArr);
-   };
+export function AddLineDetails() {
+   const {
+      lineInfo,
+      curLineIndex,
+      resetLineInfo,
+      handleLineDetailsChange: handleChange,
+      addLineInfo,
+   } = useCreateLineInfo();
 
    return (
       <Layout>
@@ -117,16 +96,7 @@ export function AddLineDetails({
                   width="120px"
                />
             </Wrapper>
-            <button
-               onClick={e => {
-                  e.preventDefault();
-                  setLineInfo(lineInfo.filter((_, index) => index !== curLineIndex));
-
-                  setStateCurLineIndex(curLineIndex - 1);
-               }}
-            >
-               라인 삭제
-            </button>
+            <button onClick={resetLineInfo}>라인 삭제</button>
          </Container>
          <LineList>
             {lineArr.map(item => (
@@ -178,27 +148,7 @@ export function AddLineDetails({
                </LineItem>
             ))}
          </LineList>
-         <button
-            onClick={e => {
-               e.preventDefault();
-
-               if (checkEmptyInDeepObject(lineInfo[curLineIndex])) {
-                  setEmptyState(false);
-
-                  if (lineInfo.length < 5) {
-                     const newArr = [...lineInfo];
-
-                     newArr.push(createNoobProHacker().lineInfo[0]);
-
-                     setStateCurLineIndex(curLineIndex > 5 ? curLineIndex : curLineIndex + 1);
-
-                     setLineInfo(newArr);
-                  }
-               }
-            }}
-         >
-            제출하기
-         </button>
+         <button onClick={addLineInfo}>제출하기</button>
       </Layout>
    );
 }

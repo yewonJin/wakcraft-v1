@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import styled from 'styled-components';
 
 import { AddNoobProHackerInfo } from '@/Components/Admin/noobProHacker/AddNoobProHackerInfo';
@@ -8,7 +7,7 @@ import { NoobProHackerForm } from '@/Components/Admin/noobProHacker/NoobProHacke
 import { SearchArchitect } from '@/Components/Admin/noobProHacker/SearchArchitect';
 import { CommonLayout } from '@/Components/Common/CommonLayout';
 import TextBox from '@/Components/Common/TextBox';
-import { NoobProHacker, createNoobProHacker } from '@/Domain/noobProHacker';
+import { useCreateLineInfo } from '@/Application/createNoobProHacker';
 
 const Container = styled.div`
    display: flex;
@@ -16,31 +15,19 @@ const Container = styled.div`
 `;
 
 export default function NoobProhacker() {
-   const [contentInfo, setContentInfo] = useState<NoobProHacker['contentInfo']>(createNoobProHacker().contentInfo);
-   const [lineInfo, setLineInfo] = useState<NoobProHacker['lineInfo']>(createNoobProHacker().lineInfo);
-   const [curLineIndex, setCurLineIndex] = useState(0);
-   const [isEmpty, setIsEmpty] = useState(true);
+   const { lineInfo, curLineIndex } = useCreateLineInfo();
 
-   const setStateCurLineIndex = (index: number) => setCurLineIndex(index);
-   const setEmptyState = (boolean: boolean) => setIsEmpty(boolean);
+   console.log(lineInfo);
 
    return (
       <CommonLayout>
          <NoobProHackerForm>
             <TextBox text="눕프로해커" fontSize="28px" lineHeight="42px" fontWeight="500" margin="0px 0px 10px 0px" />
-            <AddNoobProHackerInfo contentInfo={contentInfo} setContentInfo={setContentInfo} />
-            <NoobProHackerLineInfo lineInfo={lineInfo} setStateCurLineIndex={setStateCurLineIndex} />
+            <AddNoobProHackerInfo />
+            <NoobProHackerLineInfo />
             <Container>
-               <SearchArchitect lineInfo={lineInfo} setLineInfo={setLineInfo} curLineIndex={curLineIndex} />
-               {lineInfo[curLineIndex] && (
-                  <AddLineDetails
-                     lineInfo={lineInfo}
-                     setLineInfo={setLineInfo}
-                     curLineIndex={curLineIndex}
-                     setStateCurLineIndex={setStateCurLineIndex}
-                     setEmptyState={setEmptyState}
-                  />
-               )}
+               <SearchArchitect />
+               {lineInfo[curLineIndex] && <AddLineDetails />}
             </Container>
          </NoobProHackerForm>
       </CommonLayout>

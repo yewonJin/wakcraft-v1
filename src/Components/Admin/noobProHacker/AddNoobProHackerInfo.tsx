@@ -1,9 +1,8 @@
-import { ChangeEvent, Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
 
+import { useCreateContentInfo } from '@/Application/createNoobProHacker';
 import InputBox from '@/Components/Common/InputBox';
 import TextBox from '@/Components/Common/TextBox';
-import { NoobProHacker } from '@/Domain/noobProHacker';
 
 const ListLayout = styled.ul`
    display: flex;
@@ -17,21 +16,8 @@ const ListItem = styled.li`
    gap: 7px;
 `;
 
-export function AddNoobProHackerInfo({
-   contentInfo,
-   setContentInfo,
-}: {
-   contentInfo: NoobProHacker['contentInfo'];
-   setContentInfo: Dispatch<SetStateAction<NoobProHacker['contentInfo']>>;
-}) {
-   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-      setContentInfo(prev => {
-         return {
-            ...prev,
-            [e.target.name]: e.target.value,
-         };
-      });
-   };
+export function AddNoobProHackerInfo() {
+   const { contentInfo, handleChange } = useCreateContentInfo();
 
    return (
       <ListLayout>
