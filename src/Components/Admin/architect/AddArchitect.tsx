@@ -1,10 +1,8 @@
-import { ChangeEvent, useState } from 'react';
 import styled from 'styled-components';
 
-import { useMutationArchitect } from '@/services/ArchitectAdapters';
 import TextBox from '@/components/Common/TextBox';
 import InputBox from '@/components/Common/InputBox';
-import { checkEmptyInDeepObject } from '@/utils/lib';
+import { useCreateArchitect } from '@/application/createArchitect';
 
 const Layout = styled.div`
    display: flex;
@@ -19,32 +17,7 @@ const Wrapper = styled.div`
 `;
 
 export function AddArchitect() {
-   const [architectInput, setArchitectInput] = useState({
-      minecraft_id: '',
-      wakzoo_id: '',
-      tier: '',
-   });
-
-   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-      setArchitectInput(prev => {
-         return { ...prev, [e.target.name]: e.target.value };
-      });
-   };
-
-   const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-      e.preventDefault();
-
-      if (checkEmptyInDeepObject(architectInput)) {
-         setArchitectInput({
-            minecraft_id: '',
-            wakzoo_id: '',
-            tier: '',
-         });
-         mutation.mutate(architectInput);
-      }
-   };
-   
-   const mutation = useMutationArchitect();
+   const { architectInfo, handleChange, addArchitect } = useCreateArchitect();
 
    return (
       <Layout>
@@ -53,7 +26,7 @@ export function AddArchitect() {
             <InputBox
                type="text"
                name="minecraft_id"
-               value={architectInput.minecraft_id}
+               value={architectInfo.minecraft_id}
                onChange={handleChange}
                width="90px"
                height="25px"
@@ -65,7 +38,7 @@ export function AddArchitect() {
             <InputBox
                type="text"
                name="wakzoo_id"
-               value={architectInput.wakzoo_id}
+               value={architectInfo.wakzoo_id}
                onChange={handleChange}
                width="90px"
                height="25px"
@@ -77,14 +50,14 @@ export function AddArchitect() {
             <InputBox
                type="text"
                name="tier"
-               value={architectInput.tier}
+               value={architectInfo.tier}
                onChange={handleChange}
                width="90px"
                height="25px"
                border="1px solid #313131"
             />
          </Wrapper>
-         <button onClick={handleClick}>추가</button>
+         <button onClick={addArchitect}>추가</button>
       </Layout>
    );
 }

@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
-import TextBox from '@/Components/Common/TextBox';
-import InputBox from '@/Components/Common/InputBox';
-import { useCreateLineInfo } from '@/Application/createNoobProHacker';
+import TextBox from '@/components/Common/TextBox';
+import InputBox from '@/components/Common/InputBox';
+import { useCreateLineInfo } from '@/application/createNoobProHacker';
 import { translateTier } from '@/utils/lib';
 
 const Layout = styled.div`

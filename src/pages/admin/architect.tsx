@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { createTierArray } from '@/Domain/architect';
+import { createTierArray } from '@/domain/architect';
 
 const Container = styled.div`
    width: 1200px;

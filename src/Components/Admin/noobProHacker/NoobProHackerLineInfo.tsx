@@ -1,4 +1,4 @@
-import { useCreateLineInfo } from '@/Application/createNoobProHacker';
+import { useCreateLineInfo } from '@/application/createNoobProHacker';
 import styled from 'styled-components';
 
 const LineList = styled.ul`

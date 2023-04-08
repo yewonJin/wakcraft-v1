@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
-import { useQueryArchitectWithoutPortfolio } from '@/services/ArchitectAdapters';
+import { useQueryArchitectWithoutPortfolio } from '@/services/architectAdapters';
 import { fuzzySearch } from '@/utils/fuzzySearch';
-import { AddArchitect } from './AddArchitect';
+import { AddArchitect } from '../architect/AddArchitect';
 import { useCreateLineInfo } from '@/application/createNoobProHacker';
 import InputBox from '@/components/Common/InputBox';
 
@@ -32,11 +32,7 @@ const ArchitectItem = styled.li`
 `;
 
 export function SearchArchitect() {
-   const {
-      searchInput,
-      handleSearchInputChange: handleChange,
-      addArchitectToLine,
-   } = useCreateLineInfo();
+   const { searchInput, handleSearchInputChange: handleChange, addArchitectToLine } = useCreateLineInfo();
 
    const ArchitectsInfo = useQueryArchitectWithoutPortfolio();
 

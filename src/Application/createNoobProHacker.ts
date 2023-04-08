@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent } from 'react';
 import { useRecoilState } from 'recoil';
 
 import { createNoobProHackerObject, NoobProHacker } from '@/domain/noobProHacker';

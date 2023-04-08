@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 import Portfolio from './Portfolio';
-import { useQueryArchitectById } from '@/services/ArchitectAdapters';
+import { useQueryArchitectById } from '@/services/architectAdapters';
 import { CommonLayout } from '@/components/Common/CommonLayout';
 import TextBox from '@/components/Common/TextBox';
 
