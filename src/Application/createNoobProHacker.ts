@@ -11,7 +11,7 @@ import {
    lineInfoState,
    searchInputState,
 } from '@/services/store/noobProHacker';
-import { useMutationNoobProHacker } from '@/services/NoobProHackerAdapters';
+import { useMutationNoobProHacker } from '@/services/noobProHackerAdapters';
 
 const replaceItemAtIndex = (arr: NoobProHacker['lineInfo'], index: number, newValue: NoobProHacker['lineInfo'][0]) => {
    return [...arr.slice(0, index), newValue, ...arr.slice(index + 1)];
@@ -171,7 +171,7 @@ export const useCreateNoobProHacker = () => {
          console.log('라인 부족');
          return;
       }
-      
+
       if (checkEmptyInDeepObject(lineInfo[4])) {
          console.log('라인: 5 미완성');
          return;

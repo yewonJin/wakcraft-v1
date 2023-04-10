@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import TextBox from '@/components/Common/TextBox';
 import InputBox from '@/components/Common/InputBox';
 import { useCreateArchitect } from '@/application/createArchitect';
+import { createTierArray } from '@/domain/architect';
 
 const Layout = styled.div`
    display: flex;
@@ -47,15 +48,15 @@ export function AddArchitect() {
          </Wrapper>
          <Wrapper>
             <TextBox text={'티어'} />
-            <InputBox
-               type="text"
-               name="tier"
-               value={architectInfo.tier}
-               onChange={handleChange}
-               width="90px"
-               height="25px"
-               border="1px solid #313131"
-            />
+            <select name="tier" value={architectInfo.tier} onChange={handleChange}>
+               {createTierArray().map(tier => {
+                  return (
+                     <option key={tier} value={tier}>
+                        {tier}
+                     </option>
+                  );
+               })}
+            </select>
          </Wrapper>
          <button onClick={addArchitect}>추가</button>
       </Layout>

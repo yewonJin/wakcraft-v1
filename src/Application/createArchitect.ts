@@ -10,7 +10,7 @@ export const useCreateArchitect = () => {
 
    const mutation = useMutationArchitect();
 
-   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+   const handleChange = (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>) => {
       setArchitectInfo(prev => {
          return { ...prev, [e.target.name]: e.target.value };
       });

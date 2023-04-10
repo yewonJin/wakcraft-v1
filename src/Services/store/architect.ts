@@ -5,6 +5,6 @@ export const architectInfoState = atom({
    default: {
       minecraft_id: '',
       wakzoo_id: '',
-      tier: '',
+      tier: '마카게',
    },
 });
