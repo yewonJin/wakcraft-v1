@@ -57,11 +57,23 @@ export const createTierArray = (): Tier[] => {
    ];
 };
 
-/** TODO: 건축가의 현재 티어  */
+/** 건축가의 현재 티어  */
 export const currentTier = (architect: Architect) => {
    const { tier } = architect;
 
    return tier[tier.length - 1];
 };
 
-/** TODO: 눕프핵 참가 횟수 */
+/** 눕프핵 참가 횟수 */
+export const participationCount = (architect: Architect) => {
+   const { portfolio } = architect;
+
+   return portfolio.noobProHacker.length;
+};
+
+/** 눕프핵 우승 횟수 */
+export const winnerCount = (architect: Architect) => {
+   const { portfolio } = architect;
+
+   return portfolio.noobProHacker.filter(item => item.ranking == 1).length;
+};
