@@ -1,12 +1,12 @@
-import { CommonLayout } from '@/components/Common/CommonLayout';
-import InputBox from '@/components/Common/InputBox';
-import TextBox from '@/components/Common/TextBox';
-import { getArchitects } from '@/services/api/architect';
-import Link from 'next/link';
 import { useState } from 'react';
+import Link from 'next/link';
 import { dehydrate, QueryClient, useQuery, UseQueryResult } from 'react-query';
 import styled from 'styled-components';
 import { IoIosSearch } from 'react-icons/io';
+
+import InputBox from '@/components/Common/InputBox';
+import TextBox from '@/components/Common/TextBox';
+import { getArchitects } from '@/services/api/architect';
 import { Architect, participationCount, winnerCount } from '@/domain/architect';
 
 const Layout = styled.div`
@@ -129,7 +129,7 @@ export default function Search() {
                   <TextBox text="해커" />
                   <LineCount>12</LineCount>
                </NavItem>
-               <NavItem id="gookbab" curTier={curTier} onClick={() => setCurTier('gookbab')}>
+               <NavItem id="gukbap" curTier={curTier} onClick={() => setCurTier('gukbap')}>
                   <TextBox text="국밥" />
                   <LineCount>24</LineCount>
                </NavItem>
@@ -137,7 +137,7 @@ export default function Search() {
                   <TextBox text="프로" />
                   <LineCount>36</LineCount>
                </NavItem>
-               <NavItem id="gaeruk" curTier={curTier} onClick={() => setCurTier('gaeruk')}>
+               <NavItem id="gyeruik" curTier={curTier} onClick={() => setCurTier('gyeruik')}>
                   <TextBox text="계륵" />
                   <LineCount>48</LineCount>
                </NavItem>

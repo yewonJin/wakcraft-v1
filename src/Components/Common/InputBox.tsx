@@ -10,6 +10,7 @@ type InputStyleType = {
    padding?: string;
    fontSize?: string;
    lineHeight?: string;
+   backgroundColor?: string
 };
 
 const Input = styled.input<InputStyleType>`
@@ -21,6 +22,7 @@ const Input = styled.input<InputStyleType>`
    font-size: ${props => props.fontSize || '16px'};
    line-height: ${props => props.lineHeight || '24px'};
    padding: ${props => props.padding || '0px 5px'};
+   background-color: ${props => props.backgroundColor || ''};
    outline: none;
 `;
 

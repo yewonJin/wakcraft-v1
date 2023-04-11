@@ -1,4 +1,4 @@
-import TextBox from '@/Components/Common/TextBox';
+import TextBox from '@/components/Common/TextBox';
 import Head from 'next/head';
 import Image from 'next/image';
 import styled from 'styled-components';
@@ -31,7 +31,7 @@ const BackgroundImage = styled.div`
    left: 0px;
    z-index: -1;
    background-color: rgba(0, 0, 0, 0.5);
-   background-image: url('./thumbnail3.png');
+   background-image: url('./thumbnail2.png');
    background-size: cover;
    filter: blur(3px);
    background-blend-mode: darken;
