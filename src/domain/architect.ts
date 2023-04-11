@@ -77,3 +77,14 @@ export const winnerCount = (architect: Architect) => {
 
    return portfolio.noobProHacker.filter(item => item.ranking == 1).length;
 };
+
+/** 티어 분류 */
+export const classifyTier = (architect: Architect) => {
+   const index = createTierArray().indexOf(architect.tier[0]);
+
+   if (index < 4) return 'hacker';
+   else if (index < 7) return 'gukbap';
+   else if (index < 8) return 'pro';
+   else if (index < 10) return 'gyeruik';
+   else return 'noob';
+};
