@@ -8,3 +8,8 @@ export const architectInfoState = atom({
       tier: '마카게',
    },
 });
+
+export const searchCurrentTierState = atom({
+   key: 'searchCurrentTierState',
+   default: 'hacker',
+});
