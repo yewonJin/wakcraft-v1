@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { LineNav } from '@/components/Search/LineNav';
 import { ArchitectList } from '@/components/Search/ArchitectList';
 import { SearchArchitect } from '@/components/Search/SearchArchitect';
+import { Suspense } from 'react';
 
 const Layout = styled.div`
    width: 1000px;
@@ -45,7 +46,9 @@ export default function Search() {
             <li>참가 횟수</li>
             <li>우승 횟수</li>
          </TableHeader>
-         <ArchitectList />
+         <Suspense>
+            <ArchitectList />
+         </Suspense>
       </Layout>
    );
 }

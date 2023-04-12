@@ -1,9 +1,8 @@
 import Link from 'next/link';
 import styled from 'styled-components';
-import { Suspense } from 'react';
 
+import { participationCount, winnerCount } from '@/domain/architect';
 import { useShowArchitect } from '@/application/showArchitect';
-import { createTierArray, participationCount, winnerCount } from '@/domain/architect';
 
 const Layout = styled.ul`
    width: 1000px;
@@ -29,27 +28,23 @@ const Layout = styled.ul`
 export function ArchitectList() {
    const { data } = useShowArchitect();
 
-   if (!data) return <div></div>;
+   if (!data) return <div>loading..</div>;
 
    return (
-      <Suspense>
-         <Layout>
-            {data
-               .sort((a, b) => createTierArray().indexOf(a.tier[0]) - createTierArray().indexOf(b.tier[0]))
-               .map((item, index) => {
-                  return (
-                     <Link key={item.wakzoo_id} href={`/search/${item.minecraft_id}`}>
-                        <li>
-                           <span>{item.tier[0]}</span>
-                           <span>{item.minecraft_id}</span>
-                           <span>{item.wakzoo_id}</span>
-                           <span>{participationCount(item) + '회'}</span>
-                           <span>{winnerCount(item) + '회'}</span>
-                        </li>
-                     </Link>
-                  );
-               })}
-         </Layout>
-      </Suspense>
+      <Layout>
+         {data.map((item, _) => {
+            return (
+               <Link key={item.wakzoo_id} href={`/search/${item.minecraft_id}`}>
+                  <li>
+                     <span>{item.tier[0]}</span>
+                     <span>{item.minecraft_id}</span>
+                     <span>{item.wakzoo_id}</span>
+                     <span>{participationCount(item) + '회'}</span>
+                     <span>{winnerCount(item) + '회'}</span>
+                  </li>
+               </Link>
+            );
+         })}
+      </Layout>
    );
 }
