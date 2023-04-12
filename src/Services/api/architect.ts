@@ -26,6 +26,25 @@ export const getArchitectByTier = async (tier: string) => {
    }
 };
 
+export const getArchitectByFuzzySearch = async (search: string) => {
+   if (!search) return;
+
+   try {
+      const response = await (
+         await fetch(`http://localhost:4000/architects?search=${search}`).then(response => {
+            if (!response.ok) {
+               throw new Error(`${response.status} 에러가 발생했습니다. `);
+            }
+            return response;
+         })
+      ).json();
+
+      return response;
+   } catch (e) {
+      console.error(e);
+   }
+};
+
 export const getArchitectsWithoutPortfolio = async () => {
    const response = await (await fetch(`http://localhost:4000/architects/contentInfo`)).json();
    return response;

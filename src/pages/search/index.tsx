@@ -1,9 +1,9 @@
 import styled from 'styled-components';
+import { Suspense } from 'react';
 
 import { LineNav } from '@/components/Search/LineNav';
 import { ArchitectList } from '@/components/Search/ArchitectList';
 import { SearchArchitect } from '@/components/Search/SearchArchitect';
-import { Suspense } from 'react';
 
 const Layout = styled.div`
    width: 1000px;

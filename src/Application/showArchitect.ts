@@ -1,5 +1,5 @@
 import { Architect } from '@/domain/architect';
-import { getArchitectByTier } from '@/services/api/architect';
+import { getArchitectByFuzzySearch, getArchitectByTier } from '@/services/api/architect';
 import { searchCurrentTierState } from '@/services/store/architect';
 import { useState, ChangeEvent } from 'react';
 import { UseQueryResult, useQuery } from 'react-query';
@@ -13,6 +13,10 @@ export const useShowArchitect = () => {
       getArchitectByTier(curTier),
    );
 
+   const { data: searchData }: UseQueryResult<Architect[]> = useQuery(['architectByfuzzySearch', input], () =>
+      getArchitectByFuzzySearch(input),
+   );
+
    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
       setInput(e.target.value);
    };
@@ -21,5 +25,5 @@ export const useShowArchitect = () => {
       setCurTier(tier);
    };
 
-   return { data, input, handleChange, curTier, setNavCurrentTier };
+   return { data, searchData, input, handleChange, curTier, setNavCurrentTier };
 };
