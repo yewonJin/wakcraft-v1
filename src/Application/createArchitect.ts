@@ -2,11 +2,11 @@ import { ChangeEvent } from 'react';
 import { useRecoilState } from 'recoil';
 
 import { checkEmptyInDeepObject } from '@/utils/lib';
-import { architectInfoState } from '@/services/store/architect';
+import { architectContentInfoState } from '@/services/store/architect';
 import { useMutationArchitect } from '@/services/architectAdapters';
 
 export const useCreateArchitect = () => {
-   const [architectInfo, setArchitectInfo] = useRecoilState(architectInfoState);
+   const [architectInfo, setArchitectInfo] = useRecoilState(architectContentInfoState);
 
    const mutation = useMutationArchitect();
 
