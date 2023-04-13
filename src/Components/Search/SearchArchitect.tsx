@@ -51,7 +51,7 @@ const List = styled.ul`
 `;
 
 export function SearchArchitect() {
-   const { searchData, input, handleChange } = useShowArchitect();
+   const { searchData, input, handleChange, resetInput } = useShowArchitect();
 
    if (!searchData)
       return (
@@ -69,7 +69,7 @@ export function SearchArchitect() {
                backgroundColor="#F5F5F5"
                padding="0px 20px 0px 45px"
             />
-            <IoIosClose />
+            <IoIosClose onClick={() => resetInput()} />
          </Layout>
       );
 

@@ -25,5 +25,10 @@ export const useShowArchitect = () => {
       setCurTier(tier);
    };
 
-   return { data, searchData, input, handleChange, curTier, setNavCurrentTier };
+   const resetInput = () => {
+      setInput('');
+   }
+
+
+   return { data, searchData, input, handleChange, curTier, setNavCurrentTier, resetInput };
 };
