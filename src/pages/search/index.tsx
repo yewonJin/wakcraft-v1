@@ -3,7 +3,7 @@ import { Suspense } from 'react';
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
 
 import { LineNav } from '@/components/Search/LineNav';
-import { ArchitectList } from '@/components/Search/ArchitectList';
+import { ArchitectList } from '@/pages/search/ArchitectList';
 import { SearchArchitect } from '@/components/Search/SearchArchitect';
 import { Architect } from '@/domain/architect';
 
