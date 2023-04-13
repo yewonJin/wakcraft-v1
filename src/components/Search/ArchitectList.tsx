@@ -1,8 +1,9 @@
 import Link from 'next/link';
 import styled from 'styled-components';
 
-import { participationCount, winnerCount } from '@/domain/architect';
+import { Architect, participationCount, winnerCount } from '@/domain/architect';
 import { useShowArchitect } from '@/application/showArchitect';
+import { GetServerSideProps, GetStaticProps, GetStaticPropsContext, InferGetStaticPropsType } from 'next';
 
 const Layout = styled.ul`
    width: 1000px;
@@ -25,14 +26,21 @@ const Layout = styled.ul`
    }
 `;
 
-export function ArchitectList() {
-   const { data } = useShowArchitect();
+export const getStaticProps: GetStaticProps<{ architects: Architect[] }> = async () => {
+   const res = await fetch(`/api/architect`)
+   const architects: Architect[] = await res.json()
 
-   if (!data) return <div>loading..</div>;
+   return {
+      props: {
+         architects,
+      },
+   }
+}
 
+export function ArchitectList({ architects }: InferGetStaticPropsType<typeof getStaticProps>) {
    return (
       <Layout>
-         {data.map((item, _) => {
+         {architects.map((item, _) => {
             return (
                <Link key={item.wakzoo_id} href={`/search/${item.minecraft_id}`}>
                   <li>
