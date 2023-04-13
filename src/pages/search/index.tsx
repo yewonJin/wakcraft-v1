@@ -42,6 +42,7 @@ const getStaticProps: GetStaticProps<{ architects: Architect[] }> = async (conte
       props: {
          architects,
       },
+      revalidate: 600
    };
 };
 
