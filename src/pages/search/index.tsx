@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Suspense } from 'react';
-import { GetServerSideProps, GetStaticProps, GetStaticPropsContext, InferGetStaticPropsType } from 'next';
+import { GetStaticProps, InferGetStaticPropsType } from 'next';
 
 import { LineNav } from '@/components/Search/LineNav';
 import { ArchitectList } from '@/components/Search/ArchitectList';
@@ -34,7 +34,18 @@ const TableHeader = styled.ul`
    }
 `;
 
-export default function Search() {
+const getStaticProps: GetStaticProps<{ architects: Architect[] }> = async (context) => {
+   const res = await fetch(`${process.env.BASE_URL}/api/architect`);
+   const architects: Architect[] = await res.json();
+
+   return {
+      props: {
+         architects,
+      },
+   };
+};
+
+export default function Search({ architects }: InferGetStaticPropsType<typeof getStaticProps>) {
    return (
       <Layout>
          <Nav>
@@ -48,7 +59,9 @@ export default function Search() {
             <li>참가 횟수</li>
             <li>우승 횟수</li>
          </TableHeader>
-
+         <Suspense>
+            <ArchitectList architects={architects} />
+         </Suspense>
       </Layout>
    );
 }

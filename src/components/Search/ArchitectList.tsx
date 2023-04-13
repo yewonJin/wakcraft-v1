@@ -26,13 +26,9 @@ const Layout = styled.ul`
 `;
 
 export function ArchitectList({ architects }: { architects: Architect[] }) {
-   const { data } = useShowArchitect();
-
-   if (!data) return <div>loading..</div>;
-
    return (
       <Layout>
-         {architects.map((item, _) => {
+         {architects?.map((item, _) => {
             return (
                <Link key={item.wakzoo_id} href={`/search/${item.minecraft_id}`}>
                   <li>
