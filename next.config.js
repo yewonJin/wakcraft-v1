@@ -16,15 +16,7 @@ const nextConfig = {
   },
   env: {
     MONGO_URI: process.env.MONGO_URI,
-  },
-  async rewrites() {
-    return [
-      {
-        source: "/api/architect",
-        destination: "https://wakcraft-k1dgnxtdw-yewonjin.vercel.app/api/architect"
-      }
-    ]
-  },
+  }
 }
 
 module.exports = nextConfig
