@@ -35,7 +35,7 @@ const TableHeader = styled.ul`
 `;
 
 export const getStaticProps: GetStaticProps<{ architects: Architect[] }> = async () => {
-   const res = await fetch(`https://wakcraft-yewonjin.vercel.app/api/architect`);
+   const res = await fetch(`${process.env.BASE_URL}/api/architect`);
    const architects: Architect[] = await res.json();
 
    return {
