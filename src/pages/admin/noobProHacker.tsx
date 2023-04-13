@@ -8,6 +8,7 @@ import { CommonLayout } from '@/components/Common/CommonLayout';
 import { useCreateLineInfo } from '@/application/createNoobProHacker';
 import TextBox from '@/components/Common/TextBox';
 import { AddNoobProHackerInfo } from '@/components/Admin/noobProHacker/AddNoobProHackerInfo';
+import { Suspense } from 'react';
 
 const Container = styled.div`
    display: flex;
@@ -24,7 +25,9 @@ export default function NoobProhacker() {
             <AddNoobProHackerInfo />
             <NoobProHackerLineInfo />
             <Container>
-               <SearchArchitect />
+               <Suspense>
+                  <SearchArchitect />
+               </Suspense>
                {lineInfo[curLineIndex] && <AddLineDetails />}
             </Container>
          </NoobProHackerForm>

@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 import { createTierArray } from '@/domain/architect';
+import { AddArchitect } from '@/components/Admin/architect/AddArchitect';
 
 const Container = styled.div`
    width: 1200px;
@@ -26,32 +27,7 @@ const Wrapper = styled.div`
 export default function Architect() {
    return (
       <Container>
-         <form>
-            <Title>건축가 추가</Title>
-            <Wrapper>
-               <h3>마인크래프트 아이디</h3>
-               <input />
-            </Wrapper>
-            <Wrapper>
-               <h3>왁물원 아이디</h3>
-               <input />
-            </Wrapper>
-            <Wrapper>
-               <h3>티어</h3>
-               <select>
-                  {createTierArray().map(tier => {
-                     return (
-                        <option key={tier} value={tier}>
-                           {tier}
-                        </option>
-                     );
-                  })}
-               </select>
-            </Wrapper>
-            <Wrapper>
-               <h3>눕프핵 정보 추가</h3>
-            </Wrapper>
-         </form>
+         <AddArchitect />
       </Container>
    );
 }
