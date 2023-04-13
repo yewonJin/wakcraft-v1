@@ -28,7 +28,7 @@ const Layout = styled.ul`
 export function ArchitectList({ architects }: { architects: Architect[] }) {
    return (
       <Layout>
-         {architects.map((item, _) => {
+         {architects?.map((item, _) => {
             return (
                <Link key={item.wakzoo_id} href={`/search/${item.minecraft_id}`}>
                   <li>

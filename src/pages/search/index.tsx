@@ -47,6 +47,8 @@ const getStaticProps: GetStaticProps<{ architects: Architect[] }> = async (conte
 };
 
 export default function Search({ architects }: InferGetStaticPropsType<typeof getStaticProps>) {
+   console.log(architects);
+
    return (
       <Layout>
          <Nav>
