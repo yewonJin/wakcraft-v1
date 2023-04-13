@@ -34,18 +34,7 @@ const TableHeader = styled.ul`
    }
 `;
 
-export const getStaticProps: GetStaticProps<{ architects: Architect[] }> = async () => {
-   const res = await fetch(`${process.env.BASE_URL}/api/architect`);
-   const architects: Architect[] = await res.json();
-
-   return {
-      props: {
-         architects,
-      },
-   };
-};
-
-export default function Search({ architects }: InferGetStaticPropsType<typeof getStaticProps>) {
+export default function Search() {
    return (
       <Layout>
          <Nav>
@@ -59,9 +48,7 @@ export default function Search({ architects }: InferGetStaticPropsType<typeof ge
             <li>참가 횟수</li>
             <li>우승 횟수</li>
          </TableHeader>
-         <Suspense>
-            <ArchitectList architects={architects} />
-         </Suspense>
+
       </Layout>
    );
 }
