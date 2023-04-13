@@ -3,7 +3,6 @@ import styled from 'styled-components';
 
 import { Architect, participationCount, winnerCount } from '@/domain/architect';
 import { useShowArchitect } from '@/application/showArchitect';
-import { GetServerSideProps, GetStaticProps, GetStaticPropsContext, InferGetStaticPropsType } from 'next';
 
 const Layout = styled.ul`
    width: 1000px;
@@ -26,18 +25,11 @@ const Layout = styled.ul`
    }
 `;
 
-export const getStaticProps: GetStaticProps<{ architects: Architect[] }> = async () => {
-   const res = await fetch(`/api/architect`)
-   const architects: Architect[] = await res.json()
+export function ArchitectList({ architects }: { architects: Architect[] }) {
+   const { data } = useShowArchitect();
 
-   return {
-      props: {
-         architects,
-      },
-   }
-}
+   if (!data) return <div>loading..</div>;
 
-export function ArchitectList({ architects }: InferGetStaticPropsType<typeof getStaticProps>) {
    return (
       <Layout>
          {architects.map((item, _) => {
