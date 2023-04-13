@@ -3,9 +3,9 @@ import { Suspense } from 'react';
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
 
 import { LineNav } from '@/components/Search/LineNav';
-import { ArchitectList } from '@/pages/search/ArchitectList';
 import { SearchArchitect } from '@/components/Search/SearchArchitect';
-import { Architect } from '@/domain/architect';
+import { Architect, participationCount, winnerCount } from '@/domain/architect';
+import Link from 'next/link';
 
 const Layout = styled.div`
    width: 1000px;
@@ -17,6 +17,27 @@ const Nav = styled.nav`
    display: flex;
    align-items: center;
    justify-content: space-between;
+`;
+
+const List = styled.ul`
+   width: 1000px;
+   display: flex;
+   flex-direction: column;
+   font-size: 20px;
+
+   > a > li {
+      padding: 10px 25px;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      height: 60px;
+      border-bottom: 1px solid #cacaca;
+
+      > span {
+         flex: 1;
+         font-size: 16px;
+      }
+   }
 `;
 
 const TableHeader = styled.ul`
@@ -34,7 +55,7 @@ const TableHeader = styled.ul`
    }
 `;
 
-const getStaticProps: GetStaticProps<{ architects: Architect[] }> = async (context) => {
+const getStaticProps: GetStaticProps<{ architects: Architect[] }> = async context => {
    const res = await fetch(`${process.env.BASE_URL}/api/architect`);
    const architects: Architect[] = await res.json();
 
@@ -42,13 +63,11 @@ const getStaticProps: GetStaticProps<{ architects: Architect[] }> = async (conte
       props: {
          architects,
       },
-      revalidate: 600
+      revalidate: 600,
    };
 };
 
 export default function Search({ architects }: InferGetStaticPropsType<typeof getStaticProps>) {
-   console.log(architects);
-
    return (
       <Layout>
          <Nav>
@@ -63,7 +82,21 @@ export default function Search({ architects }: InferGetStaticPropsType<typeof ge
             <li>우승 횟수</li>
          </TableHeader>
          <Suspense>
-            <ArchitectList architects={architects} />
+            <List>
+               {architects?.map((item, _) => {
+                  return (
+                     <Link key={item.wakzoo_id} href={`/search/${item.minecraft_id}`}>
+                        <li>
+                           <span>{item.tier[0]}</span>
+                           <span>{item.minecraft_id}</span>
+                           <span>{item.wakzoo_id}</span>
+                           <span>{participationCount(item) + '회'}</span>
+                           <span>{winnerCount(item) + '회'}</span>
+                        </li>
+                     </Link>
+                  );
+               })}
+            </List>
          </Suspense>
       </Layout>
    );
