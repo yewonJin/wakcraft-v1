@@ -1,14 +1,15 @@
 import styled from 'styled-components';
-import { Suspense } from 'react';
+import { useState } from 'react';
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import Link from 'next/link';
 
 import { LineNav } from '@/components/Search/LineNav';
-import { ArchitectList } from '@/components/Search/ArchitectList';
 import { SearchArchitect } from '@/components/Search/SearchArchitect';
 import { participationCount, winnerCount } from '@/domain/architect';
 import connectMongo from '@/utils/connectMongo';
 import Architect from '@/models/architect';
+import { convertLineTierToTier } from '@/controller/architect';
+import { useShowArchitect } from '@/application/showArchitect';
 
 const Layout = styled.div`
    width: 1000px;
@@ -72,6 +73,8 @@ export const getStaticProps: GetStaticProps<{ architects: Architect[] }> = async
 };
 
 export default function Search({ architects }: InferGetStaticPropsType<typeof getStaticProps>) {
+   const { curTier } = useShowArchitect();
+
    return (
       <Layout>
          <Nav>
@@ -86,19 +89,21 @@ export default function Search({ architects }: InferGetStaticPropsType<typeof ge
             <li>우승 횟수</li>
          </TableHeader>
          <List>
-            {architects.map((item, _) => {
-               return (
-                  <Link key={item.wakzoo_id} href={`/search/${item.minecraft_id}`}>
-                     <li>
-                        <span>{item.tier[0]}</span>
-                        <span>{item.minecraft_id}</span>
-                        <span>{item.wakzoo_id}</span>
-                        <span>{participationCount(item) + '회'}</span>
-                        <span>{winnerCount(item) + '회'}</span>
-                     </li>
-                  </Link>
-               );
-            })}
+            {architects
+               .filter(item => convertLineTierToTier(curTier).includes(item.tier[0]))
+               .map((item, _) => {
+                  return (
+                     <Link key={item.wakzoo_id} href={`/search/${item.minecraft_id}`}>
+                        <li>
+                           <span>{item.tier[0]}</span>
+                           <span>{item.minecraft_id}</span>
+                           <span>{item.wakzoo_id}</span>
+                           <span>{participationCount(item) + '회'}</span>
+                           <span>{winnerCount(item) + '회'}</span>
+                        </li>
+                     </Link>
+                  );
+               })}
          </List>
       </Layout>
    );
