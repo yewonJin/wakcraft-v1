@@ -20,10 +20,12 @@ export const useCreateArchitect = () => {
       e.preventDefault();
 
       if (checkEmptyInDeepObject(architectInfo)) {
-         setArchitectInfo({
-            minecraft_id: '',
-            wakzoo_id: '',
-            tier: '',
+         setArchitectInfo(prev => {
+            return {
+               ...prev,
+               minecraft_id: '',
+               wakzoo_id: '',
+            };
          });
          mutation.mutate(architectInfo);
       }
