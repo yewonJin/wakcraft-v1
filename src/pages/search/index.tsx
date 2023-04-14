@@ -28,7 +28,8 @@ const TableHeader = styled.ul`
    align-items: center;
    justify-content: space-around;
    width: 1000px;
-   padding: 15px 25px;
+   padding: 18px 25px;
+   padding-right: 37px;
    margin-top: 15px;
    background-color: #ddd;
    border-radius: 10px;
@@ -40,9 +41,27 @@ const TableHeader = styled.ul`
 
 const ArchitectList = styled.ul`
    width: 1000px;
+   height: 70vh;
+   overflow-y: scroll;
    display: flex;
    flex-direction: column;
    font-size: 20px;
+
+   ::-webkit-scrollbar {
+      width: 12px;
+   }
+
+   ::-webkit-scrollbar-thumb {
+      height: 30%;
+      background: gray;
+   }
+
+   ::-webkit-scrollbar-thumb {
+      background: #bebebe;
+      background-clip: padding-box;
+      border: 1px solid transparent;
+      border-radius: 8px;
+   }
 
    > a > li {
       padding: 10px 25px;
@@ -96,7 +115,6 @@ export const getStaticProps: GetStaticProps<{ architects: Architect[] }> = async
       props: {
          architects: JSON.parse(JSON.stringify(architects)),
       },
-      revalidate: 600,
    };
 };
 

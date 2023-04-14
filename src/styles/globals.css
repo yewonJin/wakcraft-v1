@@ -8,11 +8,31 @@
 
 html,
 body {
-
    font-family: 'Noto Sans KR', sans-serif;
    font-weight: 400;
    max-width: 100vw;
    overflow-x: hidden;
+}
+
+html {
+   overflow-y: scroll;
+   
+}
+
+html::-webkit-scrollbar {
+   width: 12px;
+}
+
+html::-webkit-scrollbar-thumb {
+   height: 30%;
+   background: gray;
+}
+
+html::-webkit-scrollbar-thumb {
+   background: #bebebe;
+   background-clip: padding-box;
+   border: 1px solid transparent;
+   border-radius: 8px;
 }
 
 h2,

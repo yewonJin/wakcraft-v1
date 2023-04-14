@@ -8,7 +8,7 @@ import InputBox from '@/components/Common/InputBox';
 
 const Layout = styled.div`
    display: flex;
-   width: 350px;
+   width: 450px;
    flex-direction: column;
    gap: 10px;
    padding: 10px;
@@ -16,10 +16,27 @@ const Layout = styled.div`
 `;
 
 const ArchitectList = styled.ul`
-   height: 100%;
+   height: 50vh;
+   overflow-y: scroll;
    display: flex;
    flex-direction: column;
-   gap: 5px;
+   gap: 10px;
+
+   ::-webkit-scrollbar {
+      width: 12px;
+   }
+
+   ::-webkit-scrollbar-thumb {
+      height: 30%;
+      background: gray;
+   }
+
+   ::-webkit-scrollbar-thumb {
+      background: #8b8b8b;
+      background-clip: padding-box;
+      border: 1px solid transparent;
+      border-radius: 8px;
+   }
 `;
 
 const ArchitectItem = styled.li`

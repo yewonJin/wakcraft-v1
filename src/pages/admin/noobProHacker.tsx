@@ -15,11 +15,17 @@ const Container = styled.div`
    gap: 20px;
 `;
 
+const Layout = styled.div`
+   width: 1300px;
+   margin: 0px auto;
+   padding-top: 110px;
+`
+
 export default function NoobProhacker() {
    const { lineInfo, curLineIndex } = useCreateLineInfo();
 
    return (
-      <CommonLayout>
+      <Layout>
          <NoobProHackerForm>
             <TextBox text="눕프로해커" fontSize="28px" lineHeight="42px" fontWeight="500" margin="0px 0px 10px 0px" />
             <AddNoobProHackerInfo />
@@ -31,6 +37,6 @@ export default function NoobProhacker() {
                {lineInfo[curLineIndex] && <AddLineDetails />}
             </Container>
          </NoobProHackerForm>
-      </CommonLayout>
+      </Layout>
    );
 }
