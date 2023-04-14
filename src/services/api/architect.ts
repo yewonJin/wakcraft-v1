@@ -1,5 +1,5 @@
 export const getArchitectById = async (id: string) => {
-   const response = await (await fetch(`/api/architects/${id}`)).json();
+   const response = await (await fetch(`/api/architect/${id}`)).json();
 
    return response;
 };
