@@ -1,11 +1,16 @@
 export const translateTier = (tier: string) => {
    switch (tier) {
-      case 'noob':
-         return '눕';
-      case 'pro':
-         return '프로';
       case 'hacker':
          return '해커';
+      case 'gukbap':
+         return '국밥';
+      case 'pro':
+         return '프로';
+      case 'gyeruik':
+         return '계륵';
+      case 'noob':
+         return '눕';
+
       default:
          return 'null';
    }
