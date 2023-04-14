@@ -21,6 +21,10 @@ export type Architect = {
    minecraft_id: string;
    wakzoo_id: string;
    tier: Tier[];
+   noobProHackerInfo: {
+      win: number;
+      participation: number;
+   };
    portfolio: {
       noobProHacker: {
          episode: number;

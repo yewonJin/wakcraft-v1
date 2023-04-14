@@ -21,6 +21,10 @@ const architectSchema = new Schema<Architect>({
    },
    wakzoo_id: { type: String },
    tier: { type: [String] },
+   noobProHackerInfo: {
+      win: { type: Number, default: 0 },
+      participation: { type: Number, default: 0 },
+   },
    portfolio: {
       noobProHacker: [
          {
