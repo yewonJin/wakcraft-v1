@@ -1,11 +1,14 @@
 import styled from 'styled-components';
-import { Suspense } from 'react';
+import Link from 'next/link';
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
 
 import { LineNav } from '@/components/Search/LineNav';
-import { ArchitectList } from '@/components/Search/ArchitectList';
 import { SearchArchitect } from '@/components/Search/SearchArchitect';
-import { Architect } from '@/domain/architect';
+import { participationCount, winnerCount } from '@/domain/architect';
+import connectMongo from '@/utils/connectMongo';
+import Architect from '@/models/architect';
+import { convertLineTierToTier } from '@/controller/architect';
+import { useShowArchitect } from '@/application/showArchitect';
 
 const Layout = styled.div`
    width: 1000px;
@@ -34,7 +37,43 @@ const TableHeader = styled.ul`
    }
 `;
 
-export default function Search() {
+const List = styled.ul`
+   width: 1000px;
+   display: flex;
+   flex-direction: column;
+   font-size: 20px;
+
+   > a > li {
+      padding: 10px 25px;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      height: 60px;
+      border-bottom: 1px solid #cacaca;
+
+      > span {
+         flex: 1;
+         font-size: 16px;
+      }
+   }
+`;
+
+export const getStaticProps: GetStaticProps<{ architects: Architect[] }> = async context => {
+   await connectMongo();
+
+   const architects = await Architect.findAll();
+
+   return {
+      props: {
+         architects: JSON.parse(JSON.stringify(architects)),
+      },
+      revalidate: 600,
+   };
+};
+
+export default function Search({ architects }: InferGetStaticPropsType<typeof getStaticProps>) {
+   const { curTier } = useShowArchitect();
+
    return (
       <Layout>
          <Nav>
@@ -48,9 +87,23 @@ export default function Search() {
             <li>참가 횟수</li>
             <li>우승 횟수</li>
          </TableHeader>
-         <Suspense>
-            <ArchitectList />
-         </Suspense>
+         <List>
+            {architects
+               .filter(item => convertLineTierToTier(curTier).includes(item.tier[0]))
+               .map((item, _) => {
+                  return (
+                     <Link key={item.wakzoo_id} href={`/search/${item.minecraft_id}`}>
+                        <li>
+                           <span>{item.tier[0]}</span>
+                           <span>{item.minecraft_id}</span>
+                           <span>{item.wakzoo_id}</span>
+                           <span>{participationCount(item) + '회'}</span>
+                           <span>{winnerCount(item) + '회'}</span>
+                        </li>
+                     </Link>
+                  );
+               })}
+         </List>
       </Layout>
    );
 }
