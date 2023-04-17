@@ -3,7 +3,6 @@ import Link from 'next/link';
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
 
 import { SearchArchitect } from '@/components/Search/SearchArchitect';
-import { createTierArray, participationCount, winnerCount } from '@/domain/architect';
 import connectMongo from '@/utils/connectMongo';
 import Architect from '@/models/architect';
 import { convertLineTierToTier } from '@/controller/architect';
@@ -22,7 +21,7 @@ const Nav = styled.nav`
    align-items: center;
    justify-content: space-between;
 `;
-
+   
 const TableHeader = styled.ul`
    display: flex;
    align-items: center;

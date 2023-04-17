@@ -12,11 +12,6 @@ const ProfileBox = styled.div`
    margin-bottom: 10px;
 `;
 
-const ProfileName = styled.h2`
-   font-size: 20px;
-   font-weight: 400;
-`;
-
 const ProfileImage = styled.span`
    width: 70px;
    height: 70px;

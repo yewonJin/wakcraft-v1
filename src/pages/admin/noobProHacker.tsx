@@ -1,14 +1,13 @@
+import { Suspense } from 'react';
 import styled from 'styled-components';
 
 import { AddLineDetails } from '@/components/Admin/noobProHacker/AddLineDetails';
 import { NoobProHackerLineInfo } from '@/components/Admin/noobProHacker/NoobProHackerLineInfo';
 import { NoobProHackerForm } from '@/components/Admin/noobProHacker/NoobProHackerForm';
 import { SearchArchitect } from '@/components/Admin/noobProHacker/SearchArchitect';
-import { CommonLayout } from '@/components/Common/CommonLayout';
 import { useCreateLineInfo } from '@/application/createNoobProHacker';
 import TextBox from '@/components/Common/TextBox';
 import { AddNoobProHackerInfo } from '@/components/Admin/noobProHacker/AddNoobProHackerInfo';
-import { Suspense } from 'react';
 
 const Container = styled.div`
    display: flex;
@@ -19,7 +18,7 @@ const Layout = styled.div`
    width: 1300px;
    margin: 0px auto;
    padding-top: 110px;
-`
+`;
 
 export default function NoobProhacker() {
    const { lineInfo, curLineIndex } = useCreateLineInfo();
