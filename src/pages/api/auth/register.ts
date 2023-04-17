@@ -38,6 +38,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
          const admin = new Admin({
             username,
          });
+
          await admin.setPassword(password);
          await admin.save();
 

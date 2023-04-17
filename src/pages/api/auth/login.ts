@@ -25,6 +25,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
          }
 
          const valid = await admin.checkPassword(password);
+
          if (!valid) {
             res.status(401);
             res.json('비밀번호가 맞지 않습니다');
@@ -32,7 +33,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             return;
          }
 
-         res.json('로그인 성공');
+         const token = await admin.generateToken();
+
+         res.setHeader('Set-Cookie', `wakcraft_access_token=${token}; path=/;`);
+
+         res.status(200).json({ username: admin.username });
       } catch (e) {
          res.send(e);
       }
