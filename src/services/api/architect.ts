@@ -68,3 +68,22 @@ export const addArchitects = async (body: object) => {
       console.log(e);
    }
 };
+
+export const updateArchitect = async (body: object) => {
+   var myHeaders = new Headers();
+   myHeaders.append('Content-Type', 'application/json');
+
+   try {
+      const response = await (
+         await fetch(`/api/architect`, {
+            method: 'PATCH',
+            body: JSON.stringify(body),
+            headers: myHeaders,
+         })
+      ).json();
+
+      return response;
+   } catch (e) {
+      console.log(e);
+   }
+};

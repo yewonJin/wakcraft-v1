@@ -20,6 +20,9 @@ const Layout = styled.div`
       position: absolute;
       right: 10px;
       font-size: 1.5rem;
+      :hover {
+         cursor: pointer;
+      }
    }
 
    > svg {
@@ -48,9 +51,18 @@ const List = styled.ul`
       list-style: none;
       padding: 0px 15px;
    }
+
+   > li {
+      list-style: none;
+      padding: 0px 15px;
+   }
 `;
 
-export function SearchArchitect() {
+type PropsType = {
+   handleClick?: (minecraft_id: string, wakzoo_id: string, tier: string) => void;
+};
+
+export function SearchArchitect({ handleClick }: PropsType) {
    const { searchData, input, handleChange, resetInput } = useShowArchitect();
 
    if (!searchData)
@@ -72,6 +84,39 @@ export function SearchArchitect() {
             <IoIosClose onClick={() => resetInput()} />
          </Layout>
       );
+
+   if (handleClick) {
+      return (
+         <Layout>
+            <IoIosSearch />
+            <InputBox
+               type="text"
+               name="search"
+               value={input}
+               onChange={handleChange}
+               width="320px"
+               height="40px"
+               borderRadius="10px"
+               border="none"
+               backgroundColor="#F5F5F5"
+               padding="0px 20px 0px 45px"
+            />
+            <List>
+               {searchData.map(item => {
+                  return (
+                     <li
+                        key={item.minecraft_id}
+                        onClick={e => handleClick(item.minecraft_id, item.wakzoo_id, item.tier[0])}
+                     >
+                        {item.minecraft_id + ' / ' + item.wakzoo_id + ' / ' + item.tier[0]}
+                     </li>
+                  );
+               })}
+            </List>
+            <IoIosClose onClick={() => resetInput()} />
+         </Layout>
+      );
+   }
 
    return (
       <Layout>
@@ -97,7 +142,7 @@ export function SearchArchitect() {
                );
             })}
          </List>
-         <IoIosClose />
+         <IoIosClose onClick={() => resetInput()} />
       </Layout>
    );
 }

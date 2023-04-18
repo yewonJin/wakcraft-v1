@@ -6,14 +6,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
    if (req.method === 'POST') {
       try {
          await Architect.create(req.body)
-            .then(todo => res.send(todo))
+            .then(architect => res.send(architect))
             .catch(err => res.status(500).send(err));
       } catch (e) {
          console.log(e);
       }
    } else if (req.method === 'GET') {
       try {
-         console.log('CONNECTING TO MONGO');
          await connectMongo();
 
          if (req.query.tier) {
@@ -48,9 +47,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       } catch (error) {
          console.log(error);
       }
+   } else if (req.method === 'PATCH') {
+      try {
+         const { minecraft_id } = req.body
+
+         await connectMongo();
+
+         await Architect.findOneByMinecraftIdAndUpdate(minecraft_id, req.body)
+            .then(architect => res.json(architect))
+            .catch(err => res.status(500).send(err));
+      } catch (e) {
+         console.log(e);
+      }
    }
 }
-
-/*
-
-*/
