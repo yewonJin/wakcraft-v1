@@ -1,4 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
+import { setCookie } from 'cookies-next';
 
 import connectMongo from '@/utils/connectMongo';
 import Admin from '@/models/admin';
@@ -35,7 +36,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
          const token = await admin.generateToken();
 
-         res.setHeader('Set-Cookie', `wakcraft_access_token=${token}; path=/;`);
+         setCookie('wakcraft_access_token', token, { req, res, path: '/' });
 
          res.status(200).json({ username: admin.username });
       } catch (e) {

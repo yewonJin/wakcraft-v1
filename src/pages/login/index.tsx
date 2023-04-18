@@ -1,10 +1,19 @@
+import { ChangeEvent, useState } from 'react';
+import { useRouter } from 'next/router';
+import { getCookie } from 'cookies-next';
+
 import { CommonLayout } from '@/components/Common/CommonLayout';
 import InputBox from '@/components/Common/InputBox';
 import TextBox from '@/components/Common/TextBox';
 import { useMutationLogin } from '@/services/authAdapcter';
-import { ChangeEvent, useState } from 'react';
 
 export default function Login() {
+   const router = useRouter();
+
+   if (getCookie('wakcraft_access_token')) {
+      router.push(`/admin`);
+   }
+
    const mutation = useMutationLogin();
 
    const [input, setInput] = useState({
@@ -23,7 +32,7 @@ export default function Login() {
       <CommonLayout>
          <TextBox text={'로그인'} />
          <form
-            onSubmit={e => {
+            onSubmit={async e => {
                e.preventDefault();
 
                mutation.mutate(input);
