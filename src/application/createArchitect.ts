@@ -8,7 +8,7 @@ import { useMutationArchitect } from '@/services/architectAdapters';
 export const useCreateArchitect = () => {
    const [architectInfo, setArchitectInfo] = useRecoilState(architectContentInfoState);
 
-   const mutation = useMutationArchitect();
+   const {mutate, isLoading} = useMutationArchitect();
 
    const handleChange = (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>) => {
       setArchitectInfo(prev => {
@@ -27,9 +27,9 @@ export const useCreateArchitect = () => {
                wakzoo_id: '',
             };
          });
-         mutation.mutate(architectInfo);
+         mutate(architectInfo);
       }
    };
 
-   return { architectInfo, handleChange, addArchitect };
+   return { architectInfo, handleChange, addArchitect, isLoading };
 };

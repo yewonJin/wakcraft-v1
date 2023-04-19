@@ -37,13 +37,13 @@ export const useMutationArchitect = () => {
    var myHeaders = new Headers();
    myHeaders.append('Content-Type', 'application/json');
 
-   const mutation = useMutation((body: any) => addArchitects(body), {
+   const { mutate, isLoading } = useMutation((body: any) => addArchitects(body), {
       onSuccess: () => {
          queryClient.invalidateQueries('architectWithoutPortfolio');
       },
    });
 
-   return mutation;
+   return { mutate, isLoading };
 };
 
 export const useMutationUpdateArchitect = () => {

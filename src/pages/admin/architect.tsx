@@ -12,7 +12,6 @@ const Layout = styled.div`
 `;
 
 const AddBox = styled.div`
-   position: relative;
    display: flex;
    flex-direction: column;
    gap: 10px;
@@ -20,13 +19,10 @@ const AddBox = styled.div`
 `;
 
 const UpdateBox = styled.div`
-   position: relative;
    display: flex;
    flex-direction: column;
    gap: 10px;
 `;
-
-
 
 export default function Architect() {
    return (
