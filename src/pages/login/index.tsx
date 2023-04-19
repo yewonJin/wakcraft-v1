@@ -4,8 +4,8 @@ import { getCookie } from 'cookies-next';
 
 import { CommonLayout } from '@/components/Common/CommonLayout';
 import InputBox from '@/components/Common/InputBox';
-import TextBox from '@/components/Common/TextBox';
 import { useMutationLogin } from '@/services/authAdapcter';
+import LoadingBox from '@/components/Common/LoadingBox';
 
 export default function Login() {
    const router = useRouter();
@@ -31,12 +31,14 @@ export default function Login() {
 
    return (
       <CommonLayout>
-         <TextBox text={'로그인'} />
+         {isLoading && <LoadingBox text="로그인 중" />}
          <form
             onSubmit={e => {
                e.preventDefault();
+               setIsLoading(true);
 
                mutation.mutate(input);
+               setIsLoading(false);
             }}
          >
             <InputBox type="text" name="username" value={input.username} onChange={handleChange} />
