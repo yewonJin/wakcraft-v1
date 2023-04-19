@@ -11,8 +11,10 @@ interface ArchitectModel extends Model<Architect> {
    findOneByMinecraftId: (minecraft_id: string) => Promise<Architect[]>;
    findOneAndPushToPortfolio: (minecraft_id: string, payload: Architect) => Promise<void>;
    findOneByMinecraftIdAndUpdate: (
+      originalId: string,
       minecraft_id: string,
-      payload: { minecraft_id: string; wakzoo_id: string; tier: string },
+      wakzoo_id: string,
+      tier: string,
    ) => Promise<void>;
 }
 
@@ -89,21 +91,19 @@ architectSchema.statics.findOneAndPushToPortfolio = function (minecraft_id: stri
 };
 
 architectSchema.statics.findOneByMinecraftIdAndUpdate = function (
+   originalId: string,
    minecraft_id: string,
-   payload: {
-      minecraft_id: string;
-      wakzoo_id: string;
-      tier: string;
-   },
+   wakzoo_id: string,
+   tier: string,
 ) {
    return this.findOneAndUpdate(
-      { minecraft_id },
+      { minecraft_id: originalId },
       {
          $set: {
-            minecraft_id: payload.minecraft_id,
-            wakzoo_id: payload.wakzoo_id,
-            tier: [payload.tier],
-         }
+            minecraft_id: minecraft_id,
+            wakzoo_id: wakzoo_id,
+            tier: [tier],
+         },
       },
    );
 };

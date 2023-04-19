@@ -49,11 +49,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
    } else if (req.method === 'PATCH') {
       try {
-         const { minecraft_id } = req.body
+         const { originalId, minecraft_id, wakzoo_id, tier } = req.body;
 
          await connectMongo();
 
-         await Architect.findOneByMinecraftIdAndUpdate(minecraft_id, req.body)
+         await Architect.findOneByMinecraftIdAndUpdate(originalId, minecraft_id, wakzoo_id, tier)
             .then(architect => res.json(architect))
             .catch(err => res.status(500).send(err));
       } catch (e) {
