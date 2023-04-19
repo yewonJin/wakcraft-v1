@@ -5,9 +5,9 @@ import { jwtVerify } from 'jose';
 
 export async function middleware(req: NextRequest) {
    if (req.nextUrl.pathname.startsWith('/admin')) {
-      const token = req.cookies.get('wakcraft_access_token')?.value as string;
+      const token = req.cookies.get('access_token')?.value as string;
 
-      if (token === undefined) {
+      if (!token) {
          req.nextUrl.pathname = '/login';
          return NextResponse.redirect(req.nextUrl);
       }
@@ -22,7 +22,7 @@ export async function middleware(req: NextRequest) {
    }
 
    if (req.nextUrl.pathname.startsWith('/login')) {
-      const token = req.cookies.get('wakcraft_access_token')?.value as string;
+      const token = req.cookies.get('access_token')?.value as string;
 
       try {
          await jwtVerify(token, new TextEncoder().encode(process.env.JWT_SECRET));

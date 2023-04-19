@@ -10,7 +10,7 @@ import { useMutationLogin } from '@/services/authAdapcter';
 export default function Login() {
    const router = useRouter();
 
-   if (getCookie('wakcraft_access_token')) {
+   if (getCookie('access_token')) {
       router.push(`/admin`);
    }
 
@@ -20,6 +20,7 @@ export default function Login() {
       username: '',
       password: '',
    });
+   const [isLoading, setIsLoading] = useState(false);
 
    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
       setInput(prev => ({
@@ -32,7 +33,7 @@ export default function Login() {
       <CommonLayout>
          <TextBox text={'로그인'} />
          <form
-            onSubmit={async e => {
+            onSubmit={e => {
                e.preventDefault();
 
                mutation.mutate(input);

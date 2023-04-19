@@ -36,7 +36,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
          const token = await admin.generateToken();
 
-         setCookie('wakcraft_access_token', token, { req, res, path: '/' });
+         setCookie('access_token', token, { req, res, path: '/' });
 
          res.status(200).json({ username: admin.username });
       } catch (e) {
