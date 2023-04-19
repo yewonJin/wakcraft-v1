@@ -6,6 +6,7 @@ import TextBox from '@/components/Common/TextBox';
 import { SearchArchitect } from '@/components/Search/SearchArchitect';
 import { createTierArray } from '@/domain/architect';
 import { useMutationUpdateArchitect } from '@/services/architectAdapters';
+import { useUpdateArchitect } from '@/application/updateArchitect';
 
 const Layout = styled.div`
    display: flex;
@@ -19,44 +20,14 @@ const Wrapper = styled.div`
 `;
 
 export default function UpdateArchitect() {
-   const [originalId, setOriginalId] = useState('');
-   const [input, setInput] = useState({
-      minecraft_id: '',
-      wakzoo_id: '',
-      tier: '',
-   });
-
-   const mutation = useMutationUpdateArchitect();
-
-   const handleClick = (minecraft_id: string, wakzoo_id: string, tier: string) => {
-      setInput(prev => ({
-         ...prev,
-         minecraft_id: minecraft_id,
-         wakzoo_id: wakzoo_id,
-         tier: tier,
-      }));
-      setOriginalId(minecraft_id);
-   };
-
-   const handleChange = (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>) => {
-      setInput(prev => ({
-         ...prev,
-         [e.target.name]: e.target.value,
-      }));
-   };
+   const { originalId, input, handleClick, handleChange, handleSubmit } = useUpdateArchitect();
 
    return (
       <Layout>
          <Wrapper>
             <SearchArchitect handleClick={handleClick} />
          </Wrapper>
-         <form
-            onSubmit={e => {
-               e.preventDefault();
-
-               mutation.mutate(input);
-            }}
-         >
+         <form onSubmit={handleSubmit}>
             <Wrapper>
                <TextBox text="마인크래프트 id" />
                <InputBox type="text" name="minecraft_id" value={input.minecraft_id} onChange={handleChange} />
