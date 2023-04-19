@@ -5,7 +5,7 @@ const Container = styled.div<{ color: string }>`
    position: relative;
    width: 60px;
    height: 60px;
-   margin-right: 20px;
+   margin-right: 10px;
 
    div {
       box-sizing: border-box;

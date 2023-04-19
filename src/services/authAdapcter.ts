@@ -2,7 +2,7 @@ import { useMutation } from 'react-query';
 import { login } from './api/auth';
 
 export const useMutationLogin = () => {
-   const mutation = useMutation((body: any) => login(body));
+   const { isLoading, mutate } = useMutation((body: any) => login(body));
 
-   return mutation;
+   return {isLoading, mutate};
 };
