@@ -1,6 +1,6 @@
 import { Schema, Model, model, models } from 'mongoose';
 import { fuzzySearchRegExp } from '@/utils/fuzzySearch';
-import { Architect } from '@/domain/architect';
+import { Architect, createTierArray } from '@/domain/architect';
 import { convertLineTierToTier } from '@/controller/architect';
 
 interface ArchitectModel extends Model<Architect> {
@@ -16,6 +16,7 @@ interface ArchitectModel extends Model<Architect> {
       wakzoo_id: string,
       tier: string,
    ) => Promise<void>;
+   test: () => Promise<Architect[]>;
 }
 
 // Define Schemes
@@ -66,11 +67,67 @@ architectSchema.statics.findAll = function () {
 };
 
 architectSchema.statics.findAllWithoutPortfolio = function () {
-   return this.find({}, { portfolio: false });
+   return this.aggregate([
+      {
+         $project: {
+            portfolio: 0,
+         },
+      },
+      {
+         $addFields: {
+            sortPriority: {
+               $switch: {
+                  branches: createTierArray().map((item, index) => {
+                     return {
+                        case: {
+                           $in: [item, '$tier'],
+                        },
+                        then: index + 1,
+                     };
+                  }),
+               },
+            },
+         },
+      },
+      {
+         $sort: {
+            sortPriority: 1,
+         },
+      },
+   ]);
 };
 
 architectSchema.statics.findAllByLineTier = function (tier: string) {
-   return this.find().in('tier', convertLineTierToTier(tier));
+   return this.aggregate([
+      {
+         $match: {
+            tier: {
+               $in: [...convertLineTierToTier(tier)],
+            },
+         },
+      },
+      {
+         $addFields: {
+            sortPriority: {
+               $switch: {
+                  branches: createTierArray().map((item, index) => {
+                     return {
+                        case: {
+                           $in: [item, '$tier'],
+                        },
+                        then: index + 1,
+                     };
+                  }),
+               },
+            },
+         },
+      },
+      {
+         $sort: {
+            sortPriority: 1,
+         },
+      },
+   ]);
 };
 
 architectSchema.statics.findAllByInput = function (input: string) {
