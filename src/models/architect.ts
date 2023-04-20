@@ -87,11 +87,15 @@ architectSchema.statics.findAllWithoutPortfolio = function () {
                   }),
                },
             },
+            lowerId: {
+               $toLower: '$minecraft_id',
+            },
          },
       },
       {
          $sort: {
             sortPriority: 1,
+            lowerId: 1,
          },
       },
    ]);
@@ -120,11 +124,15 @@ architectSchema.statics.findAllByLineTier = function (tier: string) {
                   }),
                },
             },
+            lowerId: {
+               $toLower: '$minecraft_id',
+            },
          },
       },
       {
          $sort: {
             sortPriority: 1,
+            lowerId: 1,
          },
       },
    ]);
