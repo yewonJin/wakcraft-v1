@@ -139,7 +139,38 @@ architectSchema.statics.findAllByLineTier = function (tier: string) {
 };
 
 architectSchema.statics.findAllByInput = function (input: string) {
-   return this.find({ minecraft_id: { $regex: fuzzySearchRegExp(input) } });
+   return this.aggregate([
+      {
+         $match: {
+            minecraft_id: { $regex: fuzzySearchRegExp(input) },
+         },
+      },
+      {
+         $addFields: {
+            sortPriority: {
+               $switch: {
+                  branches: createTierArray().map((item, index) => {
+                     return {
+                        case: {
+                           $in: [item, '$tier'],
+                        },
+                        then: index + 1,
+                     };
+                  }),
+               },
+            },
+            lowerId: {
+               $toLower: '$minecraft_id',
+            },
+         },
+      },
+      {
+         $sort: {
+            sortPriority: 1,
+            lowerId: 1,
+         },
+      },
+   ]);
 };
 
 architectSchema.statics.findOneByMinecraftId = function (minecraft_id: string) {
