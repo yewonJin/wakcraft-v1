@@ -9,6 +9,7 @@ import { convertLineTierToTier } from '@/controller/architect';
 import { useShowArchitect } from '@/application/showArchitect';
 import TextBox from '@/components/Common/TextBox';
 import { translateTier } from '@/utils/lib';
+import { SearchArchitectWithProps } from '@/components/Search/SearchArchitectWithProps';
 
 const Layout = styled.div`
    width: 1000px;
@@ -21,7 +22,7 @@ const Nav = styled.nav`
    align-items: center;
    justify-content: space-between;
 `;
-   
+
 const TableHeader = styled.ul`
    display: flex;
    align-items: center;
@@ -105,7 +106,7 @@ const LineCount = styled.span`
    background-color: #cacaca;
 `;
 
-export const getStaticProps: GetStaticProps<{ architects: Architect[] }> = async context => {
+export const getStaticProps: GetStaticProps<{ architects: Architect[] }> = async () => {
    await connectMongo();
 
    const architects = await Architect.findAllWithoutPortfolio();
@@ -133,7 +134,7 @@ export default function Search({ architects }: InferGetStaticPropsType<typeof ge
                   </NavItem>
                ))}
             </TierList>
-            <SearchArchitect />
+            <SearchArchitectWithProps architects={architects} />
          </Nav>
          <TableHeader>
             <li>티어</li>

@@ -27,8 +27,7 @@ export const useShowArchitect = () => {
 
    const resetInput = () => {
       setInput('');
-   }
-
+   };
 
    return { data, searchData, input, handleChange, curTier, setNavCurrentTier, resetInput };
 };
