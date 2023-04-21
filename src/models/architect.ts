@@ -26,7 +26,7 @@ const architectSchema = new Schema<Architect>({
       required: true,
       unique: true,
    },
-   wakzoo_id: { type: String },
+   wakzoo_id: { type: String, unique: true },
    tier: { type: [String] },
    noobProHackerInfo: {
       win: { type: Number, default: 0 },
@@ -141,9 +141,7 @@ architectSchema.statics.findAllByLineTier = function (tier: string) {
 architectSchema.statics.findAllByInput = function (input: string) {
    return this.aggregate([
       {
-         $match: {
-            minecraft_id: { $regex: fuzzySearchRegExp(input) },
-         },
+         $match: { minecraft_id: { $regex: fuzzySearchRegExp(input) } },
       },
       {
          $addFields: {
