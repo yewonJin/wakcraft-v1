@@ -5,8 +5,6 @@ import Link from 'next/link';
 import InputBox from '../Common/InputBox';
 import { useShowArchitect } from '@/application/showArchitect';
 import { Architect } from '@/domain/architect';
-import { useState } from 'react';
-import { fuzzySearch, fuzzySearchRegExp } from '@/utils/fuzzySearch';
 
 const Layout = styled.div`
    position: relative;
@@ -55,7 +53,9 @@ const List = styled.ul`
       padding: 0px 15px;
    }
 
-   > li {
+   a > li {
+      display: flex;
+      gap: 8px;
       list-style: none;
       padding: 0px 15px;
    }
@@ -66,7 +66,7 @@ type PropsType = {
 };
 
 export function SearchArchitectWithProps({ architects }: PropsType) {
-   const [input, setInput] = useState('');
+   const { input, handleChange, resetInput, fuzzySearchAndHighlightResult } = useShowArchitect();
 
    if (!architects) return <div>Loading...</div>;
 
@@ -78,7 +78,7 @@ export function SearchArchitectWithProps({ architects }: PropsType) {
                type="text"
                name="search"
                value={input}
-               onChange={e => setInput(e.target.value)}
+               onChange={handleChange}
                width="320px"
                height="40px"
                borderRadius="10px"
@@ -87,7 +87,7 @@ export function SearchArchitectWithProps({ architects }: PropsType) {
                padding="0px 20px 0px 45px"
             />
 
-            <IoIosClose onClick={() => setInput('')} />
+            <IoIosClose onClick={resetInput} />
          </Layout>
       );
 
@@ -98,7 +98,7 @@ export function SearchArchitectWithProps({ architects }: PropsType) {
             type="text"
             name="search"
             value={input}
-            onChange={e => setInput(e.target.value)}
+            onChange={handleChange}
             width="320px"
             height="40px"
             borderRadius="10px"
@@ -107,49 +107,46 @@ export function SearchArchitectWithProps({ architects }: PropsType) {
             padding="0px 20px 0px 45px"
          />
          <List>
-            {architects
-               .filter(item => {
-                  return fuzzySearch(item.minecraft_id + item.wakzoo_id, input);
-               })
-               .map(item => {
-                  const arr = (item.minecraft_id + item.wakzoo_id).split('');
-
-                  const numArr = input.split('').map((item, index) => {
-                     if (item.match(/[ㄱ-힣]/g)) {
-                        const korInput = fuzzySearchRegExp(item);
-
-                        const a = arr.join('').match(korInput);
-
-                        if (a !== null) {
-                           return a.index;
-                        }
-                     }
-
-                     if (arr.includes(item)) {
-                        return arr.indexOf(item, index > 1 ? index - 1 : index);
-                     }
-                  });
-
-                  return (
-                     <Link href={`/search/${item.minecraft_id}`} key={item.minecraft_id}>
-                        <li>
-                           {(item.minecraft_id + item.wakzoo_id).split('').map((item, index) => (
+            {fuzzySearchAndHighlightResult(architects, input).map(architect => {
+               return (
+                  <Link href={`/search/${architect.minecraft_id}`} key={architect.minecraft_id}>
+                     <li>
+                        <p>
+                           {architect.minecraft_id.split('').map((item, index) => (
                               <span
                                  key={index}
                                  style={{
-                                    backgroundColor: `${numArr.includes(index) ? 'yellow' : ''}`,
-                                    color: `${numArr.includes(index) ? 'red' : ''}`,
+                                    backgroundColor: `${
+                                       architect.minecraftHighlightIndex.includes(index) ? 'yellow' : ''
+                                    }`,
+                                    color: `${architect.minecraftHighlightIndex.includes(index) ? 'red' : ''}`,
                                  }}
                               >
                                  {item}
                               </span>
                            ))}
-                        </li>
-                     </Link>
-                  );
-               })}
+                        </p>
+                        <p>
+                           {architect.wakzoo_id.split('').map((item, index) => (
+                              <span
+                                 key={index}
+                                 style={{
+                                    backgroundColor: `${
+                                       architect.wakzooHighlightIndex.includes(index) ? 'yellow' : ''
+                                    }`,
+                                    color: `${architect.wakzooHighlightIndex.includes(index) ? 'red' : ''}`,
+                                 }}
+                              >
+                                 {item}
+                              </span>
+                           ))}
+                        </p>
+                     </li>
+                  </Link>
+               );
+            })}
          </List>
-         <IoIosClose onClick={() => setInput('')} />
+         <IoIosClose onClick={resetInput} />
       </Layout>
    );
 }
