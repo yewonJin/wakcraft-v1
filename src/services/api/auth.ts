@@ -3,17 +3,20 @@ export const login = async (body: object) => {
    myHeaders.append('Content-Type', 'application/json');
 
    try {
-      const response = await (
-         await fetch(`/api/auth/login`, {
-            method: 'POST',
-            body: JSON.stringify(body),
-            headers: myHeaders,
-         })
-      ).json();
+      const response = await fetch(`/api/auth/login`, {
+         method: 'POST',
+         body: JSON.stringify(body),
+         headers: myHeaders,
+      }).then(async response => {
+         if (response.status === 401) {
+            throw new Error(`${await response.json()}`);
+         }
+         return response.json();
+      });
 
       return response;
-   } catch (e) {
-      console.log(e);
+   } catch (error) {
+      throw error;
    }
 };
 

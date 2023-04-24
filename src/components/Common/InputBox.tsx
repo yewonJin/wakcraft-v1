@@ -6,6 +6,7 @@ type InputStyleType = {
    height?: string;
    borderRadius?: string;
    border?: string;
+   borderBottom?: string;
    textAlign?: string;
    padding?: string;
    fontSize?: string;
@@ -18,6 +19,7 @@ const Input = styled.input<InputStyleType>`
    height: ${props => props.height || 'auto'};
    border-radius: ${props => props.borderRadius || '0px'};
    border: ${props => props.border || '1px solid #313131'};
+   border-bottom: ${props => props.borderBottom || ''};
    text-align: ${props => props.textAlign || ''};
    font-size: ${props => props.fontSize || '16px'};
    line-height: ${props => props.lineHeight || '24px'};

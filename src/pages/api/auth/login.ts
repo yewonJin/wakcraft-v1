@@ -19,19 +19,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
          const admin = await Admin.findByUsername(username);
 
          if (!admin) {
-            res.status(401);
-            res.json('해당 아이디가 없습니다.');
-
-            return;
+            return res.status(401).json('등록된 아이디 정보가 없습니다.');
          }
 
          const valid = await admin.checkPassword(password);
 
          if (!valid) {
-            res.status(401);
-            res.json('비밀번호가 맞지 않습니다');
-
-            return;
+            return res.status(401).json('비밀번호가 맞지 않습니다');
          }
 
          const token = await admin.generateToken();
