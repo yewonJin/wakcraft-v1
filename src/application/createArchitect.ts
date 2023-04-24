@@ -8,7 +8,7 @@ import { useMutationArchitect } from '@/services/architectAdapters';
 export const useCreateArchitect = () => {
    const [architectInfo, setArchitectInfo] = useRecoilState(architectContentInfoState);
 
-   const {mutate, isLoading} = useMutationArchitect();
+   const {mutate} = useMutationArchitect();
 
    const handleChange = (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>) => {
       setArchitectInfo(prev => {
@@ -31,5 +31,5 @@ export const useCreateArchitect = () => {
       }
    };
 
-   return { architectInfo, handleChange, addArchitect, isLoading };
+   return { architectInfo, handleChange, addArchitect };
 };

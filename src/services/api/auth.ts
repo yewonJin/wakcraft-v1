@@ -28,7 +28,7 @@ export const register = async (body: object) => {
       const response = await (
          await fetch(`/api/auth/register`, {
             method: 'POST',
-            body: JSON.stringify(body),
+            body: JSON.stringify(body), 
             headers: myHeaders,
          })
       ).json();

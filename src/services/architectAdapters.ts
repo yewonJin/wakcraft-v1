@@ -9,6 +9,7 @@ import {
    getArchitectsWithoutPortfolio,
    updateArchitect,
 } from './api/architect';
+import { toast } from 'react-hot-toast';
 
 export const useQueryArchitect = () => {
    const { data: result }: UseQueryResult<Architect> = useQuery('architect', getArchitects);
@@ -43,13 +44,14 @@ export const useMutationArchitect = () => {
    var myHeaders = new Headers();
    myHeaders.append('Content-Type', 'application/json');
 
-   const { mutate, isLoading } = useMutation((body: any) => addArchitects(body), {
+   const { mutate } = useMutation((body: any) => addArchitects(body), {
       onSuccess: () => {
+         toast.success('건축가 추가')
          queryClient.invalidateQueries('architectWithoutPortfolio');
       },
    });
 
-   return { mutate, isLoading };
+   return { mutate };
 };
 
 export const useMutationUpdateArchitect = () => {

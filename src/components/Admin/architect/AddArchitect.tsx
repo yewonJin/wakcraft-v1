@@ -5,7 +5,7 @@ import TextBox from '@/components/Common/TextBox';
 import InputBox from '@/components/Common/InputBox';
 import { useCreateArchitect } from '@/application/createArchitect';
 import { createTierArray } from '@/domain/architect';
-import LoadingBox from '@/components/Common/LoadingBox';
+import { Toaster } from 'react-hot-toast';
 
 const Layout = styled.div`
    display: flex;
@@ -20,11 +20,11 @@ const Wrapper = styled.div`
 `;
 
 export function AddArchitect() {
-   const { architectInfo, handleChange, addArchitect, isLoading } = useCreateArchitect();
+   const { architectInfo, handleChange, addArchitect } = useCreateArchitect();
 
    return (
       <Fragment>
-         {isLoading && <LoadingBox text="건축가 추가 중.." />}
+         <Toaster />
          <Layout>
             <Wrapper>
                <TextBox text={'마크 id'} />
