@@ -40,13 +40,29 @@ const List = styled.ul`
    flex-direction: column;
    gap: 8px;
    position: absolute;
+   overflow-y: scroll;
    background-color: #f9f9f9;
-   border-radius: 10px;
-   z-index: 1;
+   z-index: 10;
    width: 320px;
-   top: 30px;
-   padding: 15px 0px;
+   max-height: 500px;
+   top: 40px;
+   border-bottom-left-radius: 10px;
+   border-bottom-right-radius: 10px;
+   padding: 5px 0px;
    box-sizing: border-box;
+   border-top: 1px solid #cacaca;
+
+   ::-webkit-scrollbar {
+      width: 12px;
+   }
+
+   ::-webkit-scrollbar-thumb {
+      height: 30%;
+      background: #bebebe;
+      background-clip: padding-box;
+      border: 1px solid transparent;
+      border-radius: 8px;
+   }
 
    a > li {
       list-style: none;
@@ -101,7 +117,7 @@ export function SearchArchitectWithProps({ architects }: PropsType) {
             onChange={handleChange}
             width="320px"
             height="40px"
-            borderRadius="10px"
+            borderRadius="10px 10px 0px 0px"
             border="none"
             backgroundColor="#F5F5F5"
             padding="0px 20px 0px 45px"

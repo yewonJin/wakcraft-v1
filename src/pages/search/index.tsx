@@ -2,13 +2,11 @@ import styled from 'styled-components';
 import Link from 'next/link';
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
 
-import { SearchArchitect } from '@/components/Search/SearchArchitect';
 import connectMongo from '@/utils/connectMongo';
 import Architect from '@/models/architect';
-import { convertLineTierToTier } from '@/controller/architect';
 import { useShowArchitect } from '@/application/showArchitect';
 import TextBox from '@/components/Common/TextBox';
-import { translateTier } from '@/utils/lib';
+import { convertLineTierToTier, translateTier } from '@/utils/lib';
 import { SearchArchitectWithProps } from '@/components/Search/SearchArchitectWithProps';
 
 const Layout = styled.div`
@@ -41,7 +39,7 @@ const TableHeader = styled.ul`
 
 const ArchitectList = styled.ul`
    width: 1000px;
-   height: 70vh;
+   height: calc(70vh);
    overflow-y: scroll;
    display: flex;
    flex-direction: column;
