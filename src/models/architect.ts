@@ -9,7 +9,7 @@ interface ArchitectModel extends Model<Architect> {
    findAllByLineTier: (tier: string) => Promise<Architect[]>;
    findAllByInput: (input: string) => Promise<Architect[]>;
    findOneByMinecraftId: (minecraft_id: string) => Promise<Architect[]>;
-   findOneAndPushToPortfolio: (minecraft_id: string, payload: Architect) => Promise<void>;
+   findOneAndPushToPortfolio: (minecraft_id: string, payload: Architect['portfolio']['noobProHacker'][0]) => Promise<void>;
    findOneByMinecraftIdAndUpdate: (
       originalId: string,
       minecraft_id: string,
@@ -175,7 +175,7 @@ architectSchema.statics.findOneByMinecraftId = function (minecraft_id: string) {
    return this.findOne({ minecraft_id });
 };
 
-architectSchema.statics.findOneAndPushToPortfolio = function (minecraft_id: string, payload) {
+architectSchema.statics.findOneAndPushToPortfolio = function (minecraft_id: string, payload: Architect['portfolio']['noobProHacker'][0]) {
    return this.findOneAndUpdate(
       { minecraft_id },
       {

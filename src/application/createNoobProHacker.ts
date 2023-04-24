@@ -12,6 +12,7 @@ import {
    searchInputState,
 } from '@/services/store/noobProHacker';
 import { useMutationNoobProHacker } from '@/services/noobProHackerAdapters';
+import { toast } from 'react-hot-toast';
 
 const replaceItemAtIndex = (arr: NoobProHacker['lineInfo'], index: number, newValue: NoobProHacker['lineInfo'][0]) => {
    return [...arr.slice(0, index), newValue, ...arr.slice(index + 1)];
@@ -136,6 +137,8 @@ export const useCreateLineInfo = () => {
 
             setLineInfo(newArr);
          }
+      } else {
+         toast.error('빈 입력 창이 있습니다.');
       }
    };
 
@@ -162,18 +165,20 @@ export const useCreateNoobProHacker = () => {
    const addNoobProHacker = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       e.preventDefault();
 
+      console.log(lineInfo);
+
       if (!checkEmptyInDeepObject(contentInfo)) {
-         console.log('컨텐츠 미완성');
+         toast.error('컨텐츠 입력 폼에 빈 값이 있습니다.');
          return;
       }
 
       if (lineInfo.length < 5) {
-         console.log('라인 부족');
+         toast.error('컨텐츠 입력 폼에 빈 값이 있습니다.');
          return;
       }
 
-      if (checkEmptyInDeepObject(lineInfo[4])) {
-         console.log('라인: 5 미완성');
+      if (!checkEmptyInDeepObject(lineInfo[4])) {
+         toast.error('5번째 라인이 완성되지 않았습니다.');
          return;
       }
 

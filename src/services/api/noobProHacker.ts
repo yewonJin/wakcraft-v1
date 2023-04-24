@@ -6,7 +6,7 @@ export const addNoobProHacker = async (body: NoobProHacker) => {
 
    try {
       const response = await (
-         await fetch(`http://localhost:3000/api/noobProHackers`, {
+         await fetch(`/api/noobProHacker`, {
             method: 'POST',
             body: JSON.stringify(body),
             headers: myHeaders,
