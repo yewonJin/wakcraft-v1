@@ -5,7 +5,7 @@ import { useCreateLineInfo } from '@/application/createNoobProHacker';
 const LineList = styled.ul`
    height: 80px;
    padding: 5px 5px;
-   background-color: #cacaca;
+   border: 1px solid #cacaca;
    display: flex;
    gap: 10px;
 `;
@@ -14,7 +14,7 @@ const LineItem = styled.li`
    width: 20%;
    text-align: center;
    padding: 25px 20px;
-   background-color: white;
+   background-color: #cacaca;
    list-style: none;
    :hover {
       cursor: pointer;

@@ -4,6 +4,7 @@ import TextBox from '@/components/Common/TextBox';
 import InputBox from '@/components/Common/InputBox';
 import { useCreateLineInfo } from '@/application/createNoobProHacker';
 import { translateTier } from '@/utils/lib';
+import { Button } from '@/components/Common/Button';
 
 const Layout = styled.div`
    width: calc(100% - 350px);
@@ -12,11 +13,12 @@ const Layout = styled.div`
    gap: 15px;
    padding: 15px;
    box-sizing: border-box;
-   background-color: #cacaca;
+   border: 1px solid #cacaca;
 `;
 
 const Container = styled.div`
    display: flex;
+   justify-content: space-between;
    gap: 20px;
 `;
 
@@ -37,7 +39,7 @@ const LineItem = styled.li`
    padding: 20px;
    list-style: none;
    max-height: 33%;
-   background-color: white;
+   background-color: #ddd;
    display: flex;
    flex-direction: column;
    gap: 15px;
@@ -65,36 +67,51 @@ export function AddLineDetails() {
       <Layout>
          <Container>
             <Wrapper>
-               <TextBox text="라인 주제" fontSize="18px" lineHeight="26px" />
                <InputBox
                   type="text"
                   onChange={handleChange}
                   value={lineInfo[curLineIndex].subject}
                   name="subject"
-                  width="120px"
+                  width="150px"
+                  height="40px"
+                  placeholder="라인 주제"
+                  border="none"
+                  borderBottom="1px solid #cacaca"
                />
             </Wrapper>
             <Wrapper>
-               <TextBox text="라인 랭킹" fontSize="18px" lineHeight="26px" />
                <InputBox
                   onChange={handleChange}
                   value={lineInfo[curLineIndex].line_ranking}
                   name="line_ranking"
                   type="number"
-                  width="120px"
+                  width="100px"
+                  height="40px"
+                  placeholder="라인 랭킹"
+                  border="none"
+                  borderBottom="1px solid #cacaca"
                />
             </Wrapper>
             <Wrapper>
-               <TextBox text="유튜브 링크" fontSize="18px" lineHeight="26px" />
                <InputBox
                   onChange={handleChange}
                   value={lineInfo[curLineIndex].youtube_url}
                   name="youtube_url"
                   type="string"
-                  width="120px"
+                  width="250px"
+                  height="40px"
+                  placeholder="유튜브 링크"
+                  border="none"
+                  borderBottom="1px solid #cacaca"
                />
             </Wrapper>
-            <button onClick={resetLineInfo}>라인 삭제</button>
+            <Button
+               text="라인 초기화"
+               padding="10px 23px"
+               onClick={resetLineInfo}
+               backgroundColor="#797979"
+               hoverBackgroundColor="#474747"
+            ></Button>
          </Container>
          <LineList>
             {lineArr.map(item => (
@@ -113,7 +130,7 @@ export function AddLineDetails() {
                   </Wrapper>
                   <LineInfoBox>
                      <Wrapper flexDirection="column">
-                        <TextBox text="이미지 링크" fontSize="18px" lineHeight="26px" />
+                        <TextBox text="개인 이미지 링크" fontSize="18px" lineHeight="26px" />
                         <InputBox
                            type="text"
                            onChange={e => handleChange(e, item)}
@@ -123,7 +140,7 @@ export function AddLineDetails() {
                         />
                      </Wrapper>
                      <Wrapper flexDirection="column">
-                        <TextBox text="유튜브" fontSize="18px" lineHeight="26px" />
+                        <TextBox text="개인 유튜브 링크" fontSize="18px" lineHeight="26px" />
                         <InputBox
                            type="text"
                            onChange={e => handleChange(e, item)}
@@ -146,7 +163,12 @@ export function AddLineDetails() {
                </LineItem>
             ))}
          </LineList>
-         <button onClick={addLineInfo}>제출하기</button>
+         <Button
+            text="라인 추가"
+            onClick={addLineInfo}
+            backgroundColor="#797979"
+            hoverBackgroundColor="#474747"
+         ></Button>
       </Layout>
    );
 }

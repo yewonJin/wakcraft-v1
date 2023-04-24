@@ -5,6 +5,7 @@ import TextBox from '@/components/Common/TextBox';
 import InputBox from '@/components/Common/InputBox';
 import { useCreateArchitect } from '@/application/createArchitect';
 import { createTierArray } from '@/domain/architect';
+import { Button } from '@/components/Common/Button';
 
 const Layout = styled.div`
    display: flex;
@@ -18,6 +19,7 @@ const Wrapper = styled.div`
    height: 60px;
 `;
 
+
 export function AddArchitect() {
    const { architectInfo, handleChange, addArchitect } = useCreateArchitect();
 
@@ -25,27 +27,27 @@ export function AddArchitect() {
       <Fragment>
          <Layout>
             <Wrapper>
-               <TextBox text={'마크 id'} />
+               <TextBox text={'마크 아이디'} />
                <InputBox
                   type="text"
                   name="minecraft_id"
                   value={architectInfo.minecraft_id}
                   onChange={handleChange}
-                  width="90px"
+                  width="100px"
                   height="25px"
-                  border="1px solid #313131"
+                  border="1px solid #cacaca"
                />
             </Wrapper>
             <Wrapper>
-               <TextBox text={'왁물원 id'} />
+               <TextBox text={'왁물원 아이디'} />
                <InputBox
                   type="text"
                   name="wakzoo_id"
                   value={architectInfo.wakzoo_id}
                   onChange={handleChange}
-                  width="90px"
+                  width="100px"
                   height="25px"
-                  border="1px solid #313131"
+                  border="1px solid #cacaca"
                />
             </Wrapper>
             <Wrapper>
@@ -60,7 +62,7 @@ export function AddArchitect() {
                   })}
                </select>
             </Wrapper>
-            <button onClick={addArchitect}>추가</button>
+            <Button text="추가" onClick={addArchitect} padding="12px 10px" fontSize="14px"></Button>
          </Layout>
       </Fragment>
    );

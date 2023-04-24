@@ -12,11 +12,12 @@ const Layout = styled.div`
    flex-direction: column;
    gap: 10px;
    padding: 10px;
-   background-color: #cacaca;
+   background-color: white;
+   border: 1px solid #cacaca;
 `;
 
 const ArchitectList = styled.ul`
-   height: 50vh;
+   height: 600px;
    overflow-y: scroll;
    display: flex;
    flex-direction: column;
@@ -41,10 +42,12 @@ const ArchitectList = styled.ul`
 
 const ArchitectItem = styled.li`
    list-style: none;
-   padding: 0px 20px;
+   margin: 0px 5px;
+   padding: 0px 10px;
+   padding-bottom: 3px;
+   border-bottom: 1px solid #ddd;
    :hover {
       cursor: pointer;
-      background-color: white;
    }
 `;
 
@@ -64,9 +67,8 @@ export function SearchArchitect() {
             onChange={handleChange}
             width="100%"
             height="40px"
-            borderRadius="15px"
             textAlign="center"
-            border="0px"
+            border="1px solid #cacaca"
             placeholder="건축가 검색"
          />
          <ArchitectList>

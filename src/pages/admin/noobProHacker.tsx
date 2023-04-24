@@ -3,30 +3,37 @@ import styled from 'styled-components';
 
 import { AddLineDetails } from '@/components/Admin/noobProHacker/AddLineDetails';
 import { NoobProHackerLineInfo } from '@/components/Admin/noobProHacker/NoobProHackerLineInfo';
-import { NoobProHackerForm } from '@/components/Admin/noobProHacker/NoobProHackerForm';
 import { SearchArchitect } from '@/components/Admin/noobProHacker/SearchArchitect';
 import { useCreateLineInfo } from '@/application/createNoobProHacker';
 import TextBox from '@/components/Common/TextBox';
 import { AddNoobProHackerInfo } from '@/components/Admin/noobProHacker/AddNoobProHackerInfo';
+import { CommonLayout } from '@/components/Common/CommonLayout';
 
 const Container = styled.div`
    display: flex;
    gap: 20px;
 `;
 
-const Layout = styled.div`
-   width: 1300px;
-   margin: 0px auto;
-   padding-top: 110px;
+const Form = styled.form`
+   display: flex;
+   flex-direction: column;
+   gap: 20px;
+`;
+
+const Wrapper = styled.div`
+   display: flex;
+   justify-content: space-between;
 `;
 
 export default function NoobProhacker() {
    const { lineInfo, curLineIndex } = useCreateLineInfo();
 
    return (
-      <Layout>
-         <NoobProHackerForm>
-            <TextBox text="눕프로해커" fontSize="28px" lineHeight="42px" fontWeight="500" margin="0px 0px 10px 0px" />
+      <CommonLayout>
+         <Form>
+            <Wrapper>
+               <TextBox text="눕프로해커" fontSize="28px" lineHeight="42px" fontWeight="500" margin="0px 0px 5px 0px" />
+            </Wrapper>
             <AddNoobProHackerInfo />
             <NoobProHackerLineInfo />
             <Container>
@@ -35,7 +42,7 @@ export default function NoobProhacker() {
                </Suspense>
                {lineInfo[curLineIndex] && <AddLineDetails />}
             </Container>
-         </NoobProHackerForm>
-      </Layout>
+         </Form>
+      </CommonLayout>
    );
 }

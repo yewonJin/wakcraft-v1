@@ -1,27 +1,40 @@
 import Link from 'next/link';
 import styled from 'styled-components';
 
-const Container = styled.div`
-   width: 1200px;
-   margin: 0px auto;
-   padding-top: 100px;
+import { CommonLayout } from '@/components/Common/CommonLayout';
+import TextBox from '@/components/Common/TextBox';
+
+const List = styled.ul`
+   display: flex;
+   gap: 20px;
+   margin-top: 20px;
+
+   > a > li {
+      list-style: none;
+      font-size: 20px;
+      padding: 0px 20px;
+   }
 `;
 
-export default function Index({ login }: { login: string }) {
+const Divider = styled.span`
+   width: 1px;
+   height: 30px;
+   background-color: #cacaca;
+`
+
+export default function Index() {
    return (
-      <Container>
-         <h2>Admin 페이지</h2>
-         <ul>
+      <CommonLayout>
+         <TextBox text="어드민 페이지" fontSize="24px" lineHeight="36px" fontWeight="500"/>
+         <List>
             <Link href={'/admin/architect'}>
-               <li>Architect</li>
+               <li>건축가</li>
             </Link>
+            <Divider />
             <Link href={'/admin/noobProHacker'}>
-               <li>NoobProHacker</li>
+               <li>눕프핵</li>
             </Link>
-            <Link href={'/admin/placementTest'}>
-               <li>PlacementTest</li>
-            </Link>
-         </ul>
-      </Container>
+         </List>
+      </CommonLayout>
    );
 }
