@@ -24,7 +24,6 @@ export function AddArchitect() {
 
    return (
       <Fragment>
-         <Toaster />
          <Layout>
             <Wrapper>
                <TextBox text={'마크 id'} />

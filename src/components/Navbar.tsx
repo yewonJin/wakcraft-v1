@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { Toaster } from 'react-hot-toast';
 import styled from 'styled-components';
 
 const Container = styled.nav`
@@ -29,6 +30,7 @@ const SubContainer = styled.div`
 export default function NavBar() {
    return (
       <Container>
+         <Toaster />
          <SubContainer>
             <Title>
                <Link href={'/'}>WAKCRAFT</Link>

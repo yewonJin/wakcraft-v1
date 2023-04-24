@@ -8,7 +8,7 @@ export const useMutationLogin = () => {
          toast.error(err.message);
       },
       onSuccess() {
-         toast.loading('로그인중');
+         toast.success('로그인');
       },
    });
 

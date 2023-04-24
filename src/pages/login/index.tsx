@@ -35,7 +35,6 @@ export default function Login() {
 
    return (
       <CommonLayout>
-         <Toaster />
          <Form onSubmit={handleClick}>
             <TextBox text="어드민 페이지" fontSize="24px" fontWeight="500" lineHeight="36px" />
             <InputBox
