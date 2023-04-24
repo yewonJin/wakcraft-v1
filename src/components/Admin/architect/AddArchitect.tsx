@@ -5,7 +5,6 @@ import TextBox from '@/components/Common/TextBox';
 import InputBox from '@/components/Common/InputBox';
 import { useCreateArchitect } from '@/application/createArchitect';
 import { createTierArray } from '@/domain/architect';
-import { Toaster } from 'react-hot-toast';
 
 const Layout = styled.div`
    display: flex;

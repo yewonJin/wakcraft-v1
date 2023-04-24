@@ -1,7 +1,7 @@
 import { Schema, Model, model, models } from 'mongoose';
 import { fuzzySearchRegExp } from '@/utils/fuzzySearch';
 import { Architect, createTierArray } from '@/domain/architect';
-import { convertLineTierToTier } from '@/controller/architect';
+import { convertLineTierToTier } from '@/utils/lib';
 
 interface ArchitectModel extends Model<Architect> {
    findAll: () => Promise<Architect[]>;

@@ -1,5 +1,6 @@
-import { useCreateLineInfo } from '@/application/createNoobProHacker';
 import styled from 'styled-components';
+
+import { useCreateLineInfo } from '@/application/createNoobProHacker';
 
 const LineList = styled.ul`
    height: 80px;

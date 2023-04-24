@@ -1,11 +1,9 @@
-import { useState, ChangeEvent } from 'react';
 import styled from 'styled-components';
 
 import InputBox from '@/components/Common/InputBox';
 import TextBox from '@/components/Common/TextBox';
 import { SearchArchitect } from '@/components/Search/SearchArchitect';
 import { createTierArray } from '@/domain/architect';
-import { useMutationUpdateArchitect } from '@/services/architectAdapters';
 import { useUpdateArchitect } from '@/application/updateArchitect';
 
 const Layout = styled.div`

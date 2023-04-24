@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient, UseQueryResult } from 'react-query';
 import { useRouter } from 'next/router';
+import { toast } from 'react-hot-toast';
 
 import { Architect } from '@/domain/architect';
 import {
@@ -9,7 +10,6 @@ import {
    getArchitectsWithoutPortfolio,
    updateArchitect,
 } from './api/architect';
-import { toast } from 'react-hot-toast';
 
 export const useQueryArchitect = () => {
    const { data: result }: UseQueryResult<Architect> = useQuery('architect', getArchitects);

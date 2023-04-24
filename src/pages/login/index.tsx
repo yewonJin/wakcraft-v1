@@ -1,7 +1,6 @@
 import { useRouter } from 'next/router';
 import { getCookie } from 'cookies-next';
 import styled from 'styled-components';
-import toast, { Toaster } from 'react-hot-toast';
 
 import { CommonLayout } from '@/components/Common/CommonLayout';
 import InputBox from '@/components/Common/InputBox';

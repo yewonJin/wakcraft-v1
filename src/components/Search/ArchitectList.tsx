@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import styled from 'styled-components';
 
-import { Architect, participationCount, winnerCount } from '@/domain/architect';
+import { participationCount, winnerCount } from '@/domain/architect';
 import { useShowArchitect } from '@/application/showArchitect';
 
 const Layout = styled.ul`
