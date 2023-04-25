@@ -3,7 +3,7 @@ import styled from 'styled-components';
 const Container = styled.div`
    width: 1200px;
    margin: 0px auto;
-   padding-top: 110px;
+   padding-top: 130px;
 `;
 
 export function CommonLayout({ children }: { children: React.ReactNode }) {

@@ -19,7 +19,7 @@ const Title = styled.h2`
 `;
 
 const SubContainer = styled.div`
-   width: 1058px;
+   width: 1200px;
    margin: 0px auto;
    display: flex;
 

@@ -10,7 +10,7 @@ import { convertLineTierToTier, translateTier } from '@/utils/lib';
 import { SearchArchitectWithProps } from '@/components/Search/SearchArchitectWithProps';
 
 const Layout = styled.div`
-   width: 1000px;
+   width: 1200px;
    margin: 0px auto;
    padding-top: 130px;
 `;
@@ -19,6 +19,7 @@ const Nav = styled.nav`
    display: flex;
    align-items: center;
    justify-content: space-between;
+   width: 1000px;
 `;
 
 const TableHeader = styled.ul`

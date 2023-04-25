@@ -1,7 +1,9 @@
-import TextBox from '@/components/Common/TextBox';
 import Head from 'next/head';
 import Image from 'next/image';
 import styled from 'styled-components';
+
+import TextBox from '@/components/Common/TextBox';
+import bg from '../../public/background1.png';
 import hacker from '../../public/Naruto-hacker.png';
 import pro from '../../public/Naruto-noob.png';
 import noob from '../../public/Naruto-pro.png';
@@ -17,8 +19,8 @@ const SubContainer = styled.div`
    width: 100%;
    height: 100vh;
    display: flex;
-   align-items: center;
    justify-content: center;
+   align-items: center;
    flex-direction: column;
    box-sizing: border-box;
 `;
@@ -31,7 +33,6 @@ const BackgroundImage = styled.div`
    left: 0px;
    z-index: -1;
    background-color: rgba(0, 0, 0, 0.6);
-   background-image: url('./background1.png');
    background-size: cover;
    filter: blur(2px);
    background-blend-mode: darken;
@@ -40,7 +41,7 @@ const BackgroundImage = styled.div`
 const TopContainer = styled.div`
    display: flex;
    flex-direction: column;
-   width: 1058px;
+   width: 1200px;
    padding-bottom: 0px;
    color: white;
 `;
@@ -58,26 +59,19 @@ const Category = styled.ul`
       list-style: none;
       font-size: 18px;
       color: #ddd;
-   }
-
-   > li:first-child {
-      color: white;
-      text-decoration: underline;
-      text-underline-offset: 10px;
-      text-decoration-color: #b84040;
+      padding-bottom: 3px;
    }
 `;
 
 const MainContainer = styled.div`
    display: flex;
    align-items: center;
+   justify-content: space-between;
    box-sizing: border-box;
-   gap: 49px;
+   width: 1200px;
 
    > div {
       padding-bottom: 20px;
-      backdrop-filter: blur(5px);
-
       > img:hover {
          cursor: pointer;
          scale: 1.02;
@@ -123,7 +117,7 @@ const BBox = styled.ul`
    }
 
    > li:nth-child(2) {
-      color: #646464;
+      color: #aaa;
       font-size: 16px;
    }
 `;
@@ -138,7 +132,7 @@ export default function Home() {
             <link rel="icon" href="/favicon.ico" />
          </Head>
          <Container>
-            <BackgroundImage />
+            <BackgroundImage style={{ backgroundImage: `url(${bg.src})` }} />
             <SubContainer>
                <TopContainer>
                   <TextBox
@@ -166,7 +160,7 @@ export default function Home() {
                </TopContainer>
                <MainContainer>
                   <div>
-                     <Image src={noob} width={320} alt="noob" />
+                     <Image src={noob} width={350} alt="noob" />
                      <ContentContainer>
                         <Content>
                            <BBox>
@@ -177,7 +171,7 @@ export default function Home() {
                      </ContentContainer>
                   </div>
                   <div>
-                     <Image src={pro} width={320} alt="noob" />
+                     <Image src={pro} width={350} alt="noob" />
                      <ContentContainer>
                         <Content>
                            <BBox>
@@ -188,7 +182,7 @@ export default function Home() {
                      </ContentContainer>
                   </div>
                   <div>
-                     <Image src={hacker} width={320} alt="noob" />
+                     <Image src={hacker} width={350} alt="noob" />
                      <ContentContainer>
                         <Content>
                            <BBox>
