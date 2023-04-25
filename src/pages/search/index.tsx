@@ -10,6 +10,9 @@ import { convertLineTierToTier, translateTier } from '@/utils/lib';
 import { SearchArchitectWithProps } from '@/components/Search/SearchArchitectWithProps';
 
 const Layout = styled.div`
+   display: flex;
+   flex-direction: column;
+   align-items: center;
    width: 1200px;
    margin: 0px auto;
    padding-top: 130px;
