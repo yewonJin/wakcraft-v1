@@ -1,26 +1,16 @@
-export const getArchitectById = async (id: string) => {
-   const response = await (await fetch(`/api/architect/${id}`)).json();
+import { handleFetchData } from '../../utils/handleFetchData';
 
-   return response;
+export const getArchitectById = async (id: string) => {
+   return await fetch(`/api/architect/${id}`).then(handleFetchData);
 };
 
 export const getArchitects = async () => {
-   const response = await (await fetch(`/api/architect`)).json();
-   return response;
+   return await fetch(`/api/architect`).then(handleFetchData);
 };
 
 export const getArchitectByTier = async (tier: string) => {
    try {
-      const response = await (
-         await fetch(`/api/architect?tier=${tier}`).then(response => {
-            if (!response.ok) {
-               throw new Error(`${response.status} 에러가 발생했습니다. `);
-            }
-            return response;
-         })
-      ).json();
-
-      return response;
+      return await fetch(`/api/architect?tier=${tier}`).then(handleFetchData);
    } catch (e) {
       console.error(e);
    }
@@ -30,24 +20,14 @@ export const getArchitectByFuzzySearch = async (search: string) => {
    if (!search) return;
 
    try {
-      const response = await (
-         await fetch(`/api/architect?search=${search}`).then(response => {
-            if (!response.ok) {
-               throw new Error(`${response.status} 에러가 발생했습니다. `);
-            }
-            return response;
-         })
-      ).json();
-
-      return response;
+      return await fetch(`/api/architect?search=${search}`).then(handleFetchData);
    } catch (e) {
       console.error(e);
    }
 };
 
 export const getArchitectsWithoutPortfolio = async () => {
-   const response = await (await fetch(`/api/architect?portfolio=false`)).json();
-   return response;
+   return await fetch(`/api/architect?portfolio=false`).then(handleFetchData);
 };
 
 export const addArchitects = async (body: object) => {
@@ -55,17 +35,13 @@ export const addArchitects = async (body: object) => {
    myHeaders.append('Content-Type', 'application/json');
 
    try {
-      const response = await (
-         await fetch(`/api/architect`, {
-            method: 'POST',
-            body: JSON.stringify(body),
-            headers: myHeaders,
-         })
-      ).json();
-
-      return response;
-   } catch (e) {
-      console.log(e);
+      return await fetch(`/api/architect`, {
+         method: 'POST',
+         body: JSON.stringify(body),
+         headers: myHeaders,
+      }).then(handleFetchData);
+   } catch (error) {
+      throw error;
    }
 };
 
@@ -74,15 +50,11 @@ export const updateArchitect = async (body: object) => {
    myHeaders.append('Content-Type', 'application/json');
 
    try {
-      const response = await (
-         await fetch(`/api/architect`, {
-            method: 'PATCH',
-            body: JSON.stringify(body),
-            headers: myHeaders,
-         })
-      ).json();
-
-      return response;
+      return await fetch(`/api/architect`, {
+         method: 'PATCH',
+         body: JSON.stringify(body),
+         headers: myHeaders,
+      }).then(handleFetchData);
    } catch (e) {
       console.log(e);
    }

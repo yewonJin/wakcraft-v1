@@ -44,12 +44,13 @@ export const useMutationArchitect = () => {
    var myHeaders = new Headers();
    myHeaders.append('Content-Type', 'application/json');
 
-   const { mutate } = useMutation((body: any) => addArchitects(body), {
-      onSuccess: () => {
-         toast.success('건축가 추가')
-         queryClient.invalidateQueries('architectWithoutPortfolio');
-      },
-   });
+   const { mutate } = useMutation((body: any) =>
+      toast.promise(addArchitects(body), {
+         loading: '추가중',
+         success: '건축가 추가',
+         error: err => err.message,
+      }),
+   );
 
    return { mutate };
 };
@@ -60,13 +61,20 @@ export const useMutationUpdateArchitect = () => {
    var myHeaders = new Headers();
    myHeaders.append('Content-Type', 'application/json');
 
-   const mutation = useMutation((body: any) => updateArchitect(body), {
-      onSuccess: () => {
-         queryClient.invalidateQueries('architectWithoutPortfolio');
-         queryClient.invalidateQueries('architectByfuzzySearch');
-
+   const mutation = useMutation(
+      (body: any) =>
+         toast.promise(updateArchitect(body), {
+            loading: '수정 중',
+            success: '수정 완료',
+            error: err => err.message,
+         }),
+      {
+         onSuccess: () => {
+            queryClient.invalidateQueries('architectWithoutPortfolio');
+            queryClient.invalidateQueries('architectByfuzzySearch');
+         },
       },
-   });
+   );
 
    return mutation;
 };

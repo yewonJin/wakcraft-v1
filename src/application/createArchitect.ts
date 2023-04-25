@@ -4,11 +4,12 @@ import { useRecoilState } from 'recoil';
 import { checkEmptyInDeepObject } from '@/utils/lib';
 import { architectContentInfoState } from '@/services/store/architect';
 import { useMutationArchitect } from '@/services/architectAdapters';
+import { toast } from 'react-hot-toast';
 
 export const useCreateArchitect = () => {
    const [architectInfo, setArchitectInfo] = useRecoilState(architectContentInfoState);
 
-   const {mutate} = useMutationArchitect();
+   const { mutate } = useMutationArchitect();
 
    const handleChange = (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>) => {
       setArchitectInfo(prev => {
@@ -28,6 +29,8 @@ export const useCreateArchitect = () => {
             };
          });
          mutate(architectInfo);
+      } else {
+         toast.error('빈 입력 창이 있습니다.')
       }
    };
 

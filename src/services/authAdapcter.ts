@@ -8,9 +8,7 @@ export const useMutationLogin = () => {
       toast.promise(login(body), {
          loading: '로그인 중',
          success: '로그인 성공',
-         error: err => {
-            return err.toString();
-         },
+         error: err => err.message,
       }),
    );
 
