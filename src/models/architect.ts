@@ -8,7 +8,7 @@ interface ArchitectModel extends Model<Architect> {
    findAllWithoutPortfolio: () => Promise<Exclude<Architect[], 'portfolio'>>;
    findAllByLineTier: (tier: string) => Promise<Architect[]>;
    findAllByInput: (input: string) => Promise<Architect[]>;
-   findOneByMinecraftId: (minecraft_id: string) => Promise<Architect[]>;
+   findOneByMinecraftId: (minecraft_id: string) => Promise<Architect>;
    findOneAndPushToPortfolio: (
       minecraft_id: string,
       payload: Architect['portfolio']['noobProHacker'][0],

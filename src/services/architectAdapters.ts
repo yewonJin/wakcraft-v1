@@ -22,8 +22,12 @@ export const useQueryArchitectById = () => {
 
    const { id } = router.query;
 
-   const { data: result }: UseQueryResult<Architect> = useQuery(['architectById', id], () =>
-      getArchitectById(id as string),
+   const { data: result }: UseQueryResult<Architect> = useQuery(
+      ['architectById', id],
+      () => getArchitectById(id as string),
+      {
+         refetchOnWindowFocus: false,
+      },
    );
 
    return result;

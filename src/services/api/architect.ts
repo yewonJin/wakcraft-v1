@@ -1,7 +1,7 @@
 import { handleFetchData } from '../../utils/handleFetchData';
 
 export const getArchitectById = async (id: string) => {
-   return await fetch(`/api/architect/${id}`).then(handleFetchData);
+   return await fetch(`/api/architect?id=${id}`).then(handleFetchData);
 };
 
 export const getArchitects = async () => {

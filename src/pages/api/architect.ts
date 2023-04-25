@@ -34,6 +34,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                   res.json(architects);
                })
                .catch(err => res.status(500).send(err));
+         } else if (req.query.id) {
+            await Architect.findOneByMinecraftId(req.query.id as string)
+               .then(architects => {
+                  if (!architects) return res.status(404).send({ err: 'architects not found' });
+                  res.json(architects);
+               })
+               .catch(err => res.status(500).send(err));
          } else if (req.query.search) {
             await Architect.findAllByInput(req.query.search as string)
                .then(architects => {

@@ -22,13 +22,15 @@ const ProfileImage = styled.span`
 export default function Page() {
    const data = useQueryArchitectById();
 
-   if (!data) return <div>no data</div>;
+   if (!data) return <CommonLayout>로딩중...</CommonLayout>;
+
+   console.log(data);
 
    return (
       <CommonLayout>
          <ProfileBox>
             <ProfileImage />
-            <TextBox text={data.minecraft_id} fontSize="20px" lineHeight="28px"/>
+            <TextBox text={data.minecraft_id} fontSize="20px" lineHeight="28px" />
          </ProfileBox>
          <Portfolio info={data} />
       </CommonLayout>

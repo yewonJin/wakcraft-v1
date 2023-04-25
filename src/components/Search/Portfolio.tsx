@@ -1,11 +1,8 @@
 import Image from 'next/image';
 import styled from 'styled-components';
-import thumbnail1 from '../../../public/thumbnail.png';
-import hacker from '../../../public/Naruto-hacker.png';
-import noob from '../../../public/misfortune-noob.png';
 
-import thumbnail2 from '../../../public/thumbnail2.png';
-import thumbnail3 from '../../../public/thumbnail3.png';
+import thumbnail from '../../../public/thumbnail.png';
+
 import { translateTier } from '@/utils/lib';
 import { Architect } from '@/domain/architect';
 
@@ -105,7 +102,7 @@ export default function Portfolio({ info }: { info: Architect }) {
             {info.portfolio.noobProHacker.map((item, index) => {
                return (
                   <Box key={'noobProHacker_' + index}>
-                     <Image alt="hi" src={noob} />
+                     <Image alt="hi" src={thumbnail} />
                      <ContentContainer>
                         <TierBox>{translateTier(item.line)}</TierBox>
                         <Content>
