@@ -2,10 +2,13 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { setCookie } from 'cookies-next';
 
 import Admin from '@/models/admin';
+import connectMongo from '@/utils/connectMongo';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
    if (req.method === 'POST') {
       const { username, password } = req.body;
+
+      await connectMongo();
 
       try {
          const admin = await Admin.findByUsername(username);
@@ -26,7 +29,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
          res.status(200).json({ username: admin.username });
       } catch (e) {
-         res.send(e);
+         res.send({ error: e });
       }
    }
 }

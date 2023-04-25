@@ -6,6 +6,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
    if (req.method === 'POST') {
       const { minecraft_id, wakzoo_id } = req.body;
 
+      await connectMongo();
+
       try {
          if (await Architect.exists({ minecraft_id: minecraft_id })) {
             return res.status(401).send({ error: '이미 존재하는 마크 아이디 입니다.' });
@@ -60,6 +62,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
    } else if (req.method === 'PATCH') {
       try {
          const { originalId, minecraft_id, wakzoo_id, tier } = req.body;
+
+         await connectMongo();
 
          await Architect.findOneByMinecraftIdAndUpdate(originalId, minecraft_id, wakzoo_id, tier)
             .then(architect => res.json(architect))
