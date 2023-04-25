@@ -30,10 +30,10 @@ const BackgroundImage = styled.div`
    top: 0px;
    left: 0px;
    z-index: -1;
-   background-color: rgba(0, 0, 0, 0.5);
-   background-image: url('./thumbnail2.png');
+   background-color: rgba(0, 0, 0, 0.6);
+   background-image: url('./background1.png');
    background-size: cover;
-   filter: blur(3px);
+   filter: blur(2px);
    background-blend-mode: darken;
 `;
 
