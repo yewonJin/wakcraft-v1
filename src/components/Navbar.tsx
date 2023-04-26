@@ -65,7 +65,7 @@ export default function NavBar() {
                   <Link href={'/'}>WAKCRAFT</Link>
                </Title>
                <Link href={'/'}>눕프로해커</Link>
-               <Link href={'/search'}>건축가</Link>
+               <Link href={'/architect'}>건축가</Link>
                <Link href="/tier">티어</Link>
             </SubContainer>
          </Container>
@@ -79,7 +79,7 @@ export default function NavBar() {
                   <Link href={'/'}>WAKCRAFT</Link>
                </Title>
                <Link href={'/'}>눕프로해커</Link>
-               <Link href={'/search'}>건축가</Link>
+               <Link href={'/architect'}>건축가</Link>
                <Link href="/tier">티어</Link>
             </SubContainer>
          </Container>

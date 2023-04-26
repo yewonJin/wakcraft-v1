@@ -150,7 +150,7 @@ export default function Search({ architects }: InferGetStaticPropsType<typeof ge
                .filter(item => convertLineTierToTier(curTier).includes(item.tier[0]))
                .map((item, _) => {
                   return (
-                     <Link key={item.wakzoo_id} href={`/search/${item.minecraft_id}`}>
+                     <Link key={item.wakzoo_id} href={`/architect/${item.minecraft_id}`}>
                         <li>
                            <span>{item.tier[0]}</span>
                            <span>{item.minecraft_id}</span>
