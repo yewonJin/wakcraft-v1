@@ -1,5 +1,6 @@
 // s3 접근하기 위해 불러옴
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
+import fs from 'fs';
 
 // .env에서 aws 정보 읽어오기
 const awsAccessKey = process.env.MY_AWS_ACCESS_KEY as string;
@@ -17,7 +18,7 @@ const s3 = new S3Client({
 });
 
 // 파일 업로드
-export async function uploadFile(fileBuffer, fileName, mimetype) {
+export async function uploadFile(fileBuffer: fs.ReadStream, fileName: string, mimetype: string) {
    const uploadParams = {
       Bucket: awsS3Bucket,
       Key: fileName,
