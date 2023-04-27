@@ -1,5 +1,6 @@
 import { ChangeEvent } from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { toast } from 'react-hot-toast';
 
 import { createNoobProHackerObject, NoobProHacker } from '@/domain/noobProHacker';
 import { checkEmptyInDeepObject } from '@/utils/lib';
@@ -12,7 +13,6 @@ import {
    searchInputState,
 } from '@/services/store/noobProHacker';
 import { useMutationNoobProHacker } from '@/services/noobProHackerAdapters';
-import { toast } from 'react-hot-toast';
 
 const replaceItemAtIndex = (arr: NoobProHacker['lineInfo'], index: number, newValue: NoobProHacker['lineInfo'][0]) => {
    return [...arr.slice(0, index), newValue, ...arr.slice(index + 1)];
@@ -34,6 +34,7 @@ export const useCreateContentInfo = () => {
 };
 
 export const useCreateLineInfo = () => {
+   const contentInfo = useRecoilValue(contentInfoState);
    const [lineInfo, setLineInfo] = useRecoilState(lineInfoState);
    const [curLineIndex, setCurLineIndex] = useRecoilState(curLineIndexState);
    const [isEmpty, setIsEmpty] = useRecoilState(isEmptyState);
@@ -76,6 +77,50 @@ export const useCreateLineInfo = () => {
          };
          const newArr = replaceItemAtIndex(lineInfo, curLineIndex, newValue);
          setLineInfo(newArr);
+      }
+   };
+
+   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>, line: 'noob' | 'pro' | 'hacker') => {
+      e.preventDefault();
+
+      if (!contentInfo.episode) {
+         toast.error('회차를 입력해주세요');
+         e.target.value = '';
+         return;
+      }
+
+      if (!e.target.files) {
+         toast.error('파일을 제대로 첨부해주세요');
+         return;
+      }
+
+      const formData = new FormData();
+      formData.append('episode', contentInfo.episode.toString());
+      formData.append('file', e.target.files[0]);
+
+      try {
+         const response = await fetch('/api/aws', {
+            method: 'POST',
+            body: formData,
+         });
+
+         const json = await response.json();
+
+         const newValue = {
+            ...lineInfo[curLineIndex],
+            line_details: {
+               ...lineInfo[curLineIndex].line_details,
+               [line]: {
+                  ...lineInfo[curLineIndex].line_details[line],
+                  [e.target.name]: `https://wakcraft.s3.ap-northeast-2.amazonaws.com/${json.imgUrl}`,
+               },
+            },
+         };
+
+         const newArr = replaceItemAtIndex(lineInfo, curLineIndex, newValue);
+         setLineInfo(newArr);
+      } catch (error) {
+         console.error('Error uploading file:', error);
       }
    };
 
@@ -150,6 +195,7 @@ export const useCreateLineInfo = () => {
       searchInput,
       handleSearchInputChange,
       handleLineDetailsChange,
+      handleFileChange,
       addArchitectToLine,
       resetLineInfo,
       addLineInfo,

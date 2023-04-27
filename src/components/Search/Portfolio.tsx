@@ -1,8 +1,6 @@
 import Image from 'next/image';
 import styled from 'styled-components';
 
-import thumbnail from '../../../public/thumbnail.png';
-
 import { translateTier } from '@/utils/lib';
 import { Architect } from '@/domain/architect';
 
@@ -102,7 +100,7 @@ export default function Portfolio({ info }: { info: Architect }) {
             {info.portfolio.noobProHacker.map((item, index) => {
                return (
                   <Box key={'noobProHacker_' + index}>
-                     <Image alt="hi" src={thumbnail} />
+                     <Image alt="noobProHacker image" src={item.image_url} />
                      <ContentContainer>
                         <TierBox>{translateTier(item.line)}</TierBox>
                         <Content>

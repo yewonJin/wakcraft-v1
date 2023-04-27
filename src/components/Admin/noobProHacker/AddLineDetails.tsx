@@ -59,6 +59,7 @@ export function AddLineDetails() {
       lineInfo,
       curLineIndex,
       resetLineInfo,
+      handleFileChange,
       handleLineDetailsChange: handleChange,
       addLineInfo,
    } = useCreateLineInfo();
@@ -131,13 +132,17 @@ export function AddLineDetails() {
                   <LineInfoBox>
                      <Wrapper flexDirection="column">
                         <TextBox text="개인 이미지 링크" fontSize="18px" lineHeight="26px" />
-                        <InputBox
-                           type="text"
-                           onChange={e => handleChange(e, item)}
-                           value={lineInfo[curLineIndex].line_details[item].image_url}
-                           name="image_url"
-                           width="250px"
-                        />
+                        {lineInfo[curLineIndex].line_details[item].image_url ? (
+                           <a href={lineInfo[curLineIndex].line_details[item].image_url}>이미지 주소</a>
+                        ) : (
+                           <InputBox
+                              type="file"
+                              accept="image/*"
+                              onChange={e => handleFileChange(e, item)}
+                              name="image_url"
+                              width="250px"
+                           />
+                        )}
                      </Wrapper>
                      <Wrapper flexDirection="column">
                         <TextBox text="개인 유튜브 링크" fontSize="18px" lineHeight="26px" />

@@ -31,7 +31,7 @@ const Input = styled.input<InputStyleType>`
 type InputBoxType = {
    placeholder?: string;
    name: string;
-   value: string | number;
+   value?: string | number;
    type: HTMLInputTypeAttribute;
    onChange: (e: ChangeEvent<HTMLInputElement>) => void;
    [props: string]: any;

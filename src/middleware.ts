@@ -2,6 +2,8 @@ import { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
 import { jwtVerify } from 'jose';
+import { upload, uploadFile } from './utils/aws';
+import multer from 'multer';
 
 export async function middleware(req: NextRequest) {
    if (req.nextUrl.pathname.startsWith('/admin')) {
