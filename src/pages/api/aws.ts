@@ -2,7 +2,8 @@ import formidable from 'formidable';
 import fs from 'fs';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { uploadFile } from '@/utils/aws';
+import { listObjectsBucketParams, s3, uploadFile } from '@/utils/aws';
+import { GetObjectCommand, ListObjectsCommand } from '@aws-sdk/client-s3';
 
 type Img = {
    size: string;
@@ -23,7 +24,21 @@ type parsedFileData = {
 };
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-   if (req.method === 'POST') {
+   if (req.method === 'GET') {
+      if (req.query.episode) {
+         try {
+            const data = await s3.send(new ListObjectsCommand(listObjectsBucketParams(req.query.episode as string)));
+
+            if (!data.Contents) return res.status(400).send({ error: '해당 object가 없습니다.' });
+
+            return res
+               .status(200)
+               .send(data.Contents.filter(item => item.Key?.split('/')[2] !== '').map(item => item.Key));
+         } catch (e) {
+            console.log(e);
+         }
+      }
+   } else if (req.method === 'POST') {
       try {
          const fileData = await new Promise((resolve, reject) => {
             const form = new formidable.IncomingForm();

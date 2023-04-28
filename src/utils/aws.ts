@@ -9,13 +9,23 @@ const awsS3Bucket = process.env.MY_AWS_S3_BUCKET as string;
 const awsS3BucketRegion = process.env.MY_AWS_S3_BUCKET_REGION as string;
 
 // s3 클라이언트 연결
-const s3 = new S3Client({
+export const s3 = new S3Client({
    credentials: {
       accessKeyId: awsAccessKey,
       secretAccessKey: awsSecretKey,
    },
    region: awsS3BucketRegion,
 });
+
+/** 입력받은 눕프핵 에피소드를 반환하는 옵션  */
+export const listObjectsBucketParams = (episode: string) => {
+   const params = {
+      Bucket: awsS3Bucket,
+      Prefix: `noobProHacker/episode ${episode}/`,
+   };
+
+   return params;
+};
 
 // 파일 업로드
 export async function uploadFile(fileBuffer: fs.ReadStream, fileName: string, mimetype: string) {
