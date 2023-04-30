@@ -1,11 +1,13 @@
 import { Suspense, useState } from 'react';
-import { UseQueryResult, useQuery } from 'react-query';
 import styled from 'styled-components';
 import { RiFolder3Fill } from 'react-icons/ri';
 import { BiArrowBack } from 'react-icons/bi';
 
 import TextBox from '@/components/Common/TextBox';
 import ImageList from './ImageList';
+import AddEpisode from './AddEpisode';
+import { useQueryNoobProHackerDirectory } from '@/services/awsAdapters';
+import UploadFiles from './UploadFiles';
 
 const Layout = styled.div`
    padding: 25px;
@@ -15,8 +17,8 @@ const Layout = styled.div`
    transform: translate(-50%, -50%);
    z-index: 3;
    background-color: rgba(0, 0, 0, 0.8);
-   width: 1200px;
-   height: 800px;
+   width: 800px;
+   height: 600px;
    overflow-y: scroll;
 `;
 
@@ -66,17 +68,9 @@ const Wrapper = styled.div`
 export default function AwsStorage() {
    const [page, setPage] = useState(0);
 
-   const { data }: UseQueryResult<string[]> = useQuery(
-      'getNoobProHackerDirectory',
-      () => fetch('/api/aws').then(res => res.json()),
-      {
-         refetchOnWindowFocus: false,
-      },
-   );
+   const { data } = useQueryNoobProHackerDirectory();
 
    if (!data) return <div></div>;
-
-   console.log(data);
 
    if (page == 0) {
       return (
@@ -96,6 +90,7 @@ export default function AwsStorage() {
                      <TextBox text={item + '화'} color="#ccc" fontSize="18px" lineHeight="26px" />
                   </EpisodeItem>
                ))}
+               <AddEpisode data={data} />
             </EpisodeList>
          </Layout>
       );
@@ -111,6 +106,7 @@ export default function AwsStorage() {
                   lineHeight="36px"
                   color="white"
                />
+               <UploadFiles episode={page.toString()} />
                <BiArrowBack onClick={() => setPage(0)} />
             </Wrapper>
             <Suspense>

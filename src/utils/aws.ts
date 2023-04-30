@@ -44,3 +44,14 @@ export async function uploadFile(fileBuffer: fs.ReadStream, fileName: string, mi
    const res = await s3.send(new PutObjectCommand(uploadParams));
    return res.$metadata.httpStatusCode;
 }
+
+export async function createFolder(fileName: string) {
+   const params = {
+      Bucket: awsS3Bucket,
+      Key: 'noobProHacker/episode ' + fileName + '/',
+      Body: '',
+   };
+
+   const res = await s3.send(new PutObjectCommand(params));
+   return res.$metadata.httpStatusCode;
+}

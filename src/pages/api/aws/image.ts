@@ -37,22 +37,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
          } catch (e) {
             console.log(e);
          }
-      } else {
-         try {
-            const data = await s3.send(new ListObjectsCommand(listObjectsBucketParams()));
-
-            if (!data.Contents) return res.status(400).send({ error: '해당 object가 없습니다.' });
-
-            return res
-               .status(200)
-               .json(
-                  data.Contents.filter(item => item.Key?.split('/')[2] === '').map(
-                     item => item.Key?.split('/')[1].split(' ')[1],
-                  ),
-               );
-         } catch (e) {
-            console.log(e);
-         }
       }
    } else if (req.method === 'POST') {
       try {
@@ -68,18 +52,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
          const parsedFileData = fileData as parsedFileData;
 
-         // fs.createReadStream이용해 스트림 전환 후 올리기
-         const fileBuffer = fs.createReadStream(parsedFileData.files.file.filepath);
-         fileBuffer.on('error', err => console.log(err));
+         Object.values(parsedFileData.files).forEach(async item => {
+            // fs.createReadStream이용해 스트림 전환 후 올리기
+            const fileBuffer = fs.createReadStream(item.filepath);
+            fileBuffer.on('error', err => console.log(err));
 
-         const fileName =
-            `noobProHacker/episode ${parsedFileData.fields.episode}/` + parsedFileData.files.file.originalFilename;
+            const fileName = `noobProHacker/episode ${parsedFileData.fields.episode}/` + item.originalFilename;
 
-         await uploadFile(fileBuffer, fileName, parsedFileData.files.file.mimetype);
+            await uploadFile(fileBuffer, fileName, item.mimetype);
+         });
 
          return res.status(201).json({
             message: 's3 uploading with fs succeeded',
-            imgUrl: fileName,
          });
       } catch (err) {
          return res.status(500).json({ message: 's3 uploading with fs has failed' });

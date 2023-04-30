@@ -1,26 +1,21 @@
+import { useQueryNoobProHackerImages } from '@/services/awsAdapters';
 import Image from 'next/image';
-import { UseQueryResult, useQuery } from 'react-query';
 import styled from 'styled-components';
 
 const List = styled.ul`
    display: grid;
    gap: 15px;
-   grid-template-columns: repeat(3, 1fr);
+   grid-template-columns: repeat(2, 1fr);
 `;
 
 const Item = styled.li`
+   list-style: none;
    position: relative;
    aspect-ratio: 16/9;
 `;
 
 export default function ImageList({ page }: { page: number }) {
-   const { data }: UseQueryResult<string[]> = useQuery(
-      ['getNoobProHackerImages', page],
-      () => fetch(`/api/aws?episode=${page}`).then(res => res.json()),
-      {
-         refetchOnWindowFocus: false,
-      },
-   );
+   const { data } = useQueryNoobProHackerImages(page);
 
    if (!data) return <div>로딩중</div>;
 

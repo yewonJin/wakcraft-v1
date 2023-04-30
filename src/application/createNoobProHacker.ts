@@ -80,49 +80,7 @@ export const useCreateLineInfo = () => {
       }
    };
 
-   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>, line: 'noob' | 'pro' | 'hacker') => {
-      e.preventDefault();
 
-      if (!contentInfo.episode) {
-         toast.error('회차를 입력해주세요');
-         e.target.value = '';
-         return;
-      }
-
-      if (!e.target.files) {
-         toast.error('파일을 제대로 첨부해주세요');
-         return;
-      }
-
-      const formData = new FormData();
-      formData.append('episode', contentInfo.episode.toString());
-      formData.append('file', e.target.files[0]);
-
-      try {
-         const response = await fetch('/api/aws', {
-            method: 'POST',
-            body: formData,
-         });
-
-         const json = await response.json();
-
-         const newValue = {
-            ...lineInfo[curLineIndex],
-            line_details: {
-               ...lineInfo[curLineIndex].line_details,
-               [line]: {
-                  ...lineInfo[curLineIndex].line_details[line],
-                  [e.target.name]: `https://wakcraft.s3.ap-northeast-2.amazonaws.com/${json.imgUrl}`,
-               },
-            },
-         };
-
-         const newArr = replaceItemAtIndex(lineInfo, curLineIndex, newValue);
-         setLineInfo(newArr);
-      } catch (error) {
-         console.error('Error uploading file:', error);
-      }
-   };
 
    /** 검색한 건축가를 라인에 추가하는 함수 */
    const addArchitectToLine = (minecraft_id: string) => {
@@ -195,7 +153,6 @@ export const useCreateLineInfo = () => {
       searchInput,
       handleSearchInputChange,
       handleLineDetailsChange,
-      handleFileChange,
       addArchitectToLine,
       resetLineInfo,
       addLineInfo,
