@@ -8,6 +8,7 @@ import { useCreateLineInfo } from '@/application/createNoobProHacker';
 import TextBox from '@/components/Common/TextBox';
 import { AddNoobProHackerInfo } from '@/components/Admin/noobProHacker/AddNoobProHackerInfo';
 import { CommonLayout } from '@/components/Common/CommonLayout';
+import ImageStorage from '@/components/Admin/noobProHacker/AwsStorage';
 
 const Container = styled.div`
    display: flex;
@@ -37,6 +38,7 @@ export default function NoobProhacker() {
             <AddNoobProHackerInfo />
             <NoobProHackerLineInfo />
             <Container>
+               <ImageStorage />
                <Suspense>
                   <SearchArchitect />
                </Suspense>

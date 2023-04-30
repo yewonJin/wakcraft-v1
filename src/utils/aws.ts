@@ -18,13 +18,18 @@ export const s3 = new S3Client({
 });
 
 /** 입력받은 눕프핵 에피소드를 반환하는 옵션  */
-export const listObjectsBucketParams = (episode: string) => {
-   const params = {
-      Bucket: awsS3Bucket,
-      Prefix: `noobProHacker/episode ${episode}/`,
-   };
-
-   return params;
+export const listObjectsBucketParams = (episode?: string) => {
+   if (!episode) {
+      return {
+         Bucket: awsS3Bucket,
+         Prefix: `noobProHacker/`,
+      };
+   } else {
+      return {
+         Bucket: awsS3Bucket,
+         Prefix: `noobProHacker/episode ${episode}/`,
+      };
+   }
 };
 
 // 파일 업로드
