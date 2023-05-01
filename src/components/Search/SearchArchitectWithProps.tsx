@@ -125,7 +125,7 @@ export function SearchArchitectWithProps({ architects }: PropsType) {
          <List>
             {fuzzySearchAndHighlightResult(architects, input).map(architect => {
                return (
-                  <Link href={`/search/${architect.minecraft_id}`} key={architect.minecraft_id}>
+                  <Link href={`/architect/${architect.minecraft_id}`} key={architect.minecraft_id}>
                      <li>
                         <p>
                            {architect.minecraft_id.split('').map((item, index) => (
