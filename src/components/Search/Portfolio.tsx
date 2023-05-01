@@ -24,13 +24,18 @@ const Wrapper = styled.div`
 `;
 
 const Box = styled.div`
+   position: relative;
    display: flex;
    flex-direction: column;
    gap: 15px;
+`;
+
+const ImageBox = styled.div`
+   position: relative;
+   width: 100%;
+   aspect-ratio: 16/9;
 
    > img {
-      width: 100%;
-      height: 100%;
       border-radius: 15px;
    }
 `;
@@ -100,7 +105,9 @@ export default function Portfolio({ info }: { info: Architect }) {
             {info.portfolio.noobProHacker.map((item, index) => {
                return (
                   <Box key={'noobProHacker_' + index}>
-                     <Image alt="noobProHacker image" src={item.image_url} />
+                     <ImageBox>
+                        <Image fill alt="noobProHacker image" src={item.image_url} />
+                     </ImageBox>
                      <ContentContainer>
                         <TierBox>{translateTier(item.line)}</TierBox>
                         <Content>
@@ -108,8 +115,7 @@ export default function Portfolio({ info }: { info: Architect }) {
                            <h3>{`제 ${item.episode}회 눕프핵`}</h3>
                         </Content>
                         <RankingContanier>
-                           <h3>{'개인 : ' + item.ranking + '위'}</h3>
-                           <h3>{'라인 : ' + item.ranking + '위'}</h3>
+                           <h3>{'개인 : ' + item.ranking + '위'}</h3>                           
                         </RankingContanier>
                      </ContentContainer>
                   </Box>
