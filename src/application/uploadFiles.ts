@@ -1,12 +1,10 @@
 import { useMutationUploadFiles } from '@/services/awsAdapters';
 import { toast } from 'react-hot-toast';
 
-export const useUpload = () => {
-   const mutation = useMutationUploadFiles();
+export const useUpload = (page: number) => {
+   const mutation = useMutationUploadFiles(page);
 
    const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>, episode: string) => {
-      e.preventDefault();
-
       if (!e.target.files) {
          toast.error('파일을 제대로 첨부해주세요');
          return;

@@ -5,6 +5,7 @@ import {
    postNoobProHackerDirectory,
    postNoobProHackerImages,
 } from './api/aws';
+import { toast } from 'react-hot-toast';
 
 export const useQueryNoobProHackerDirectory = () => {
    const { data }: UseQueryResult<string[]> = useQuery('getNoobProHackerDirectory', () => getNoobProHackerDirectory(), {
@@ -20,6 +21,7 @@ export const useQueryNoobProHackerImages = (page: number) => {
       () => getNoobProHackerImages(page),
       {
          refetchOnWindowFocus: false,
+         suspense: true,
       },
    );
 
@@ -38,14 +40,21 @@ export const useMutationNewFolder = () => {
    return mutation;
 };
 
-export const useMutationUploadFiles = () => {
+export const useMutationUploadFiles = (page: number) => {
    const queryClient = useQueryClient();
 
    const mutation = useMutation(
-      ({ episode, formData }: { episode: string; formData: FormData }) => postNoobProHackerImages(formData, episode),
+      ({ episode, formData }: { episode: string; formData: FormData }) =>
+         toast.promise(postNoobProHackerImages(formData, episode), {
+            loading: '추가 중',
+            success: '추가 완료',
+            error: err => err.message,
+         }),
       {
          onSuccess: () => {
-            queryClient.invalidateQueries('getNoobProHackerDirectory');
+            setInterval(() => {
+               queryClient.invalidateQueries(['getNoobProHackerImages', page]);
+            }, 1000);
          },
       },
    );
