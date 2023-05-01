@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 type ButtonStyleType = {
+   height?: string;
    border?: string;
    borderRadius?: string;
    backgroundColor?: string;
@@ -12,6 +13,7 @@ type ButtonStyleType = {
 };
 
 const ButtonBox = styled.button<ButtonStyleType>`
+   height: ${props => props.height || 'auto'};
    border: ${props => props.border || 'none'};
    border-radius: ${props => props.borderRadius || '5px'};
    background-color: ${props => props.backgroundColor || '#4caf50'};

@@ -24,7 +24,7 @@ const Input = styled.input<InputStyleType>`
    font-size: ${props => props.fontSize || '16px'};
    line-height: ${props => props.lineHeight || '24px'};
    padding: ${props => props.padding || '0px 5px'};
-   color: ${props => props.color || '#999'};
+   color: ${props => props.color || '#333'};
    background-color: ${props => props.backgroundColor || ''};
    outline: none;
 `;
