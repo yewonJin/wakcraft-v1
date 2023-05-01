@@ -2,12 +2,15 @@ import { Suspense, useState } from 'react';
 import styled from 'styled-components';
 import { RiFolder3Fill } from 'react-icons/ri';
 import { BiArrowBack } from 'react-icons/bi';
+import { IoMdClose } from 'react-icons/io';
 
 import TextBox from '@/components/Common/TextBox';
 import ImageList from './ImageList';
 import AddEpisode from '../Admin/noobProHacker/AddEpisode';
 import { useQueryNoobProHackerDirectory } from '@/services/awsAdapters';
 import UploadFiles from './UploadFiles';
+import { useRecoilState } from 'recoil';
+import { storageState } from '@/services/store/storage';
 
 const Layout = styled.div`
    padding: 25px;
@@ -68,6 +71,7 @@ const Wrapper = styled.div`
 
 export default function AwsStorage() {
    const [page, setPage] = useState(0);
+   const [viewStorage, setViewStorage] = useRecoilState(storageState);
 
    const { data } = useQueryNoobProHackerDirectory();
 
@@ -76,14 +80,10 @@ export default function AwsStorage() {
    if (page == 0) {
       return (
          <Layout>
-            <TextBox
-               text="눕프핵 파일 사진"
-               fontSize="24px"
-               fontWeight="500"
-               lineHeight="36px"
-               color="white"
-               margin="0px 0px 10px 0px"
-            />
+            <Wrapper>
+               <TextBox text="눕프핵 파일 사진" fontSize="24px" fontWeight="500" lineHeight="36px" color="white" />
+               <IoMdClose onClick={() => setViewStorage(false)} />
+            </Wrapper>
             <EpisodeList>
                {data.map((item, index) => (
                   <EpisodeItem key={item + index} onClick={() => setPage(index + 1)}>
@@ -103,7 +103,7 @@ export default function AwsStorage() {
                <BiArrowBack onClick={() => setPage(0)} />
             </Wrapper>
             <Suspense>
-               <ImageList page={page} />
+               <ImageList page={page} setPage={setPage} />
             </Suspense>
          </Layout>
       );

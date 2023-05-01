@@ -1,10 +1,12 @@
 import styled from 'styled-components';
+import Image from 'next/image';
 
 import TextBox from '@/components/Common/TextBox';
 import InputBox from '@/components/Common/InputBox';
 import { useCreateLineInfo } from '@/application/createNoobProHacker';
 import { translateTier } from '@/utils/lib';
 import { Button } from '@/components/Common/Button';
+import AwsStorage from '@/components/Storage/AwsStorage';
 
 const Layout = styled.div`
    width: calc(100% - 350px);
@@ -23,6 +25,7 @@ const Container = styled.div`
 `;
 
 const Wrapper = styled.div<{ flexDirection?: string }>`
+   position: relative;
    display: flex;
    flex-direction: ${props => props.flexDirection || 'row'};
    gap: 10px;
@@ -56,6 +59,8 @@ const lineArr: LineType[] = ['noob', 'pro', 'hacker'];
 
 export function AddLineDetails() {
    const {
+      viewStorage,
+      handleLineImageClick,
       lineInfo,
       curLineIndex,
       resetLineInfo,
@@ -65,6 +70,7 @@ export function AddLineDetails() {
 
    return (
       <Layout>
+         {viewStorage && <AwsStorage />}
          <Container>
             <Wrapper>
                <InputBox
@@ -131,11 +137,18 @@ export function AddLineDetails() {
                   <LineInfoBox>
                      <Wrapper flexDirection="column">
                         <TextBox text="개인 이미지 링크" fontSize="18px" lineHeight="26px" />
+                        {lineInfo[curLineIndex].line_details[item].image_url === '' ? (
+                           <Button onClick={e => handleLineImageClick(e, item)} text="파일 찾기" padding="8px 0px" />
+                        ) : (
+                           <Image fill src={lineInfo[curLineIndex].line_details[item].image_url} alt="image" />
+                        )}
                      </Wrapper>
                      <Wrapper flexDirection="column">
                         <TextBox text="개인 유튜브 링크" fontSize="18px" lineHeight="26px" />
                         <InputBox
                            type="text"
+                           height="35px"
+                           border="1px solid #aaa"
                            onChange={e => handleChange(e, item)}
                            value={lineInfo[curLineIndex].line_details[item].youtube_url}
                            name="youtube_url"
@@ -146,6 +159,8 @@ export function AddLineDetails() {
                         <TextBox text="개인 랭킹" fontSize="18px" lineHeight="26px" />
                         <InputBox
                            type="text"
+                           height="35px"
+                           border="1px solid #aaa"
                            onChange={e => handleChange(e, item)}
                            value={lineInfo[curLineIndex].line_details[item].ranking}
                            name="ranking"

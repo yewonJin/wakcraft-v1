@@ -12,8 +12,13 @@ export const contentInfoState = atom<NoobProHacker['contentInfo']>({
 });
 
 export const curLineIndexState = atom({
-   key: 'curLineIndex',
+   key: 'curLineIndexState',
    default: 0,
+});
+
+export const curLineState = atom<'noob' | 'pro' | 'hacker'>({
+   key: 'curLineState',
+   default: 'noob',
 });
 
 export const isEmptyState = atom({

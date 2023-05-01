@@ -1,5 +1,5 @@
 import { ChangeEvent } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { toast } from 'react-hot-toast';
 
 import { createNoobProHackerObject, NoobProHacker } from '@/domain/noobProHacker';
@@ -7,12 +7,14 @@ import { checkEmptyInDeepObject } from '@/utils/lib';
 import {
    contentInfoState,
    curLineIndexState,
+   curLineState,
    isEmptyState,
    lineDetailIndexState,
    lineInfoState,
    searchInputState,
 } from '@/services/store/noobProHacker';
 import { useMutationNoobProHacker } from '@/services/noobProHackerAdapters';
+import { storageState } from '@/services/store/storage';
 
 const replaceItemAtIndex = (arr: NoobProHacker['lineInfo'], index: number, newValue: NoobProHacker['lineInfo'][0]) => {
    return [...arr.slice(0, index), newValue, ...arr.slice(index + 1)];
@@ -34,12 +36,23 @@ export const useCreateContentInfo = () => {
 };
 
 export const useCreateLineInfo = () => {
-   const contentInfo = useRecoilValue(contentInfoState);
+   const [viewStorage, setViewStorage] = useRecoilState(storageState);
    const [lineInfo, setLineInfo] = useRecoilState(lineInfoState);
+   const [curLine, setCurLine] = useRecoilState(curLineState);
    const [curLineIndex, setCurLineIndex] = useRecoilState(curLineIndexState);
    const [isEmpty, setIsEmpty] = useRecoilState(isEmptyState);
    const [searchInput, setSearchInput] = useRecoilState(searchInputState);
    const [lineDetailIndex, setLineDetailIndex] = useRecoilState(lineDetailIndexState);
+
+   const handleLineImageClick = (
+      e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+      line: 'noob' | 'pro' | 'hacker',
+   ) => {
+      e.preventDefault();
+
+      setViewStorage(true);
+      setCurLine(line);
+   };
 
    /** 어느 라인을 수정할지 선택하는 함수*/
    const setStateCurLineIndex = (index: number) => {
@@ -79,8 +92,6 @@ export const useCreateLineInfo = () => {
          setLineInfo(newArr);
       }
    };
-
-
 
    /** 검색한 건축가를 라인에 추가하는 함수 */
    const addArchitectToLine = (minecraft_id: string) => {
@@ -146,6 +157,8 @@ export const useCreateLineInfo = () => {
    };
 
    return {
+      viewStorage,
+      handleLineImageClick,
       lineInfo,
       curLineIndex,
       setStateCurLineIndex,
