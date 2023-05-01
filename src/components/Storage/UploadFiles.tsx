@@ -1,4 +1,3 @@
-import { useUpdateArchitect } from '@/application/updateArchitect';
 import { useUpload } from '@/application/uploadFiles';
 import InputBox from '@/components/Common/InputBox';
 

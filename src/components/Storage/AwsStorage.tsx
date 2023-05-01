@@ -1,4 +1,4 @@
-import { Suspense, useState } from 'react';
+import { Suspense } from 'react';
 import styled from 'styled-components';
 import { RiFolder3Fill } from 'react-icons/ri';
 import { BiArrowBack } from 'react-icons/bi';
@@ -9,8 +9,7 @@ import ImageList from './ImageList';
 import AddEpisode from '../Admin/noobProHacker/AddEpisode';
 import { useQueryNoobProHackerDirectory } from '@/services/awsAdapters';
 import UploadFiles from './UploadFiles';
-import { useRecoilState } from 'recoil';
-import { storageState } from '@/services/store/storage';
+import { useAwsStorage } from '@/application/accessAwsStorage';
 
 const Layout = styled.div`
    padding: 25px;
@@ -70,9 +69,7 @@ const Wrapper = styled.div`
 `;
 
 export default function AwsStorage() {
-   const [page, setPage] = useState(0);
-   const [viewStorage, setViewStorage] = useRecoilState(storageState);
-
+   const { page, setStatePage, setStateViewStorage } = useAwsStorage();
    const { data } = useQueryNoobProHackerDirectory();
 
    if (!data) return <div></div>;
@@ -82,11 +79,11 @@ export default function AwsStorage() {
          <Layout>
             <Wrapper>
                <TextBox text="눕프핵 파일 사진" fontSize="24px" fontWeight="500" lineHeight="36px" color="white" />
-               <IoMdClose onClick={() => setViewStorage(false)} />
+               <IoMdClose onClick={() => setStateViewStorage(false)} />
             </Wrapper>
             <EpisodeList>
                {data.map((item, index) => (
-                  <EpisodeItem key={item + index} onClick={() => setPage(index + 1)}>
+                  <EpisodeItem key={item + index} onClick={() => setStatePage(index + 1)}>
                      <RiFolder3Fill />
                      <TextBox text={item + '화'} color="#ccc" fontSize="18px" lineHeight="26px" />
                   </EpisodeItem>
@@ -100,10 +97,10 @@ export default function AwsStorage() {
          <Layout>
             <Wrapper>
                <UploadFiles page={page} />
-               <BiArrowBack onClick={() => setPage(0)} />
+               <BiArrowBack onClick={() => setStatePage(0)} />
             </Wrapper>
             <Suspense>
-               <ImageList page={page} setPage={setPage} />
+               <ImageList />
             </Suspense>
          </Layout>
       );
