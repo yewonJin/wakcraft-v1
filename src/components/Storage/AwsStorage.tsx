@@ -5,7 +5,7 @@ import { BiArrowBack } from 'react-icons/bi';
 
 import TextBox from '@/components/Common/TextBox';
 import ImageList from './ImageList';
-import AddEpisode from './AddEpisode';
+import AddEpisode from '../Admin/noobProHacker/AddEpisode';
 import { useQueryNoobProHackerDirectory } from '@/services/awsAdapters';
 import UploadFiles from './UploadFiles';
 
@@ -51,6 +51,7 @@ const EpisodeItem = styled.li`
 
 const Wrapper = styled.div`
    display: flex;
+   justify-content: space-between;
    align-items: center;
    gap: 10px;
    margin-bottom: 15px;
@@ -76,7 +77,7 @@ export default function AwsStorage() {
       return (
          <Layout>
             <TextBox
-               text="파일 선택"
+               text="눕프핵 파일 사진"
                fontSize="24px"
                fontWeight="500"
                lineHeight="36px"
@@ -98,15 +99,7 @@ export default function AwsStorage() {
       return (
          <Layout>
             <Wrapper>
-               <TextBox
-                  text="파일 선택"
-                  textAlign="center"
-                  fontSize="24px"
-                  fontWeight="500"
-                  lineHeight="36px"
-                  color="white"
-               />
-               <UploadFiles episode={page.toString()} />
+               <UploadFiles page={page} />
                <BiArrowBack onClick={() => setPage(0)} />
             </Wrapper>
             <Suspense>

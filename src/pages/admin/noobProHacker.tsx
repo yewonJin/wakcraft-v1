@@ -8,7 +8,7 @@ import { useCreateLineInfo } from '@/application/createNoobProHacker';
 import TextBox from '@/components/Common/TextBox';
 import { AddNoobProHackerInfo } from '@/components/Admin/noobProHacker/AddNoobProHackerInfo';
 import { CommonLayout } from '@/components/Common/CommonLayout';
-import AwsStorage from '@/components/Admin/noobProHacker/AwsStorage';
+import AwsStorage from '@/components/Storage/AwsStorage';
 
 const Container = styled.div`
    display: flex;
