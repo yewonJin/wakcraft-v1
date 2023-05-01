@@ -16,8 +16,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
          architectsInfo.forEach(async item => {
             await Architect.findOneAndPushToPortfolio(item.minecraft_id, item.portfolio.noobProHacker[0]);
          });
-
-         res.json('성공');
       } catch (e) {
          console.log(e);
       }
