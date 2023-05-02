@@ -14,6 +14,7 @@ type TextType = {
    margin?: string;
    textAlign?: string;
    width?: string;
+   textShadow?: string;
 };
 
 const Text = styled.h2<TextType>`
@@ -32,6 +33,7 @@ const Text = styled.h2<TextType>`
    margin: ${props => props.margin || '0px'};
    text-align: ${props => props.textAlign || 'left'};
    color: ${props => props.color || ''};
+   text-shadow: ${props => props.textShadow || ''};
 `;
 
 function TextBox(props: TextBoxType) {
