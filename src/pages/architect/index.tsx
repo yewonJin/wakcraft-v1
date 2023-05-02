@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import Link from 'next/link';
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
 
 import connectMongo from '@/utils/connectMongo';
@@ -7,7 +8,6 @@ import { useShowArchitect } from '@/application/showArchitect';
 import TextBox from '@/components/Common/TextBox';
 import { convertLineTierToTier, translateTier } from '@/utils/lib';
 import { SearchArchitectWithProps } from '@/components/Search/SearchArchitectWithProps';
-import { ArchitectList } from '@/components/Search/ArchitectList';
 
 const Layout = styled.div`
    display: flex;
@@ -42,6 +42,31 @@ const TableItem = styled.li<{ width?: string; margin?: string }>`
    margin: ${props => props.margin || '0px'};
 `;
 
+const ArchitectList = styled.ul`
+   width: 1200px;
+   height: calc(70vh);
+   overflow-y: scroll;
+   display: flex;
+   flex-direction: column;
+   font-size: 20px;
+
+   ::-webkit-scrollbar {
+      width: 12px;
+   }
+
+   ::-webkit-scrollbar-thumb {
+      height: 30%;
+      background: gray;
+   }
+
+   ::-webkit-scrollbar-thumb {
+      background: #bebebe;
+      background-clip: padding-box;
+      border: 1px solid transparent;
+      border-radius: 8px;
+   }
+`;
+
 const TierList = styled.ul`
    display: flex;
    align-items: center;
@@ -68,6 +93,21 @@ const LineCountBox = styled.span`
    padding: 5px 10px;
    border-radius: 10px;
    background-color: #cacaca;
+`;
+
+const ArchitectInfoList = styled.ul`
+   display: flex;
+   align-items: center;
+   height: 60px;
+   padding: 10px 25px;
+   border-bottom: 1px solid #cacaca;
+`;
+
+const ArchitectInfoItem = styled.li<{ width?: string }>`
+   width: ${props => props.width || 'auto'};
+   list-style: none;
+   font-size: 16px;
+   height: 24px;
 `;
 
 export const getStaticProps: GetStaticProps<{ architects: Architect[] }> = async () => {
@@ -107,7 +147,25 @@ export default function Search({ architects }: InferGetStaticPropsType<typeof ge
             <TableItem width="150px">참여 횟수</TableItem>
             <TableItem width="150px">우승 횟수</TableItem>
          </TableHeader>
-         <ArchitectList architects={architects} curTier={curTier} />
+         <ArchitectList>
+            {architects
+               .filter(item => convertLineTierToTier(curTier).includes(item.tier[0]))
+               .map((item, _) => {
+                  return (
+                     <Link key={item.wakzoo_id} href={`/architect/${item.minecraft_id}`}>
+                        <ArchitectInfoList>
+                           <ArchitectInfoItem width="180px">{item.tier[0]}</ArchitectInfoItem>
+                           <ArchitectInfoItem width="250px">{item.minecraft_id}</ArchitectInfoItem>
+                           <ArchitectInfoItem width="220px">{item.wakzoo_id}</ArchitectInfoItem>
+                           <ArchitectInfoItem width="150px">
+                              {item.noobProHackerInfo.participation + '회'}
+                           </ArchitectInfoItem>
+                           <ArchitectInfoItem width="150px">{item.noobProHackerInfo.win + '회'}</ArchitectInfoItem>
+                        </ArchitectInfoList>
+                     </Link>
+                  );
+               })}
+         </ArchitectList>
       </Layout>
    );
 }
