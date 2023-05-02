@@ -1,5 +1,12 @@
-import { Architect, createTierArray } from '@/domain/architect';
+import { Architect, Tier, createTierArray } from '@/domain/architect';
 import { NoobProHacker } from '@/domain/noobProHacker';
+
+import noob from '../../public/assets/images/tier/noob.png';
+import gyeruik from '../../public/assets/images/tier/gyeruik.png';
+import pro from '../../public/assets/images/tier/pro.png';
+import gukbap from '../../public/assets/images/tier/gukbap.png';
+import hacker from '../../public/assets/images/tier/hacker.png';
+import hacker2 from '../../public/assets/images/tier/hacker2.png';
 
 export const translateTier = (tier: string) => {
    switch (tier) {
@@ -19,6 +26,15 @@ export const translateTier = (tier: string) => {
       default:
          return 'null';
    }
+};
+
+export const tierImage = (tier: Tier) => {
+   if (createTierArray().slice(0, 2).includes(tier)) return hacker2;
+   else if (createTierArray().slice(2, 4).includes(tier)) return hacker;
+   else if (createTierArray().slice(4, 7).includes(tier)) return gukbap;
+   else if (createTierArray().slice(7, 9).includes(tier)) return pro;
+   else if (createTierArray().slice(9, 12).includes(tier)) return gyeruik;
+   else return noob;
 };
 
 export const checkEmptyInDeepObject = (obj: object) => {

@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import styled from 'styled-components';
 
-import bg from '../../public/main-bg.webp';
+import bg from '../../public/assets/images/main/main-bg.webp';
 import ContentsNav from '@/components/Main/ContentsNav';
 import Contents from '@/components/Main/Contents';
 
