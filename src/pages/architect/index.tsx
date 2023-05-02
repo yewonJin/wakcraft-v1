@@ -22,14 +22,14 @@ const Nav = styled.nav`
    display: flex;
    align-items: center;
    justify-content: space-between;
-   width: 1000px;
+   width: 1200px;
 `;
 
 const TableHeader = styled.ul`
    display: flex;
    align-items: center;
    justify-content: space-around;
-   width: 1000px;
+   width: 1200px;
    padding: 18px 25px;
    padding-right: 37px;
    margin-top: 15px;
@@ -42,7 +42,7 @@ const TableHeader = styled.ul`
 `;
 
 const ArchitectList = styled.ul`
-   width: 1000px;
+   width: 1200px;
    height: calc(70vh);
    overflow-y: scroll;
    display: flex;
@@ -127,7 +127,7 @@ export default function Search({ architects }: InferGetStaticPropsType<typeof ge
       <Layout>
          <Nav>
             <TierList>
-               {['hacker', 'gukbap', 'pro', 'gyeruik', 'noob'].map(tier => (
+               {['hacker', 'gukbap', 'pro', 'gyeruik', 'noob', 'unranked'].map(tier => (
                   <NavItem id={tier} key={tier} curTier={curTier} onClick={() => setNavCurrentTier(tier)}>
                      <TextBox text={translateTier(tier)} />
                      <LineCount>
