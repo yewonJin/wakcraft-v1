@@ -19,13 +19,13 @@ const loading = keyframes`
     }
     50%,
     100% {
-         transform: translateX(200px);
+         transform: translateX(400px);
     }
 `;
 
 const Span = styled.span<SkeletonStyleType>`
    position: absolute;
-   width: 10%;
+   width: 10px;
    height: 100%;
    background-color: #d3d3d3;
    z-index: 2;
@@ -38,6 +38,8 @@ const Layout = styled.div<SkeletonStyleType>`
    width: ${props => props.width || 'auto'};
    height: ${props => props.height || 'auto'};
    border-radius: ${props => props.borderRadius || '0px'};
+   margin: ${props => props.margin || '0px'};
+   padding: ${props => props.padding || '0px'};
    overflow: hidden;
 `;
 
