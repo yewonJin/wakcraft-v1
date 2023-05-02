@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import Link from 'next/link';
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
 
 import connectMongo from '@/utils/connectMongo';
@@ -8,6 +7,7 @@ import { useShowArchitect } from '@/application/showArchitect';
 import TextBox from '@/components/Common/TextBox';
 import { convertLineTierToTier, translateTier } from '@/utils/lib';
 import { SearchArchitectWithProps } from '@/components/Search/SearchArchitectWithProps';
+import { ArchitectList } from '@/components/Search/ArchitectList';
 
 const Layout = styled.div`
    display: flex;
@@ -18,7 +18,7 @@ const Layout = styled.div`
    padding-top: 130px;
 `;
 
-const Nav = styled.nav`
+const TierNav = styled.nav`
    display: flex;
    align-items: center;
    justify-content: space-between;
@@ -28,56 +28,18 @@ const Nav = styled.nav`
 const TableHeader = styled.ul`
    display: flex;
    align-items: center;
-   justify-content: space-around;
    width: 1200px;
    padding: 18px 25px;
    padding-right: 37px;
    margin-top: 15px;
    background-color: #ddd;
    border-radius: 10px;
-   > li {
-      flex: 1;
-      list-style: none;
-   }
 `;
 
-const ArchitectList = styled.ul`
-   width: 1200px;
-   height: calc(70vh);
-   overflow-y: scroll;
-   display: flex;
-   flex-direction: column;
-   font-size: 20px;
-
-   ::-webkit-scrollbar {
-      width: 12px;
-   }
-
-   ::-webkit-scrollbar-thumb {
-      height: 30%;
-      background: gray;
-   }
-
-   ::-webkit-scrollbar-thumb {
-      background: #bebebe;
-      background-clip: padding-box;
-      border: 1px solid transparent;
-      border-radius: 8px;
-   }
-
-   > a > li {
-      padding: 10px 25px;
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      height: 60px;
-      border-bottom: 1px solid #cacaca;
-
-      > span {
-         flex: 1;
-         font-size: 16px;
-      }
-   }
+const TableItem = styled.li<{ width?: string; margin?: string }>`
+   list-style: none;
+   width: ${props => props.width || 'auto'};
+   margin: ${props => props.margin || '0px'};
 `;
 
 const TierList = styled.ul`
@@ -99,7 +61,7 @@ const NavItem = styled.div<{ curTier: string }>`
    }
 `;
 
-const LineCount = styled.span`
+const LineCountBox = styled.span`
    display: flex;
    justify-content: center;
    align-items: center;
@@ -125,43 +87,27 @@ export default function Search({ architects }: InferGetStaticPropsType<typeof ge
 
    return (
       <Layout>
-         <Nav>
+         <TierNav>
             <TierList>
                {['hacker', 'gukbap', 'pro', 'gyeruik', 'noob', 'unranked'].map(tier => (
                   <NavItem id={tier} key={tier} curTier={curTier} onClick={() => setNavCurrentTier(tier)}>
                      <TextBox text={translateTier(tier)} />
-                     <LineCount>
+                     <LineCountBox>
                         {architects.filter(item => convertLineTierToTier(tier).includes(item.tier[0])).length}
-                     </LineCount>
+                     </LineCountBox>
                   </NavItem>
                ))}
             </TierList>
             <SearchArchitectWithProps architects={architects} />
-         </Nav>
+         </TierNav>
          <TableHeader>
-            <li>티어</li>
-            <li>마인크래프트 아이디</li>
-            <li>왁물원 아이디</li>
-            <li>참여 횟수</li>
-            <li>우승 횟수</li>
+            <TableItem width="180px">티어</TableItem>
+            <TableItem width="250px">마인크래프트 아이디</TableItem>
+            <TableItem width="220px">왁물원 아이디</TableItem>
+            <TableItem width="150px">참여 횟수</TableItem>
+            <TableItem width="150px">우승 횟수</TableItem>
          </TableHeader>
-         <ArchitectList>
-            {architects
-               .filter(item => convertLineTierToTier(curTier).includes(item.tier[0]))
-               .map((item, _) => {
-                  return (
-                     <Link key={item.wakzoo_id} href={`/architect/${item.minecraft_id}`}>
-                        <li>
-                           <span>{item.tier[0]}</span>
-                           <span>{item.minecraft_id}</span>
-                           <span>{item.wakzoo_id}</span>
-                           <span>{item.noobProHackerInfo.participation + '회'}</span>
-                           <span>{item.noobProHackerInfo.win + '회'}</span>
-                        </li>
-                     </Link>
-                  );
-               })}
-         </ArchitectList>
+         <ArchitectList architects={architects} curTier={curTier} />
       </Layout>
    );
 }
