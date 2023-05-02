@@ -22,7 +22,6 @@ export const translateTier = (tier: string) => {
          return '눕';
       case 'unranked':
          return '언랭';
-
       default:
          return 'null';
    }

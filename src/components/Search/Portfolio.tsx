@@ -3,27 +3,22 @@ import styled from 'styled-components';
 
 import { translateTier } from '@/utils/lib';
 import { Architect } from '@/domain/architect';
+import TextBox from '../Common/TextBox';
 
-const Container = styled.div`
+const Layout = styled.div`
    width: 100%;
    margin-top: 20px;
 `;
 
-const Title = styled.h1`
-   font-size: 20px;
-   font-weight: 500;
-   margin: 0px;
-`;
-
-const Wrapper = styled.div`
+const PortFolioLayout = styled.div`
    display: grid;
    grid-template-columns: repeat(3, minmax(300px, 1fr));
-   margin-top: 20px;
+   margin-top: 12px;
    gap: 30px;
    row-gap: 50px;
 `;
 
-const Box = styled.div`
+const PortFolioBox = styled.div`
    position: relative;
    display: flex;
    flex-direction: column;
@@ -34,94 +29,86 @@ const ImageBox = styled.div`
    position: relative;
    width: 100%;
    aspect-ratio: 16/9;
+   box-shadow: 1px 1px 3px #333;
+   border-radius: 10px;
 
    > img {
-      border-radius: 15px;
+      border-radius: 10px;
    }
 `;
 
-const ContentContainer = styled.div`
+const ContentLayout = styled.div`
    display: flex;
    gap: 20px;
 `;
 
-const TierBox = styled.span`
+const TierBox = styled.span<{ tier: string }>`
    display: flex;
    justify-content: center;
    align-items: center;
    width: 90px;
-   height: 40px;
-   padding: 25px;
+   height: 53px;
    border-radius: 10px;
    font-size: 18px;
    color: white;
-   background-color: #c760a3;
+   text-shadow: 1px 1px 2px black;
+   background: ${props =>
+      props.tier === 'hacker' ? 'rgb(177, 41, 98)' : props.tier === 'pro' ? 'rgb(59, 157, 177)' : 'rgb(198,142,83)'};
 `;
 
-const Content = styled.div`
+const ContentBox = styled.div`
    display: flex;
+   gap: 2px;
    flex-direction: column;
    justify-content: center;
-   margin-left: 7px;
+   padding: 0px 30px;
    border-right: 1px solid #cacaca;
-   padding-right: 20px;
-
-   > h2 {
-      font-size: 18px;
-      margin: 0px;
-   }
-
-   > h3 {
-      font-size: 16px;
-      margin: 0px;
-      color: #646464;
-   }
+   border-left: 1px solid #cacaca;
 `;
 
-const RankingContanier = styled.div`
+const RankingBox = styled.div`
    display: flex;
+   gap: 2px;
    flex-direction: column;
-   align-items: center;
    justify-content: center;
-   width: 100px;
-
-   > h2 {
-      font-size: 18px;
-      margin: 0px;
-   }
-
-   > h3 {
-      font-size: 16px;
-      margin: 0px;
-      color: #646464;
-   }
 `;
 
 export default function Portfolio({ info }: { info: Architect }) {
    return (
-      <Container>
-         <Title>포트폴리오</Title>
-         <Wrapper>
+      <Layout>
+         <TextBox text="포트폴리오" fontSize="20px" lineHeight="32px" fontWeight="500" />
+         <PortFolioLayout>
             {info.portfolio.noobProHacker.map((item, index) => {
                return (
-                  <Box key={'noobProHacker_' + index}>
+                  <PortFolioBox key={'noobProHacker_' + index}>
                      <ImageBox>
                         <Image fill alt="noobProHacker image" src={item.image_url} />
                      </ImageBox>
-                     <ContentContainer>
-                        <TierBox>{translateTier(item.line)}</TierBox>
-                        <Content>
-                           <h2>{item.subject}</h2>
-                           <h3>{`제 ${item.episode}회 눕프핵`}</h3>
-                        </Content>
-                        <RankingContanier>
-                           <h3>{'개인 : ' + item.ranking + '위'}</h3>                           
-                        </RankingContanier>
-                     </ContentContainer>
-                  </Box>
+                     <ContentLayout>
+                        <TierBox tier={item.line}>{translateTier(item.line)}</TierBox>
+                        <ContentBox>
+                           <TextBox text={item.subject} fontSize="18px" lineHeight="24px" fontWeight="500" />
+                           <TextBox
+                              text={`제 ${item.episode}회 눕프핵`}
+                              fontSize="16px"
+                              lineHeight="24px"
+                              color="#646464"
+                           />
+                        </ContentBox>
+                        <RankingBox>
+                           <TextBox text="순위" fontSize="18px" fontWeight="500" lineHeight="24px" />
+                           <TextBox
+                              text={'개인 : ' + item.ranking + '위'}
+                              fontSize="16px"
+                              lineHeight="24px"
+                              color="#646464"
+                           />
+                        </RankingBox>
+                     </ContentLayout>
+                  </PortFolioBox>
                );
             })}
-         </Wrapper>
-      </Container>
+         </PortFolioLayout>
+      </Layout>
    );
 }
