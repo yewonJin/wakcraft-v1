@@ -77,14 +77,8 @@ const List = styled.ul`
    }
 `;
 
-type PropsType = {
-   architects?: Architect[];
-};
-
-export function SearchArchitectWithProps({ architects }: PropsType) {
+export function SearchArchitectWithProps({ architects }: { architects: Architect[] }) {
    const { input, handleChange, resetInput, fuzzySearchAndHighlightResult } = useShowArchitect();
-
-   if (!architects) return <div>Loading...</div>;
 
    if (input === '')
       return (
