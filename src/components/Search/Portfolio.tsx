@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import styled from 'styled-components';
-
+import { BsYoutube } from 'react-icons/bs';
+1;
 import { translateTier } from '@/utils/lib';
 import { Architect } from '@/domain/architect';
 import TextBox from '../Common/TextBox';
@@ -32,8 +33,47 @@ const ImageBox = styled.div`
    box-shadow: 1px 1px 3px #333;
    border-radius: 10px;
 
+   :hover {
+      cursor: pointer;
+   }
+
+   :hover > img {
+      filter: brightness(0.9);
+   }
+
    > img {
       border-radius: 10px;
+   }
+`;
+
+const YoutubeLink = styled.span`
+   position: absolute;
+   top: 10px;
+   right: 10px;
+   border-radius: 50px;
+   z-index: 5;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   padding: 5px;
+
+   > svg {
+      z-index: 3;
+      font-size: 1.8rem;
+      color: red;
+
+      :hover {
+         cursor: pointer;
+         scale: 1.05;
+      }
+   }
+
+   ::after {
+      content: '';
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background-color: white;
    }
 `;
 
@@ -81,8 +121,16 @@ export default function Portfolio({ info }: { info: Architect }) {
             {info.portfolio.noobProHacker.map((item, index) => {
                return (
                   <PortFolioBox key={'noobProHacker_' + index}>
-                     <ImageBox>
+                     <ImageBox onClick={() => window.open(item.image_url)}>
                         <Image fill alt="noobProHacker image" src={item.image_url} />
+                        <YoutubeLink>
+                           <BsYoutube
+                              onClick={e => {
+                                 e.stopPropagation();
+                                 return window.open(item.youtube_url);
+                              }}
+                           />
+                        </YoutubeLink>
                      </ImageBox>
                      <ContentLayout>
                         <TierBox tier={item.line}>{translateTier(item.line)}</TierBox>
