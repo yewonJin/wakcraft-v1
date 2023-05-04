@@ -150,6 +150,13 @@ export default function Search({ architects }: InferGetStaticPropsType<typeof ge
          <ArchitectList>
             {architects
                .filter(item => convertLineTierToTier(curTier).includes(item.tier[0]))
+               .sort((a, b) => {
+                  if(a.tier[0] === '언랭' && b.tier[0] === '언랭') {
+                     return b.noobProHackerInfo.participation - a.noobProHackerInfo.participation
+                  }
+
+                  return 0;
+               })
                .map((item, _) => {
                   return (
                      <Link key={item.wakzoo_id} href={`/architect/${item.minecraft_id}`}>
