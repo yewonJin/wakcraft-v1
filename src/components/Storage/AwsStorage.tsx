@@ -82,7 +82,7 @@ export default function AwsStorage() {
                <IoMdClose onClick={() => setStateViewStorage(false)} />
             </Wrapper>
             <EpisodeList>
-               {data.map((item, index) => (
+               {data.sort((a, b) => parseInt(a) - parseInt(b)).map((item, index) => (
                   <EpisodeItem key={item + index} onClick={() => setStatePage(index + 1)}>
                      <RiFolder3Fill />
                      <TextBox text={item + '화'} color="#ccc" fontSize="18px" lineHeight="26px" />
