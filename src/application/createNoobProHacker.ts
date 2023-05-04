@@ -181,14 +181,7 @@ export const useCreateNoobProHacker = () => {
    const addNoobProHacker = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       e.preventDefault();
 
-      console.log(lineInfo);
-
-      if (!checkEmptyInDeepObject(contentInfo)) {
-         toast.error('컨텐츠 입력 폼에 빈 값이 있습니다.');
-         return;
-      }
-
-      if (lineInfo.length < 5) {
+      if (!checkEmptyInDeepObject(contentInfo) || lineInfo.length < 5) {
          toast.error('컨텐츠 입력 폼에 빈 값이 있습니다.');
          return;
       }
@@ -202,6 +195,8 @@ export const useCreateNoobProHacker = () => {
          contentInfo,
          lineInfo,
       });
+
+      
    };
 
    return { addNoobProHacker };

@@ -16,8 +16,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
          architectsInfo.forEach(async item => {
             await Architect.findOneAndPushToPortfolio(item.minecraft_id, item.portfolio.noobProHacker[0]);
          });
+         res.status(200).json('DB에 추가 했습니다.');
       } catch (e) {
-         console.log(e);
+         res.status(400).json({ error: 'DB에 추가 하지 못했습니다.' });
       }
    }
 }

@@ -22,6 +22,7 @@ const TierImageBox = styled.span`
    height: 94px;
    background-size: cover;
    background-position: center;
+
 `;
 
 const SkeletonBox = styled.div`

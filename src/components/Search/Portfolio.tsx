@@ -122,7 +122,7 @@ export default function Portfolio({ info }: { info: Architect }) {
                return (
                   <PortFolioBox key={'noobProHacker_' + index}>
                      <ImageBox onClick={() => window.open(item.image_url)}>
-                        <Image fill alt="noobProHacker image" src={item.image_url} />
+                        <Image fill sizes="400px" alt="noobProHacker image" src={item.image_url} />
                         <YoutubeLink>
                            <BsYoutube
                               onClick={e => {

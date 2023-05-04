@@ -11,7 +11,7 @@ export const addNoobProHacker = async (body: NoobProHacker) => {
          body: JSON.stringify(body),
          headers: myHeaders,
       }).then(handleFetchData);
-   } catch (e) {
-      console.log(e);
+   } catch (error) {
+      throw error;
    }
 };

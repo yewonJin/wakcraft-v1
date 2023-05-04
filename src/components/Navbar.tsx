@@ -24,7 +24,6 @@ const SubContainer = styled.div`
    width: 1200px;
    margin: 0px auto;
    display: flex;
-
    align-items: center;
    gap: 5rem;
 `;

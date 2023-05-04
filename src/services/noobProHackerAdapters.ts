@@ -5,7 +5,6 @@ import { addNoobProHacker } from './api/noobProHacker';
 import { toast } from 'react-hot-toast';
 
 export const useMutationNoobProHacker = () => {
-
    var myHeaders = new Headers();
    myHeaders.append('Content-Type', 'application/json');
 
@@ -13,7 +12,7 @@ export const useMutationNoobProHacker = () => {
       toast.promise(addNoobProHacker(body), {
          loading: '추가중',
          success: '추가 완료',
-         error: '에러 발생',
+         error: err => err.message,
       }),
    );
 
