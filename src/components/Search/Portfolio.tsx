@@ -32,6 +32,7 @@ const ImageBox = styled.div`
    aspect-ratio: 16/9;
    box-shadow: 1px 1px 3px #333;
    border-radius: 10px;
+   background-color: #ddd;
 
    :hover {
       cursor: pointer;
