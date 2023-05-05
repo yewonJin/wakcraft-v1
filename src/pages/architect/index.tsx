@@ -14,8 +14,10 @@ const Layout = styled.div`
    flex-direction: column;
    align-items: center;
    width: 1200px;
+   height: 100vh;
    margin: 0px auto;
    padding-top: 130px;
+   padding-bottom: 50px;
 `;
 
 const TierNav = styled.nav`
@@ -44,7 +46,7 @@ const TableItem = styled.li<{ width?: string; margin?: string }>`
 
 const ArchitectList = styled.ul`
    width: 1200px;
-   height: calc(70vh);
+   height: calc(100vh - 188px);
    overflow-y: scroll;
    display: flex;
    flex-direction: column;
