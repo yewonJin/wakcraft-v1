@@ -3,6 +3,7 @@ import { Schema, Model, model, models } from 'mongoose';
 
 interface NoobProHackerModel extends Model<NoobProHacker> {
    findAll: () => Promise<NoobProHacker[]>;
+   findLastestOne: () => Promise<NoobProHacker>;
 }
 
 const noobProHackerSchema = new Schema({
@@ -49,6 +50,10 @@ noobProHackerSchema.statics.create = function (payload) {
 noobProHackerSchema.statics.findAll = function () {
    return this.find({});
 };
+
+noobProHackerSchema.statics.findLastestOne = function () {
+   return this.find({}).sort({_id: -1}).limit(1);
+}
 
 const NoobProHacker =
    (models['NoobProHacker'] as NoobProHackerModel) ||

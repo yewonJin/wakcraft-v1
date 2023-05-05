@@ -1,16 +1,21 @@
 import Head from 'next/head';
 import styled from 'styled-components';
+import { Fragment, useState } from 'react';
+import { GetStaticProps, InferGetStaticPropsType } from 'next';
+import Image from 'next/image';
 
 import bg from '../../public/assets/images/main/main-bg.webp';
-import ContentsNav from '@/components/Main/ContentsNav';
-import Contents from '@/components/Main/Contents';
+import connectMongo from '@/utils/connectMongo';
+import NoobProHacker from '@/models/noobProHacker';
+import TextBox from '@/components/Common/TextBox';
+import { translateTier } from '@/utils/lib';
 
 const Layout = styled.main`
    height: 1600px;
    box-sizing: border-box;
 `;
 
-const ContentsBox = styled.div`
+const ContentsBox = styled.main`
    position: relative;
    z-index: 2;
    width: 100%;
@@ -36,7 +41,93 @@ const BackgroundImage = styled.div`
    filter: blur(2px);
 `;
 
-export default function Home() {
+const ContentsNav = styled.div`
+   display: flex;
+   flex-direction: column;
+   width: 1200px;
+   padding-bottom: 0px;
+   color: white;
+`;
+
+const Divider = styled.div`
+   width: 1px;
+   height: 100%;
+   background-color: #cacaca;
+`;
+
+const Category = styled.ul`
+   display: flex;
+   gap: 35px;
+   margin: 0px;
+   margin-top: 40px;
+   margin-bottom: 60px;
+   font-weight: 500;
+
+   > li {
+      text-align: center;
+      list-style: none;
+      font-size: 18px;
+      color: #ddd;
+      padding-bottom: 3px;
+   }
+`;
+
+const LineList = styled.ul`
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   box-sizing: border-box;
+   width: 1200px;
+`;
+
+const LineItem = styled.div`
+   position: relative;
+   width: 350px;
+   height: 500px;
+   padding-bottom: 20px;
+`;
+
+const ImageBox = styled.div`
+   position: relative;
+   width: 350px;
+   height: 450px;
+
+   > img {
+      :hover {
+         scale: 1.02;
+         cursor: pointer;
+      }
+   }
+`;
+
+const TextContainer = styled.div`
+   display: flex;
+   gap: 10px;
+   align-items: center;
+   justify-content: center;
+   margin-top: 5px;
+   padding-left: 15px;
+`;
+
+export const getStaticProps: GetStaticProps<{ noobProHacker: NoobProHacker[] }> = async () => {
+   await connectMongo();
+
+   const noobProHacker = await NoobProHacker.findLastestOne();
+
+   return {
+      props: {
+         noobProHacker: JSON.parse(JSON.stringify(noobProHacker)),
+      },
+   };
+};
+
+type LineType = 'noob' | 'pro' | 'hacker';
+
+const lines: LineType[] = ['noob', 'pro', 'hacker'];
+
+export default function Home({ noobProHacker }: InferGetStaticPropsType<typeof getStaticProps>) {
+   const [line, setLine] = useState(0);
+
    return (
       <>
          <Head>
@@ -48,8 +139,62 @@ export default function Home() {
          <Layout>
             <BackgroundImage style={{ backgroundImage: `url(${bg.src})` }} />
             <ContentsBox>
-               <ContentsNav />
-               <Contents />
+               <ContentsNav>
+                  <TextBox
+                     text={'제 ' + noobProHacker[0].contentInfo.episode + '회'}
+                     fontSize="28px"
+                     fontWeight="500"
+                     lineHeight="36px"
+                     margin="0px 0px 10px 0px"
+                     color="#868686"
+                  />
+                  <TextBox
+                     text={'눕프로해커 : ' + noobProHacker[0].contentInfo.main_subject + '편'}
+                     fontSize="36px"
+                     fontWeight="500"
+                     lineHeight="48px"
+                  />
+                  <Category>
+                     {noobProHacker[0].lineInfo.map((item, index) => (
+                        <Fragment key={item + index.toString()}>
+                           <Divider />
+                           <li onClick={() => setLine(index)}>{item.subject}</li>
+                        </Fragment>
+                     ))}
+                  </Category>
+               </ContentsNav>
+               <LineList>
+                  {lines.map((item) => (
+                     <LineItem key={item}>
+                        <ImageBox>
+                           <Image
+                              src={noobProHacker[0].lineInfo[line].line_details[item].image_url}
+                              style={{ objectFit: 'cover' }}
+                              fill
+                              sizes="1080px"
+                              alt="noob"
+                           />
+                        </ImageBox>
+                        <TextContainer>
+                           <TextBox
+                              text={noobProHacker[0].lineInfo[line].line_details[item].minecraft_id}
+                              color="white"
+                              fontSize="20px"
+                              lineHeight="32px"
+                              fontWeight="500"
+                           />
+                           <TextBox
+                              text={translateTier(item)}
+                              color="#ccc"
+                              fontSize="16px"
+                              lineHeight="24px"
+                              margin="3px 0px 0px 0px"
+                              fontWeight="500"
+                           />
+                        </TextContainer>
+                     </LineItem>
+                  ))}
+               </LineList>
             </ContentsBox>
          </Layout>
       </>
