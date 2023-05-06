@@ -7,6 +7,7 @@ import Skeleton from '@/components/Common/Skeleton';
 import { tierImage } from '@/utils/lib';
 import Portfolio from '@/components/Search/Portfolio';
 
+
 const ProfileBox = styled.div`
    position: relative;
    display: flex;
