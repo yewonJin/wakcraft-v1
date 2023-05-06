@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import styled from 'styled-components';
 import { BsYoutube } from 'react-icons/bs';
-1;
+
 import { translateTier } from '@/utils/lib';
 import { Architect } from '@/domain/architect';
 import TextBox from '../Common/TextBox';

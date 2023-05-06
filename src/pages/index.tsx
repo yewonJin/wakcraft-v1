@@ -3,13 +3,13 @@ import styled from 'styled-components';
 import { Fragment, useState } from 'react';
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import Image from 'next/image';
+import Link from 'next/link';
 
 import bg from '../../public/assets/images/main/main-bg.webp';
 import connectMongo from '@/utils/connectMongo';
 import NoobProHacker from '@/models/noobProHacker';
 import TextBox from '@/components/Common/TextBox';
 import { translateTier } from '@/utils/lib';
-import Link from 'next/link';
 
 const Layout = styled.main`
    height: 1600px;
@@ -73,12 +73,18 @@ const Category = styled.ul`
    }
 `;
 
+const LineContainer = styled.div`
+   width: 1200px;
+   overflow: hidden;
+`;
+
 const LineList = styled.ul`
    display: flex;
+   gap: 50px;
+   transition-duration: 300ms;
    align-items: center;
    justify-content: space-between;
    box-sizing: border-box;
-   width: 1200px;
 `;
 
 const LineItem = styled.div`
@@ -92,6 +98,7 @@ const ImageBox = styled.div`
    position: relative;
    width: 350px;
    height: 450px;
+   background-color: rgba(255, 255, 255, 0.5);
 
    > img {
       :hover {
@@ -164,42 +171,85 @@ export default function Home({ noobProHacker }: InferGetStaticPropsType<typeof g
                      ))}
                   </Category>
                </ContentsNav>
-               <LineList>
-                  {lines.map(item => (
-                     <LineItem key={item}>
-                        <ImageBox>
-                           <Image
-                              src={noobProHacker[0].lineInfo[line].line_details[item].image_url}
-                              style={{ objectFit: 'cover' }}
-                              fill
-                              sizes="1080px"
-                              alt="noob"
-                           />
-                        </ImageBox>
-                        <TextContainer>
-                           <Link href={`/architect/${noobProHacker[0].lineInfo[line].line_details[item].minecraft_id}`}>
-                              <TextBox
-                                 text={noobProHacker[0].lineInfo[line].line_details[item].minecraft_id}
-                                 color="white"
-                                 fontSize="20px"
-                                 lineHeight="32px"
-                                 fontWeight="500"
-                              />
-                           </Link>
-                           <TextBox
-                              text={translateTier(item)}
-                              color="#aaa"
-                              fontSize="16px"
-                              lineHeight="24px"
-                              margin="3px 0px 0px 0px"
-                              fontWeight="500"
-                           />
-                        </TextContainer>
-                     </LineItem>
-                  ))}
-               </LineList>
+               <LineContainer>
+                  <LineList style={{ transform: `translateX(${line * -1200}px)` }}>
+                     {noobProHacker[0].lineInfo.map((item, index) => (
+                        <Fragment key={'lineInfo' + index}>
+                           {lines.map((line, index) => (
+                              <LineItem key={'line' + index}>
+                                 <ImageBox>
+                                    <Image
+                                       src={item.line_details[line].image_url}
+                                       style={{ objectFit: 'cover' }}
+                                       fill
+                                       sizes="1080px"
+                                       alt={line}
+                                    />
+                                 </ImageBox>
+                                 <TextContainer>
+                                    <Link href={`/architect/${item.line_details[line].minecraft_id}`}>
+                                       <TextBox
+                                          text={item.line_details[line].minecraft_id}
+                                          color="white"
+                                          fontSize="20px"
+                                          lineHeight="32px"
+                                          fontWeight="500"
+                                       />
+                                    </Link>
+                                    <TextBox
+                                       text={translateTier(line)}
+                                       color="#aaa"
+                                       fontSize="16px"
+                                       lineHeight="24px"
+                                       margin="3px 0px 0px 0px"
+                                       fontWeight="500"
+                                    />
+                                 </TextContainer>
+                              </LineItem>
+                           ))}
+                        </Fragment>
+                     ))}
+                  </LineList>
+               </LineContainer>
             </ContentsBox>
          </Layout>
       </>
    );
 }
+
+/*
+   {lines.map(item => (
+                        <LineItem key={item}>
+                           <ImageBox>
+                              <Image
+                                 src={noobProHacker[0].lineInfo[line].line_details[item].image_url}
+                                 style={{ objectFit: 'cover' }}
+                                 fill
+                                 sizes="1080px"
+                                 alt="noob"
+                              />
+                           </ImageBox>
+                           <TextContainer>
+                              <Link
+                                 href={`/architect/${noobProHacker[0].lineInfo[line].line_details[item].minecraft_id}`}
+                              >
+                                 <TextBox
+                                    text={noobProHacker[0].lineInfo[line].line_details[item].minecraft_id}
+                                    color="white"
+                                    fontSize="20px"
+                                    lineHeight="32px"
+                                    fontWeight="500"
+                                 />
+                              </Link>
+                              <TextBox
+                                 text={translateTier(item)}
+                                 color="#aaa"
+                                 fontSize="16px"
+                                 lineHeight="24px"
+                                 margin="3px 0px 0px 0px"
+                                 fontWeight="500"
+                              />
+                           </TextContainer>
+                        </LineItem>
+                     ))}
+*/
