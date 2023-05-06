@@ -9,6 +9,7 @@ import connectMongo from '@/utils/connectMongo';
 import NoobProHacker from '@/models/noobProHacker';
 import TextBox from '@/components/Common/TextBox';
 import { translateTier } from '@/utils/lib';
+import Link from 'next/link';
 
 const Layout = styled.main`
    height: 1600px;
@@ -164,7 +165,7 @@ export default function Home({ noobProHacker }: InferGetStaticPropsType<typeof g
                   </Category>
                </ContentsNav>
                <LineList>
-                  {lines.map((item) => (
+                  {lines.map(item => (
                      <LineItem key={item}>
                         <ImageBox>
                            <Image
@@ -176,16 +177,18 @@ export default function Home({ noobProHacker }: InferGetStaticPropsType<typeof g
                            />
                         </ImageBox>
                         <TextContainer>
-                           <TextBox
-                              text={noobProHacker[0].lineInfo[line].line_details[item].minecraft_id}
-                              color="white"
-                              fontSize="20px"
-                              lineHeight="32px"
-                              fontWeight="500"
-                           />
+                           <Link href={`/architect/${noobProHacker[0].lineInfo[line].line_details[item].minecraft_id}`}>
+                              <TextBox
+                                 text={noobProHacker[0].lineInfo[line].line_details[item].minecraft_id}
+                                 color="white"
+                                 fontSize="20px"
+                                 lineHeight="32px"
+                                 fontWeight="500"
+                              />
+                           </Link>
                            <TextBox
                               text={translateTier(item)}
-                              color="#ccc"
+                              color="#aaa"
                               fontSize="16px"
                               lineHeight="24px"
                               margin="3px 0px 0px 0px"
