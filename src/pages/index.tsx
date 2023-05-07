@@ -13,19 +13,18 @@ import { translateTier } from '@/utils/lib';
 
 const Layout = styled.main`
    height: 1600px;
-   box-sizing: border-box;
 `;
 
 const ContentsBox = styled.main`
    position: relative;
-   z-index: 2;
-   width: 100%;
-   height: 100vh;
    display: flex;
+   flex-direction: column;
    justify-content: center;
    align-items: center;
-   flex-direction: column;
    box-sizing: border-box;
+   width: 100%;
+   height: 100vh;
+   z-index: 2;
 `;
 
 const BackgroundImage = styled.div`
@@ -63,13 +62,18 @@ const Category = styled.ul`
    margin-top: 40px;
    margin-bottom: 60px;
    font-weight: 500;
+`;
 
-   > li {
-      text-align: center;
-      list-style: none;
-      font-size: 18px;
-      color: #ddd;
-      padding-bottom: 3px;
+const LineSubject = styled.li<{ line: number; index: number }>`
+   text-align: center;
+   list-style: none;
+   font-size: 18px;
+   color: ${props => (props.line === props.index ? 'white' : '#aaa')};
+   padding-bottom: 3px;
+
+   :hover {
+      color: white;
+      cursor: pointer;
    }
 `;
 
@@ -115,6 +119,12 @@ const TextContainer = styled.div`
    justify-content: center;
    margin-top: 5px;
    padding-left: 15px;
+   
+   > a {
+      :hover > h2 {
+         color: #14b3e4;
+      }
+   }
 `;
 
 export const getStaticProps: GetStaticProps<{ noobProHacker: NoobProHacker[] }> = async () => {
@@ -154,7 +164,7 @@ export default function Home({ noobProHacker }: InferGetStaticPropsType<typeof g
                      fontWeight="500"
                      lineHeight="36px"
                      margin="0px 0px 10px 0px"
-                     color="#868686"
+                     color="#aaa"
                   />
                   <TextBox
                      text={'눕프로해커 : ' + noobProHacker[0].contentInfo.main_subject + '편'}
@@ -166,9 +176,12 @@ export default function Home({ noobProHacker }: InferGetStaticPropsType<typeof g
                      {noobProHacker[0].lineInfo.map((item, index) => (
                         <Fragment key={item + index.toString()}>
                            <Divider />
-                           <li onClick={() => setLine(index)}>{item.subject}</li>
+                           <LineSubject line={line} index={index} onClick={() => setLine(index)}>
+                              {item.subject}
+                           </LineSubject>
                         </Fragment>
                      ))}
+                     <Divider />
                   </Category>
                </ContentsNav>
                <LineContainer>
@@ -177,7 +190,7 @@ export default function Home({ noobProHacker }: InferGetStaticPropsType<typeof g
                         <Fragment key={'lineInfo' + index}>
                            {lines.map((line, index) => (
                               <LineItem key={'line' + index}>
-                                 <ImageBox>
+                                 <ImageBox onClick={() => window.open(item.line_details[line].image_url)}>
                                     <Image
                                        src={item.line_details[line].image_url}
                                        style={{ objectFit: 'cover' }}
