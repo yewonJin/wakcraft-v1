@@ -63,69 +63,65 @@ export default function PlacementTest() {
 
    return (
       <CommonLayout>
-         <form>
-            {viewStorage && <AwsStorage content="placementTest" />}
-            <TextBox text="배치고사" fontSize="24px" lineHeight="36px" fontWeight="500" />
-            <MainInfoBox>
-               <Wrapper direction="column">
-                  <TextBox text="시즌" fontSize="18px" fontWeight="32px" />
-                  <InputBox name="season" type="number" width="70px" onChange={handleChange} />
-               </Wrapper>
-               <Wrapper direction="column">
-                  <TextBox text="날짜" fontSize="18px" fontWeight="32px" />
-                  <InputBox name="date" type="date" width="140px" onChange={handleChange} />
-               </Wrapper>
-               <Wrapper direction="column">
-                  <TextBox text="유튜브 링크" fontSize="18px" fontWeight="32px" />
-                  <InputBox name="youtube_url" type="text" width="250px" onChange={handleChange} />
-               </Wrapper>
-               <Button
-                  onClick={e => {
-                     e.preventDefault();
-                     mutation.mutate({ ...placementTestInfo, participants: participantsInfo });
-                  }}
-                  text="DB에 추가"
-                  height="60px"
-                  padding="5px 10px"
-               />
-            </MainInfoBox>
-            <Wrapper alignItems="center">
-               <TextBox text="건축가 추가" fontSize="20px" lineHeight="24px" fontWeight="500" />
-               <Button
-                  text="파일 찾기"
-                  padding="9px 15px"
-                  onClick={e => {
-                     e.preventDefault();
-                     setViewStorage(true);
-                  }}
-               />
+         {viewStorage && <AwsStorage content="placementTest" />}
+         <TextBox text="배치고사" fontSize="24px" lineHeight="36px" fontWeight="500" />
+         <MainInfoBox>
+            <Wrapper direction="column">
+               <TextBox text="시즌" fontSize="18px" fontWeight="32px" />
+               <InputBox name="season" type="number" width="70px" onChange={handleChange} />
             </Wrapper>
-            <List>
-               {participantsInfo?.map((item, index) => (
-                  <Item key={item.minecraft_id + index}>
-                     <ImageBox>
-                        <Image fill sizes="400px" alt="image" src={item.image_url} />
-                     </ImageBox>
-                     <Wrapper>
-                        <TextBox text={'마인크래프트 id : ' + item.minecraft_id} />
-                        <select
-                           name="tier"
-                           value={participantsInfo[index].placement_result}
-                           onChange={e => handlePlacementTestTier(index, e.target.value as Tier)}
-                        >
-                           {createTierArray().map(tier => {
-                              return (
-                                 <option key={tier} value={tier}>
-                                    {tier}
-                                 </option>
-                              );
-                           })}
-                        </select>
-                     </Wrapper>
-                  </Item>
-               ))}
-            </List>
-         </form>
+            <Wrapper direction="column">
+               <TextBox text="날짜" fontSize="18px" fontWeight="32px" />
+               <InputBox name="date" type="date" width="140px" onChange={handleChange} />
+            </Wrapper>
+            <Wrapper direction="column">
+               <TextBox text="유튜브 링크" fontSize="18px" fontWeight="32px" />
+               <InputBox name="youtube_url" type="text" width="250px" onChange={handleChange} />
+            </Wrapper>
+            <Button
+               onClick={e => {
+                  mutation.mutate({ ...placementTestInfo, participants: participantsInfo });
+               }}
+               text="DB에 추가"
+               height="60px"
+               padding="5px 10px"
+            />
+         </MainInfoBox>
+         <Wrapper alignItems="center">
+            <TextBox text="건축가 추가" fontSize="20px" lineHeight="24px" fontWeight="500" />
+            <Button
+               text="파일 찾기"
+               padding="9px 15px"
+               onClick={e => {
+                  setViewStorage(true);
+               }}
+            />
+         </Wrapper>
+         <List>
+            {participantsInfo?.map((item, index) => (
+               <Item key={item.minecraft_id + index}>
+                  <ImageBox>
+                     <Image fill sizes="400px" alt="image" src={item.image_url} />
+                  </ImageBox>
+                  <Wrapper>
+                     <TextBox text={'마인크래프트 id : ' + item.minecraft_id} />
+                     <select
+                        name="tier"
+                        value={participantsInfo[index].placement_result}
+                        onChange={e => handlePlacementTestTier(index, e.target.value as Tier)}
+                     >
+                        {createTierArray().map(tier => {
+                           return (
+                              <option key={tier} value={tier}>
+                                 {tier}
+                              </option>
+                           );
+                        })}
+                     </select>
+                  </Wrapper>
+               </Item>
+            ))}
+         </List>
       </CommonLayout>
    );
 }

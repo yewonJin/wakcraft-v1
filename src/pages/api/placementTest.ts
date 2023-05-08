@@ -2,21 +2,38 @@ import connectMongo from '@/utils/connectMongo';
 import Architect from '@/models/architect';
 import PlacementTest from '@/models/placementTest';
 import { NextApiRequest, NextApiResponse } from 'next';
+import { Tier } from '@/domain/architect';
+
+type PlacementTestType = {
+   season: number;
+   date: string;
+   youtube_url: string;
+   participants: {
+      minecraft_id: string;
+      image_url: string;
+      placement_result: Tier;
+   }[];
+};
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
    if (req.method === 'POST') {
       // 테스트
+      const { body }: { body: PlacementTestType } = req;
 
-      const { season } = req.body;
-      
       await connectMongo();
 
-      await PlacementTest.create(req.body);
+      await PlacementTest.create(body);
+
+      await Architect.findAllAndSetTierUnRanked();
 
       try {
-         req.body.participants.forEach(async item => {
+         body.participants.forEach(async item => {
+            await Architect.findOneAndUnSetTierFirstIndex(item.minecraft_id);
+
+            await Architect.findOneAndPullTierNull(item.minecraft_id);
+
             await Architect.findOneAndPushToPlacementTest(item.minecraft_id, {
-               season: season,
+               season: body.season,
                image_url: item.image_url,
                placement_result: item.placement_result,
             });

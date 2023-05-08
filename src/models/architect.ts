@@ -13,10 +13,13 @@ interface ArchitectModel extends Model<Architect> {
       minecraft_id: string,
       payload: Architect['portfolio']['noobProHacker'][0],
    ) => Promise<void>;
+   findAllAndSetTierUnRanked: () => Promise<void>;
    findOneAndPushToPlacementTest: (
       minecraft_id: string,
       payload: Architect['portfolio']['placementTest'][0],
    ) => Promise<void>;
+   findOneAndUnSetTierFirstIndex: (minecraft_id: string) => Promise<void>;
+   findOneAndPullTierNull: (minecraft_id: string) => Promise<void>;
    findOneByMinecraftIdAndUpdate: (
       originalId: string,
       minecraft_id: string,
@@ -200,6 +203,35 @@ architectSchema.statics.findOneAndPushToPortfolio = function (
    }
 };
 
+architectSchema.statics.findAllAndSetTierUnRanked = function () {
+   return this.updateMany(
+      {},
+      {
+         $push: {
+            tier: { $each: ['언랭'], $position: 0 },
+         },
+      },
+   );
+};
+
+architectSchema.statics.findOneAndUnSetTierFirstIndex = function (minecraft_id) {
+   return this.findOneAndUpdate(
+      { minecraft_id },
+      {
+         $unset: { 'tier.0': 1 },
+      },
+   );
+};
+
+architectSchema.statics.findOneAndPullTierNull = function (minecraft_id) {
+   return this.findOneAndUpdate(
+      { minecraft_id },
+      {
+         $pull: { tier: null },
+      },
+   );
+};
+
 architectSchema.statics.findOneAndPushToPlacementTest = function (
    minecraft_id: string,
    payload: Architect['portfolio']['placementTest'][0],
@@ -208,7 +240,7 @@ architectSchema.statics.findOneAndPushToPlacementTest = function (
       { minecraft_id },
       {
          $push: { 'portfolio.placementTest': payload, tier: { $each: [payload.placement_result], $position: 0 } },
-      }
+      },
    );
 };
 
