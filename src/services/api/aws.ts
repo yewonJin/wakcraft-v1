@@ -1,22 +1,24 @@
-export const getNoobProHackerDirectory = async () => {
+import { ContentType } from '@/components/Storage/AwsStorage';
+
+export const getAwsDirectory = async (content: ContentType) => {
    try {
-      return await fetch('/api/aws/object').then(res => res.json());
+      return await fetch(`/api/aws/object?content=${content}`).then(res => res.json());
    } catch (e) {
       console.error(e);
    }
 };
 
-export const getNoobProHackerImages = async (page: number) => {
+export const getAwsImages = async (content: ContentType, page: number) => {
    try {
-      return await fetch(`/api/aws/image?episode=${page}`).then(res => res.json());
+      return await fetch(`/api/aws/image?content=${content}&episode=${page}`).then(res => res.json());
    } catch (e) {
       console.error(e);
    }
 };
 
-export const postNoobProHackerDirectory = async (episode: number) => {
+export const postAwsDirectory = async (content: ContentType, episode: number) => {
    try {
-      return await fetch(`/api/aws/object?episode=${episode}`, {
+      return await fetch(`/api/aws/object?content=${content}&episode=${episode}`, {
          method: 'POST',
       }).then(res => res.json());
    } catch (e) {
@@ -24,9 +26,9 @@ export const postNoobProHackerDirectory = async (episode: number) => {
    }
 };
 
-export const postNoobProHackerImages = async (formData: FormData, episode: string) => {
+export const postAwsImages = async (formData: FormData) => {
    try {
-      return await fetch(`/api/aws/image?episode=${episode}`, {
+      return await fetch(`/api/aws/image`, {
          method: 'POST',
          body: formData,
       }).then(res => res.json());

@@ -25,18 +25,24 @@ type parsedFileData = {
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
    if (req.method === 'GET') {
-      if (req.query.episode) {
-         try {
-            const data = await s3.send(new ListObjectsCommand(listObjectsBucketParams(req.query.episode as string)));
+      const { content, episode } = req.query;
 
-            if (!data.Contents) return res.status(400).send({ error: '해당 object가 없습니다.' });
+      if (!content || !episode) return res.status(400).send({ error: '에러' });
 
-            return res
-               .status(200)
-               .send(data.Contents.filter(item => item.Key?.split('/')[2] !== '').map(item => item.Key));
-         } catch (e) {
-            console.log(e);
-         }
+      try {
+         const data = await s3.send(
+            new ListObjectsCommand(
+               listObjectsBucketParams(content as 'noobProHacker' | 'placementTest', req.query.episode as string),
+            ),
+         );
+
+         if (!data.Contents) return res.status(400).send({ error: '해당 object가 없습니다.' });
+
+         return res
+            .status(200)
+            .send(data.Contents.filter(item => item.Key?.split('/')[2] !== '').map(item => item.Key));
+      } catch (e) {
+         console.log(e);
       }
    } else if (req.method === 'POST') {
       try {
@@ -57,7 +63,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             const fileBuffer = fs.createReadStream(item.filepath);
             fileBuffer.on('error', err => console.log(err));
 
-            const fileName = `noobProHacker/episode ${parsedFileData.fields.episode}/` + item.originalFilename;
+            const fileName =
+               `${parsedFileData.fields.content}/${
+                  parsedFileData.fields.content === 'noobProHacker' ? 'episode' : 'season'
+               } ${parsedFileData.fields.episode}/` + item.originalFilename;
 
             await uploadFile(fileBuffer, fileName, item.mimetype);
          });
@@ -74,6 +83,5 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 export const config = {
    api: {
       bodyParser: false,
-      sizeLimit: '4mb', // 업로드 이미지 용량 제한
    },
 };

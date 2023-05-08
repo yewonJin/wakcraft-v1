@@ -1,32 +1,18 @@
-import formidable from 'formidable';
-import fs from 'fs';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { ListObjectsCommand } from '@aws-sdk/client-s3';
 
-import { createFolder, listObjectsBucketParams, s3, uploadFile } from '@/utils/aws';
-
-type Img = {
-   size: string;
-   filepath: string;
-   newFilename: string;
-   mimetype: string;
-   mtime: Date;
-   originalFilename: string;
-};
-
-type Files = {
-   [file: string]: Img;
-};
-
-type parsedFileData = {
-   fields: formidable.Fields;
-   files: Files;
-};
+import { createFolder, listObjectsBucketParams, s3 } from '@/utils/aws';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
    if (req.method === 'GET') {
+      const { content } = req.query;
+
+      if (!content) return res.status(400).send({ error: 'query string이 없습니다' });
+
       try {
-         const data = await s3.send(new ListObjectsCommand(listObjectsBucketParams()));
+         const data = await s3.send(
+            new ListObjectsCommand(listObjectsBucketParams(content as 'noobProHacker' | 'placementTest')),
+         );
 
          if (!data.Contents) return res.status(400).send({ error: '해당 object가 없습니다.' });
 
@@ -42,12 +28,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
    } else if (req.method === 'POST') {
       try {
-         const { episode } = req.query;
+         const { content, episode } = req.query;
 
-         if (!episode) {
+         if (!episode || !content) {
             return res.status(400).send({ error: '에러' });
          }
-         await createFolder(episode as string);
+
+         await createFolder(content as 'noobProHacker' | 'placementTest', episode as string);
 
          return res.status(201).json({
             message: 's3 uploading with fs succeeded',
@@ -61,6 +48,5 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 export const config = {
    api: {
       bodyParser: false,
-      sizeLimit: '4mb', // 업로드 이미지 용량 제한
    },
 };

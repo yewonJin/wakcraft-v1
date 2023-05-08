@@ -153,8 +153,8 @@ export default function Search({ architects }: InferGetStaticPropsType<typeof ge
             {architects
                .filter(item => convertLineTierToTier(curTier).includes(item.tier[0]))
                .sort((a, b) => {
-                  if(a.tier[0] === '언랭' && b.tier[0] === '언랭') {
-                     return b.noobProHackerInfo.participation - a.noobProHackerInfo.participation
+                  if (a.tier[0] === '언랭' && b.tier[0] === '언랭') {
+                     return b.noobProHackerInfo.participation - a.noobProHackerInfo.participation;
                   }
 
                   return 0;
@@ -163,7 +163,7 @@ export default function Search({ architects }: InferGetStaticPropsType<typeof ge
                   return (
                      <Link key={item.wakzoo_id} href={`/architect/${item.minecraft_id}`}>
                         <ArchitectInfoList>
-                           <ArchitectInfoItem width="180px">{item.tier[0]}</ArchitectInfoItem>
+                           <ArchitectInfoItem width="180px">{item.tier[item.tier.length - 1]}</ArchitectInfoItem>
                            <ArchitectInfoItem width="250px">{item.minecraft_id}</ArchitectInfoItem>
                            <ArchitectInfoItem width="220px">{item.wakzoo_id}</ArchitectInfoItem>
                            <ArchitectInfoItem width="150px">

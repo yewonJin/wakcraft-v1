@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import { AiOutlinePlus } from 'react-icons/ai';
-import InputBox from '@/components/Common/InputBox';
-import { useCreateLineInfo } from '@/application/createNoobProHacker';
+
 import { useMutationNewFolder } from '@/services/awsAdapters';
+import { ContentType } from '@/components/Storage/AwsStorage';
 
 const Layout = styled.li`
    display: flex;
@@ -21,30 +21,12 @@ const Layout = styled.li`
    }
 `;
 
-export default function AddEpisode({ data }: { data: string[] }) {
-   const mutation = useMutationNewFolder();
+export default function AddEpisode({ content, data }: { content: ContentType; data: string[] }) {
+   const mutation = useMutationNewFolder(content, data.length + 1);
 
    return (
-      <Layout onClick={e => mutation.mutate(data.length + 1)}>
+      <Layout onClick={e => mutation.mutate()}>
          <AiOutlinePlus />
       </Layout>
    );
 }
-
-/*
-
-
-const newValue = {
-            ...lineInfo[curLineIndex],
-            line_details: {
-               ...lineInfo[curLineIndex].line_details,
-               [line]: {
-                  ...lineInfo[curLineIndex].line_details[line],
-                  [e.target.name]: `https://wakcraft.s3.ap-northeast-2.amazonaws.com/${json.imgUrl}`,
-               },
-            },
-         };
-
-         const newArr = replaceItemAtIndex(lineInfo, curLineIndex, newValue);
-         setLineInfo(newArr);1
-*/

@@ -70,7 +70,7 @@ export function AddLineDetails() {
 
    return (
       <Layout>
-         {viewStorage && <AwsStorage />}
+         {viewStorage && <AwsStorage content="noobProHacker" />}
          <Container>
             <Wrapper>
                <InputBox

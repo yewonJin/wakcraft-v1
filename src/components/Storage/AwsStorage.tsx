@@ -7,7 +7,7 @@ import { IoMdClose } from 'react-icons/io';
 import TextBox from '@/components/Common/TextBox';
 import ImageList from './ImageList';
 import AddEpisode from '../Admin/noobProHacker/AddEpisode';
-import { useQueryNoobProHackerDirectory } from '@/services/awsAdapters';
+import { useQueryAwsDirectory } from '@/services/awsAdapters';
 import UploadFiles from './UploadFiles';
 import { useAwsStorage } from '@/application/accessAwsStorage';
 
@@ -68,9 +68,11 @@ const Wrapper = styled.div`
    }
 `;
 
-export default function AwsStorage() {
+export type ContentType = 'noobProHacker' | 'placementTest';
+
+export default function AwsStorage({ content }: { content: ContentType }) {
    const { page, setStatePage, setStateViewStorage } = useAwsStorage();
-   const { data } = useQueryNoobProHackerDirectory();
+   const { data } = useQueryAwsDirectory(content);
 
    if (!data) return <div></div>;
 
@@ -78,17 +80,25 @@ export default function AwsStorage() {
       return (
          <Layout>
             <Wrapper>
-               <TextBox text="눕프핵 파일 사진" fontSize="24px" fontWeight="500" lineHeight="36px" color="white" />
+               <TextBox
+                  text={content === 'noobProHacker' ? '눕프로해커' : '배치고사'}
+                  fontSize="24px"
+                  fontWeight="500"
+                  lineHeight="36px"
+                  color="white"
+               />
                <IoMdClose onClick={() => setStateViewStorage(false)} />
             </Wrapper>
             <EpisodeList>
-               {data.sort((a, b) => parseInt(a) - parseInt(b)).map((item, index) => (
-                  <EpisodeItem key={item + index} onClick={() => setStatePage(index + 1)}>
-                     <RiFolder3Fill />
-                     <TextBox text={item + '화'} color="#ccc" fontSize="18px" lineHeight="26px" />
-                  </EpisodeItem>
-               ))}
-               <AddEpisode data={data} />
+               {data
+                  .sort((a, b) => parseInt(a) - parseInt(b))
+                  .map((item, index) => (
+                     <EpisodeItem key={item + index} onClick={() => setStatePage(index + 1)}>
+                        <RiFolder3Fill />
+                        <TextBox text={item + '화'} color="#ccc" fontSize="18px" lineHeight="26px" />
+                     </EpisodeItem>
+                  ))}
+               <AddEpisode content={content} data={data} />
             </EpisodeList>
          </Layout>
       );
@@ -96,11 +106,13 @@ export default function AwsStorage() {
       return (
          <Layout>
             <Wrapper>
-               <UploadFiles page={page} />
+               <Wrapper>
+                  <UploadFiles content={content} page={page} />
+               </Wrapper>
                <BiArrowBack onClick={() => setStatePage(0)} />
             </Wrapper>
             <Suspense>
-               <ImageList />
+               <ImageList content={content} />
             </Suspense>
          </Layout>
       );

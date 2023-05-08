@@ -13,6 +13,10 @@ interface ArchitectModel extends Model<Architect> {
       minecraft_id: string,
       payload: Architect['portfolio']['noobProHacker'][0],
    ) => Promise<void>;
+   findOneAndPushToPlacementTest: (
+      minecraft_id: string,
+      payload: Architect['portfolio']['placementTest'][0],
+   ) => Promise<void>;
    findOneByMinecraftIdAndUpdate: (
       originalId: string,
       minecraft_id: string,
@@ -46,10 +50,9 @@ const architectSchema = new Schema<Architect>({
             ranking: { type: Number, default: 0 },
          },
       ],
-      placement_test: [
+      placementTest: [
          {
-            episode: { type: Number },
-            subject: { type: String },
+            season: { type: Number },
             image_url: { type: String },
             placement_result: { type: String },
          },
@@ -107,11 +110,7 @@ architectSchema.statics.findAllWithoutPortfolio = function () {
 architectSchema.statics.findAllByLineTier = function (tier: string) {
    return this.aggregate([
       {
-         $match: {
-            tier: {
-               $in: [...convertLineTierToTier(tier)],
-            },
-         },
+         $match: { $expr: { $in: [{ $arrayElemAt: ['$tier', 0] }, convertLineTierToTier(tier)] } },
       },
       {
          $addFields: {
@@ -199,6 +198,18 @@ architectSchema.statics.findOneAndPushToPortfolio = function (
          },
       );
    }
+};
+
+architectSchema.statics.findOneAndPushToPlacementTest = function (
+   minecraft_id: string,
+   payload: Architect['portfolio']['placementTest'][0],
+) {
+   return this.findOneAndUpdate(
+      { minecraft_id },
+      {
+         $push: { 'portfolio.placementTest': payload, tier: { $each: [payload.placement_result], $position: 0 } },
+      }
+   );
 };
 
 architectSchema.statics.findOneByMinecraftIdAndUpdate = function (

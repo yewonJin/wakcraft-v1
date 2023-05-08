@@ -7,7 +7,6 @@ import Skeleton from '@/components/Common/Skeleton';
 import { tierImage } from '@/utils/lib';
 import Portfolio from '@/components/Search/Portfolio';
 
-
 const ProfileBox = styled.div`
    position: relative;
    display: flex;
@@ -23,7 +22,6 @@ const TierImageBox = styled.span`
    height: 94px;
    background-size: cover;
    background-position: center;
-
 `;
 
 const SkeletonBox = styled.div`
@@ -66,7 +64,7 @@ export default function Page() {
          <ProfileBox>
             <TierImageBox style={{ backgroundImage: `url(${tierImage(data.tier[0]).src})` }}>
                <TextBox
-                  text={data.tier[0]}
+                  text={data.tier[data.tier.length - 1]}
                   textShadow="1px 1px 1px black"
                   fontSize="18px"
                   lineHeight="24px"

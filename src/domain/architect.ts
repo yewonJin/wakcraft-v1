@@ -36,7 +36,6 @@ export type Architect = {
       }[];
       placementTest: {
          season: number;
-         subject: string;
          image_url: string;
          placement_result: Tier;
       }[];

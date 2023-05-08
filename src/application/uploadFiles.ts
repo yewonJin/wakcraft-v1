@@ -4,7 +4,11 @@ import { toast } from 'react-hot-toast';
 export const useUpload = (page: number) => {
    const mutation = useMutationUploadFiles(page);
 
-   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>, episode: string) => {
+   const handleFileChange = async (
+      e: React.ChangeEvent<HTMLInputElement>,
+      episode: string,
+      content: 'noobProHacker' | 'placementTest',
+   ) => {
       if (!e.target.files) {
          toast.error('파일을 제대로 첨부해주세요');
          return;
@@ -12,12 +16,13 @@ export const useUpload = (page: number) => {
 
       const formData = new FormData();
       formData.append('episode', episode);
+      formData.append('content', content);
 
       for (let i = 0; i < e.target.files.length; i++) {
          formData.append(`file${i}`, e.target.files[i]);
       }
 
-      mutation.mutate({ episode: episode, formData: formData });
+      mutation.mutate({ formData: formData });
    };
 
    return { handleFileChange };

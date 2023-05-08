@@ -32,7 +32,11 @@ export default function Index() {
             </Link>
             <Divider />
             <Link href={'/admin/noobProHacker'}>
-               <li>눕프핵</li>
+               <li>눕프로해커</li>
+            </Link>
+            <Divider />
+            <Link href={'/admin/placementTest'}>
+               <li>배치고사</li>
             </Link>
          </List>
       </CommonLayout>

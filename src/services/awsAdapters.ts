@@ -1,24 +1,21 @@
 import { UseQueryResult, useMutation, useQuery, useQueryClient } from 'react-query';
-import {
-   getNoobProHackerDirectory,
-   getNoobProHackerImages,
-   postNoobProHackerDirectory,
-   postNoobProHackerImages,
-} from './api/aws';
 import { toast } from 'react-hot-toast';
 
-export const useQueryNoobProHackerDirectory = () => {
-   const { data }: UseQueryResult<string[]> = useQuery('getNoobProHackerDirectory', () => getNoobProHackerDirectory(), {
+import { getAwsDirectory, getAwsImages, postAwsDirectory, postAwsImages } from './api/aws';
+import { ContentType } from '@/components/Storage/AwsStorage';
+
+export const useQueryAwsDirectory = (content: ContentType) => {
+   const { data }: UseQueryResult<string[]> = useQuery('getAwsDirectory', () => getAwsDirectory(content), {
       refetchOnWindowFocus: false,
    });
 
    return { data };
 };
 
-export const useQueryNoobProHackerImages = (page: number) => {
+export const useQueryAwsImages = (content: ContentType, page: number) => {
    const { data }: UseQueryResult<string[]> = useQuery(
-      ['getNoobProHackerImages', page],
-      () => getNoobProHackerImages(page),
+      ['getAwsImages', content, page],
+      () => getAwsImages(content, page),
       {
          refetchOnWindowFocus: false,
          suspense: true,
@@ -28,12 +25,12 @@ export const useQueryNoobProHackerImages = (page: number) => {
    return { data };
 };
 
-export const useMutationNewFolder = () => {
+export const useMutationNewFolder = (content: ContentType, episode: number) => {
    const queryClient = useQueryClient();
 
-   const mutation = useMutation((episode: number) => postNoobProHackerDirectory(episode), {
+   const mutation = useMutation(() => postAwsDirectory(content, episode), {
       onSuccess: () => {
-         queryClient.invalidateQueries('getNoobProHackerDirectory');
+         queryClient.invalidateQueries('getAwsDirectory');
       },
    });
 
@@ -44,8 +41,8 @@ export const useMutationUploadFiles = (page: number) => {
    const queryClient = useQueryClient();
 
    const mutation = useMutation(
-      ({ episode, formData }: { episode: string; formData: FormData }) =>
-         toast.promise(postNoobProHackerImages(formData, episode), {
+      ({ formData }: { formData: FormData }) =>
+         toast.promise(postAwsImages(formData), {
             loading: '추가 중',
             success: '추가 완료',
             error: err => err.message,
@@ -53,7 +50,7 @@ export const useMutationUploadFiles = (page: number) => {
       {
          onSuccess: () => {
             setInterval(() => {
-               queryClient.invalidateQueries(['getNoobProHackerImages', page]);
+               queryClient.invalidateQueries(['getAwsImages', page]);
             }, 1000);
          },
       },

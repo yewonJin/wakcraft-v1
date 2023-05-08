@@ -1,14 +1,15 @@
-import { useQueryNoobProHackerImages } from '@/services/awsAdapters';
+import { useQueryAwsImages } from '@/services/awsAdapters';
 import Image from 'next/image';
 import styled from 'styled-components';
 
-import { NoobProHacker } from '@/domain/noobProHacker';
 import { useAwsStorage } from '@/application/accessAwsStorage';
+import { Button } from '../Common/Button';
 
 const List = styled.ul`
    display: grid;
    gap: 15px;
    grid-template-columns: repeat(2, 1fr);
+   margin-top: 10px;
 `;
 
 const Item = styled.li`
@@ -17,24 +18,47 @@ const Item = styled.li`
    aspect-ratio: 16/9;
 `;
 
-const replaceItemAtIndex = (arr: NoobProHacker['lineInfo'], index: number, newValue: NoobProHacker['lineInfo'][0]) => {
-   return [...arr.slice(0, index), newValue, ...arr.slice(index + 1)];
-};
+export default function ImageList({ content }: { content: 'noobProHacker' | 'placementTest' }) {
+   const { page, handleNoobProHackerImageClick, handlePlacementTestImageClick, setAllImagesToPlacementTest } =
+      useAwsStorage();
 
-export default function ImageList() {
-   const { page, handleImageClick } = useAwsStorage();
-
-   const { data } = useQueryNoobProHackerImages(page);
+   const { data } = useQueryAwsImages(content, page);
 
    if (!data) return <div>로딩중</div>;
 
    return (
-      <List>
-         {data.map((item, index) => (
-            <Item key={item} onClick={e => handleImageClick(item)}>
-               <Image fill alt="noobProHacker img" src={`https://wakcraft.s3.ap-northeast-2.amazonaws.com/${item}`} />
-            </Item>
-         ))}
-      </List>
+      <>
+         {content === 'placementTest' && (
+            <Button
+               text="모든 이미지 추가하기"
+               fontSize="14px"
+               padding="8px 12px"
+               onClick={() => setAllImagesToPlacementTest(data)}
+            />
+         )}
+         <List>
+            {data.map(item => (
+               <Item
+                  key={item}
+                  onClick={() => {
+                     if (content === 'noobProHacker') {
+                        handleNoobProHackerImageClick(item);
+                        return;
+                     } else if (content === 'placementTest') {
+                        handlePlacementTestImageClick(item);
+                        return;
+                     }
+                  }}
+               >
+                  <Image
+                     fill
+                     sizes="400px"
+                     alt="noobProHacker img"
+                     src={`https://wakcraft.s3.ap-northeast-2.amazonaws.com/${item}`}
+                  />
+               </Item>
+            ))}
+         </List>
+      </>
    );
 }

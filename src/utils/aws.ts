@@ -18,17 +18,32 @@ export const s3 = new S3Client({
 });
 
 /** 입력받은 눕프핵 에피소드를 반환하는 옵션  */
-export const listObjectsBucketParams = (episode?: string) => {
-   if (!episode) {
-      return {
-         Bucket: awsS3Bucket,
-         Prefix: `noobProHacker/`,
-      };
-   } else {
-      return {
-         Bucket: awsS3Bucket,
-         Prefix: `noobProHacker/episode ${episode}/`,
-      };
+export const listObjectsBucketParams = (content: 'noobProHacker' | 'placementTest', episode?: string) => {
+   switch (content) {
+      case 'noobProHacker':
+         if (!episode) {
+            return {
+               Bucket: awsS3Bucket,
+               Prefix: `noobProHacker/`,
+            };
+         } else {
+            return {
+               Bucket: awsS3Bucket,
+               Prefix: `noobProHacker/episode ${episode}/`,
+            };
+         }
+      case 'placementTest':
+         if (!episode) {
+            return {
+               Bucket: awsS3Bucket,
+               Prefix: `placementTest/`,
+            };
+         } else {
+            return {
+               Bucket: awsS3Bucket,
+               Prefix: `placementTest/season ${episode}/`,
+            };
+         }
    }
 };
 
@@ -45,13 +60,25 @@ export async function uploadFile(fileBuffer: fs.ReadStream, fileName: string, mi
    return res.$metadata.httpStatusCode;
 }
 
-export async function createFolder(fileName: string) {
-   const params = {
-      Bucket: awsS3Bucket,
-      Key: 'noobProHacker/episode ' + fileName + '/',
-      Body: '',
-   };
+/** 다음 회차 폴더 만들기 */
+export async function createFolder(content: 'noobProHacker' | 'placementTest', fileName: string) {
+   if (content === 'noobProHacker') {
+      const params = {
+         Bucket: awsS3Bucket,
+         Key: 'noobProHacker/episode ' + fileName + '/',
+         Body: '',
+      };
 
-   const res = await s3.send(new PutObjectCommand(params));
-   return res.$metadata.httpStatusCode;
+      const res = await s3.send(new PutObjectCommand(params));
+      return res.$metadata.httpStatusCode;
+   } else if (content === 'placementTest') {
+      const params = {
+         Bucket: awsS3Bucket,
+         Key: 'placementTest/season ' + fileName + '/',
+         Body: '',
+      };
+
+      const res = await s3.send(new PutObjectCommand(params));
+      return res.$metadata.httpStatusCode;
+   }
 }
