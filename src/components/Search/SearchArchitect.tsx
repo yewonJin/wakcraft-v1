@@ -106,9 +106,9 @@ export function SearchArchitect({ handleClick }: PropsType) {
                   return (
                      <li
                         key={item.minecraft_id}
-                        onClick={e => handleClick(item.minecraft_id, item.wakzoo_id, item.tier[0])}
+                        onClick={e => handleClick(item.minecraft_id, item.wakzoo_id, item.tier[item.tier.length-1])}
                      >
-                        {item.minecraft_id + ' / ' + item.wakzoo_id + ' / ' + item.tier[0]}
+                        {item.minecraft_id + ' / ' + item.wakzoo_id + ' / ' + item.tier[item.tier.length-1]}
                      </li>
                   );
                })}
@@ -137,7 +137,7 @@ export function SearchArchitect({ handleClick }: PropsType) {
             {searchData.map(item => {
                return (
                   <Link href={`/search/${item.minecraft_id}`} key={item.minecraft_id}>
-                     <li>{item.minecraft_id + ' / ' + item.wakzoo_id + ' / ' + item.tier[0]}</li>
+                     <li>{item.minecraft_id + ' / ' + item.wakzoo_id + ' / ' + item.tier[item.tier.length-1]}</li>
                   </Link>
                );
             })}

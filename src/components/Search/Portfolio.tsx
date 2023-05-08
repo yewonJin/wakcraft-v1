@@ -5,6 +5,7 @@ import { BsYoutube } from 'react-icons/bs';
 import { translateTier } from '@/utils/lib';
 import { Architect } from '@/domain/architect';
 import TextBox from '../Common/TextBox';
+import { useState } from 'react';
 
 const Layout = styled.div`
    width: 100%;
@@ -114,50 +115,97 @@ const RankingBox = styled.div`
    justify-content: center;
 `;
 
+const ContentList = styled.ul`
+   display: flex;
+   gap: 20px;
+`;
+
+const ContentItem = styled.li`
+   list-style: none;
+`;
+
 export default function Portfolio({ info }: { info: Architect }) {
+   const [contentState, setContentState] = useState(0);
+
    return (
       <Layout>
-         <TextBox text="포트폴리오" fontSize="20px" lineHeight="32px" fontWeight="500" />
-         <PortFolioLayout>
-            {info.portfolio.noobProHacker.map((item, index) => {
-               return (
-                  <PortFolioBox key={'noobProHacker_' + index}>
-                     <ImageBox onClick={() => window.open(item.image_url)}>
-                        <Image fill sizes="400px" alt="noobProHacker image" src={item.image_url} />
-                        <YoutubeLink>
-                           <BsYoutube
-                              onClick={e => {
-                                 e.stopPropagation();
-                                 return window.open(item.youtube_url);
-                              }}
-                           />
-                        </YoutubeLink>
-                     </ImageBox>
-                     <ContentLayout>
-                        <TierBox tier={item.line}>{translateTier(item.line)}</TierBox>
-                        <ContentBox>
-                           <TextBox text={item.subject} fontSize="18px" lineHeight="24px" fontWeight="500" />
-                           <TextBox
-                              text={`제 ${item.episode}회 눕프핵`}
-                              fontSize="16px"
-                              lineHeight="24px"
-                              color="#646464"
-                           />
-                        </ContentBox>
-                        <RankingBox>
-                           <TextBox text="순위" fontSize="18px" fontWeight="500" lineHeight="24px" />
-                           <TextBox
-                              text={'개인 : ' + item.ranking + '위'}
-                              fontSize="16px"
-                              lineHeight="24px"
-                              color="#646464"
-                           />
-                        </RankingBox>
-                     </ContentLayout>
-                  </PortFolioBox>
-               );
-            })}
-         </PortFolioLayout>
+         <ContentList>
+            {['눕프로해커', '배치고사'].map((item, index) => (
+               <ContentItem key={item} onClick={() => setContentState(index)}>
+                  <TextBox text={item} fontSize="20px" lineHeight="32px" fontWeight="500" />
+               </ContentItem>
+            ))}
+         </ContentList>
+         {contentState === 0 ? (
+            <PortFolioLayout>
+               {info.portfolio.noobProHacker.map((item, index) => {
+                  return (
+                     <PortFolioBox key={'noobProHacker_' + index}>
+                        <ImageBox onClick={() => window.open(item.image_url)}>
+                           <Image fill sizes="400px" alt="noobProHacker image" src={item.image_url} />
+                           <YoutubeLink>
+                              <BsYoutube
+                                 onClick={e => {
+                                    e.stopPropagation();
+                                    return window.open(item.youtube_url);
+                                 }}
+                              />
+                           </YoutubeLink>
+                        </ImageBox>
+                        <ContentLayout>
+                           <TierBox tier={item.line}>{translateTier(item.line)}</TierBox>
+                           <ContentBox>
+                              <TextBox text={item.subject} fontSize="18px" lineHeight="24px" fontWeight="500" />
+                              <TextBox
+                                 text={`제 ${item.episode}회 눕프핵`}
+                                 fontSize="16px"
+                                 lineHeight="24px"
+                                 color="#646464"
+                              />
+                           </ContentBox>
+                           <RankingBox>
+                              <TextBox text="순위" fontSize="18px" fontWeight="500" lineHeight="24px" />
+                              <TextBox
+                                 text={'개인 : ' + item.ranking + '위'}
+                                 fontSize="16px"
+                                 lineHeight="24px"
+                                 color="#646464"
+                              />
+                           </RankingBox>
+                        </ContentLayout>
+                     </PortFolioBox>
+                  );
+               })}
+            </PortFolioLayout>
+         ) : (
+            <PortFolioLayout>
+               {info.portfolio.placementTest.sort((a, b) => a.season - b.season).map((item, index) => {
+                  return (
+                     <PortFolioBox key={'placementTest_' + index}>
+                        <ImageBox onClick={() => window.open(item.image_url)}>
+                           <Image fill sizes="400px" alt="noobProHacker image" src={item.image_url} />
+                        </ImageBox>
+                        <ContentLayout>
+                           <ContentBox>
+                              <TextBox
+                                 text={item.placement_result}
+                                 fontSize="18px"
+                                 lineHeight="24px"
+                                 fontWeight="500"
+                              />
+                              <TextBox
+                                 text={`제 ${item.season}회 배치고사`}
+                                 fontSize="16px"
+                                 lineHeight="24px"
+                                 color="#646464"
+                              />
+                           </ContentBox>
+                        </ContentLayout>
+                     </PortFolioBox>
+                  );
+               })}
+            </PortFolioLayout>
+         )}
       </Layout>
    );
 }

@@ -135,7 +135,11 @@ export default function Search({ architects }: InferGetStaticPropsType<typeof ge
                   <NavItem id={tier} key={tier} curTier={curTier} onClick={() => setNavCurrentTier(tier)}>
                      <TextBox text={translateTier(tier)} />
                      <LineCountBox>
-                        {architects.filter(item => convertLineTierToTier(tier).includes(item.tier[0])).length}
+                        {
+                           architects.filter(item =>
+                              convertLineTierToTier(tier).includes(item.tier[item.tier.length - 1]),
+                           ).length
+                        }
                      </LineCountBox>
                   </NavItem>
                ))}
@@ -151,9 +155,9 @@ export default function Search({ architects }: InferGetStaticPropsType<typeof ge
          </TableHeader>
          <ArchitectList>
             {architects
-               .filter(item => convertLineTierToTier(curTier).includes(item.tier[0]))
+               .filter(item => convertLineTierToTier(curTier).includes(item.tier[item.tier.length - 1]))
                .sort((a, b) => {
-                  if (a.tier[0] === '언랭' && b.tier[0] === '언랭') {
+                  if (a.tier[a.tier.length - 1] === '언랭' && b.tier[b.tier.length - 1] === '언랭') {
                      return b.noobProHackerInfo.participation - a.noobProHackerInfo.participation;
                   }
 

@@ -62,7 +62,7 @@ export default function Page() {
    return (
       <CommonLayout>
          <ProfileBox>
-            <TierImageBox style={{ backgroundImage: `url(${tierImage(data.tier[0]).src})` }}>
+            <TierImageBox style={{ backgroundImage: `url(${tierImage(data.tier[data.tier.length - 1]).src})` }}>
                <TextBox
                   text={data.tier[data.tier.length - 1]}
                   textShadow="1px 1px 1px black"
