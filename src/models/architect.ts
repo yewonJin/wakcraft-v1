@@ -89,7 +89,7 @@ architectSchema.statics.findAllWithoutPortfolio = function () {
                   branches: createTierArray().map((item, index) => {
                      return {
                         case: {
-                           $in: [item, '$tier'],
+                           $eq: [item, { $last: '$tier' }],
                         },
                         then: index + 1,
                      };
@@ -113,7 +113,7 @@ architectSchema.statics.findAllWithoutPortfolio = function () {
 architectSchema.statics.findAllByLineTier = function (tier: string) {
    return this.aggregate([
       {
-         $match: { $expr: { $in: [{ $arrayElemAt: ['$tier', 0] }, convertLineTierToTier(tier)] } },
+         $match: { $expr: { $in: [{ $arrayElemAt: ['$tier', 1] }, convertLineTierToTier(tier)] } },
       },
       {
          $addFields: {
@@ -122,7 +122,7 @@ architectSchema.statics.findAllByLineTier = function (tier: string) {
                   branches: createTierArray().map((item, index) => {
                      return {
                         case: {
-                           $in: [item, '$tier'],
+                           $eq: [item, { $last: '$tier' }],
                         },
                         then: index + 1,
                      };
@@ -155,7 +155,7 @@ architectSchema.statics.findAllByInput = function (input: string) {
                   branches: createTierArray().map((item, index) => {
                      return {
                         case: {
-                           $in: [item, '$tier'],
+                           $eq: [item, { $last: '$tier' }],
                         },
                         then: index + 1,
                      };
@@ -208,17 +208,18 @@ architectSchema.statics.findAllAndSetTierUnRanked = function () {
       {},
       {
          $push: {
-            tier: { $each: ['언랭'], $position: 0 },
+            tier: '언랭',
          },
       },
    );
 };
 
+/** 시즌 선택해야함 */
 architectSchema.statics.findOneAndUnSetTierFirstIndex = function (minecraft_id) {
    return this.findOneAndUpdate(
       { minecraft_id },
       {
-         $unset: { 'tier.0': 1 },
+         $unset: { 'tier.3': 1 },
       },
    );
 };
@@ -239,7 +240,7 @@ architectSchema.statics.findOneAndPushToPlacementTest = function (
    return this.findOneAndUpdate(
       { minecraft_id },
       {
-         $push: { 'portfolio.placementTest': payload, tier: { $each: [payload.placement_result], $position: 0 } },
+         $push: { 'portfolio.placementTest': payload, tier: payload.placement_result },
       },
    );
 };
