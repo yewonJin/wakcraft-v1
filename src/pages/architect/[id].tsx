@@ -5,7 +5,8 @@ import { CommonLayout } from '@/components/Common/CommonLayout';
 import TextBox from '@/components/Common/TextBox';
 import Skeleton from '@/components/Common/Skeleton';
 import { tierImage } from '@/utils/lib';
-import Portfolio from '@/components/Search/Portfolio';
+import Portfolio from '@/components/Architect/Portfolio';
+import { currentTier, numberParticipationInLine } from '@/domain/architect';
 
 const ProfileBox = styled.div`
    position: relative;
@@ -37,6 +38,24 @@ const IdBox = styled.div`
    flex-direction: column;
 `;
 
+const ContentContainer = styled.div`
+   position: absolute;
+   right: 0;
+   display: flex;
+   gap: 20px;
+   align-items: start;
+`;
+
+const ContentBox = styled.div`
+   display: flex;
+   flex-direction: column;
+   gap: 5px;
+
+   > h2:first-child {
+      padding: 2px 8px;
+   }
+`;
+
 export default function Page() {
    const data = useQueryArchitectById();
 
@@ -62,9 +81,9 @@ export default function Page() {
    return (
       <CommonLayout>
          <ProfileBox>
-            <TierImageBox style={{ backgroundImage: `url(${tierImage(data.tier[data.tier.length - 1]).src})` }}>
+            <TierImageBox style={{ backgroundImage: `url(${tierImage(currentTier(data)).src})` }}>
                <TextBox
-                  text={data.tier[data.tier.length - 1]}
+                  text={currentTier(data)}
                   textShadow="1px 1px 1px black"
                   fontSize="18px"
                   lineHeight="24px"
@@ -77,6 +96,63 @@ export default function Page() {
                <TextBox text={data.minecraft_id} fontSize="20px" lineHeight="32px" fontWeight="500" />
                <TextBox text={data.wakzoo_id} fontSize="18px" lineHeight="24px" fontWeight="400" color="#535353" />
             </IdBox>
+            <ContentContainer>
+               <ContentBox>
+                  <TextBox
+                     textAlign="center"
+                     text={data.noobProHackerInfo.participation.toString()}
+                     fontSize="18px"
+                     lineHeight="24px"
+                     fontWeight="500"
+                     color="black"
+                  />
+                  <TextBox text={'참여 횟수'} fontSize="16px" lineHeight="24px" fontWeight="400" color="#666" />
+               </ContentBox>
+               <ContentBox>
+                  <TextBox
+                     textAlign="center"
+                     text={data.noobProHackerInfo.win.toString()}
+                     fontSize="18px"
+                     lineHeight="24px"
+                     fontWeight="500"
+                     color="black"
+                  />
+                  <TextBox text={'우승 횟수'} fontSize="16px" lineHeight="24px" fontWeight="400" color="#666" />
+               </ContentBox>
+               <ContentBox>
+                  <TextBox
+                     textAlign="center"
+                     text={numberParticipationInLine(data, 'hacker')}
+                     fontSize="18px"
+                     lineHeight="24px"
+                     fontWeight="500"
+                     color="black"
+                  />
+                  <TextBox text={'해커 참여'} fontSize="16px" lineHeight="24px" fontWeight="400" color="#666" />
+               </ContentBox>
+               <ContentBox>
+                  <TextBox
+                     textAlign="center"
+                     text={numberParticipationInLine(data, 'pro')}
+                     fontSize="18px"
+                     lineHeight="24px"
+                     fontWeight="500"
+                     color="black"
+                  />
+                  <TextBox text={'프로 참여'} fontSize="16px" lineHeight="24px" fontWeight="400" color="#666" />
+               </ContentBox>
+               <ContentBox>
+                  <TextBox
+                     textAlign="center"
+                     text={numberParticipationInLine(data, 'noob')}
+                     fontSize="18px"
+                     lineHeight="24px"
+                     fontWeight="500"
+                     color="black"
+                  />
+                  <TextBox text={'눕 참여'} fontSize="16px" lineHeight="24px" fontWeight="400" color="#666" />
+               </ContentBox>
+            </ContentContainer>
          </ProfileBox>
          <Portfolio info={data} />
       </CommonLayout>
