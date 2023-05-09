@@ -10,6 +10,7 @@ import connectMongo from '@/utils/connectMongo';
 import NoobProHacker from '@/models/noobProHacker';
 import TextBox from '@/components/Common/TextBox';
 import { translateTier } from '@/utils/lib';
+import { lineWinnerIndex } from '@/domain/noobProHacker';
 
 const Layout = styled.main`
    height: 1600px;
@@ -119,7 +120,7 @@ const TextContainer = styled.div`
    justify-content: center;
    margin-top: 5px;
    padding-left: 15px;
-   
+
    > a {
       :hover > h2 {
          color: #14b3e4;
@@ -144,7 +145,7 @@ type LineType = 'noob' | 'pro' | 'hacker';
 const lines: LineType[] = ['noob', 'pro', 'hacker'];
 
 export default function Home({ noobProHacker }: InferGetStaticPropsType<typeof getStaticProps>) {
-   const [line, setLine] = useState(0);
+   const [line, setLine] = useState(lineWinnerIndex(noobProHacker[0]));
 
    return (
       <>
@@ -229,40 +230,3 @@ export default function Home({ noobProHacker }: InferGetStaticPropsType<typeof g
       </>
    );
 }
-
-/*
-   {lines.map(item => (
-                        <LineItem key={item}>
-                           <ImageBox>
-                              <Image
-                                 src={noobProHacker[0].lineInfo[line].line_details[item].image_url}
-                                 style={{ objectFit: 'cover' }}
-                                 fill
-                                 sizes="1080px"
-                                 alt="noob"
-                              />
-                           </ImageBox>
-                           <TextContainer>
-                              <Link
-                                 href={`/architect/${noobProHacker[0].lineInfo[line].line_details[item].minecraft_id}`}
-                              >
-                                 <TextBox
-                                    text={noobProHacker[0].lineInfo[line].line_details[item].minecraft_id}
-                                    color="white"
-                                    fontSize="20px"
-                                    lineHeight="32px"
-                                    fontWeight="500"
-                                 />
-                              </Link>
-                              <TextBox
-                                 text={translateTier(item)}
-                                 color="#aaa"
-                                 fontSize="16px"
-                                 lineHeight="24px"
-                                 margin="3px 0px 0px 0px"
-                                 fontWeight="500"
-                              />
-                           </TextContainer>
-                        </LineItem>
-                     ))}
-*/

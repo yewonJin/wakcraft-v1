@@ -56,3 +56,8 @@ export const createNoobProHackerObject = (): NoobProHacker => {
       ],
    };
 };
+
+/** 라인 랭킹 1위의 인덱스 반환하는 함수 */
+export const lineWinnerIndex = (content: NoobProHacker) => {
+   return content.lineInfo.findIndex(item => item.line_ranking == 1);
+};
