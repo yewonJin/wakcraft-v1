@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 import InputBox from '@/components/Common/InputBox';
 import TextBox from '@/components/Common/TextBox';
-import { SearchArchitect } from '@/components/Search/SearchArchitect';
+import { SearchArchitect } from '@/components/Architect/SearchArchitect';
 import { createTierArray } from '@/domain/architect';
 import { useUpdateArchitect } from '@/application/updateArchitect';
 

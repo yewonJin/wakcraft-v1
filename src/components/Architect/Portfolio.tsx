@@ -1,0 +1,58 @@
+import styled from 'styled-components';
+import { Fragment, useState } from 'react';
+
+import { Architect } from '@/domain/architect';
+import TextBox from '../Common/TextBox';
+import NoobProHackerList from './NoobProHackerList';
+import PlacementTestList from './PlacementTestList';
+
+const Layout = styled.div`
+   width: 100%;
+   margin-top: 20px;
+`;
+
+const ContentList = styled.ul`
+   display: flex;
+   gap: 25px;
+`;
+
+const Divider = styled.div`
+   width: 1px;
+   height: 32px;
+   background-color: #cacaca;
+`;
+
+const ContentItem = styled.li<{ contentState: number; index: number }>`
+   display: flex;
+   gap: 20px;
+   list-style: none;
+
+   :hover {
+      cursor: pointer;
+   }
+
+   > h2 {
+      color: ${props => (props.contentState === props.index ? 'black' : '#aaa')};
+   }
+`;
+
+export default function Portfolio({ info }: { info: Architect }) {
+   const [contentState, setContentState] = useState(0);
+
+   return (
+      <Layout>
+         <ContentList>
+            <Divider />
+            {['눕프로해커', '배치고사'].map((item, index) => (
+               <Fragment key={item}>
+                  <ContentItem index={index} contentState={contentState} onClick={() => setContentState(index)}>
+                     <TextBox text={item} fontSize="18px" lineHeight="32px" fontWeight="500" />
+                  </ContentItem>
+                  <Divider />
+               </Fragment>
+            ))}
+         </ContentList>
+         {contentState === 0 ? <NoobProHackerList info={info} /> : <PlacementTestList info={info} />}
+      </Layout>
+   );
+}
