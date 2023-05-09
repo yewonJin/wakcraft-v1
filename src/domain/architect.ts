@@ -1,4 +1,4 @@
-type Line = '눕' | '계륵' | '프로' | '국밥' | '해커';
+type Line = 'noob' | 'pro' | 'hacker';
 
 export type Tier =
    | '마카게'
@@ -69,27 +69,7 @@ export const currentTier = (architect: Architect) => {
    return tier[tier.length - 1];
 };
 
-/** 눕프핵 참가 횟수 */
-export const participationCount = (architect: Architect) => {
-   const { portfolio } = architect;
-
-   return portfolio.noobProHacker.length;
-};
-
-/** 눕프핵 우승 횟수 */
-export const winnerCount = (architect: Architect) => {
-   const { portfolio } = architect;
-
-   return portfolio.noobProHacker.filter(item => item.ranking == 1).length;
-};
-
-/** 티어 분류 */
-export const classifyTier = (architect: Architect) => {
-   const index = createTierArray().indexOf(architect.tier[0]);
-
-   if (index < 4) return 'hacker';
-   else if (index < 7) return 'gukbap';
-   else if (index < 8) return 'pro';
-   else if (index < 10) return 'gyeruik';
-   else return 'noob';
+/** 해당하는 라인의 참여 횟수 */
+export const numberParticipationInLine = (architect: Architect, line: Line) => {
+   return architect.portfolio.noobProHacker.filter(item => item.line === line).length.toString();
 };

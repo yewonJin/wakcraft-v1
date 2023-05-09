@@ -7,7 +7,8 @@ import Architect from '@/models/architect';
 import { useShowArchitect } from '@/application/showArchitect';
 import TextBox from '@/components/Common/TextBox';
 import { convertLineTierToTier, translateTier } from '@/utils/lib';
-import { SearchArchitectWithProps } from '@/components/Search/SearchArchitectWithProps';
+import { SearchArchitectWithProps } from '@/components/Architect/SearchArchitectWithProps';
+import { currentTier } from '@/domain/architect';
 
 const Layout = styled.div`
    display: flex;
@@ -135,11 +136,7 @@ export default function Search({ architects }: InferGetStaticPropsType<typeof ge
                   <NavItem id={tier} key={tier} curTier={curTier} onClick={() => setNavCurrentTier(tier)}>
                      <TextBox text={translateTier(tier)} />
                      <LineCountBox>
-                        {
-                           architects.filter(item =>
-                              convertLineTierToTier(tier).includes(item.tier[item.tier.length - 1]),
-                           ).length
-                        }
+                        {architects.filter(item => convertLineTierToTier(tier).includes(currentTier(item))).length}
                      </LineCountBox>
                   </NavItem>
                ))}
@@ -155,9 +152,9 @@ export default function Search({ architects }: InferGetStaticPropsType<typeof ge
          </TableHeader>
          <ArchitectList>
             {architects
-               .filter(item => convertLineTierToTier(curTier).includes(item.tier[item.tier.length - 1]))
+               .filter(item => convertLineTierToTier(curTier).includes(currentTier(item)))
                .sort((a, b) => {
-                  if (a.tier[a.tier.length - 1] === '언랭' && b.tier[b.tier.length - 1] === '언랭') {
+                  if (currentTier(a) === '언랭' && currentTier(b) === '언랭') {
                      return b.noobProHackerInfo.participation - a.noobProHackerInfo.participation;
                   }
 
@@ -167,7 +164,7 @@ export default function Search({ architects }: InferGetStaticPropsType<typeof ge
                   return (
                      <Link key={item.wakzoo_id} href={`/architect/${item.minecraft_id}`}>
                         <ArchitectInfoList>
-                           <ArchitectInfoItem width="180px">{item.tier[item.tier.length - 1]}</ArchitectInfoItem>
+                           <ArchitectInfoItem width="180px">{currentTier(item)}</ArchitectInfoItem>
                            <ArchitectInfoItem width="250px">{item.minecraft_id}</ArchitectInfoItem>
                            <ArchitectInfoItem width="220px">{item.wakzoo_id}</ArchitectInfoItem>
                            <ArchitectInfoItem width="150px">
