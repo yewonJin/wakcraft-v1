@@ -81,7 +81,7 @@ export const convertNoobProHackerToArchitect = (req: { body: NoobProHacker }) =>
          const portfolioInfo: Architect['portfolio']['noobProHacker'][0] = {
             episode: contentInfo.episode,
             subject: line.subject,
-            line: key as '눕' | '프로' | '해커',
+            line: key as Line,
             image_url: line.line_details[key as Line].image_url,
             youtube_url: line.line_details[key as Line].youtube_url,
             ranking: line.line_details[key as Line].ranking,
