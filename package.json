@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "cross-env ANALYZE=true next build",
     "start": "next start",
     "lint": "next lint",
     "vercel-deploy": "next build && next export"
@@ -34,6 +34,7 @@
     "styled-components": "^5.3.9"
   },
   "devDependencies": {
+    "@next/bundle-analyzer": "^13.4.1",
     "@types/bcrypt": "^5.0.0",
     "@types/formidable": "^2.0.5",
     "@types/jsonwebtoken": "^9.0.1",
@@ -42,6 +43,7 @@
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
     "@types/styled-components": "^5.1.26",
+    "cross-env": "^7.0.3",
     "typescript": "^5.0.2"
   }
 }
