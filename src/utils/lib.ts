@@ -1,12 +1,12 @@
 import { Architect, Tier, createTierArray } from '@/domain/architect';
 import { NoobProHacker } from '@/domain/noobProHacker';
 
-import noob from '../../public/assets/images/tier/noob.png';
-import gyeruik from '../../public/assets/images/tier/gyeruik.png';
-import pro from '../../public/assets/images/tier/pro.png';
-import gukbap from '../../public/assets/images/tier/gukbap.png';
-import hacker from '../../public/assets/images/tier/hacker.png';
-import hacker2 from '../../public/assets/images/tier/hacker2.png';
+import noob from '../../public/assets/images/tier/noob.webp';
+import gyeruik from '../../public/assets/images/tier/gyeruik.webp';
+import pro from '../../public/assets/images/tier/pro.webp';
+import gukbap from '../../public/assets/images/tier/gukbap.webp';
+import hacker from '../../public/assets/images/tier/hacker.webp';
+import hacker2 from '../../public/assets/images/tier/hacker2.webp';
 
 export const translateTier = (tier: string) => {
    switch (tier) {
