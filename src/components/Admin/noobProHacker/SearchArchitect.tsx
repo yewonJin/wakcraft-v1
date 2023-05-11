@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useQueryArchitectWithoutPortfolio } from '@/services/architectAdapters';
 import { fuzzySearch } from '@/utils/fuzzySearch';
 import { AddArchitect } from '../architect/AddArchitect';
-import { useCreateLineInfo } from '@/application/createNoobProHacker';
+import { useCreateLine } from '@/application/createNoobProHacker';
 import InputBox from '@/components/Common/InputBox';
 
 const Layout = styled.div`
@@ -52,11 +52,11 @@ const ArchitectItem = styled.li`
 `;
 
 export function SearchArchitect() {
-   const { searchInput, handleSearchInputChange: handleChange, addArchitectToLine } = useCreateLineInfo();
+   const { searchInput, handleSearchInputChange: handleChange, addArchitectToLine } = useCreateLine();
 
-   const ArchitectsInfo = useQueryArchitectWithoutPortfolio();
+   const architects = useQueryArchitectWithoutPortfolio();
 
-   if (!ArchitectsInfo) return <Layout>Error</Layout>;
+   if (!architects) return <Layout>Error</Layout>;
 
    return (
       <Layout>
@@ -72,13 +72,22 @@ export function SearchArchitect() {
             placeholder="건축가 검색"
          />
          <ArchitectList>
-            {ArchitectsInfo.filter(item => fuzzySearch(item.minecraft_id, searchInput)).map(item => {
-               return (
-                  <ArchitectItem key={item.minecraft_id} onClick={() => addArchitectToLine(item.minecraft_id)}>
-                     {item.minecraft_id + ' / ' + item.wakzoo_id + ' / ' + item.tier[item.tier.length - 1]}
-                  </ArchitectItem>
-               );
-            })}
+            {architects
+               .filter(architect => fuzzySearch(architect.minecraft_id, searchInput))
+               .map(architect => {
+                  return (
+                     <ArchitectItem
+                        key={architect.minecraft_id}
+                        onClick={() => addArchitectToLine(architect.minecraft_id)}
+                     >
+                        {architect.minecraft_id +
+                           ' / ' +
+                           architect.wakzoo_id +
+                           ' / ' +
+                           architect.tier[architect.tier.length - 1]}
+                     </ArchitectItem>
+                  );
+               })}
          </ArchitectList>
          <AddArchitect />
       </Layout>

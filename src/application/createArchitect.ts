@@ -30,7 +30,7 @@ export const useCreateArchitect = () => {
          });
          mutate(architectInfo);
       } else {
-         toast.error('빈 입력 창이 있습니다.')
+         toast.error('빈 입력 창이 있습니다.');
       }
    };
 

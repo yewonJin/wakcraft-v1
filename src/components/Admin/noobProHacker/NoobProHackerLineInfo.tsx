@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { useCreateLineInfo } from '@/application/createNoobProHacker';
+import { useCreateLine } from '@/application/createNoobProHacker';
 
 const LineList = styled.ul`
    height: 80px;
@@ -22,14 +22,14 @@ const LineItem = styled.li`
 `;
 
 export function NoobProHackerLineInfo() {
-   const { lineInfo, setStateCurLineIndex } = useCreateLineInfo();
+   const { noobProHackerLine, setCurLineIndex } = useCreateLine();
 
    return (
       <LineList>
-         {lineInfo.map((item, index) => {
+         {noobProHackerLine.map((line, index) => {
             return (
-               <LineItem onClick={() => setStateCurLineIndex(index)} key={item.subject}>
-                  {index + 1 + '라인 : ' + item.subject}
+               <LineItem onClick={() => setCurLineIndex(index)} key={line.subject}>
+                  {index + 1 + '라인 : ' + line.subject}
                </LineItem>
             );
          })}

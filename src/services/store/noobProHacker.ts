@@ -1,13 +1,13 @@
 import { createNoobProHackerObject, NoobProHacker } from '@/domain/noobProHacker';
 import { atom } from 'recoil';
 
-export const lineInfoState = atom<NoobProHacker['lineInfo']>({
-   key: 'lineInfoState',
+export const noobProHackerLineState = atom<NoobProHacker['lineInfo']>({
+   key: 'noobProHackerLineState',
    default: [createNoobProHackerObject().lineInfo[0]],
 });
 
-export const contentInfoState = atom<NoobProHacker['contentInfo']>({
-   key: 'contentInfoState',
+export const noobProHackerContentState = atom<NoobProHacker['contentInfo']>({
+   key: 'noobProHackerContentState',
    default: createNoobProHackerObject().contentInfo,
 });
 
@@ -16,8 +16,8 @@ export const curLineIndexState = atom({
    default: 0,
 });
 
-export const curLineState = atom<'noob' | 'pro' | 'hacker'>({
-   key: 'curLineState',
+export const curLineTierState = atom<'noob' | 'pro' | 'hacker'>({
+   key: 'curLineTierState',
    default: 'noob',
 });
 

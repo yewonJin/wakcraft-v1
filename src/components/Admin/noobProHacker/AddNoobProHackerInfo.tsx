@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { useCreateContentInfo, useCreateNoobProHacker } from '@/application/createNoobProHacker';
+import { useCreateContent, useCreateNoobProHacker } from '@/application/createNoobProHacker';
 import InputBox from '@/components/Common/InputBox';
 import TextBox from '@/components/Common/TextBox';
 import { Button } from '@/components/Common/Button';
@@ -23,7 +23,7 @@ const ListItem = styled.li`
 `;
 
 export function AddNoobProHackerInfo() {
-   const { contentInfo, handleChange } = useCreateContentInfo();
+   const { noobProHackerContent, handleChange } = useCreateContent();
    const { addNoobProHacker } = useCreateNoobProHacker();
 
    return (
@@ -33,7 +33,7 @@ export function AddNoobProHackerInfo() {
                <TextBox text="회차" fontSize="18px" fontWeight="32px" />
                <InputBox
                   onChange={handleChange}
-                  value={contentInfo.episode}
+                  value={noobProHackerContent.episode}
                   name="episode"
                   type="number"
                   width="60px"
@@ -43,7 +43,7 @@ export function AddNoobProHackerInfo() {
                <TextBox text="메인 주제" fontSize="18px" fontWeight="32px" />
                <InputBox
                   onChange={handleChange}
-                  value={contentInfo.main_subject}
+                  value={noobProHackerContent.main_subject}
                   type="text"
                   name="main_subject"
                   width="150px"
@@ -51,13 +51,13 @@ export function AddNoobProHackerInfo() {
             </ListItem>
             <ListItem>
                <TextBox text="날짜" fontSize="18px" fontWeight="32px" />
-               <InputBox onChange={handleChange} value={contentInfo.date} name="date" type="date" />
+               <InputBox onChange={handleChange} value={noobProHackerContent.date} name="date" type="date" />
             </ListItem>
             <ListItem>
                <TextBox text="유튜브 링크" fontSize="18px" fontWeight="32px" />
                <InputBox
                   onChange={handleChange}
-                  value={contentInfo.youtube_url}
+                  value={noobProHackerContent.youtube_url}
                   type="text"
                   name="youtube_url"
                   width="300px"

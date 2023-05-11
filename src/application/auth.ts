@@ -1,6 +1,7 @@
-import { useMutationLogin } from '@/services/authAdapcter';
 import { useState, ChangeEvent, FormEvent } from 'react';
 import toast from 'react-hot-toast';
+
+import { useMutationLogin } from '@/services/authAdapcter';
 
 export const useLogin = () => {
    const [input, setInput] = useState({
@@ -17,7 +18,7 @@ export const useLogin = () => {
       }));
    };
 
-   const handleClick = (e: FormEvent<HTMLFormElement>) => {
+   const login = (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
 
       if (!input.username || !input.password) {
@@ -28,5 +29,5 @@ export const useLogin = () => {
       mutate(input);
    };
 
-   return { input, isLoading, handleChange, handleClick };
+   return { input, isLoading, handleChange, login };
 };

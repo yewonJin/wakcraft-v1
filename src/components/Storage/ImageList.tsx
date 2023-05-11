@@ -19,9 +19,9 @@ const Item = styled.li`
 `;
 
 export default function ImageList({ content }: { content: 'noobProHacker' | 'placementTest' }) {
-   const { page, setImageUrlToContent, setAllImageUrlToPlacementTest } = useAwsStorage();
+   const { storagePage, setImageUrlToContent, setAllImageUrlToPlacementTest } = useAwsStorage();
 
-   const { data } = useQueryAwsImages(content, page);
+   const { data } = useQueryAwsImages(content, storagePage);
 
    if (!data) return <div>로딩중</div>;
 

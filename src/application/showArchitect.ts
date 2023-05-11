@@ -1,10 +1,11 @@
+import { useState, ChangeEvent } from 'react';
+import { UseQueryResult, useQuery } from 'react-query';
+import { useRecoilState } from 'recoil';
+
 import { Architect } from '@/domain/architect';
 import { getArchitectByFuzzySearch, getArchitectByTier } from '@/services/api/architect';
 import { searchCurrentTierState } from '@/services/store/architect';
 import { fuzzySearch, fuzzySearchRegExp } from '@/utils/fuzzySearch';
-import { useState, ChangeEvent } from 'react';
-import { UseQueryResult, useQuery } from 'react-query';
-import { useRecoilState } from 'recoil';
 
 interface ArchitectWithIndexArr extends Architect {
    minecraftHighlightIndex: number[];
@@ -106,5 +107,14 @@ export const useShowArchitect = () => {
       );
    };
 
-   return { data, searchData, input, handleChange, curTier, setNavCurrentTier, resetInput, fuzzySearchAndHighlightResult };
+   return {
+      data,
+      searchData,
+      input,
+      handleChange,
+      curTier,
+      setNavCurrentTier,
+      resetInput,
+      fuzzySearchAndHighlightResult,
+   };
 };

@@ -71,12 +71,12 @@ const Wrapper = styled.div`
 export type ContentType = 'noobProHacker' | 'placementTest';
 
 export default function AwsStorage({ content }: { content: ContentType }) {
-   const { page, setStatePage, setIsViewable } = useAwsStorage();
+   const { storagePage, setStoragePage, setIsViewable } = useAwsStorage();
    const { data } = useQueryAwsDirectory(content);
 
    if (!data) return <div></div>;
 
-   if (page == 0) {
+   if (storagePage == 0) {
       return (
          <Layout>
             <Wrapper>
@@ -93,7 +93,7 @@ export default function AwsStorage({ content }: { content: ContentType }) {
                {data
                   .sort((a, b) => parseInt(a) - parseInt(b))
                   .map((item, index) => (
-                     <EpisodeItem key={item + index} onClick={() => setStatePage(index + 1)}>
+                     <EpisodeItem key={item + index} onClick={() => setStoragePage(index + 1)}>
                         <RiFolder3Fill />
                         <TextBox text={item + '화'} color="#ccc" fontSize="18px" lineHeight="26px" />
                      </EpisodeItem>
@@ -107,9 +107,9 @@ export default function AwsStorage({ content }: { content: ContentType }) {
          <Layout>
             <Wrapper>
                <Wrapper>
-                  <UploadFiles content={content} page={page} />
+                  <UploadFiles content={content} page={storagePage} />
                </Wrapper>
-               <BiArrowBack onClick={() => setStatePage(0)} />
+               <BiArrowBack onClick={() => setStoragePage(0)} />
             </Wrapper>
             <Suspense>
                <ImageList content={content} />

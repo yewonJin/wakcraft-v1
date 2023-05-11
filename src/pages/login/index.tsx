@@ -30,11 +30,11 @@ export default function Login() {
 
    if (getCookie('access_token')) router.push(`/admin`);
 
-   const { input, handleChange, handleClick } = useLogin();
+   const { input, handleChange, login } = useLogin();
 
    return (
       <CommonLayout>
-         <Form onSubmit={handleClick}>
+         <Form onSubmit={login}>
             <TextBox text="어드민 페이지" fontSize="24px" fontWeight="500" lineHeight="36px" />
             <InputBox
                type="text"

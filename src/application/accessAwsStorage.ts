@@ -2,23 +2,19 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { NoobProHacker } from '@/domain/noobProHacker';
 import { PlacementTest } from '@/domain/placementTest';
-import { curLineIndexState, curLineState, lineInfoState } from '@/services/store/noobProHacker';
+import { curLineIndexState, curLineTierState, noobProHackerLineState } from '@/services/store/noobProHacker';
 import { participantsInfoState } from '@/services/store/placementTest';
 import { storagePageState, storageViewableState } from '@/services/store/storage';
 import { replaceItemAtIndex } from '@/utils/lib';
 
 export const useAwsStorage = () => {
    const [isViewable, setIsViewable] = useRecoilState(storageViewableState);
-   const [lineInfo, setLineInfo] = useRecoilState(lineInfoState);
-   const [page, setPage] = useRecoilState(storagePageState);
+   const [noobProHackerLine, setNoobProHackerLine] = useRecoilState(noobProHackerLineState);
+   const [storagePage, setStoragePage] = useRecoilState(storagePageState);
    const setParticipantsInfo = useSetRecoilState(participantsInfoState);
-   const curLine = useRecoilValue(curLineState);
+   const curLineTier = useRecoilValue(curLineTierState);
    const curLineIndex = useRecoilValue(curLineIndexState);
-
-   const setStatePage = (num: number) => {
-      setPage(num);
-   };
-
+   
    const setImageUrlToContent = (minecraftContent: string, imageName: string) => {
       if (minecraftContent === 'noobProHacker') setImageUrlToNoobProHacker(imageName);
       else if (minecraftContent === 'placementTest') setImageUrlToPlacementTest(imageName);
@@ -40,19 +36,19 @@ export const useAwsStorage = () => {
 
    const setImageUrlToNoobProHacker = (imageName: string) => {
       const newValue = {
-         ...lineInfo[curLineIndex],
+         ...noobProHackerLine[curLineIndex],
          line_details: {
-            ...lineInfo[curLineIndex].line_details,
-            [curLine]: {
-               ...lineInfo[curLineIndex].line_details[curLine],
+            ...noobProHackerLine[curLineIndex].line_details,
+            [curLineTier]: {
+               ...noobProHackerLine[curLineIndex].line_details[curLineTier],
                image_url: `https://wakcraft.s3.ap-northeast-2.amazonaws.com/${imageName}`,
             },
          },
       };
 
-      const newArr: NoobProHacker['lineInfo'] = replaceItemAtIndex(lineInfo, curLineIndex, newValue);
-      setLineInfo(newArr);
-      setPage(0);
+      const newArr: NoobProHacker['lineInfo'] = replaceItemAtIndex(noobProHackerLine, curLineIndex, newValue);
+      setNoobProHackerLine(newArr);
+      setStoragePage(0);
       setIsViewable(false);
    };
 
@@ -67,9 +63,9 @@ export const useAwsStorage = () => {
    };
 
    return {
-      page,
-      setStatePage,
-      curLine,
+      storagePage,
+      setStoragePage,
+      curLineTier,
       curLineIndex,
       isViewable,
       setIsViewable,

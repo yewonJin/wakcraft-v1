@@ -3,10 +3,11 @@ import Image from 'next/image';
 
 import TextBox from '@/components/Common/TextBox';
 import InputBox from '@/components/Common/InputBox';
-import { useCreateLineInfo } from '@/application/createNoobProHacker';
+import { useCreateLine } from '@/application/createNoobProHacker';
 import { translateTier } from '@/utils/lib';
 import { Button } from '@/components/Common/Button';
 import AwsStorage from '@/components/Storage/AwsStorage';
+import { useAwsStorage } from '@/application/accessAwsStorage';
 
 const Layout = styled.div`
    width: calc(100% - 350px);
@@ -58,25 +59,20 @@ type LineType = 'noob' | 'pro' | 'hacker';
 const lineArr: LineType[] = ['noob', 'pro', 'hacker'];
 
 export function AddLineDetails() {
-   const {
-      viewStorage,
-      handleLineImageClick,
-      lineInfo,
-      curLineIndex,
-      resetLineInfo,
-      handleLineDetailsChange: handleChange,
-      addLineInfo,
-   } = useCreateLineInfo();
+   const { setLineImage, noobProHackerLine, curLineIndex, resetLine, changeLineDetails, addNewLine } =
+   useCreateLine();
+
+   const { isViewable } = useAwsStorage();
 
    return (
       <Layout>
-         {viewStorage && <AwsStorage content="noobProHacker" />}
+         {isViewable && <AwsStorage content="noobProHacker" />}
          <Container>
             <Wrapper>
                <InputBox
                   type="text"
-                  onChange={handleChange}
-                  value={lineInfo[curLineIndex].subject}
+                  onChange={changeLineDetails}
+                  value={noobProHackerLine[curLineIndex].subject}
                   name="subject"
                   width="150px"
                   height="40px"
@@ -87,8 +83,8 @@ export function AddLineDetails() {
             </Wrapper>
             <Wrapper>
                <InputBox
-                  onChange={handleChange}
-                  value={lineInfo[curLineIndex].line_ranking}
+                  onChange={changeLineDetails}
+                  value={noobProHackerLine[curLineIndex].line_ranking}
                   name="line_ranking"
                   type="number"
                   width="100px"
@@ -100,8 +96,8 @@ export function AddLineDetails() {
             </Wrapper>
             <Wrapper>
                <InputBox
-                  onChange={handleChange}
-                  value={lineInfo[curLineIndex].youtube_url}
+                  onChange={changeLineDetails}
+                  value={noobProHackerLine[curLineIndex].youtube_url}
                   name="youtube_url"
                   type="string"
                   width="250px"
@@ -114,7 +110,7 @@ export function AddLineDetails() {
             <Button
                text="라인 초기화"
                padding="10px 23px"
-               onClick={resetLineInfo}
+               onClick={resetLine}
                backgroundColor="#797979"
                hoverBackgroundColor="#474747"
             ></Button>
@@ -128,8 +124,8 @@ export function AddLineDetails() {
                      <TextBox
                         fontWeight="500"
                         text={
-                           lineInfo[curLineIndex]?.line_details
-                              ? lineInfo[curLineIndex].line_details[item].minecraft_id
+                           noobProHackerLine[curLineIndex]?.line_details
+                              ? noobProHackerLine[curLineIndex].line_details[item].minecraft_id
                               : ''
                         }
                      />
@@ -137,10 +133,10 @@ export function AddLineDetails() {
                   <LineInfoBox>
                      <Wrapper flexDirection="column">
                         <TextBox text="개인 이미지 링크" fontSize="18px" lineHeight="26px" />
-                        {lineInfo[curLineIndex].line_details[item].image_url === '' ? (
-                           <Button onClick={e => handleLineImageClick(e, item)} text="파일 찾기" padding="8px 0px" />
+                        {noobProHackerLine[curLineIndex].line_details[item].image_url === '' ? (
+                           <Button onClick={e => setLineImage(e, item)} text="파일 찾기" padding="8px 0px" />
                         ) : (
-                           <Image fill src={lineInfo[curLineIndex].line_details[item].image_url} alt="image" />
+                           <Image fill src={noobProHackerLine[curLineIndex].line_details[item].image_url} alt="image" />
                         )}
                      </Wrapper>
                      <Wrapper flexDirection="column">
@@ -149,8 +145,8 @@ export function AddLineDetails() {
                            type="text"
                            height="35px"
                            border="1px solid #aaa"
-                           onChange={e => handleChange(e, item)}
-                           value={lineInfo[curLineIndex].line_details[item].youtube_url}
+                           onChange={e => changeLineDetails(e, item)}
+                           value={noobProHackerLine[curLineIndex].line_details[item].youtube_url}
                            name="youtube_url"
                            width="250px"
                         />
@@ -161,8 +157,8 @@ export function AddLineDetails() {
                            type="text"
                            height="35px"
                            border="1px solid #aaa"
-                           onChange={e => handleChange(e, item)}
-                           value={lineInfo[curLineIndex].line_details[item].ranking}
+                           onChange={e => changeLineDetails(e, item)}
+                           value={noobProHackerLine[curLineIndex].line_details[item].ranking}
                            name="ranking"
                            width="150px"
                         />
@@ -173,7 +169,7 @@ export function AddLineDetails() {
          </LineList>
          <Button
             text="라인 추가"
-            onClick={addLineInfo}
+            onClick={addNewLine}
             backgroundColor="#797979"
             hoverBackgroundColor="#474747"
          ></Button>
