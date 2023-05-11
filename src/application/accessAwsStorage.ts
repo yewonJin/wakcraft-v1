@@ -1,70 +1,36 @@
-import { Tier } from '@/domain/architect';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+
 import { NoobProHacker } from '@/domain/noobProHacker';
 import { PlacementTest } from '@/domain/placementTest';
 import { curLineIndexState, curLineState, lineInfoState } from '@/services/store/noobProHacker';
 import { participantsInfoState } from '@/services/store/placementTest';
-import { storagePageState, storageState } from '@/services/store/storage';
-import { useRecoilState, useRecoilValue } from 'recoil';
-
-const replaceItemAtIndex = (
-   arr: NoobProHacker['lineInfo'] | PlacementTest['participants'],
-   index: number,
-   newValue: NoobProHacker['lineInfo'][0] | PlacementTest['participants'][0],
-) => {
-   return [...arr.slice(0, index), newValue, ...arr.slice(index + 1)];
-};
+import { storagePageState, storageViewableState } from '@/services/store/storage';
+import { replaceItemAtIndex } from '@/utils/lib';
 
 export const useAwsStorage = () => {
+   const [isViewable, setIsViewable] = useRecoilState(storageViewableState);
    const [lineInfo, setLineInfo] = useRecoilState(lineInfoState);
-   const [participantsInfo, setParticipantsInfo] = useRecoilState(participantsInfoState);
    const [page, setPage] = useRecoilState(storagePageState);
-   const [viewStorage, setViewStorage] = useRecoilState(storageState);
+   const setParticipantsInfo = useSetRecoilState(participantsInfoState);
    const curLine = useRecoilValue(curLineState);
    const curLineIndex = useRecoilValue(curLineIndexState);
-
-   const setStateViewStorage = (boo: boolean) => {
-      setViewStorage(boo);
-   };
 
    const setStatePage = (num: number) => {
       setPage(num);
    };
 
-   const handleNoobProHackerImageClick = (name: string) => {
-      const newValue = {
-         ...lineInfo[curLineIndex],
-         line_details: {
-            ...lineInfo[curLineIndex].line_details,
-            [curLine]: {
-               ...lineInfo[curLineIndex].line_details[curLine],
-               image_url: `https://wakcraft.s3.ap-northeast-2.amazonaws.com/${name}`,
-            },
-         },
-      };
-
-      const newArr = replaceItemAtIndex(lineInfo, curLineIndex, newValue) as NoobProHacker['lineInfo'];
-      setLineInfo(newArr);
-      setPage(0);
-      setViewStorage(false);
+   const setImageUrlToContent = (minecraftContent: string, imageName: string) => {
+      if (minecraftContent === 'noobProHacker') setImageUrlToNoobProHacker(imageName);
+      else if (minecraftContent === 'placementTest') setImageUrlToPlacementTest(imageName);
    };
 
-   const handlePlacementTestImageClick = (name: string) => {
-      const newValue: PlacementTest['participants'][0] = {
-         minecraft_id: name.split('/')[2].split('.')[0],
-         image_url: `https://wakcraft.s3.ap-northeast-2.amazonaws.com/${name}`,
-         placement_result: '언랭',
-      };
+   const setAllImageUrlToPlacementTest = (imagesName: string[]) => {
+      if (!imagesName) return;
 
-      setParticipantsInfo(prev => [...prev, newValue]);
-   };
-
-   const setAllImagesToPlacementTest = (images: string[]) => {
-      if (!images) return;
-
-      images.forEach(item => {
+      imagesName.forEach(imageName => {
          const newValue: PlacementTest['participants'][0] = {
-            minecraft_id: item.split('/')[2].split('.')[0],
-            image_url: `https://wakcraft.s3.ap-northeast-2.amazonaws.com/${item}`,
+            minecraft_id: imageName.split('/')[2].split('.')[0],
+            image_url: `https://wakcraft.s3.ap-northeast-2.amazonaws.com/${imageName}`,
             placement_result: '언랭',
          };
 
@@ -72,15 +38,32 @@ export const useAwsStorage = () => {
       });
    };
 
-   const handlePlacementTestTier = (index: number, value: Tier) => {
+   const setImageUrlToNoobProHacker = (imageName: string) => {
       const newValue = {
-         ...participantsInfo[index],
-         placement_result: value,
+         ...lineInfo[curLineIndex],
+         line_details: {
+            ...lineInfo[curLineIndex].line_details,
+            [curLine]: {
+               ...lineInfo[curLineIndex].line_details[curLine],
+               image_url: `https://wakcraft.s3.ap-northeast-2.amazonaws.com/${imageName}`,
+            },
+         },
       };
 
-      const newArr = replaceItemAtIndex(participantsInfo, index, newValue) as PlacementTest['participants'];
+      const newArr: NoobProHacker['lineInfo'] = replaceItemAtIndex(lineInfo, curLineIndex, newValue);
+      setLineInfo(newArr);
+      setPage(0);
+      setIsViewable(false);
+   };
 
-      setParticipantsInfo(newArr);
+   const setImageUrlToPlacementTest = (imageName: string) => {
+      const newValue: PlacementTest['participants'][0] = {
+         minecraft_id: imageName.split('/')[2].split('.')[0],
+         image_url: `https://wakcraft.s3.ap-northeast-2.amazonaws.com/${imageName}`,
+         placement_result: '언랭',
+      };
+
+      setParticipantsInfo(prev => [...prev, newValue]);
    };
 
    return {
@@ -88,10 +71,9 @@ export const useAwsStorage = () => {
       setStatePage,
       curLine,
       curLineIndex,
-      setStateViewStorage,
-      handleNoobProHackerImageClick,
-      handlePlacementTestImageClick,
-      setAllImagesToPlacementTest,
-      handlePlacementTestTier,
+      isViewable,
+      setIsViewable,
+      setImageUrlToContent,
+      setAllImageUrlToPlacementTest,
    };
 };

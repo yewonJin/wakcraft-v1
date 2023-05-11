@@ -71,7 +71,7 @@ const Wrapper = styled.div`
 export type ContentType = 'noobProHacker' | 'placementTest';
 
 export default function AwsStorage({ content }: { content: ContentType }) {
-   const { page, setStatePage, setStateViewStorage } = useAwsStorage();
+   const { page, setStatePage, setIsViewable } = useAwsStorage();
    const { data } = useQueryAwsDirectory(content);
 
    if (!data) return <div></div>;
@@ -87,7 +87,7 @@ export default function AwsStorage({ content }: { content: ContentType }) {
                   lineHeight="36px"
                   color="white"
                />
-               <IoMdClose onClick={() => setStateViewStorage(false)} />
+               <IoMdClose onClick={() => setIsViewable(false)} />
             </Wrapper>
             <EpisodeList>
                {data

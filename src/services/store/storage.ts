@@ -1,7 +1,7 @@
 import { atom } from 'recoil';
 
-export const storageState = atom({
-   key: 'storageState',
+export const storageViewableState = atom({
+   key: 'storageViewableState',
    default: false,
 });
 

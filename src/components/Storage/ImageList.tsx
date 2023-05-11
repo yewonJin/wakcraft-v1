@@ -19,8 +19,7 @@ const Item = styled.li`
 `;
 
 export default function ImageList({ content }: { content: 'noobProHacker' | 'placementTest' }) {
-   const { page, handleNoobProHackerImageClick, handlePlacementTestImageClick, setAllImagesToPlacementTest } =
-      useAwsStorage();
+   const { page, setImageUrlToContent, setAllImageUrlToPlacementTest } = useAwsStorage();
 
    const { data } = useQueryAwsImages(content, page);
 
@@ -33,27 +32,16 @@ export default function ImageList({ content }: { content: 'noobProHacker' | 'pla
                text="모든 이미지 추가하기"
                fontSize="14px"
                padding="8px 12px"
-               onClick={() => setAllImagesToPlacementTest(data)}
+               onClick={() => setAllImageUrlToPlacementTest(data)}
             />
          )}
          <List>
             {data.map(item => (
-               <Item
-                  key={item}
-                  onClick={() => {
-                     if (content === 'noobProHacker') {
-                        handleNoobProHackerImageClick(item);
-                        return;
-                     } else if (content === 'placementTest') {
-                        handlePlacementTestImageClick(item);
-                        return;
-                     }
-                  }}
-               >
+               <Item key={item} onClick={() => setImageUrlToContent(content, item)}>
                   <Image
                      fill
                      sizes="400px"
-                     alt="noobProHacker img"
+                     alt="content image"
                      src={`https://wakcraft.s3.ap-northeast-2.amazonaws.com/${item}`}
                   />
                </Item>

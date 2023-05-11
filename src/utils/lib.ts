@@ -27,6 +27,10 @@ export const translateTier = (tier: string) => {
    }
 };
 
+export const replaceItemAtIndex = (arr: any[], index: number, newValue: object) => {
+   return [...arr.slice(0, index), newValue, ...arr.slice(index + 1)];
+};
+
 export const tierImage = (tier: Tier) => {
    if (createTierArray().slice(0, 2).includes(tier)) return hacker2;
    else if (createTierArray().slice(2, 4).includes(tier)) return hacker;

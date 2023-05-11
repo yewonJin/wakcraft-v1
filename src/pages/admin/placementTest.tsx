@@ -1,18 +1,14 @@
 import styled from 'styled-components';
 import Image from 'next/image';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { ChangeEvent } from 'react';
 
 import { CommonLayout } from '@/components/Common/CommonLayout';
 import InputBox from '@/components/Common/InputBox';
 import TextBox from '@/components/Common/TextBox';
-import { Button } from '@/components/Common/Button';
 import AwsStorage from '@/components/Storage/AwsStorage';
-import { participantsInfoState, placementTestInfoState } from '@/services/store/placementTest';
-import { storageState } from '@/services/store/storage';
-import { useAwsStorage } from '@/application/accessAwsStorage';
+import { Button } from '@/components/Common/Button';
 import { Tier, createTierArray } from '@/domain/architect';
-import { useMutationPlacementTest } from '@/services/placementTestAdapters';
+import { useCreatePlacementTest } from '@/application/createPlacementTest';
+import { useAwsStorage } from '@/application/accessAwsStorage';
 
 const Wrapper = styled.div<{ direction?: string; alignItems?: string }>`
    display: flex;
@@ -51,51 +47,31 @@ const ImageBox = styled.div`
 `;
 
 export default function PlacementTest() {
-   const [placementTestInfo, setPlacementTestInfo] = useRecoilState(placementTestInfoState);
-   const [participantsInfo, setParticipantsInfo] = useRecoilState(participantsInfoState);
-   const [viewStorage, setViewStorage] = useRecoilState(storageState);
-   const { handlePlacementTestTier } = useAwsStorage();
-   const mutation = useMutationPlacementTest();
-
-   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-      setPlacementTestInfo(prev => ({ ...prev, [e.target.name]: e.target.value }));
-   };
+   const { isViewable, setIsViewable } = useAwsStorage();
+   const { participantsInfo, addToDB, changePlacementTestInfo, changePlacementTestTier } = useCreatePlacementTest();
 
    return (
       <CommonLayout>
-         {viewStorage && <AwsStorage content="placementTest" />}
+         {isViewable && <AwsStorage content="placementTest" />}
          <TextBox text="배치고사" fontSize="24px" lineHeight="36px" fontWeight="500" />
          <MainInfoBox>
             <Wrapper direction="column">
                <TextBox text="시즌" fontSize="18px" fontWeight="32px" />
-               <InputBox name="season" type="number" width="70px" onChange={handleChange} />
+               <InputBox name="season" type="number" width="70px" onChange={changePlacementTestInfo} />
             </Wrapper>
             <Wrapper direction="column">
                <TextBox text="날짜" fontSize="18px" fontWeight="32px" />
-               <InputBox name="date" type="date" width="140px" onChange={handleChange} />
+               <InputBox name="date" type="date" width="140px" onChange={changePlacementTestInfo} />
             </Wrapper>
             <Wrapper direction="column">
                <TextBox text="유튜브 링크" fontSize="18px" fontWeight="32px" />
-               <InputBox name="youtube_url" type="text" width="250px" onChange={handleChange} />
+               <InputBox name="youtube_url" type="text" width="250px" onChange={changePlacementTestInfo} />
             </Wrapper>
-            <Button
-               onClick={e => {
-                  mutation.mutate({ ...placementTestInfo, participants: participantsInfo });
-               }}
-               text="DB에 추가"
-               height="60px"
-               padding="5px 10px"
-            />
+            <Button onClick={() => addToDB()} text="DB에 추가" height="60px" padding="5px 10px" />
          </MainInfoBox>
          <Wrapper alignItems="center">
             <TextBox text="건축가 추가" fontSize="20px" lineHeight="24px" fontWeight="500" />
-            <Button
-               text="파일 찾기"
-               padding="9px 15px"
-               onClick={e => {
-                  setViewStorage(true);
-               }}
-            />
+            <Button text="파일 찾기" padding="9px 15px" onClick={() => setIsViewable(true)} />
          </Wrapper>
          <List>
             {participantsInfo?.map((item, index) => (
@@ -108,7 +84,7 @@ export default function PlacementTest() {
                      <select
                         name="tier"
                         value={participantsInfo[index].placement_result}
-                        onChange={e => handlePlacementTestTier(index, e.target.value as Tier)}
+                        onChange={e => changePlacementTestTier(index, e.target.value as Tier)}
                      >
                         {createTierArray().map(tier => {
                            return (
