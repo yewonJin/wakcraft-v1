@@ -2,7 +2,7 @@ import Head from 'next/head';
 import styled from 'styled-components';
 import { Fragment, useState } from 'react';
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
-import Image from 'next/image';
+import Image, { StaticImageData } from 'next/image';
 import Link from 'next/link';
 
 import bg from '../../public/assets/images/main/main-bg.webp';
@@ -12,9 +12,7 @@ import TextBox from '@/components/Common/TextBox';
 import { translateTier } from '@/utils/lib';
 import { lineWinnerIndex } from '@/domain/noobProHacker';
 
-const Layout = styled.main`
-   height: 1600px;
-`;
+const Layout = styled.main``;
 
 const ContentsBox = styled.main`
    position: relative;
@@ -26,20 +24,31 @@ const ContentsBox = styled.main`
    width: 100%;
    height: 100vh;
    z-index: 2;
+
+   @media screen and (max-width: 1000px) {
+      height: auto;
+      padding-top: 130px;
+   }
 `;
 
-const BackgroundImage = styled.div`
+const BackgroundImage = styled.div<{ bg: StaticImageData }>`
    position: absolute;
    width: 100%;
    height: 100%;
    top: 0px;
    left: 0px;
    z-index: -1;
+   background-image: ${props => `url(${props.bg.src})`};
    background-color: rgba(0, 0, 0, 0.6);
    background-size: cover;
    background-position: center;
    background-blend-mode: darken;
    filter: blur(2px);
+
+   @media screen and (max-width: 1000px) {
+      background-image: none;
+      background-color: white;
+   }
 `;
 
 const ContentsNav = styled.div`
@@ -48,11 +57,29 @@ const ContentsNav = styled.div`
    width: 1200px;
    padding-bottom: 0px;
    color: white;
+
+   @media screen and (max-width: 1400px) {
+      width: 90%;
+   }
+
+   @media screen and (max-width: 1000px) {
+      > h2:first-child {
+         color: #535353;
+         font-size: 18px;
+         line-height: 24px;
+      }
+
+      > h2:nth-child(2) {
+         color: black;
+         font-size: 24px;
+         line-height: 36px;
+      }
+   }
 `;
 
 const Divider = styled.div`
    width: 1px;
-   height: 100%;
+   height: 29px;
    background-color: #cacaca;
 `;
 
@@ -63,6 +90,17 @@ const Category = styled.ul`
    margin-top: 40px;
    margin-bottom: 60px;
    font-weight: 500;
+
+   @media screen and (max-width: 1000px) {
+      margin: 22px 0px;
+   }
+
+   @media screen and (max-width: 800px) {
+      gap: 15px;
+      > div {
+         display: none;
+      }
+   }
 `;
 
 const LineSubject = styled.li<{ line: number; index: number }>`
@@ -76,20 +114,56 @@ const LineSubject = styled.li<{ line: number; index: number }>`
       color: white;
       cursor: pointer;
    }
+
+   @media screen and (max-width: 1000px) {
+      color: ${props => (props.line === props.index ? 'black' : '#aaa')};
+
+      :hover {
+         color: black;
+      }
+   }
+
+   @media screen and (max-width: 600px) {
+      font-size: 14px;
+   }
 `;
 
 const LineContainer = styled.div`
    width: 1200px;
    overflow: hidden;
+
+   @media screen and (max-width: 1400px) {
+      width: 90%;
+   }
+
+   @media screen and (min-width: 1000px) {
+      overflow: hidden;
+   }
 `;
 
-const LineList = styled.ul`
+const LineList = styled.ul<{ line: number }>`
    display: flex;
    gap: 50px;
    transition-duration: 300ms;
-   align-items: center;
-   justify-content: space-between;
-   box-sizing: border-box;
+   transform: ${props => `translateX(${props.line * -1250}px)`};
+
+   @media screen and (max-width: 1400px) {
+      width: 100%;
+      height: 100%;
+      gap: 0px;
+      transform: ${props => `translateX(${props.line * -100}%)`};
+   }
+`;
+
+const LineGroup = styled.div`
+   display: flex;
+   gap: 50px;
+   min-width: 100%;
+
+   @media screen and (max-width: 1000px) {
+      flex-direction: column;
+      gap: 10px;
+   }
 `;
 
 const LineItem = styled.div`
@@ -97,13 +171,33 @@ const LineItem = styled.div`
    width: 350px;
    height: 500px;
    padding-bottom: 20px;
+
+   @media screen and (max-width: 1400px) {
+      width: 33%;
+      height: 100%;
+   }
+
+   @media screen and (max-width: 1000px) {
+      width: 100%;
+      padding-bottom: 10px;
+
+   }
 `;
 
 const ImageBox = styled.div`
    position: relative;
-   width: 350px;
-   height: 450px;
+   width: 100%;
+   aspect-ratio: 3/3.6;
    background-color: rgba(255, 255, 255, 0.5);
+
+   @media screen and (min-width: 1400px) {
+      width: 350px;
+      height: 450px;
+   }
+
+   @media screen and (max-width: 1000px) {
+      aspect-ratio: 16/9;
+   }
 
    > img {
       :hover {
@@ -122,8 +216,21 @@ const TextContainer = styled.div`
    padding-left: 15px;
 
    > a {
+      @media screen and (max-width: 1000px) {
+         > h2 {
+            font-size: 16px;
+            color: black;
+         }
+      }
+
       :hover > h2 {
          color: #14b3e4;
+      }
+   }
+
+   > h2 {
+      @media screen and (max-width: 1000px) {
+         font-size: 14px;
       }
    }
 `;
@@ -156,7 +263,7 @@ export default function Home({ noobProHacker }: InferGetStaticPropsType<typeof g
             <link rel="icon" href="/favicon.ico" />
          </Head>
          <Layout>
-            <BackgroundImage style={{ backgroundImage: `url(${bg.src})` }} />
+            <BackgroundImage bg={bg} />
             <ContentsBox>
                <ContentsNav>
                   <TextBox
@@ -186,9 +293,9 @@ export default function Home({ noobProHacker }: InferGetStaticPropsType<typeof g
                   </Category>
                </ContentsNav>
                <LineContainer>
-                  <LineList style={{ transform: `translateX(${line * -1200}px)` }}>
+                  <LineList line={line}>
                      {noobProHacker[0].lineInfo.map((item, index) => (
-                        <Fragment key={'lineInfo' + index}>
+                        <LineGroup key={'lineInfo' + index}>
                            {lines.map((line, index) => (
                               <LineItem key={'line' + index}>
                                  <ImageBox onClick={() => window.open(item.line_details[line].image_url)}>
@@ -196,7 +303,7 @@ export default function Home({ noobProHacker }: InferGetStaticPropsType<typeof g
                                        src={item.line_details[line].image_url}
                                        style={{ objectFit: 'cover' }}
                                        fill
-                                       sizes="1080px"
+                                       sizes="800px"
                                        alt={line}
                                     />
                                  </ImageBox>
@@ -221,7 +328,7 @@ export default function Home({ noobProHacker }: InferGetStaticPropsType<typeof g
                                  </TextContainer>
                               </LineItem>
                            ))}
-                        </Fragment>
+                        </LineGroup>
                      ))}
                   </LineList>
                </LineContainer>

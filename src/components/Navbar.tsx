@@ -12,6 +12,10 @@ const Container = styled.nav<{ pos: boolean }>`
    color: white;
    background-color: ${props => (props.pos ? 'rgba(16, 16, 16, 0.9)' : 'rgba(16, 16, 16, 0)')};
    z-index: 10;
+
+   @media screen and (max-width: 1000px) {
+      background-color: black;
+   }
 `;
 
 const Title = styled.h2`
@@ -26,6 +30,14 @@ const SubContainer = styled.div`
    display: flex;
    align-items: center;
    gap: 5rem;
+
+   @media screen and (max-width: 1400px) {
+      width: 90%;
+   }
+
+   @media screen and (max-width: 800px) {
+      gap: 20px;
+   }
 `;
 
 export default function NavBar() {
@@ -49,6 +61,8 @@ export default function NavBar() {
    };
 
    useEffect(() => {
+      onScroll();
+
       window.addEventListener('scroll', onScroll);
       return () => {
          window.removeEventListener('scroll', onScroll);
