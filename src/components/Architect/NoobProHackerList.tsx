@@ -105,14 +105,14 @@ const ContentBox = styled.div`
    gap: 2px;
    flex-direction: column;
    justify-content: center;
-   min-width: 170px;
-   padding: 0px 25px;
+   min-width: 180px;
+   padding: 0px 20px;
 
 `;
 
 const RankingBox = styled.div`
    display: flex;
-   width: 80px;
+   width: 90px;
    gap: 2px;
    flex-direction: column;
    justify-content: center;
