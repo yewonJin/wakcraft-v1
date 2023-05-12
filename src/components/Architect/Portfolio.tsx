@@ -14,6 +14,15 @@ const Layout = styled.div`
 const ContentList = styled.ul`
    display: flex;
    gap: 25px;
+
+   @media screen and (max-width: 800px) {
+      justify-content: space-between;
+      gap: 0px;
+
+      > div {
+         display: none;
+      }
+   }
 `;
 
 const Divider = styled.div`
@@ -43,7 +52,7 @@ export default function Portfolio({ info }: { info: Architect }) {
       <Layout>
          <ContentList>
             <Divider />
-            {['눕프로해커', '배치고사'].map((item, index) => (
+            {['눕프로해커', '배치고사', '이벤트 눕프핵'].map((item, index) => (
                <Fragment key={item}>
                   <ContentItem index={index} contentState={contentState} onClick={() => setContentState(index)}>
                      <TextBox text={item} fontSize="18px" lineHeight="32px" fontWeight="500" />

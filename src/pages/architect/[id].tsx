@@ -11,8 +11,14 @@ import { currentTier, numberParticipationInLine } from '@/domain/architect';
 const ProfileBox = styled.div`
    position: relative;
    display: flex;
-   gap: 1.2rem;
    align-items: center;
+   justify-content: space-between;
+
+   @media screen and (max-width: 800px) {
+      gap: 8px;
+      align-items: start;
+      flex-direction: column;
+   }
 `;
 
 const TierImageBox = styled.span`
@@ -31,6 +37,14 @@ const SkeletonBox = styled.div`
    margin-top: 20px;
    gap: 30px;
    row-gap: 50px;
+
+   @media screen and (max-width: 1000px) {
+      grid-template-columns: repeat(2, minmax(300px, 1fr));
+   }
+
+   @media screen and (max-width: 800px) {
+      grid-template-columns: repeat(1, minmax(300px, 1fr));
+   }
 `;
 
 const IdBox = styled.div`
@@ -39,21 +53,46 @@ const IdBox = styled.div`
 `;
 
 const ContentContainer = styled.div`
-   position: absolute;
    right: 0;
    display: flex;
    gap: 20px;
    align-items: start;
+
+   @media screen and (max-width: 800px) {
+      gap: 5px;
+
+      > div:nth-child(3) {
+         display: none;
+      }
+      > div:nth-child(4) {
+         display: none;
+      }
+      > div:nth-child(5) {
+         display: none;
+      }
+   }
 `;
 
 const ContentBox = styled.div`
    display: flex;
    flex-direction: column;
-   gap: 5px;
+   gap: 3px;
+
+   @media screen and (max-width: 800px) {
+      flex-direction: row-reverse;
+      align-items: center;
+      gap: 0px;
+   }
 
    > h2:first-child {
       padding: 2px 8px;
    }
+`;
+
+const Wrapper = styled.div`
+   display: flex;
+   gap: 1.2rem;
+   align-items: center;
 `;
 
 export default function Page() {
@@ -81,21 +120,23 @@ export default function Page() {
    return (
       <CommonLayout>
          <ProfileBox>
-            <TierImageBox style={{ backgroundImage: `url(${tierImage(currentTier(data)).src})` }}>
-               <TextBox
-                  text={currentTier(data)}
-                  textShadow="1px 1px 1px black"
-                  fontSize="18px"
-                  lineHeight="24px"
-                  fontWeight="500"
-                  textAlign="center"
-                  color="white"
-               />
-            </TierImageBox>
-            <IdBox>
-               <TextBox text={data.minecraft_id} fontSize="20px" lineHeight="32px" fontWeight="500" />
-               <TextBox text={data.wakzoo_id} fontSize="18px" lineHeight="24px" fontWeight="400" color="#535353" />
-            </IdBox>
+            <Wrapper>
+               <TierImageBox style={{ backgroundImage: `url(${tierImage(currentTier(data)).src})` }}>
+                  <TextBox
+                     text={currentTier(data)}
+                     textShadow="1px 1px 1px black"
+                     fontSize="18px"
+                     lineHeight="24px"
+                     fontWeight="500"
+                     textAlign="center"
+                     color="white"
+                  />
+               </TierImageBox>
+               <IdBox>
+                  <TextBox text={data.minecraft_id} fontSize="20px" lineHeight="32px" fontWeight="500" />
+                  <TextBox text={data.wakzoo_id} fontSize="18px" lineHeight="24px" fontWeight="400" color="#535353" />
+               </IdBox>
+            </Wrapper>
             <ContentContainer>
                <ContentBox>
                   <TextBox

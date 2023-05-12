@@ -12,6 +12,14 @@ const Layout = styled.div`
    margin-top: 20px;
    gap: 30px;
    row-gap: 50px;
+
+   @media screen and (max-width: 1200px) {
+      grid-template-columns: repeat(2, minmax(300px, 1fr));
+   }
+
+   @media screen and (max-width: 800px) {
+      grid-template-columns: repeat(1, minmax(300px, 1fr));
+   }
 `;
 
 const PortFolioBox = styled.div`
@@ -99,8 +107,7 @@ const ContentBox = styled.div`
    justify-content: center;
    min-width: 170px;
    padding: 0px 25px;
-   border-right: 1px solid #ddd;
-   border-left: 1px solid #ddd;
+
 `;
 
 const RankingBox = styled.div`

@@ -10,6 +10,14 @@ const Layout = styled.div`
    margin-top: 20px;
    gap: 30px;
    row-gap: 50px;
+
+   @media screen and (max-width: 1200px) {
+      grid-template-columns: repeat(2, minmax(300px, 1fr));
+   }
+
+   @media screen and (max-width: 800px) {
+      grid-template-columns: repeat(1, minmax(300px, 1fr));
+   }
 `;
 
 const PortFolioBox = styled.div`
