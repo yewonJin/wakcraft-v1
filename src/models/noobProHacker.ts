@@ -5,8 +5,8 @@ interface NoobProHackerModel extends Model<NoobProHacker> {
    findAll: () => Promise<NoobProHacker[]>;
    findAllWithoutLineInfo: () => Promise<NoobProHacker[]>;
    findLastestOne: () => Promise<NoobProHacker>;
+   findByEpisode: (episode: string) => Promise<NoobProHacker>;
 }
-
 
 const noobProHackerSchema = new Schema({
    contentInfo: {
@@ -47,6 +47,10 @@ const noobProHackerSchema = new Schema({
 noobProHackerSchema.statics.create = function (payload) {
    const noobProHacker = new this(payload);
    return noobProHacker.save();
+};
+
+noobProHackerSchema.statics.findByEpisode = function (episode: string) {
+   return this.findOne({ 'contentInfo.episode': episode });
 };
 
 noobProHackerSchema.statics.findAll = function () {

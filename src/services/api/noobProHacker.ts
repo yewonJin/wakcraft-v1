@@ -15,3 +15,11 @@ export const addNoobProHacker = async (body: NoobProHacker) => {
       throw error;
    }
 };
+
+export const getNoobProHackerById = async (id: string) => {
+   try {
+      return await fetch(`/api/noobProHacker?episode=${id}`).then(handleFetchData);
+   } catch (error) {
+      throw error;
+   }
+};

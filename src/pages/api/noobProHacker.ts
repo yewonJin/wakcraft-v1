@@ -5,7 +5,20 @@ import NoobProHacker from '@/models/noobProHacker';
 import { convertNoobProHackerToArchitect } from '@/utils/lib';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-   if (req.method === 'POST') {
+   if (req.method === 'GET') {
+      const { episode } = req.query;
+
+      try {
+         await connectMongo();
+
+         await NoobProHacker.findByEpisode(episode as string).then(noobProHacker => {
+            res.status(200).json(noobProHacker);
+         });
+         
+      } catch {
+         res.status(400).json({ error: 'fetch error' });
+      }
+   } else if (req.method === 'POST') {
       const architectsInfo = convertNoobProHackerToArchitect(req);
 
       await connectMongo();

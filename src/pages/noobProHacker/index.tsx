@@ -5,6 +5,7 @@ import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import connectMongo from '@/utils/connectMongo';
 import NoobProHacker from '@/models/noobProHacker';
 import { BsYoutube } from 'react-icons/bs';
+import { useRouter } from 'next/router';
 
 const Layout = styled.div`
    display: flex;
@@ -90,40 +91,40 @@ const NoobProHackerBox = styled.li`
    padding: 10px 25px;
    border-bottom: 1px solid #cacaca;
 
+   > p:nth-child(4) {
+      color: #555;
+      :hover {
+         color: black;
+      }
+   }
+
    @media screen and (max-width: 800px) {
       height: 80px;
       padding: 5px 10px;
       gap: 20px;
 
-      > li:first-child {
+      > p:first-child {
          display: flex;
          align-items: center;
          width: 70px;
          height: 60px;
       }
 
-      > li:nth-child(3) {
+      > p:nth-child(3) {
          display: none;
       }
 
-      > li:nth-child(4) {
+      > p:nth-child(4) {
          display: none;
       }
    }
 `;
 
-const NoobProHackerItem = styled.div<{ width?: string }>`
+const NoobProHackerItem = styled.p<{ width?: string }>`
    width: ${props => props.width || 'auto'};
    list-style: none;
    font-size: 16px;
    height: 24px;
-
-   > a {
-      color: #555;
-      :hover {
-         color: black;
-      }
-   }
 `;
 
 const YoutubeLink = styled.span`
@@ -161,6 +162,8 @@ export const getStaticProps: GetStaticProps<{ noobProHackers: NoobProHackerWithW
 };
 
 export default function Search({ noobProHackers }: InferGetStaticPropsType<typeof getStaticProps>) {
+   const router = useRouter();
+
    return (
       <Layout>
          <TableHeader>
@@ -179,10 +182,14 @@ export default function Search({ noobProHackers }: InferGetStaticPropsType<typeo
                         <NoobProHackerItem width="100px">{item.contentInfo.episode + '회'}</NoobProHackerItem>
                         <NoobProHackerItem width="250px">{item.contentInfo.main_subject}</NoobProHackerItem>
                         <NoobProHackerItem width="220px">{item.winnerLine[0]?.subject ?? '없음'}</NoobProHackerItem>
-                        <NoobProHackerItem width="220px">
-                           <Link href={`/architect/${item.winner[0].line_details.hacker.minecraft_id}`}>
-                              {item.winner[0].line_details.hacker.minecraft_id ?? '없음'}
-                           </Link>
+                        <NoobProHackerItem
+                           width="220px"
+                           onClick={e => {
+                              e.preventDefault();
+                              router.push(`/architect/${item.winner[0].line_details.hacker.minecraft_id}`);
+                           }}
+                        >
+                           {item.winner[0].line_details.hacker.minecraft_id ?? '없음'}
                         </NoobProHackerItem>
                         <NoobProHackerItem width="170px">{item.contentInfo.date.split('T')[0]}</NoobProHackerItem>
                         <NoobProHackerItem width="150px">
