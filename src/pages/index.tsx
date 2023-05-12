@@ -29,6 +29,10 @@ const ContentsBox = styled.main`
       height: auto;
       padding-top: 130px;
    }
+
+   @media screen and (max-width: 800px) {
+      padding-top: 100px;
+   }
 `;
 
 const BackgroundImage = styled.div<{ bg: StaticImageData }>`

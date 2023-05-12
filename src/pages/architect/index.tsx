@@ -19,34 +19,67 @@ const Layout = styled.div`
    margin: 0px auto;
    padding-top: 130px;
    padding-bottom: 50px;
+
+   @media screen and (max-width: 1200px) {
+      width: 100%;
+      padding-left: 15px;
+      padding-right: 15px;
+   }
+
+   @media screen and (max-width: 800px) {
+      padding-top: 100px;
+   }
 `;
 
 const TierNav = styled.nav`
    display: flex;
    align-items: center;
    justify-content: space-between;
-   width: 1200px;
+   width: 100%;
+
+   @media screen and (max-width: 1000px) {
+      > div:last-child {
+         width: 200px;
+      }
+   }
+
+   @media screen and (max-width: 800px) {
+      flex-direction: column-reverse;
+      gap: 10px;
+
+      > div:last-child {
+         width: 95%;
+      }
+   }
 `;
 
 const TableHeader = styled.ul`
    display: flex;
    align-items: center;
-   width: 1200px;
+   width: 100%;
    padding: 18px 25px;
    padding-right: 37px;
    margin-top: 15px;
    background-color: #ddd;
    border-radius: 10px;
+
+   @media screen and (max-width: 800px) {
+      display: none;
+   }
 `;
 
 const TableItem = styled.li<{ width?: string; margin?: string }>`
    list-style: none;
    width: ${props => props.width || 'auto'};
    margin: ${props => props.margin || '0px'};
+
+   @media screen and (max-width: 600px) {
+      font-size: 14px;
+   }
 `;
 
 const ArchitectList = styled.ul`
-   width: 1200px;
+   width: 100%;
    height: calc(100vh - 188px);
    overflow-y: scroll;
    display: flex;
@@ -68,12 +101,26 @@ const ArchitectList = styled.ul`
       border: 1px solid transparent;
       border-radius: 8px;
    }
+
+   @media screen and (max-width: 800px) {
+      border-top: 1px solid #ddd;
+      margin-top: 10px;
+   }
 `;
 
 const TierList = styled.ul`
    display: flex;
    align-items: center;
    gap: 15px;
+
+   @media screen and (max-width: 1050px) {
+      gap: 5px;
+   }
+
+   @media screen and (max-width: 800px) {
+      width: 100%;
+      justify-content: space-around;
+   }
 `;
 
 const NavItem = styled.div<{ curTier: string }>`
@@ -87,6 +134,16 @@ const NavItem = styled.div<{ curTier: string }>`
       cursor: pointer;
       background-color: #aaa;
    }
+
+   @media screen and (max-width: 1050px) {
+      padding: 5px 10px;
+      border-radius: 0px;
+      gap: 5px;
+
+      > span {
+         display: none;
+      }
+   }
 `;
 
 const LineCountBox = styled.span`
@@ -99,11 +156,33 @@ const LineCountBox = styled.span`
 `;
 
 const ArchitectInfoList = styled.ul`
+   width: 100%;
    display: flex;
    align-items: center;
    height: 60px;
    padding: 10px 25px;
    border-bottom: 1px solid #cacaca;
+
+   @media screen and (max-width: 800px) {
+      height: 80px;
+      padding: 5px 10px;
+      gap: 20px;
+
+      > li:first-child {
+         display: flex;
+         align-items: center;
+         width: 70px;
+         height: 60px;
+      }
+
+      > li:nth-child(3) {
+         display: none;
+      }
+
+      > li:nth-child(4) {
+         display: none;
+      }
+   }
 `;
 
 const ArchitectInfoItem = styled.li<{ width?: string }>`
@@ -111,6 +190,24 @@ const ArchitectInfoItem = styled.li<{ width?: string }>`
    list-style: none;
    font-size: 16px;
    height: 24px;
+`;
+
+const IdBox = styled.div`
+   position: relative;
+   display: flex;
+
+   @media screen and (max-width: 800px) {
+      flex-direction: column;
+      width: 150px;
+      > li {
+         width: 100%;
+      }
+
+      > li:last-child {
+         width: 100%;
+         color: #535353;
+      }
+   }
 `;
 
 export const getStaticProps: GetStaticProps<{ architects: Architect[] }> = async () => {
@@ -165,8 +262,10 @@ export default function Search({ architects }: InferGetStaticPropsType<typeof ge
                      <Link key={item.wakzoo_id} href={`/architect/${item.minecraft_id}`}>
                         <ArchitectInfoList>
                            <ArchitectInfoItem width="180px">{currentTier(item)}</ArchitectInfoItem>
-                           <ArchitectInfoItem width="250px">{item.minecraft_id}</ArchitectInfoItem>
-                           <ArchitectInfoItem width="220px">{item.wakzoo_id}</ArchitectInfoItem>
+                           <IdBox>
+                              <ArchitectInfoItem width="250px">{item.minecraft_id}</ArchitectInfoItem>
+                              <ArchitectInfoItem width="220px">{item.wakzoo_id}</ArchitectInfoItem>
+                           </IdBox>
                            <ArchitectInfoItem width="150px">
                               {item.noobProHackerInfo.participation + '회'}
                            </ArchitectInfoItem>

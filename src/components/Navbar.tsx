@@ -3,6 +3,8 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { Toaster } from 'react-hot-toast';
 import styled from 'styled-components';
+import { GiHamburgerMenu } from 'react-icons/gi';
+import { AiOutlineClose } from 'react-icons/ai';
 
 const Container = styled.nav<{ pos: boolean }>`
    width: 100%;
@@ -36,7 +38,50 @@ const SubContainer = styled.div`
    }
 
    @media screen and (max-width: 800px) {
+      justify-content: space-between;
       gap: 20px;
+
+      > a {
+         display: none;
+      }
+
+      > span {
+         display: flex;
+      }
+   }
+`;
+
+const Menu = styled.span`
+   display: none;
+   > svg {
+      font-size: 1.5rem;
+      color: white;
+   }
+`;
+
+const MenuBox = styled.div<{ isOpened: boolean }>`
+   display: ${props => (props.isOpened ? 'flex' : 'none')};
+   position: absolute;
+   width: 100vw;
+   height: 100vh;
+   background-color: rgba(0, 0, 0, 0.9);
+   flex-direction: column;
+   margin-top: 80px;
+   padding-top: 30px;
+   gap: 15px;
+
+   > a {
+      font-size: 24px;
+      width: 100%;
+      text-align: center;
+   }
+
+   > svg {
+      position: absolute;
+      top: 28px;
+      right: 20px;
+      font-size: 1.5rem;
+      color: white;
    }
 `;
 
@@ -46,6 +91,8 @@ export default function NavBar() {
    const [position, setPosition] = useState(0);
    const [lastScroll, setLastScroll] = useState(0);
    const [pos, setPos] = useState(false);
+
+   const [isOpened, setIsOpened] = useState(false);
 
    const onScroll = () => {
       setPosition(window.scrollY);
@@ -78,9 +125,27 @@ export default function NavBar() {
                   <Link href={'/'}>WAKCRAFT</Link>
                </Title>
                <Link href={'/'}>눕프로해커</Link>
+               <Link href={'/'}>배치고사</Link>
                <Link href={'/architect'}>건축가</Link>
-               <Link href="/tier">티어</Link>
+               <Menu>
+                  {!isOpened ? (
+                     <GiHamburgerMenu onClick={() => setIsOpened(true)} />
+                  ) : (
+                     <AiOutlineClose onClick={() => setIsOpened(false)} />
+                  )}
+               </Menu>
             </SubContainer>
+            <MenuBox isOpened={isOpened}>
+               <Link href={'/'} onClick={() => setIsOpened(false)}>
+                  눕프로해커
+               </Link>
+               <Link href={'/'} onClick={() => setIsOpened(false)}>
+                  배치고사
+               </Link>
+               <Link href={'/architect'} onClick={() => setIsOpened(false)}>
+                  건축가
+               </Link>
+            </MenuBox>
          </Container>
       );
    } else {
@@ -92,9 +157,27 @@ export default function NavBar() {
                   <Link href={'/'}>WAKCRAFT</Link>
                </Title>
                <Link href={'/'}>눕프로해커</Link>
+               <Link href={'/'}>배치고사</Link>
                <Link href={'/architect'}>건축가</Link>
-               <Link href="/tier">티어</Link>
+               <Menu>
+                  {!isOpened ? (
+                     <GiHamburgerMenu onClick={() => setIsOpened(true)} />
+                  ) : (
+                     <AiOutlineClose onClick={() => setIsOpened(false)} />
+                  )}
+               </Menu>
             </SubContainer>
+            <MenuBox isOpened={isOpened}>
+               <Link href={'/'} onClick={() => setIsOpened(false)}>
+                  눕프로해커
+               </Link>
+               <Link href={'/'} onClick={() => setIsOpened(false)}>
+                  배치고사
+               </Link>
+               <Link href={'/architect'} onClick={() => setIsOpened(false)}>
+                  건축가
+               </Link>
+            </MenuBox>
          </Container>
       );
    }
