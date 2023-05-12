@@ -124,7 +124,7 @@ export default function NavBar() {
                <Title>
                   <Link href={'/'}>WAKCRAFT</Link>
                </Title>
-               <Link href={'/'}>눕프로해커</Link>
+               <Link href={'/noobProHacker'}>눕프로해커</Link>
                <Link href={'/'}>배치고사</Link>
                <Link href={'/architect'}>건축가</Link>
                <Menu>
@@ -136,7 +136,7 @@ export default function NavBar() {
                </Menu>
             </SubContainer>
             <MenuBox isOpened={isOpened}>
-               <Link href={'/'} onClick={() => setIsOpened(false)}>
+               <Link href={'/noobProHacker'} onClick={() => setIsOpened(false)}>
                   눕프로해커
                </Link>
                <Link href={'/'} onClick={() => setIsOpened(false)}>
@@ -156,7 +156,7 @@ export default function NavBar() {
                <Title>
                   <Link href={'/'}>WAKCRAFT</Link>
                </Title>
-               <Link href={'/'}>눕프로해커</Link>
+               <Link href={'/noobProHacker'}>눕프로해커</Link>
                <Link href={'/'}>배치고사</Link>
                <Link href={'/architect'}>건축가</Link>
                <Menu>
@@ -168,7 +168,7 @@ export default function NavBar() {
                </Menu>
             </SubContainer>
             <MenuBox isOpened={isOpened}>
-               <Link href={'/'} onClick={() => setIsOpened(false)}>
+               <Link href={'/noobProHacker'} onClick={() => setIsOpened(false)}>
                   눕프로해커
                </Link>
                <Link href={'/'} onClick={() => setIsOpened(false)}>

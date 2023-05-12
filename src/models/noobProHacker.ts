@@ -3,8 +3,10 @@ import { Schema, Model, model, models } from 'mongoose';
 
 interface NoobProHackerModel extends Model<NoobProHacker> {
    findAll: () => Promise<NoobProHacker[]>;
+   findAllWithoutLineInfo: () => Promise<NoobProHacker[]>;
    findLastestOne: () => Promise<NoobProHacker>;
 }
+
 
 const noobProHackerSchema = new Schema({
    contentInfo: {
@@ -51,9 +53,33 @@ noobProHackerSchema.statics.findAll = function () {
    return this.find({});
 };
 
+noobProHackerSchema.statics.findAllWithoutLineInfo = function () {
+   return this.aggregate([
+      {
+         $project: {
+            contentInfo: 1,
+            winnerLine: {
+               $filter: {
+                  input: '$lineInfo',
+                  as: 'line',
+                  cond: { $eq: ['$$line.line_ranking', 1] },
+               },
+            },
+            winner: {
+               $filter: {
+                  input: '$lineInfo',
+                  as: 'line',
+                  cond: { $eq: ['$$line.line_details.hacker.ranking', 1] },
+               },
+            },
+         },
+      },
+   ]);
+};
+
 noobProHackerSchema.statics.findLastestOne = function () {
-   return this.find({}).sort({_id: -1}).limit(1);
-}
+   return this.find({}).sort({ _id: -1 }).limit(1);
+};
 
 const NoobProHacker =
    (models['NoobProHacker'] as NoobProHackerModel) ||

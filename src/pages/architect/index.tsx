@@ -159,7 +159,7 @@ const ArchitectInfoList = styled.ul`
    width: 100%;
    display: flex;
    align-items: center;
-   height: 60px;
+   height: 70px;
    padding: 10px 25px;
    border-bottom: 1px solid #cacaca;
 
