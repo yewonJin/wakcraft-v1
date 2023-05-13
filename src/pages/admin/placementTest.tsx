@@ -6,9 +6,10 @@ import InputBox from '@/components/Common/InputBox';
 import TextBox from '@/components/Common/TextBox';
 import AwsStorage from '@/components/Storage/AwsStorage';
 import { Button } from '@/components/Common/Button';
-import { Tier, createTierArray } from '@/domain/architect';
+import { Tier } from '@/domain/architect';
 import { useCreatePlacementTest } from '@/application/createPlacementTest';
 import { useAwsStorage } from '@/application/accessAwsStorage';
+import SelectTierBox from '@/components/Common/SelectTierBox';
 
 const Wrapper = styled.div<{ direction?: string; alignItems?: string }>`
    display: flex;
@@ -81,19 +82,11 @@ export default function PlacementTest() {
                   </ImageBox>
                   <Wrapper>
                      <TextBox text={'마인크래프트 id : ' + item.minecraft_id} />
-                     <select
+                     <SelectTierBox
                         name="tier"
                         value={participantsInfo[index].placement_result}
                         onChange={e => changePlacementTestTier(index, e.target.value as Tier)}
-                     >
-                        {createTierArray().map(tier => {
-                           return (
-                              <option key={tier} value={tier}>
-                                 {tier}
-                              </option>
-                           );
-                        })}
-                     </select>
+                     />
                   </Wrapper>
                </Item>
             ))}

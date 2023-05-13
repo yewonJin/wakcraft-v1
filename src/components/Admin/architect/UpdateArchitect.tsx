@@ -3,8 +3,9 @@ import styled from 'styled-components';
 import InputBox from '@/components/Common/InputBox';
 import TextBox from '@/components/Common/TextBox';
 import { SearchArchitect } from '@/components/Architect/SearchArchitect';
-import { createTierArray } from '@/domain/architect';
 import { useUpdateArchitect } from '@/application/updateArchitect';
+import SelectTierBox from '@/components/Common/SelectTierBox';
+import { Button } from '@/components/Common/Button';
 
 const Layout = styled.div`
    display: flex;
@@ -15,6 +16,7 @@ const Wrapper = styled.div`
    display: flex;
    flex-direction: column;
    gap: 8px;
+   margin-bottom: 10px;
 `;
 
 export default function UpdateArchitect() {
@@ -37,17 +39,9 @@ export default function UpdateArchitect() {
             </Wrapper>
             <Wrapper>
                <TextBox text="티어" />
-               <select name="tier" value={input.tier} onChange={handleChange}>
-                  {createTierArray().map(tier => {
-                     return (
-                        <option key={tier} value={tier}>
-                           {tier}
-                        </option>
-                     );
-                  })}
-               </select>
+               <SelectTierBox name="tier" value={input.tier} onChange={handleChange} />
             </Wrapper>
-            <button>제출</button>
+            <Button text="제출" padding="5px 10px" />
          </form>
       </Layout>
    );

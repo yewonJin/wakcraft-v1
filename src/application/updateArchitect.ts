@@ -6,7 +6,7 @@ export const useUpdateArchitect = () => {
    const [input, setInput] = useState({
       minecraft_id: '',
       wakzoo_id: '',
-      tier: '',
+      tier: '언랭',
    });
 
    const mutation = useMutationUpdateArchitect();

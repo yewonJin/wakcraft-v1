@@ -4,8 +4,8 @@ import { Fragment } from 'react';
 import TextBox from '@/components/Common/TextBox';
 import InputBox from '@/components/Common/InputBox';
 import { useCreateArchitect } from '@/application/createArchitect';
-import { createTierArray } from '@/domain/architect';
 import { Button } from '@/components/Common/Button';
+import SelectTierBox from '@/components/Common/SelectTierBox';
 
 const Layout = styled.div`
    display: flex;
@@ -18,7 +18,6 @@ const Wrapper = styled.div`
    gap: 5px;
    height: 60px;
 `;
-
 
 export function AddArchitect() {
    const { architectInfo, handleChange, addArchitect } = useCreateArchitect();
@@ -52,15 +51,7 @@ export function AddArchitect() {
             </Wrapper>
             <Wrapper>
                <TextBox text={'티어'} />
-               <select name="tier" value={architectInfo.tier} onChange={handleChange}>
-                  {createTierArray().map(tier => {
-                     return (
-                        <option key={tier} value={tier}>
-                           {tier}
-                        </option>
-                     );
-                  })}
-               </select>
+               <SelectTierBox name="tier" value={architectInfo.tier} onChange={handleChange} />
             </Wrapper>
             <Button text="추가" onClick={addArchitect} padding="12px 10px" fontSize="14px"></Button>
          </Layout>
