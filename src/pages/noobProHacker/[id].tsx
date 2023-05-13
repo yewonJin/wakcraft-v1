@@ -65,6 +65,8 @@ const ContentBox = styled.div`
    gap: 10px;
 `;
 
+const lineArr: ('noob' | 'pro' | 'hacker')[] = ['noob', 'pro', 'hacker'];
+
 export default function Page() {
    const data = useQueryNoobProHacker();
 
@@ -108,39 +110,24 @@ export default function Page() {
                      margin="20px 0px 10px 0px"
                   />
                   <PortFolioLayout>
-                     <PortFolioBox>
-                        <ImageBox
-                           image_url={item.line_details.noob.image_url}
-                           youtube_url={item.line_details.noob.youtube_url}
-                        />
-                        <ContentBox>
-                           <TierBox tier="noob" />
-                           <InfoBox topText="마인크래프트 아이디" bottomText={item.line_details.noob.minecraft_id} />
-                           <RankingBox ranking={item.line_details.noob.ranking} />
-                        </ContentBox>
-                     </PortFolioBox>
-                     <PortFolioBox>
-                        <ImageBox
-                           image_url={item.line_details.pro.image_url}
-                           youtube_url={item.line_details.pro.youtube_url}
-                        />
-                        <ContentBox>
-                           <TierBox tier="pro" />
-                           <InfoBox topText="마인크래프트 아이디" bottomText={item.line_details.pro.minecraft_id} />
-                           <RankingBox ranking={item.line_details.pro.ranking} />
-                        </ContentBox>
-                     </PortFolioBox>
-                     <PortFolioBox>
-                        <ImageBox
-                           image_url={item.line_details.hacker.image_url}
-                           youtube_url={item.line_details.hacker.youtube_url}
-                        />
-                        <ContentBox>
-                           <TierBox tier="hacker" />
-                           <InfoBox topText="마인크래프트 아이디" bottomText={item.line_details.hacker.minecraft_id} />
-                           <RankingBox ranking={item.line_details.hacker.ranking} />
-                        </ContentBox>
-                     </PortFolioBox>
+                     {lineArr.map(line => (
+                        <Fragment key={line}>
+                           <PortFolioBox>
+                              <ImageBox
+                                 image_url={item.line_details[line].image_url}
+                                 youtube_url={item.line_details[line].youtube_url}
+                              />
+                              <ContentBox>
+                                 <TierBox tier={line} />
+                                 <InfoBox
+                                    topText="마인크래프트 아이디"
+                                    bottomText={item.line_details[line].minecraft_id}
+                                 />
+                                 <RankingBox ranking={item.line_details[line].ranking} />
+                              </ContentBox>
+                           </PortFolioBox>
+                        </Fragment>
+                     ))}
                   </PortFolioLayout>
                </Fragment>
             ))}
