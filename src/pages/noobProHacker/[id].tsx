@@ -1,16 +1,14 @@
+import { Fragment } from 'react';
 import styled from 'styled-components';
 
-import { useQueryArchitectById } from '@/services/architectAdapters';
 import { CommonLayout } from '@/components/Common/CommonLayout';
 import TextBox from '@/components/Common/TextBox';
 import Skeleton from '@/components/Common/Skeleton';
-import { tierImage, translateTier } from '@/utils/lib';
-import Portfolio from '@/components/Architect/Portfolio';
-import { currentTier, numberParticipationInLine } from '@/domain/architect';
 import { useQueryNoobProHacker } from '@/services/noobProHackerAdapters';
-import Image from 'next/image';
-import { BsYoutube } from 'react-icons/bs';
-import { Fragment } from 'react';
+import TierBox from '@/components/Common/ContentDetail/TierBox';
+import ImageBox from '@/components/Common/ContentDetail/ImageBox';
+import InfoBox from '@/components/Common/ContentDetail/InfoBox';
+import RankingBox from '@/components/Common/ContentDetail/RankingBox';
 
 const ProfileBox = styled.div`
    position: relative;
@@ -23,16 +21,6 @@ const ProfileBox = styled.div`
       align-items: start;
       flex-direction: column;
    }
-`;
-
-const TierImageBox = styled.span`
-   display: flex;
-   justify-content: center;
-   align-items: center;
-   width: 85px;
-   height: 94px;
-   background-size: cover;
-   background-position: center;
 `;
 
 const SkeletonBox = styled.div`
@@ -51,95 +39,16 @@ const SkeletonBox = styled.div`
    }
 `;
 
-const IdBox = styled.div`
-   display: flex;
-   flex-direction: column;
-`;
-
 const NoobProHackerLayout = styled.div`
    margin-top: 10px;
 `;
 
-const ContentLayout = styled.div`
+const PortFolioLayout = styled.div`
    position: relative;
    display: grid;
    grid-template-columns: repeat(3, minmax(300px, 1fr));
    gap: 30px;
    height: 300px;
-`;
-
-const ImageBox = styled.div`
-   position: relative;
-   width: 100%;
-   aspect-ratio: 16/9;
-   box-shadow: 1px 1px 3px #333;
-   border-radius: 10px;
-   background-color: #ddd;
-
-   :hover {
-      cursor: pointer;
-   }
-
-   :hover > img {
-      filter: brightness(0.9);
-   }
-
-   > img {
-      border-radius: 10px;
-   }
-`;
-
-const TierBox = styled.span<{ tier: string }>`
-   display: flex;
-   justify-content: center;
-   align-items: center;
-   width: 90px;
-   height: 53px;
-   border-radius: 10px;
-   font-size: 18px;
-   color: white;
-   text-shadow: 1px 1px 2px black;
-   background: ${props =>
-      props.tier === 'hacker' ? 'rgb(177, 41, 98)' : props.tier === 'pro' ? 'rgb(59, 157, 177)' : 'rgb(198,142,83)'};
-`;
-
-const RankingBox = styled.div`
-   display: flex;
-   width: 90px;
-   gap: 2px;
-   flex-direction: column;
-   justify-content: center;
-`;
-
-const YoutubeLink = styled.span`
-   position: absolute;
-   top: 10px;
-   right: 10px;
-   border-radius: 50px;
-   z-index: 5;
-   display: flex;
-   justify-content: center;
-   align-items: center;
-   padding: 5px;
-
-   > svg {
-      z-index: 3;
-      font-size: 1.8rem;
-      color: red;
-
-      :hover {
-         cursor: pointer;
-         scale: 1.05;
-      }
-   }
-
-   ::after {
-      content: '';
-      position: absolute;
-      width: 10px;
-      height: 10px;
-      background-color: white;
-   }
 `;
 
 const PortFolioBox = styled.div`
@@ -149,7 +58,7 @@ const PortFolioBox = styled.div`
    gap: 15px;
 `;
 
-const Wrapper = styled.div`
+const ContentBox = styled.div`
    display: flex;
    justify-content: space-between;
    align-items: center;
@@ -164,10 +73,6 @@ export default function Page() {
          <CommonLayout>
             <ProfileBox>
                <Skeleton width="85px" height="94px" />
-               <IdBox>
-                  <Skeleton width="120px" height="20px" margin="0px 0px 4px 0px" />
-                  <Skeleton width="80px" height="18px" />
-               </IdBox>
             </ProfileBox>
             <Skeleton width="95px" height="22px" margin="25px 0px 0px 0px" />
             <SkeletonBox>
@@ -202,136 +107,41 @@ export default function Page() {
                      lineHeight="32px"
                      margin="20px 0px 10px 0px"
                   />
-                  <ContentLayout>
+                  <PortFolioLayout>
                      <PortFolioBox>
-                        <ImageBox onClick={() => window.open(item.line_details.noob.image_url)}>
-                           <Image fill sizes="400px" alt="noobProHacker image" src={item.line_details.noob.image_url} />
-                           <YoutubeLink>
-                              <BsYoutube
-                                 onClick={e => {
-                                    e.stopPropagation();
-                                    return window.open(item.line_details.noob.youtube_url);
-                                 }}
-                              />
-                           </YoutubeLink>
-                        </ImageBox>
-                        <Wrapper>
-                           <TierBox tier={'noob'}>{translateTier('noob')}</TierBox>
-                           <IdBox>
-                              <TextBox
-                                 text={'마인크래프트 아이디'}
-                                 textAlign="center"
-                                 fontSize="16px"
-                                 lineHeight="24px"
-                              />
-                              <TextBox
-                                 text={item.line_details.noob.minecraft_id}
-                                 textAlign="center"
-                                 fontSize="16px"
-                                 lineHeight="24px"
-                                 fontWeight="500"
-                              />
-                           </IdBox>
-                           <RankingBox>
-                              <TextBox text="순위" textAlign="center" fontSize="16px" lineHeight="24px" />
-                              <TextBox
-                                 text={item.line_details.noob.ranking + '위'}
-                                 textAlign="center"
-                                 fontSize="16px"
-                                 lineHeight="24px"
-                                 fontWeight="500"
-                              />
-                           </RankingBox>
-                        </Wrapper>
+                        <ImageBox
+                           image_url={item.line_details.noob.image_url}
+                           youtube_url={item.line_details.noob.youtube_url}
+                        />
+                        <ContentBox>
+                           <TierBox tier="noob" />
+                           <InfoBox topText="마인크래프트 아이디" bottomText={item.line_details.noob.minecraft_id} />
+                           <RankingBox ranking={item.line_details.noob.ranking} />
+                        </ContentBox>
                      </PortFolioBox>
                      <PortFolioBox>
-                        <ImageBox onClick={() => window.open(item.line_details.pro.image_url)}>
-                           <Image fill sizes="400px" alt="noobProHacker image" src={item.line_details.pro.image_url} />
-                           <YoutubeLink>
-                              <BsYoutube
-                                 onClick={e => {
-                                    e.stopPropagation();
-                                    return window.open(item.line_details.pro.youtube_url);
-                                 }}
-                              />
-                           </YoutubeLink>
-                        </ImageBox>
-                        <Wrapper>
-                           <TierBox tier={'pro'}>{translateTier('pro')}</TierBox>
-                           <IdBox>
-                              <TextBox
-                                 text={'마인크래프트 아이디'}
-                                 textAlign="center"
-                                 fontSize="16px"
-                                 lineHeight="24px"
-                              />
-                              <TextBox
-                                 text={item.line_details.pro.minecraft_id}
-                                 textAlign="center"
-                                 fontSize="16px"
-                                 lineHeight="24px"
-                                 fontWeight="500"
-                              />
-                           </IdBox>
-                           <RankingBox>
-                              <TextBox text="순위" textAlign="center" fontSize="16px" lineHeight="24px" />
-                              <TextBox
-                                 text={item.line_details.pro.ranking + '위'}
-                                 textAlign="center"
-                                 fontSize="16px"
-                                 lineHeight="24px"
-                                 fontWeight="500"
-                              />
-                           </RankingBox>
-                        </Wrapper>
+                        <ImageBox
+                           image_url={item.line_details.pro.image_url}
+                           youtube_url={item.line_details.pro.youtube_url}
+                        />
+                        <ContentBox>
+                           <TierBox tier="pro" />
+                           <InfoBox topText="마인크래프트 아이디" bottomText={item.line_details.pro.minecraft_id} />
+                           <RankingBox ranking={item.line_details.pro.ranking} />
+                        </ContentBox>
                      </PortFolioBox>
                      <PortFolioBox>
-                        <ImageBox onClick={() => window.open(item.line_details.hacker.image_url)}>
-                           <Image
-                              fill
-                              sizes="400px"
-                              alt="noobProHacker image"
-                              src={item.line_details.hacker.image_url}
-                           />
-                           <YoutubeLink>
-                              <BsYoutube
-                                 onClick={e => {
-                                    e.stopPropagation();
-                                    return window.open(item.line_details.hacker.youtube_url);
-                                 }}
-                              />
-                           </YoutubeLink>
-                        </ImageBox>
-                        <Wrapper>
-                           <TierBox tier={'hacker'}>{translateTier('hacker')}</TierBox>
-                           <IdBox>
-                              <TextBox
-                                 text={'마인크래프트 아이디'}
-                                 textAlign="center"
-                                 fontSize="16px"
-                                 lineHeight="24px"
-                              />
-                              <TextBox
-                                 text={item.line_details.hacker.minecraft_id}
-                                 textAlign="center"
-                                 fontSize="16px"
-                                 lineHeight="24px"
-                                 fontWeight="500"
-                              />
-                           </IdBox>
-                           <RankingBox>
-                              <TextBox text="순위" textAlign="center" fontSize="16px" lineHeight="24px" />
-                              <TextBox
-                                 text={item.line_details.hacker.ranking + '위'}
-                                 textAlign="center"
-                                 fontSize="16px"
-                                 lineHeight="24px"
-                                 fontWeight="500"
-                              />
-                           </RankingBox>
-                        </Wrapper>
+                        <ImageBox
+                           image_url={item.line_details.hacker.image_url}
+                           youtube_url={item.line_details.hacker.youtube_url}
+                        />
+                        <ContentBox>
+                           <TierBox tier="hacker" />
+                           <InfoBox topText="마인크래프트 아이디" bottomText={item.line_details.hacker.minecraft_id} />
+                           <RankingBox ranking={item.line_details.hacker.ranking} />
+                        </ContentBox>
                      </PortFolioBox>
-                  </ContentLayout>
+                  </PortFolioLayout>
                </Fragment>
             ))}
          </NoobProHackerLayout>

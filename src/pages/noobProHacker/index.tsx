@@ -4,7 +4,7 @@ import { GetStaticProps, InferGetStaticPropsType } from 'next';
 
 import connectMongo from '@/utils/connectMongo';
 import NoobProHacker from '@/models/noobProHacker';
-import { BsYoutube } from 'react-icons/bs';
+import YoutubeLink from '@/components/Common/ContentDetail/YoutubeLink';
 import { useRouter } from 'next/router';
 
 const Layout = styled.div`
@@ -127,23 +127,6 @@ const NoobProHackerItem = styled.p<{ width?: string }>`
    height: 24px;
 `;
 
-const YoutubeLink = styled.span`
-   border-radius: 50px;
-   z-index: 5;
-   display: flex;
-
-   > svg {
-      z-index: 3;
-      font-size: 1.8rem;
-      color: red;
-
-      :hover {
-         cursor: pointer;
-         scale: 1.05;
-      }
-   }
-`;
-
 interface NoobProHackerWithWinner extends Omit<NoobProHacker, 'lineInfo'> {
    winnerLine: NoobProHacker['lineInfo'];
    winner: NoobProHacker['lineInfo'];
@@ -192,17 +175,7 @@ export default function Search({ noobProHackers }: InferGetStaticPropsType<typeo
                            {item.winner[0].line_details.hacker.minecraft_id ?? '없음'}
                         </NoobProHackerItem>
                         <NoobProHackerItem width="170px">{item.contentInfo.date.split('T')[0]}</NoobProHackerItem>
-                        <NoobProHackerItem width="150px">
-                           <YoutubeLink>
-                              <BsYoutube
-                                 onClick={e => {
-                                    e.stopPropagation();
-                                    e.preventDefault();
-                                    return window.open(item.contentInfo.youtube_url);
-                                 }}
-                              />
-                           </YoutubeLink>
-                        </NoobProHackerItem>
+                        <YoutubeLink url={item.contentInfo.youtube_url} />
                      </NoobProHackerBox>
                   </Link>
                );
