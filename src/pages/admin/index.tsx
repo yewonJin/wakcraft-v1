@@ -38,6 +38,10 @@ export default function Index() {
             <Link href={'/admin/placementTest'}>
                <li>배치고사</li>
             </Link>
+            <Divider />
+            <Link href={'/admin/eventContents'}>
+               <li>이벤트 눕프핵</li>
+            </Link>
          </List>
       </CommonLayout>
    );

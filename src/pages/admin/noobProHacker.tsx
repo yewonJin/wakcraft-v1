@@ -3,11 +3,11 @@ import styled from 'styled-components';
 
 import { AddLineDetails } from '@/components/Admin/noobProHacker/AddLineDetails';
 import { NoobProHackerLineInfo } from '@/components/Admin/noobProHacker/NoobProHackerLineInfo';
-import { SearchArchitect } from '@/components/Admin/noobProHacker/SearchArchitect';
-import { useCreateLine } from '@/application/createNoobProHacker';
+import { SearchArchitect } from '@/components/Admin/content/SearchArchitect';
+import { useCreateContent, useCreateLine, useCreateNoobProHacker } from '@/application/createNoobProHacker';
 import TextBox from '@/components/Common/TextBox';
-import { AddNoobProHackerInfo } from '@/components/Admin/noobProHacker/AddNoobProHackerInfo';
 import { CommonLayout } from '@/components/Common/CommonLayout';
+import { AddContentInfo } from '@/components/Admin/content/AddContentInfo';
 
 const Container = styled.div`
    display: flex;
@@ -26,7 +26,10 @@ const Wrapper = styled.div`
 `;
 
 export default function NoobProhacker() {
-   const { noobProHackerLine, curLineIndex } = useCreateLine();
+   const { noobProHackerLine, curLineIndex, searchInput, handleSearchInputChange, addArchitectToLine } =
+      useCreateLine();
+   const { noobProHackerContent, handleChange } = useCreateContent();
+   const { addNoobProHacker } = useCreateNoobProHacker();
 
    return (
       <CommonLayout>
@@ -34,11 +37,19 @@ export default function NoobProhacker() {
             <Wrapper>
                <TextBox text="눕프로해커" fontSize="28px" lineHeight="42px" fontWeight="500" margin="0px 0px 5px 0px" />
             </Wrapper>
-            <AddNoobProHackerInfo />
+            <AddContentInfo
+               contentInfo={noobProHackerContent}
+               handleChange={handleChange}
+               addContent={addNoobProHacker}
+            />
             <NoobProHackerLineInfo />
             <Container>
                <Suspense>
-                  <SearchArchitect />
+                  <SearchArchitect
+                     searchInput={searchInput}
+                     handleInputChange={handleSearchInputChange}
+                     addToLine={addArchitectToLine}
+                  />
                </Suspense>
                {noobProHackerLine[curLineIndex] && <AddLineDetails />}
             </Container>

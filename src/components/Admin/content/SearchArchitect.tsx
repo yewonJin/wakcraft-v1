@@ -5,6 +5,7 @@ import { fuzzySearch } from '@/utils/fuzzySearch';
 import { AddArchitect } from '../architect/AddArchitect';
 import { useCreateLine } from '@/application/createNoobProHacker';
 import InputBox from '@/components/Common/InputBox';
+import { ChangeEvent } from 'react';
 
 const Layout = styled.div`
    display: flex;
@@ -51,8 +52,14 @@ const ArchitectItem = styled.li`
    }
 `;
 
-export function SearchArchitect() {
-   const { searchInput, handleSearchInputChange: handleChange, addArchitectToLine } = useCreateLine();
+type Props = {
+   searchInput: string;
+   handleInputChange: (e: ChangeEvent<HTMLInputElement>) => void;
+   addToLine: (minecraft_id: string) => void;
+};
+
+export function SearchArchitect(props: Props) {
+   const { searchInput, handleInputChange, addToLine } = props;
 
    const architects = useQueryArchitectWithoutPortfolio();
 
@@ -64,7 +71,7 @@ export function SearchArchitect() {
             name="search"
             type="text"
             value={searchInput}
-            onChange={handleChange}
+            onChange={handleInputChange}
             width="100%"
             height="40px"
             textAlign="center"
@@ -76,10 +83,7 @@ export function SearchArchitect() {
                .filter(architect => fuzzySearch(architect.minecraft_id, searchInput))
                .map(architect => {
                   return (
-                     <ArchitectItem
-                        key={architect.minecraft_id}
-                        onClick={() => addArchitectToLine(architect.minecraft_id)}
-                     >
+                     <ArchitectItem key={architect.minecraft_id} onClick={() => addToLine(architect.minecraft_id)}>
                         {architect.minecraft_id +
                            ' / ' +
                            architect.wakzoo_id +

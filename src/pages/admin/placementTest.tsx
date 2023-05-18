@@ -10,6 +10,7 @@ import { Tier } from '@/domain/architect';
 import { useCreatePlacementTest } from '@/application/createPlacementTest';
 import { useAwsStorage } from '@/application/accessAwsStorage';
 import SelectTierBox from '@/components/Common/SelectTierBox';
+import { AddContentInfo } from '@/components/Admin/content/AddContentInfo';
 
 const Wrapper = styled.div<{ direction?: string; alignItems?: string }>`
    display: flex;
@@ -49,27 +50,18 @@ const ImageBox = styled.div`
 
 export default function PlacementTest() {
    const { isViewable, setIsViewable } = useAwsStorage();
-   const { participantsInfo, addToDB, changePlacementTestInfo, changePlacementTestTier } = useCreatePlacementTest();
+   const { placementTestInfo, participantsInfo, addToDB, changePlacementTestInfo, changePlacementTestTier } =
+      useCreatePlacementTest();
 
    return (
       <CommonLayout>
          {isViewable && <AwsStorage content="placementTest" />}
          <TextBox text="배치고사" fontSize="24px" lineHeight="36px" fontWeight="500" />
-         <MainInfoBox>
-            <Wrapper direction="column">
-               <TextBox text="시즌" fontSize="18px" fontWeight="32px" />
-               <InputBox name="season" type="number" width="70px" onChange={changePlacementTestInfo} />
-            </Wrapper>
-            <Wrapper direction="column">
-               <TextBox text="날짜" fontSize="18px" fontWeight="32px" />
-               <InputBox name="date" type="date" width="140px" onChange={changePlacementTestInfo} />
-            </Wrapper>
-            <Wrapper direction="column">
-               <TextBox text="유튜브 링크" fontSize="18px" fontWeight="32px" />
-               <InputBox name="youtube_url" type="text" width="250px" onChange={changePlacementTestInfo} />
-            </Wrapper>
-            <Button onClick={() => addToDB()} text="DB에 추가" height="60px" padding="5px 10px" />
-         </MainInfoBox>
+         <AddContentInfo
+            contentInfo={placementTestInfo}
+            handleChange={changePlacementTestInfo}
+            addContent={() => addToDB()}
+         />
          <Wrapper alignItems="center">
             <TextBox text="건축가 추가" fontSize="20px" lineHeight="24px" fontWeight="500" />
             <Button text="파일 찾기" padding="9px 15px" onClick={() => setIsViewable(true)} />

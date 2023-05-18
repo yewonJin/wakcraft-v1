@@ -32,6 +32,7 @@ export const useCreatePlacementTest = () => {
    };
 
    return {
+      placementTestInfo,
       participantsInfo,
       addToDB,
       changePlacementTestInfo,
