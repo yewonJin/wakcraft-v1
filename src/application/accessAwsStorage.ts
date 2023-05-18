@@ -15,12 +15,12 @@ export const useAwsStorage = () => {
    const curLineTier = useRecoilValue(curLineTierState);
    const curLineIndex = useRecoilValue(curLineIndexState);
    
-   const setImageUrlToContent = (minecraftContent: string, imageName: string) => {
-      if (minecraftContent === 'noobProHacker') setImageUrlToNoobProHacker(imageName);
-      else if (minecraftContent === 'placementTest') setImageUrlToPlacementTest(imageName);
+   const setContentImageUrl = (minecraftContent: string, imageName: string) => {
+      if (minecraftContent === 'noobProHacker') setNoobProHackerImageUrl(imageName);
+      else if (minecraftContent === 'placementTest') setPlacementTestImageUrl(imageName);
    };
 
-   const setAllImageUrlToPlacementTest = (imagesName: string[]) => {
+   const setPlacementTestAllImageUrl = (imagesName: string[]) => {
       if (!imagesName) return;
 
       imagesName.forEach(imageName => {
@@ -34,7 +34,7 @@ export const useAwsStorage = () => {
       });
    };
 
-   const setImageUrlToNoobProHacker = (imageName: string) => {
+   const setNoobProHackerImageUrl = (imageName: string) => {
       const newValue = {
          ...noobProHackerLine[curLineIndex],
          line_details: {
@@ -52,7 +52,7 @@ export const useAwsStorage = () => {
       setIsViewable(false);
    };
 
-   const setImageUrlToPlacementTest = (imageName: string) => {
+   const setPlacementTestImageUrl = (imageName: string) => {
       const newValue: PlacementTest['participants'][0] = {
          minecraft_id: imageName.split('/')[2].split('.')[0],
          image_url: `https://wakcraft.s3.ap-northeast-2.amazonaws.com/${imageName}`,
@@ -69,7 +69,7 @@ export const useAwsStorage = () => {
       curLineIndex,
       isViewable,
       setIsViewable,
-      setImageUrlToContent,
-      setAllImageUrlToPlacementTest,
+      setContentImageUrl,
+      setPlacementTestAllImageUrl,
    };
 };

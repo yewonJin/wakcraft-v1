@@ -6,7 +6,7 @@ import { IoMdClose } from 'react-icons/io';
 
 import TextBox from '@/components/Common/TextBox';
 import ImageList from './ImageList';
-import AddEpisode from '../Admin/noobProHacker/AddEpisode';
+import CreateFolder from './CreateFolder';
 import { useQueryAwsDirectory } from '@/services/awsAdapters';
 import UploadFiles from './UploadFiles';
 import { useAwsStorage } from '@/application/accessAwsStorage';
@@ -98,7 +98,7 @@ export default function AwsStorage({ content }: { content: ContentType }) {
                         <TextBox text={item + '화'} color="#ccc" fontSize="18px" lineHeight="26px" />
                      </EpisodeItem>
                   ))}
-               <AddEpisode content={content} data={data} />
+               <CreateFolder content={content} data={data} />
             </EpisodeList>
          </Layout>
       );

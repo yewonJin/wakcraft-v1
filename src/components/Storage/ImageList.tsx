@@ -19,7 +19,7 @@ const Item = styled.li`
 `;
 
 export default function ImageList({ content }: { content: 'noobProHacker' | 'placementTest' }) {
-   const { storagePage, setImageUrlToContent, setAllImageUrlToPlacementTest } = useAwsStorage();
+   const { storagePage, setContentImageUrl, setPlacementTestAllImageUrl } = useAwsStorage();
 
    const { data } = useQueryAwsImages(content, storagePage);
 
@@ -32,12 +32,12 @@ export default function ImageList({ content }: { content: 'noobProHacker' | 'pla
                text="모든 이미지 추가하기"
                fontSize="14px"
                padding="8px 12px"
-               onClick={() => setAllImageUrlToPlacementTest(data)}
+               onClick={() => setPlacementTestAllImageUrl(data)}
             />
          )}
          <List>
             {data.map(item => (
-               <Item key={item} onClick={() => setImageUrlToContent(content, item)}>
+               <Item key={item} onClick={() => setContentImageUrl(content, item)}>
                   <Image
                      fill
                      sizes="400px"
