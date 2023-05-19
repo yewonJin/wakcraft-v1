@@ -34,7 +34,7 @@ export default function ImageBox(props: Props) {
    return (
       <Layout onClick={() => window.open(image_url)}>
          <Image fill sizes="400px" alt="noobProHacker image" src={image_url} />
-         {youtube_url && <YoutubeLink url={youtube_url} onImage={true} />}
+         {youtube_url && <YoutubeLink url={youtube_url} isIconOnImage={true} />}
       </Layout>
    );
 }

@@ -1,10 +1,10 @@
 import { BsYoutube } from 'react-icons/bs';
 import styled from 'styled-components';
 
-const Layout = styled.span<{ onImage?: boolean }>`
-   position: ${props => (props.onImage ? 'absolute' : '')};
-   top: ${props => (props.onImage ? '12px' : '')};
-   right: ${props => (props.onImage ? '12px' : '')};
+const Layout = styled.span<{ isIconOnImage?: boolean }>`
+   position: ${props => (props.isIconOnImage ? 'absolute' : '')};
+   top: ${props => (props.isIconOnImage ? '12px' : '')};
+   right: ${props => (props.isIconOnImage ? '12px' : '')};
    border-radius: 50px;
    z-index: 5;
    display: flex;
@@ -23,7 +23,7 @@ const Layout = styled.span<{ onImage?: boolean }>`
    }
 
    ::after {
-      display: ${props => (props.onImage ? 'flex' : 'none')};
+      display: ${props => (props.isIconOnImage ? 'flex' : 'none')};
       content: '';
       position: absolute;
       width: 10px;
@@ -33,12 +33,12 @@ const Layout = styled.span<{ onImage?: boolean }>`
 `;
 
 type Props = {
-   onImage?: boolean;
+   isIconOnImage?: boolean;
    url: string;
 };
 
 export default function YoutubeLink(props: Props) {
-   const { url, onImage } = props;
+   const { url, isIconOnImage } = props;
 
    const handleClick = (e: React.MouseEvent<SVGAElement>) => {
       e.preventDefault();
@@ -47,7 +47,7 @@ export default function YoutubeLink(props: Props) {
    };
 
    return (
-      <Layout onImage={onImage}>
+      <Layout isIconOnImage={isIconOnImage}>
          <BsYoutube onClick={handleClick} />
       </Layout>
    );
