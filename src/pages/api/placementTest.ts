@@ -16,7 +16,19 @@ type PlacementTestType = {
 };
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-   if (req.method === 'POST') {
+   if (req.method === 'GET') {
+      const { season } = req.query;
+
+      try {
+         await connectMongo();
+
+         await PlacementTest.findBySeason(season as string).then(placementTest => {
+            res.status(200).json(placementTest);
+         });
+      } catch {
+         res.status(400).json({ error: 'fetch error' });
+      }
+   } else if (req.method === 'POST') {
       // 테스트
       const { body }: { body: PlacementTestType } = req;
 

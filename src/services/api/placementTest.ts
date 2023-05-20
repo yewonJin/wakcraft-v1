@@ -15,3 +15,11 @@ export const addPlacementTest = async (body: PlacementTest) => {
       throw error;
    }
 };
+
+export const getPlacementTestById = async (id: string) => {
+   try {
+      return await fetch(`/api/placementTest?season=${id}`).then(handleFetchData);
+   } catch (error) {
+      throw error;
+   }
+};

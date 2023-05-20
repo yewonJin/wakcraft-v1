@@ -1,8 +1,9 @@
-import { useMutation } from 'react-query';
-
+import { UseQueryResult, useMutation, useQuery } from 'react-query';
 import { toast } from 'react-hot-toast';
+import { useRouter } from 'next/router';
+
 import { PlacementTest } from '@/domain/placementTest';
-import { addPlacementTest } from './api/placementTest';
+import { addPlacementTest, getPlacementTestById } from './api/placementTest';
 
 export const useMutationPlacementTest = () => {
    var myHeaders = new Headers();
@@ -17,4 +18,20 @@ export const useMutationPlacementTest = () => {
    );
 
    return mutation;
+};
+
+export const useQueryPlacementTest = () => {
+   const router = useRouter();
+
+   const { id } = router.query;
+
+   const { data: result }: UseQueryResult<PlacementTest> = useQuery(
+      ['placementTestById', id],
+      () => getPlacementTestById(id as string),
+      {
+         refetchOnWindowFocus: false,
+      },
+   );
+
+   return result;
 };

@@ -3,6 +3,8 @@ import { Schema, Model, model, models } from 'mongoose';
 
 interface PlacementTestModel extends Model<PlacementTest> {
    findAll: () => Promise<PlacementTest[]>;
+   findAllWithoutParticipants: () => Promise<Omit<PlacementTest[], 'participants'>>;
+   findBySeason: (season: string) => Promise<PlacementTest>;
 }
 
 const placementTestSchema = new Schema({
@@ -25,6 +27,25 @@ placementTestSchema.statics.create = function (payload) {
 
 placementTestSchema.statics.findAll = function () {
    return this.find({});
+};
+
+placementTestSchema.statics.findBySeason = function (season: string) {
+   return this.findOne({ season: season });
+};
+
+placementTestSchema.statics.findAllWithoutParticipants = function () {
+   return this.aggregate([
+      {
+         $project: {
+            participants: 0,
+         },
+      },
+      { 
+         $sort: {
+            season: 1,
+         }
+      }
+   ]);
 };
 
 const PlacementTest =
