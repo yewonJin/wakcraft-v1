@@ -69,7 +69,7 @@ export const convertLineTierToTier = (req: string) => {
 
 type ArchitectsInfo = {
    minecraft_id: string;
-   portfolio: Omit<Architect['portfolio'], 'placementTest'>;
+   portfolio: Pick<Architect['portfolio'], 'noobProHacker'>;
 };
 
 type Line = 'noob' | 'pro' | 'hacker';

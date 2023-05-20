@@ -4,9 +4,11 @@ import { produce } from 'immer';
 
 import { eventNoobProHackerContentState, eventNoobProHackerLineState } from '@/services/store/eventNoobProHacker';
 import { EventNoobProHacker, createEventNoobProHackerObject } from '@/domain/eventNoobProHacker';
-import { replaceItemAtIndex } from '@/utils/lib';
+import { checkEmptyInDeepObject, replaceItemAtIndex } from '@/utils/lib';
 import { curLineIndexState, lineDetailIndexState } from '@/services/store/noobProHacker';
 import { useAwsStorage } from './accessAwsStorage';
+import { useMutationEventNoobProHacker } from '@/services/api/eventNoobProHacker';
+import { toast } from 'react-hot-toast';
 
 export const useCreateEventNoobProHackerContent = () => {
    const [eventNoobProHackerContent, setEventNoobProHackerContent] = useRecoilState(eventNoobProHackerContentState);
@@ -174,5 +176,21 @@ export const useCreateEventNoobProHacker = () => {
    const [eventNoobProHackerLine, setEventNoobProHackerLine] = useRecoilState(eventNoobProHackerLineState);
    const [eventNoobProHackerContent, setEventNoobProHackerContent] = useRecoilState(eventNoobProHackerContentState);
 
-   return { eventNoobProHackerLine, eventNoobProHackerContent };
+   const mutation = useMutationEventNoobProHacker();
+
+   const addEventNoobProHacker = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+      e.preventDefault();
+
+      if (!checkEmptyInDeepObject(eventNoobProHackerContent)) {
+         toast.error('컨텐츠 입력 폼에 빈 값이 있습니다.');
+         return;
+      }
+
+      mutation.mutate({
+         contentInfo: eventNoobProHackerContent,
+         lineInfo: eventNoobProHackerLine,
+      });
+   };
+
+   return { addEventNoobProHacker };
 };

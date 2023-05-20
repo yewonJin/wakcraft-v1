@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { Fragment } from 'react';
 
 import {
+   useCreateEventNoobProHacker,
    useCreateEventNoobProHackerContent,
    useCreateEventNoobProHackerLine,
 } from '@/application/createEventNoobProHacker';
@@ -38,9 +39,8 @@ export default function EventNoobProHacker() {
       setLineImage,
       handleChange: handleLineChange,
    } = useCreateEventNoobProHackerLine();
+   const { addEventNoobProHacker } = useCreateEventNoobProHacker();
    const { setCurLineIndex } = useCreateLine();
-
-   console.log(eventNoobProHackerLine);
 
    return (
       <CommonLayout>
@@ -54,7 +54,7 @@ export default function EventNoobProHacker() {
          <AddContentInfo
             contentInfo={eventNoobProHackerContent}
             handleChange={handleChange}
-            addContent={() => console.log('구현 해야함')}
+            addContent={addEventNoobProHacker}
          />
          {contentSettingPage === 0 ? (
             <SetLineInfo

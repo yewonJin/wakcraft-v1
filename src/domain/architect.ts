@@ -39,6 +39,15 @@ export type Architect = {
          image_url: string;
          placement_result: Tier;
       }[];
+      eventNoobProHacker: {
+         contentName: string,
+         episode: number;
+         subject: string;
+         line: string;
+         image_url: string;
+         youtube_url: string;
+         ranking: number;
+      }[];
    };
 };
 
