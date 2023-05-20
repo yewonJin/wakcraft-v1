@@ -17,9 +17,9 @@ export const addEventNoobProHacker = async (body: EventNoobProHacker) => {
    }
 };
 
-export const getEventNoobProHacker = async () => {
+export const getNoobProHackerById = async (id: string) => {
    try {
-      return await fetch(`/api/eventNoobProHacker`).then(handleFetchData);
+      return await fetch(`/api/eventNoobProHacker?episode=${id}`).then(handleFetchData);
    } catch (error) {
       throw error;
    }

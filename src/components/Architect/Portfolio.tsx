@@ -5,6 +5,7 @@ import { Architect } from '@/domain/architect';
 import TextBox from '../Common/TextBox';
 import NoobProHackerList from './NoobProHackerList';
 import PlacementTestList from './PlacementTestList';
+import EventNoobProHackerList from './EventNoobProHackerList';
 
 const Layout = styled.div`
    width: 100%;
@@ -52,7 +53,7 @@ export default function Portfolio({ info }: { info: Architect }) {
       <Layout>
          <Category>
             <Divider />
-            {['눕프로해커', '배치고사', '이벤트 눕프핵'].map((item, index) => (
+            {['눕프로해커', '배치고사', '이벤트 눕프핵'].map((item, index) => (                                 
                <Fragment key={item}>
                   <CategoryItem index={index} contentState={contentState} onClick={() => setContentState(index)}>
                      <TextBox text={item} fontSize="18px" lineHeight="32px" fontWeight="500" />
@@ -61,7 +62,13 @@ export default function Portfolio({ info }: { info: Architect }) {
                </Fragment>
             ))}
          </Category>
-         {contentState === 0 ? <NoobProHackerList info={info} /> : <PlacementTestList info={info} />}
+         {contentState === 0 ? (
+            <NoobProHackerList info={info} />
+         ) : contentState === 1 ? (
+            <PlacementTestList info={info} />
+         ) : (
+            <EventNoobProHackerList info={info} />
+         )}
       </Layout>
    );
 }

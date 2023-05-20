@@ -7,11 +7,13 @@ import { convertToArchitect } from '@/services/eventNoobProHackerAdapters';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
    if (req.method === 'GET') {
+      const { episode } = req.query;
+
       try {
          await connectMongo();
 
-         await EventNoobProHacker.findAll().then(noobProHacker => {
-            res.status(200).json(noobProHacker);
+         await EventNoobProHacker.findByEpisode(episode as string).then(eventNoobProHacker => {
+            res.status(200).json(eventNoobProHacker);
          });
       } catch {
          res.status(400).json({ error: 'fetch error' });

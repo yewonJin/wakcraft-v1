@@ -4,6 +4,7 @@ import { Schema, Model, model, models } from 'mongoose';
 interface EventNoobProHackerModel extends Model<EventNoobProHacker> {
    findAll: () => Promise<EventNoobProHacker[]>;
    findAllWithoutLineInfo: () => Promise<EventNoobProHacker[]>;
+   findByEpisode: (episode: string) => Promise<EventNoobProHacker>;
    findLastestOne: () => Promise<EventNoobProHacker>;
 }
 
@@ -39,6 +40,10 @@ eventNoobProHackerSchema.statics.create = function (payload) {
 
 eventNoobProHackerSchema.statics.findAll = function () {
    return this.find({});
+};
+
+eventNoobProHackerSchema.statics.findByEpisode = function (episode: string) {
+   return this.findOne({ 'contentInfo.episode': episode });
 };
 
 eventNoobProHackerSchema.statics.findAllWithoutLineInfo = function () {

@@ -124,9 +124,10 @@ export default function NavBar() {
                <Title>
                   <Link href={'/'}>WAKCRAFT</Link>
                </Title>
-               <Link href={'/noobProHacker'}>눕프로해커</Link>
-               <Link href={'/'}>배치고사</Link>
                <Link href={'/architect'}>건축가</Link>
+               <Link href={'/noobProHacker'}>눕프로해커</Link>
+               <Link href={'/placementTest'}>배치고사</Link>
+               <Link href={'/eventNoobProHacker'}>이벤트 눕프핵</Link>
                <Menu>
                   {!isOpened ? (
                      <GiHamburgerMenu onClick={() => setIsOpened(true)} />
@@ -136,14 +137,17 @@ export default function NavBar() {
                </Menu>
             </SubContainer>
             <MenuBox isOpened={isOpened}>
+               <Link href={'/architect'} onClick={() => setIsOpened(false)}>
+                  건축가
+               </Link>
                <Link href={'/noobProHacker'} onClick={() => setIsOpened(false)}>
                   눕프로해커
                </Link>
-               <Link href={'/'} onClick={() => setIsOpened(false)}>
+               <Link href={'/placementTest'} onClick={() => setIsOpened(false)}>
                   배치고사
                </Link>
-               <Link href={'/architect'} onClick={() => setIsOpened(false)}>
-                  건축가
+               <Link href={'/eventNoobProHacker'} onClick={() => setIsOpened(false)}>
+                  이벤트 눕프핵
                </Link>
             </MenuBox>
          </Container>
@@ -156,9 +160,10 @@ export default function NavBar() {
                <Title>
                   <Link href={'/'}>WAKCRAFT</Link>
                </Title>
-               <Link href={'/noobProHacker'}>눕프로해커</Link>
-               <Link href={'/'}>배치고사</Link>
                <Link href={'/architect'}>건축가</Link>
+               <Link href={'/noobProHacker'}>눕프로해커</Link>
+               <Link href={'/placementTest'}>배치고사</Link>
+               <Link href={'/eventNoobProHacker'}>이벤트 눕프핵</Link>
                <Menu>
                   {!isOpened ? (
                      <GiHamburgerMenu onClick={() => setIsOpened(true)} />
@@ -168,14 +173,17 @@ export default function NavBar() {
                </Menu>
             </SubContainer>
             <MenuBox isOpened={isOpened}>
+               <Link href={'/architect'} onClick={() => setIsOpened(false)}>
+                  건축가
+               </Link>
                <Link href={'/noobProHacker'} onClick={() => setIsOpened(false)}>
                   눕프로해커
                </Link>
-               <Link href={'/'} onClick={() => setIsOpened(false)}>
+               <Link href={'/placementTest'} onClick={() => setIsOpened(false)}>
                   배치고사
                </Link>
-               <Link href={'/architect'} onClick={() => setIsOpened(false)}>
-                  건축가
+               <Link href={'/eventNoobProHacker'} onClick={() => setIsOpened(false)}>
+                  이벤트 눕프핵
                </Link>
             </MenuBox>
          </Container>

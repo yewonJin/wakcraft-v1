@@ -1,8 +1,9 @@
 import { UseQueryResult, useMutation, useQuery } from 'react-query';
 import { toast } from 'react-hot-toast';
 
-import { addEventNoobProHacker, getEventNoobProHacker } from '../eventNoobProHackerAdapters';
+import { addEventNoobProHacker, getNoobProHackerById } from '../eventNoobProHackerAdapters';
 import { EventNoobProHacker } from '@/domain/eventNoobProHacker';
+import { useRouter } from 'next/router';
 
 export const useMutationEventNoobProHacker = () => {
    var myHeaders = new Headers();
@@ -20,9 +21,13 @@ export const useMutationEventNoobProHacker = () => {
 };
 
 export const useQueryEventNoobProHacker = () => {
+   const router = useRouter();
+
+   const { id } = router.query;
+
    const { data: result }: UseQueryResult<EventNoobProHacker> = useQuery(
       ['getEventNoobProHacker'],
-      () => getEventNoobProHacker(),
+      () => getNoobProHackerById(id as string),
       {
          refetchOnWindowFocus: false,
       },
