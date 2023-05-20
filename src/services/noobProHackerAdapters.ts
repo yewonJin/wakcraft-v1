@@ -1,9 +1,9 @@
 import { UseQueryResult, useMutation, useQuery } from 'react-query';
-
-import { NoobProHacker } from '@/domain/noobProHacker';
-import { addNoobProHacker, getNoobProHackerById } from './api/noobProHacker';
 import { toast } from 'react-hot-toast';
 import { useRouter } from 'next/router';
+
+import { addNoobProHacker, getNoobProHackerById } from './api/noobProHacker';
+import { NoobProHacker } from '@/domain/noobProHacker';
 
 export const useMutationNoobProHacker = () => {
    var myHeaders = new Headers();
@@ -26,7 +26,7 @@ export const useQueryNoobProHacker = () => {
    const { id } = router.query;
 
    const { data: result }: UseQueryResult<NoobProHacker> = useQuery(
-      ['architectById', id],
+      ['noobProHackerById', id],
       () => getNoobProHackerById(id as string),
       {
          refetchOnWindowFocus: false,
