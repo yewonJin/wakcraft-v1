@@ -5,11 +5,12 @@ import TextBox from '@/components/Common/TextBox';
 import { Button } from '@/components/Common/Button';
 import { NoobProHacker } from '@/domain/noobProHacker';
 import { PlacementTest } from '@/domain/placementTest';
+import { EventNoobProHacker } from '@/domain/eventNoobProHacker';
 
 const Layout = styled.div`
    display: flex;
    justify-content: space-between;
-   margin-top: 15px;
+   margin: 15px 0px;
 `;
 
 const List = styled.ul`
@@ -24,7 +25,7 @@ const Item = styled.li`
    gap: 7px;
 `;
 
-type Content = Partial<NoobProHacker['contentInfo'] & Omit<PlacementTest, 'participants'>>;
+type Content = Partial<NoobProHacker['contentInfo'] & Omit<PlacementTest, 'participants'> & EventNoobProHacker['contentInfo']>;
 
 type Props = {
    contentInfo: Content;
@@ -38,6 +39,18 @@ export function AddContentInfo(props: Props) {
    return (
       <Layout>
          <List>
+            {Object.keys(contentInfo).includes('contentName') && (
+               <Item>
+                  <TextBox text="주제" fontSize="18px" fontWeight="32px" />
+                  <InputBox
+                     onChange={handleChange}
+                     value={contentInfo.contentName}
+                     type="text"
+                     name="contentName"
+                     width="150px"
+                  />
+               </Item>
+            )}
             <Item>
                <TextBox
                   text={Object.keys(contentInfo).includes('season') ? '시즌' : '회차'}

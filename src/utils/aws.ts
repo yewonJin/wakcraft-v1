@@ -16,7 +16,10 @@ export const s3 = new S3Client({
 });
 
 /** 입력받은 눕프핵 에피소드를 반환하는 옵션  */
-export const listObjectsBucketParams = (content: 'noobProHacker' | 'placementTest', episode?: string) => {
+export const listObjectsBucketParams = (
+   content: 'noobProHacker' | 'placementTest' | 'eventNoobProHacker',
+   episode?: string,
+) => {
    switch (content) {
       case 'noobProHacker':
          if (!episode) {
@@ -42,6 +45,18 @@ export const listObjectsBucketParams = (content: 'noobProHacker' | 'placementTes
                Prefix: `placementTest/season ${episode}/`,
             };
          }
+      case 'eventNoobProHacker':
+         if (!episode) {
+            return {
+               Bucket: awsS3Bucket,
+               Prefix: `eventNoobProHacker/`,
+            };
+         } else {
+            return {
+               Bucket: awsS3Bucket,
+               Prefix: `eventNoobProHacker/episode ${episode}/`,
+            };
+         }
    }
 };
 
@@ -59,7 +74,7 @@ export async function uploadFile(fileBuffer: fs.ReadStream, fileName: string, mi
 }
 
 /** 다음 회차 폴더 만들기 */
-export async function createFolder(content: 'noobProHacker' | 'placementTest', fileName: string) {
+export async function createFolder(content: 'noobProHacker' | 'placementTest' | 'eventNoobProHacker', fileName: string) {
    if (content === 'noobProHacker') {
       const params = {
          Bucket: awsS3Bucket,
@@ -73,6 +88,15 @@ export async function createFolder(content: 'noobProHacker' | 'placementTest', f
       const params = {
          Bucket: awsS3Bucket,
          Key: 'placementTest/season ' + fileName + '/',
+         Body: '',
+      };
+
+      const res = await s3.send(new PutObjectCommand(params));
+      return res.$metadata.httpStatusCode;
+   } else if (content === 'eventNoobProHacker') {
+      const params = {
+         Bucket: awsS3Bucket,
+         Key: 'eventNoobProHacker/episode ' + fileName + '/',
          Body: '',
       };
 

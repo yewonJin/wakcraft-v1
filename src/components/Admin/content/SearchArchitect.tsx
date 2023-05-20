@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { useQueryArchitectWithoutPortfolio } from '@/services/architectAdapters';
 import { fuzzySearch } from '@/utils/fuzzySearch';
 import { AddArchitect } from '../architect/AddArchitect';
-import { useCreateLine } from '@/application/createNoobProHacker';
 import InputBox from '@/components/Common/InputBox';
 import { ChangeEvent } from 'react';
 

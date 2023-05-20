@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { useCreateLine } from '@/application/createNoobProHacker';
+import { SetterOrUpdater } from 'recoil';
 
 const LineList = styled.ul`
    height: 80px;
@@ -21,14 +21,19 @@ const LineItem = styled.li`
    }
 `;
 
-export function NoobProHackerLineInfo() {
-   const { noobProHackerLine, setCurLineIndex } = useCreateLine();
+type Props = {
+   lines: any[];
+   setCurLineIndex: SetterOrUpdater<number>;
+};
+
+export function ContentLineInfo(props: Props) {
+   const { lines, setCurLineIndex } = props;
 
    return (
       <LineList>
-         {noobProHackerLine.map((line, index) => {
+         {lines.map((line, index) => {
             return (
-               <LineItem onClick={() => setCurLineIndex(index)} key={line.subject}>
+               <LineItem onClick={() => setCurLineIndex(index)} key={index}>
                   {index + 1 + '라인 : ' + line.subject}
                </LineItem>
             );

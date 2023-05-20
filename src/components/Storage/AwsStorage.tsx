@@ -68,7 +68,7 @@ const Wrapper = styled.div`
    }
 `;
 
-export type ContentType = 'noobProHacker' | 'placementTest';
+export type ContentType = 'noobProHacker' | 'placementTest' | 'eventNoobProHacker';
 
 export default function AwsStorage({ content }: { content: ContentType }) {
    const { storagePage, setStoragePage, setIsViewable } = useAwsStorage();
@@ -81,7 +81,13 @@ export default function AwsStorage({ content }: { content: ContentType }) {
          <Layout>
             <Wrapper>
                <TextBox
-                  text={content === 'noobProHacker' ? '눕프로해커' : '배치고사'}
+                  text={
+                     content === 'noobProHacker'
+                        ? '눕프로해커'
+                        : content === 'placementTest'
+                        ? '배치고사'
+                        : '이벤트 눕프핵'
+                  }
                   fontSize="24px"
                   fontWeight="500"
                   lineHeight="36px"

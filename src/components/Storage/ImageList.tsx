@@ -18,7 +18,7 @@ const Item = styled.li`
    aspect-ratio: 16/9;
 `;
 
-export default function ImageList({ content }: { content: 'noobProHacker' | 'placementTest' }) {
+export default function ImageList({ content }: { content: 'noobProHacker' | 'placementTest' | 'eventNoobProHacker' }) {
    const { storagePage, setContentImageUrl, setPlacementTestAllImageUrl } = useAwsStorage();
 
    const { data } = useQueryAwsImages(content, storagePage);

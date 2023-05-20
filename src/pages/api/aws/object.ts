@@ -11,7 +11,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
       try {
          const data = await s3.send(
-            new ListObjectsCommand(listObjectsBucketParams(content as 'noobProHacker' | 'placementTest')),
+            new ListObjectsCommand(listObjectsBucketParams(content as 'noobProHacker' | 'placementTest' | 'eventNoobProHacker')),
          );
 
          if (!data.Contents) return res.status(400).send({ error: '해당 object가 없습니다.' });
@@ -34,7 +34,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             return res.status(400).send({ error: '에러' });
          }
 
-         await createFolder(content as 'noobProHacker' | 'placementTest', episode as string);
+         await createFolder(content as 'noobProHacker' | 'placementTest' | 'eventNoobProHacker', episode as string);
 
          return res.status(201).json({
             message: 's3 uploading with fs succeeded',

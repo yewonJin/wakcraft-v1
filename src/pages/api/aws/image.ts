@@ -32,7 +32,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       try {
          const data = await s3.send(
             new ListObjectsCommand(
-               listObjectsBucketParams(content as 'noobProHacker' | 'placementTest', req.query.episode as string),
+               listObjectsBucketParams(
+                  content as 'noobProHacker' | 'placementTest' | 'eventNoobProHacker',
+                  req.query.episode as string,
+               ),
             ),
          );
 
@@ -65,7 +68,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
             const fileName =
                `${parsedFileData.fields.content}/${
-                  parsedFileData.fields.content === 'noobProHacker' ? 'episode' : 'season'
+                  parsedFileData.fields.content === 'placementTest' ? 'season' : 'episode'
                } ${parsedFileData.fields.episode}/` + item.originalFilename;
 
             await uploadFile(fileBuffer, fileName, item.mimetype);

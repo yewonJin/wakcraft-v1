@@ -82,7 +82,7 @@ export const useCreateLine = () => {
    /** 검색한 건축가를 라인에 추가하는 함수 */
    const addArchitectToLine = (minecraft_id: string) => {
       if (noobProHackerLine[curLineIndex].line_details.hacker.minecraft_id !== '') return;
-
+ 
       const line = ['noob', 'pro', 'hacker'][lineDetailIndex] as 'noob' | 'pro' | 'hacker';
 
       const newValue = {

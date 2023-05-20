@@ -39,7 +39,7 @@ export default function Index() {
                <li>배치고사</li>
             </Link>
             <Divider />
-            <Link href={'/admin/eventContents'}>
+            <Link href={'/admin/eventNoobProHacker'}>
                <li>이벤트 눕프핵</li>
             </Link>
          </List>
