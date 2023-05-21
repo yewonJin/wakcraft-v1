@@ -35,7 +35,7 @@ export default function Login() {
    return (
       <CommonLayout>
          <Form onSubmit={login}>
-            <TextBox text="어드민 페이지" fontSize="24px" fontWeight="500" lineHeight="36px" />
+            <TextBox text="로그인 페이지" fontSize="24px" fontWeight="500" lineHeight="36px" />
             <InputBox
                type="text"
                name="username"
