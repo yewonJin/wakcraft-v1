@@ -6,9 +6,9 @@ import connectMongo from '@/utils/connectMongo';
 import Architect from '@/models/architect';
 import { useShowArchitect } from '@/application/showArchitect';
 import TextBox from '@/components/Common/TextBox';
-import { convertLineTierToTier, translateTier } from '@/utils/lib';
+import { translateTier } from '@/utils/lib';
 import { SearchArchitectWithProps } from '@/components/Architect/SearchArchitectWithProps';
-import { currentTier } from '@/domain/architect';
+import { convertLineTierToTier, currentTier } from '@/domain/architect';
 
 const Layout = styled.div`
    display: flex;

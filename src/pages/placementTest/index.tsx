@@ -3,9 +3,7 @@ import Link from 'next/link';
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
 
 import connectMongo from '@/utils/connectMongo';
-import NoobProHacker from '@/models/noobProHacker';
 import YoutubeLink from '@/components/Common/ContentDetail/YoutubeLink';
-import { useRouter } from 'next/router';
 import PlacementTest from '@/models/placementTest';
 
 const Layout = styled.div`
@@ -54,7 +52,7 @@ const TableItem = styled.li<{ width?: string; margin?: string }>`
    }
 `;
 
-const NoobProHackerList = styled.ul`
+const List = styled.ul`
    width: 100%;
    height: calc(100vh - 188px);
    overflow-y: scroll;
@@ -84,7 +82,7 @@ const NoobProHackerList = styled.ul`
    }
 `;
 
-const NoobProHackerBox = styled.li`
+const Box = styled.li`
    width: 100%;
    display: flex;
    align-items: center;
@@ -121,17 +119,12 @@ const NoobProHackerBox = styled.li`
    }
 `;
 
-const NoobProHackerItem = styled.p<{ width?: string }>`
+const Item = styled.p<{ width?: string }>`
    width: ${props => props.width || 'auto'};
    list-style: none;
    font-size: 16px;
    height: 24px;
 `;
-
-interface NoobProHackerWithWinner extends Omit<NoobProHacker, 'lineInfo'> {
-   winnerLine: NoobProHacker['lineInfo'];
-   winner: NoobProHacker['lineInfo'];
-}
 
 export const getStaticProps: GetStaticProps<{ placementTests: PlacementTest[] }> = async () => {
    await connectMongo();
@@ -146,8 +139,6 @@ export const getStaticProps: GetStaticProps<{ placementTests: PlacementTest[] }>
 };
 
 export default function Search({ placementTests }: InferGetStaticPropsType<typeof getStaticProps>) {
-   const router = useRouter();
-
    return (
       <Layout>
          <TableHeader>
@@ -155,19 +146,19 @@ export default function Search({ placementTests }: InferGetStaticPropsType<typeo
             <TableItem width="170px">날짜</TableItem>
             <TableItem width="150px">링크</TableItem>
          </TableHeader>
-         <NoobProHackerList>
+         <List>
             {placementTests.map((item, _) => {
                return (
                   <Link key={item.season} href={`/placementTest/${item.season}`}>
-                     <NoobProHackerBox>
-                        <NoobProHackerItem width="100px">{'S' + item.season}</NoobProHackerItem>
-                        <NoobProHackerItem width="170px">{item.date.split('T')[0]}</NoobProHackerItem>
+                     <Box>
+                        <Item width="100px">{'S' + item.season}</Item>
+                        <Item width="170px">{item.date.split('T')[0]}</Item>
                         <YoutubeLink url={item.youtube_url} />
-                     </NoobProHackerBox>
+                     </Box>
                   </Link>
                );
             })}
-         </NoobProHackerList>
+         </List>
       </Layout>
    );
 }

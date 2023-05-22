@@ -15,14 +15,17 @@ import { eventNoobProHackerLineState } from '@/services/store/eventNoobProHacker
 
 export const useAwsStorage = () => {
    const [isViewable, setIsViewable] = useRecoilState(storageViewableState);
-   const [noobProHackerLine, setNoobProHackerLine] = useRecoilState(noobProHackerLineState);
-   const [eventNoobProHackerLine, setEventNoobProHackerLine] =
-      useRecoilState<EventNoobProHacker['lineInfo']>(eventNoobProHackerLineState);
    const [storagePage, setStoragePage] = useRecoilState(storagePageState);
-   const setParticipantsInfo = useSetRecoilState(participantsInfoState);
+
+   const [noobProHackerLine, setNoobProHackerLine] = useRecoilState(noobProHackerLineState);
    const curLineTier = useRecoilValue(curLineTierState);
    const curLineIndex = useRecoilValue(curLineIndexState);
    const [lineDetailIndex, setLineDetailIndex] = useRecoilState(lineDetailIndexState);
+
+   const [eventNoobProHackerLine, setEventNoobProHackerLine] =
+      useRecoilState<EventNoobProHacker['lineInfo']>(eventNoobProHackerLineState);
+
+   const setParticipantsInfo = useSetRecoilState(participantsInfoState);
 
    const setContentImageUrl = (minecraftContent: string, imageName: string) => {
       if (minecraftContent === 'noobProHacker') setNoobProHackerImageUrl(imageName);

@@ -2,7 +2,7 @@ import connectMongo from '@/utils/connectMongo';
 import Architect from '@/models/architect';
 import { NextApiRequest, NextApiResponse } from 'next';
 import NoobProHacker from '@/models/noobProHacker';
-import { convertNoobProHackerToArchitect } from '@/utils/lib';
+import { convertToArchitect } from '@/services/noobProHackerAdapters';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
    if (req.method === 'GET') {
@@ -14,12 +14,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
          await NoobProHacker.findByEpisode(episode as string).then(noobProHacker => {
             res.status(200).json(noobProHacker);
          });
-         
       } catch {
          res.status(400).json({ error: 'fetch error' });
       }
    } else if (req.method === 'POST') {
-      const architectsInfo = convertNoobProHackerToArchitect(req);
+      const architectsInfo = convertToArchitect(req);
 
       await connectMongo();
 

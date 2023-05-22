@@ -40,7 +40,7 @@ export type Architect = {
          placement_result: Tier;
       }[];
       eventNoobProHacker: {
-         contentName: string,
+         contentName: string;
          episode: number;
          subject: string;
          line: string;
@@ -81,4 +81,14 @@ export const currentTier = (architect: Architect) => {
 /** 해당하는 라인의 참여 횟수 */
 export const numberParticipationInLine = (architect: Architect, line: Line) => {
    return architect.portfolio.noobProHacker.filter(item => item.line === line).length.toString();
+};
+
+/**  */
+export const convertLineTierToTier = (req: string) => {
+   if (req === 'hacker') return createTierArray().slice(0, 4);
+   else if (req === 'gukbap') return createTierArray().slice(4, 7);
+   else if (req === 'pro') return createTierArray().slice(7, 8);
+   else if (req === 'gyeruik') return createTierArray().slice(8, 10);
+   else if (req === 'noob') return createTierArray().slice(10, 14);
+   else return createTierArray().slice(14);
 };

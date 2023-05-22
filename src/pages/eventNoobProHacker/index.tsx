@@ -53,7 +53,7 @@ const TableItem = styled.li<{ width?: string; margin?: string }>`
    }
 `;
 
-const NoobProHackerList = styled.ul`
+const List = styled.ul`
    width: 100%;
    height: calc(100vh - 188px);
    overflow-y: scroll;
@@ -83,7 +83,7 @@ const NoobProHackerList = styled.ul`
    }
 `;
 
-const NoobProHackerBox = styled.li`
+const Box = styled.li`
    width: 100%;
    display: flex;
    align-items: center;
@@ -120,7 +120,7 @@ const NoobProHackerBox = styled.li`
    }
 `;
 
-const NoobProHackerItem = styled.p<{ width?: string }>`
+const Item = styled.p<{ width?: string }>`
    width: ${props => props.width || 'auto'};
    list-style: none;
    font-size: 16px;
@@ -140,8 +140,6 @@ export const getStaticProps: GetStaticProps<{ eventNoobProHackers: EventNoobProH
 };
 
 export default function Search({ eventNoobProHackers }: InferGetStaticPropsType<typeof getStaticProps>) {
-   const router = useRouter();
-
    return (
       <Layout>
          <TableHeader>
@@ -150,20 +148,20 @@ export default function Search({ eventNoobProHackers }: InferGetStaticPropsType<
             <TableItem width="170px">날짜</TableItem>
             <TableItem width="150px">링크</TableItem>
          </TableHeader>
-         <NoobProHackerList>
+         <List>
             {eventNoobProHackers.map((item, _) => {
                return (
                   <Link key={item.contentInfo.episode} href={`/eventNoobProHacker/${item.contentInfo.episode}`}>
-                     <NoobProHackerBox>
-                        <NoobProHackerItem width="100px">{item.contentInfo.episode + '회'}</NoobProHackerItem>
-                        <NoobProHackerItem width="250px">{item.contentInfo.contentName}</NoobProHackerItem>
-                        <NoobProHackerItem width="170px">{item.contentInfo.date.split('T')[0]}</NoobProHackerItem>
+                     <Box>
+                        <Item width="100px">{item.contentInfo.episode + '회'}</Item>
+                        <Item width="250px">{item.contentInfo.contentName}</Item>
+                        <Item width="170px">{item.contentInfo.date.split('T')[0]}</Item>
                         <YoutubeLink url={item.contentInfo.youtube_url} />
-                     </NoobProHackerBox>
+                     </Box>
                   </Link>
                );
             })}
-         </NoobProHackerList>
+         </List>
       </Layout>
    );
 }
