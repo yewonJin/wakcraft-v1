@@ -102,3 +102,9 @@ export const convertNoobProHackerToArchitect = (req: { body: NoobProHacker }) =>
 
    return architectsInfo;
 };
+
+export const renameToWebp = (imageUrl: string) => {
+   const splitName = imageUrl.split('.')
+      
+   return `${splitName.slice(0, splitName.length-1).join('.')}.webp`
+}
