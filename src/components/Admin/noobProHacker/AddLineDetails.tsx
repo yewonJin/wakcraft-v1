@@ -8,6 +8,8 @@ import { translateTier } from '@/utils/lib';
 import { Button } from '@/components/Common/Button';
 import AwsStorage from '@/components/Storage/AwsStorage';
 import { useAwsStorage } from '@/application/accessAwsStorage';
+import { Fragment } from 'react';
+import { IoMdClose } from 'react-icons/io';
 
 const Layout = styled.div`
    width: calc(100% - 350px);
@@ -54,13 +56,34 @@ const LineInfoBox = styled.div`
    gap: 20px;
 `;
 
+const ImageBox = styled.div`
+   width: 130px;
+   height: 73px;
+   position: relative;
+`;
+
+const ResetImage = styled.span`
+   position: absolute;
+   top: 2px;
+   right: 2px;
+
+   > svg {
+      font-size: 1.3rem;
+      color: white;
+      :hover {
+         color: #ccc;
+         cursor: pointer;
+      }
+   }
+`;
+
 type LineType = 'noob' | 'pro' | 'hacker';
 
 const lineArr: LineType[] = ['noob', 'pro', 'hacker'];
 
 export function AddLineDetails() {
-   const { setLineImage, noobProHackerLine, curLineIndex, resetLine, changeLineDetails, addNewLine } =
-   useCreateLine();
+   const { setLineImage, noobProHackerLine, curLineIndex, resetLine, changeLineDetails, addNewLine, resetImage } =
+      useCreateLine();
 
    const { isViewable } = useAwsStorage();
 
@@ -132,11 +155,22 @@ export function AddLineDetails() {
                   </Wrapper>
                   <LineInfoBox>
                      <Wrapper flexDirection="column">
-                        <TextBox text="개인 이미지 링크" fontSize="18px" lineHeight="26px" />
                         {noobProHackerLine[curLineIndex].line_details[item].image_url === '' ? (
-                           <Button onClick={e => setLineImage(e, item)} text="파일 찾기" padding="8px 0px" />
+                           <Fragment>
+                              <TextBox text="개인 이미지 링크" fontSize="18px" lineHeight="26px" />
+                              <Button onClick={e => setLineImage(e, item)} text="파일 찾기" padding="8px 0px" />
+                           </Fragment>
                         ) : (
-                           <Image fill src={noobProHackerLine[curLineIndex].line_details[item].image_url} alt="image" />
+                           <ImageBox>
+                              <Image
+                                 fill
+                                 src={noobProHackerLine[curLineIndex].line_details[item].image_url}
+                                 alt="image"
+                              />
+                              <ResetImage onClick={() => resetImage(item)}>
+                                 <IoMdClose />
+                              </ResetImage>
+                           </ImageBox>
                         )}
                      </Wrapper>
                      <Wrapper flexDirection="column">

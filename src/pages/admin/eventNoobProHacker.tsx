@@ -37,6 +37,7 @@ export default function EventNoobProHacker() {
       changeLine,
       setLineTierName,
       setLineImage,
+      resetImage,
       handleChange: handleLineChange,
    } = useCreateEventNoobProHackerLine();
    const { addEventNoobProHacker } = useCreateEventNoobProHacker();
@@ -85,6 +86,7 @@ export default function EventNoobProHacker() {
                      changeLineDetails={changeLineDetails}
                      architectCountPerLine={architectCountPerLine}
                      setLineImage={setLineImage}
+                     resetImage={resetImage}
                   />
                </Wrapper>
             </Fragment>

@@ -15,6 +15,7 @@ import {
 } from '@/services/store/noobProHacker';
 import { useMutationNoobProHacker } from '@/services/noobProHackerAdapters';
 import { useAwsStorage } from './accessAwsStorage';
+import { produce } from 'immer';
 
 export const useCreateContent = () => {
    const [noobProHackerContent, setNoobProHackerContent] = useRecoilState(noobProHackerContentState);
@@ -82,7 +83,7 @@ export const useCreateLine = () => {
    /** 검색한 건축가를 라인에 추가하는 함수 */
    const addArchitectToLine = (minecraft_id: string) => {
       if (noobProHackerLine[curLineIndex].line_details.hacker.minecraft_id !== '') return;
- 
+
       const line = ['noob', 'pro', 'hacker'][lineDetailIndex] as 'noob' | 'pro' | 'hacker';
 
       const newValue = {
@@ -121,6 +122,15 @@ export const useCreateLine = () => {
       setLineDetailIndex(0);
    };
 
+   const resetImage = (line: 'noob' | 'pro' | 'hacker') => {
+
+      setNoobProHackerLine(prev =>
+         produce(prev, draft => {
+            draft[curLineIndex].line_details[line].image_url = '';
+         }),
+      );
+   };
+
    /** 입력한 라인을 새로 추가하는 함수 */
    const addNewLine = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       e.preventDefault();
@@ -154,6 +164,7 @@ export const useCreateLine = () => {
       addArchitectToLine,
       resetLine,
       addNewLine,
+      resetImage,
    };
 };
 

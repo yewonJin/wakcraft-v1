@@ -88,6 +88,14 @@ export const useCreateEventNoobProHackerLine = () => {
       setContentSettingPage(prev => prev + 1);
    };
 
+   const resetImage = (index: number) => {
+      setEventNoobProHackerLine(prev =>
+         produce(prev, draft => {
+            draft[curLineIndex].line_details[index].image_url = '';
+         }),
+      );
+   };
+
    const setLineCountAndArchitectCount = () => {
       setContentSettingPage(prev => prev + 1);
 
@@ -165,6 +173,7 @@ export const useCreateEventNoobProHackerLine = () => {
       handleChange,
       contentSettingPage,
       setContentSettingPage,
+      resetImage,
       changeLine,
       changeLineDetails,
       resetLine,

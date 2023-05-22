@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import Image from 'next/image';
+import { Fragment } from 'react';
 
 import TextBox from '@/components/Common/TextBox';
 import InputBox from '@/components/Common/InputBox';
@@ -8,6 +9,7 @@ import { Button } from '@/components/Common/Button';
 import AwsStorage from '@/components/Storage/AwsStorage';
 import { useAwsStorage } from '@/application/accessAwsStorage';
 import { EventNoobProHacker } from '@/domain/eventNoobProHacker';
+import { IoMdClose } from 'react-icons/io';
 
 const Layout = styled.div`
    width: calc(100% - 350px);
@@ -54,18 +56,47 @@ const LineInfoBox = styled.div`
    gap: 20px;
 `;
 
+const ImageBox = styled.div`
+   width: 130px;
+   height: 73px;
+   position: relative;
+`;
+
+const ResetImage = styled.span`
+   position: absolute;
+   top: 2px;
+   right: 2px;
+
+   > svg {
+      font-size: 1.3rem;
+      color: white;
+      :hover {
+         color: #ccc;
+         cursor: pointer;
+      }
+   }
+`;
+
 type Props = {
    architectCountPerLine: number;
    eventNoobProHackerLine: EventNoobProHacker['lineInfo'];
    changeLine: (e: React.ChangeEvent<HTMLInputElement>) => void;
    changeLineDetails: (e: React.ChangeEvent<HTMLInputElement>, index: number) => void;
    resetLine: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+   resetImage: (index: number) => void;
    setLineImage: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, index: number) => void;
 };
 
 export function AddLineDetails(props: Props) {
-   const { eventNoobProHackerLine, architectCountPerLine, changeLine, changeLineDetails, resetLine, setLineImage } =
-      props;
+   const {
+      eventNoobProHackerLine,
+      architectCountPerLine,
+      changeLine,
+      changeLineDetails,
+      resetLine,
+      setLineImage,
+      resetImage,
+   } = props;
 
    const { curLineIndex } = useCreateLine();
 
@@ -141,15 +172,22 @@ export function AddLineDetails(props: Props) {
                   </Wrapper>
                   <LineInfoBox>
                      <Wrapper flexDirection="column">
-                        <TextBox text="개인 이미지 링크" fontSize="18px" lineHeight="26px" />
                         {eventNoobProHackerLine[curLineIndex].line_details[index].image_url === '' ? (
-                           <Button text="파일 찾기" padding="8px 0px" onClick={e => setLineImage(e, index)} />
+                           <Fragment>
+                              <TextBox text="개인 이미지 링크" fontSize="18px" lineHeight="26px" />
+                              <Button text="파일 찾기" padding="8px 0px" onClick={e => setLineImage(e, index)} />
+                           </Fragment>
                         ) : (
-                           <Image
-                              fill
-                              src={eventNoobProHackerLine[curLineIndex].line_details[index].image_url}
-                              alt="image"
-                           />
+                           <ImageBox>
+                              <Image
+                                 fill
+                                 src={eventNoobProHackerLine[curLineIndex].line_details[index].image_url}
+                                 alt="image"
+                              />
+                              <ResetImage onClick={() => resetImage(index)}>
+                                 <IoMdClose />
+                              </ResetImage>
+                           </ImageBox>
                         )}
                      </Wrapper>
                      <Wrapper flexDirection="column">
