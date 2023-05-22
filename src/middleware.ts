@@ -4,19 +4,7 @@ import { NextResponse } from 'next/server';
 import { jwtVerify } from 'jose';
 
 export async function middleware(req: NextRequest) {
-   if (req.nextUrl.pathname.startsWith('/login')) {
-      try {
-         const token = req.cookies.get('access_token')?.value as string;
-
-         await jwtVerify(token, new TextEncoder().encode(process.env.JWT_SECRET));
-         req.nextUrl.pathname = '/admin';
-         return NextResponse.redirect(req.nextUrl);
-      } catch (e) {
-         return NextResponse.next();
-      }
-   }
-
-   if (req.nextUrl.pathname.startsWith('/')) {
+   if (req.nextUrl.pathname.startsWith('/admin')) {
       const token = req.cookies.get('access_token')?.value as string;
 
       if (!token) {
@@ -32,8 +20,20 @@ export async function middleware(req: NextRequest) {
          return NextResponse.redirect(req.nextUrl);
       }
    }
+   
+   if (req.nextUrl.pathname.startsWith('/login')) {
+      try {
+         const token = req.cookies.get('access_token')?.value as string;
+
+         await jwtVerify(token, new TextEncoder().encode(process.env.JWT_SECRET));
+         req.nextUrl.pathname = '/admin';
+         return NextResponse.redirect(req.nextUrl);
+      } catch (e) {
+         return NextResponse.next();
+      }
+   }
 }
 
 export const config = {
-   matcher: ['/((?!api|static|.*\\..*|_next).*)'],
+   matcher: ['/:path*', '/login'],
 };
