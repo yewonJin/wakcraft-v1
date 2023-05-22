@@ -8,7 +8,7 @@ import { EventNoobProHacker, createEventNoobProHackerObject } from '@/domain/eve
 import { checkEmptyInDeepObject } from '@/utils/lib';
 import { curLineIndexState, lineDetailIndexState } from '@/services/store/noobProHacker';
 import { useAwsStorage } from './accessAwsStorage';
-import { useMutationEventNoobProHacker } from '@/services/api/eventNoobProHacker';
+import { useMutationEventNoobProHacker } from '@/services/eventNoobProHackerAdapters';
 
 export const useCreateEventNoobProHackerContent = () => {
    const [eventNoobProHackerContent, setEventNoobProHackerContent] = useRecoilState(eventNoobProHackerContentState);

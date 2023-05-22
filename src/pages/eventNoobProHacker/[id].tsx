@@ -7,7 +7,7 @@ import Skeleton from '@/components/Common/Skeleton';
 import ImageBox from '@/components/Common/ContentDetail/ImageBox';
 import InfoBox from '@/components/Common/ContentDetail/InfoBox';
 import RankingBox from '@/components/Common/ContentDetail/RankingBox';
-import { useQueryEventNoobProHacker } from '@/services/api/eventNoobProHacker';
+import { useQueryEventNoobProHacker } from '@/services/eventNoobProHackerAdapters';
 
 const ProfileBox = styled.div`
    position: relative;

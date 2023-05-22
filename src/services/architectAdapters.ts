@@ -1,15 +1,18 @@
 import { useMutation, useQuery, useQueryClient, UseQueryResult } from 'react-query';
 import { useRouter } from 'next/router';
 import { toast } from 'react-hot-toast';
+import { useRecoilValue } from 'recoil';
 
 import { Architect } from '@/domain/architect';
 import {
    addArchitects,
+   getArchitectByFuzzySearch,
    getArchitectById,
    getArchitects,
    getArchitectsWithoutPortfolio,
    updateArchitect,
 } from './api/architect';
+import { searchCurrentTierState } from './store/architect';
 
 export const useQueryArchitect = () => {
    const { data: result }: UseQueryResult<Architect> = useQuery('architect', getArchitects);
@@ -40,6 +43,24 @@ export const useQueryArchitectWithoutPortfolio = () => {
    );
 
    return result;
+};
+
+export const useQueryArchitectByTier = () => {
+   const curTier = useRecoilValue(searchCurrentTierState);
+
+   const { data }: UseQueryResult<Architect[]> = useQuery(['architectByTier', curTier], () =>
+      getArchitectById(curTier),
+   );
+
+   return data;
+};
+
+export const useQueryArchitectBySearch = (input: string) => {
+   const { data }: UseQueryResult<Architect[]> = useQuery(['architectByfuzzySearch', input], () =>
+      getArchitectByFuzzySearch(input),
+   );
+
+   return data;
 };
 
 export const useMutationArchitect = () => {

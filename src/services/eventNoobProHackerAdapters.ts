@@ -1,32 +1,43 @@
-import { Architect } from '@/domain/architect';
-import { EventNoobProHacker } from '@/domain/eventNoobProHacker';
-import { handleFetchData } from '@/utils/handleFetchData';
+import { UseQueryResult, useMutation, useQuery } from 'react-query';
+import { toast } from 'react-hot-toast';
 
-export const addEventNoobProHacker = async (body: EventNoobProHacker) => {
+import { addEventNoobProHacker, getNoobProHackerById } from './api/eventNoobProHacker';
+import { EventNoobProHacker } from '@/domain/eventNoobProHacker';
+import { useRouter } from 'next/router';
+import { Architect } from '@/domain/architect';
+
+export const useMutationEventNoobProHacker = () => {
    var myHeaders = new Headers();
    myHeaders.append('Content-Type', 'application/json');
 
-   try {
-      return await fetch(`/api/eventNoobProHacker`, {
-         method: 'POST',
-         body: JSON.stringify(body),
-         headers: myHeaders,
-      }).then(handleFetchData);
-   } catch (error) {
-      throw error;
-   }
+   const mutation = useMutation((body: EventNoobProHacker) =>
+      toast.promise(addEventNoobProHacker(body), {
+         loading: '추가중',
+         success: '추가 완료',
+         error: err => err.message,
+      }),
+   );
+
+   return mutation;
 };
 
-export const getNoobProHackerById = async (id: string) => {
-   try {
-      return await fetch(`/api/eventNoobProHacker?episode=${id}`).then(handleFetchData);
-   } catch (error) {
-      throw error;
-   }
+export const useQueryEventNoobProHacker = () => {
+   const router = useRouter();
+
+   const { id } = router.query;
+
+   const { data: result }: UseQueryResult<EventNoobProHacker> = useQuery(
+      ['getEventNoobProHacker'],
+      () => getNoobProHackerById(id as string),
+      {
+         refetchOnWindowFocus: false,
+      },
+   );
+
+   return result;
 };
 
 /** 이벤트 눕프핵 정보를 건축가 정보로 변환하는 함수 */
-
 type ArchitectsInfo = {
    minecraft_id: string;
    portfolio: Pick<Architect['portfolio'], 'eventNoobProHacker'>;
