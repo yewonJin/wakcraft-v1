@@ -33,6 +33,11 @@ const ContentBox = styled.main`
    @media screen and (max-width: 800px) {
       padding-top: 100px;
    }
+
+   @media screen and (max-height: 900px) {
+      padding-top: 100px;
+      height: auto;
+   }
 `;
 
 const BackgroundImage = styled.div<{ bg: StaticImageData }>`
@@ -185,6 +190,10 @@ const LineItem = styled.div`
       width: 100%;
       padding-bottom: 10px;
    }
+
+   @media screen and (max-height: 900px) {      
+      height: auto;
+   }
 `;
 
 const ImageBox = styled.div`
@@ -200,6 +209,10 @@ const ImageBox = styled.div`
 
    @media screen and (max-width: 1000px) {
       aspect-ratio: 16/9;
+   }
+
+   @media screen and (max-height: 900px) {      
+      height: auto;
    }
 
    > img {
