@@ -15,6 +15,7 @@ const Layout = styled.div`
 const Category = styled.ul`
    display: flex;
    gap: 25px;
+   margin-bottom: 30px;
 
    @media screen and (max-width: 800px) {
       justify-content: space-between;
@@ -28,7 +29,7 @@ const Category = styled.ul`
 
 const Divider = styled.div`
    width: 1px;
-   height: 32px;
+   height: 24px;
    background-color: #cacaca;
 `;
 
@@ -56,7 +57,7 @@ export default function Portfolio({ info }: { info: Architect }) {
             {['눕프로해커', '배치고사', '이벤트 눕프핵'].map((item, index) => (                                 
                <Fragment key={item}>
                   <CategoryItem index={index} contentState={contentState} onClick={() => setContentState(index)}>
-                     <TextBox text={item} fontSize="18px" lineHeight="32px" fontWeight="500" />
+                     <TextBox text={item} fontSize="18px" lineHeight="24px" fontWeight="500" />
                   </CategoryItem>
                   <Divider />
                </Fragment>

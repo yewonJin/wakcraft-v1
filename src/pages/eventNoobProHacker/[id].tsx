@@ -70,7 +70,7 @@ const TierBox = styled.span`
    width: 90px;
    height: 53px;
    border-radius: 10px;
-   font-size: 18px;
+   font-size: 16px;
    color: white;
    text-shadow: 1px 1px 2px black;
    background: rgb(198, 142, 83);
@@ -78,8 +78,6 @@ const TierBox = styled.span`
 
 export default function Page() {
    const data = useQueryEventNoobProHacker();
-
-   const architectCount = data?.lineInfo[0].line_details.length;
 
    if (!data)
       return (

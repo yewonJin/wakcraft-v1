@@ -93,7 +93,7 @@ export default function Page() {
                         <TextBox
                            text={item.minecraft_id}
                            textAlign="center"
-                           fontSize="18px"
+                           fontSize="16px"
                            lineHeight="24px"
                            fontWeight="500"
                         />

@@ -9,7 +9,7 @@ const Layout = styled.span<{ tier: 'noob' | 'pro' | 'hacker' }>`
    width: 90px;
    height: 53px;
    border-radius: 10px;
-   font-size: 18px;
+   font-size: 16px;
    color: white;
    text-shadow: 1px 1px 2px black;
    background: ${props =>

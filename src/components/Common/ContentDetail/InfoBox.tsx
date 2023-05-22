@@ -22,7 +22,7 @@ export default function InfoBox(props: Props) {
       <Layout>
          <TextBox text={topText} textAlign="center" fontSize="16px" lineHeight="24px" color="#646464" />
          {bottomText && (
-            <TextBox text={bottomText} textAlign="center" fontSize="18px" lineHeight="24px" fontWeight="500" />
+            <TextBox text={bottomText} textAlign="center" fontSize="16px" lineHeight="24px" fontWeight="500" />
          )}
       </Layout>
    );

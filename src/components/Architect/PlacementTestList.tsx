@@ -7,7 +7,6 @@ import InfoBox from '../Common/ContentDetail/InfoBox';
 const Layout = styled.div`
    display: grid;
    grid-template-columns: repeat(3, minmax(300px, 1fr));
-   margin-top: 20px;
    gap: 30px;
    row-gap: 50px;
 

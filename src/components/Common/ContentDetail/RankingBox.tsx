@@ -19,7 +19,7 @@ export default function RankingBox(props: Props) {
    return (
       <Layout>
          <TextBox text="순위" textAlign="center" fontSize="16px" lineHeight="24px" color="#646464" />
-         <TextBox text={ranking + '위'} textAlign="center" fontSize="18px" fontWeight="500" lineHeight="24px" />
+         <TextBox text={ranking + '위'} textAlign="center" fontSize="16px" fontWeight="500" lineHeight="24px" />
       </Layout>
    );
 }

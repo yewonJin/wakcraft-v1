@@ -8,7 +8,6 @@ import RankingBox from '../Common/ContentDetail/RankingBox';
 const Layout = styled.div`
    display: grid;
    grid-template-columns: repeat(3, minmax(300px, 1fr));
-   margin-top: 20px;
    gap: 30px;
    row-gap: 50px;
 
@@ -40,7 +39,7 @@ const TierBox = styled.span<{ tier: string }>`
    width: 90px;
    height: 53px;
    border-radius: 10px;
-   font-size: 18px;
+   font-size: 16px;
    color: white;
    text-shadow: 1px 1px 2px black;
    background: rgb(65, 65, 65);
