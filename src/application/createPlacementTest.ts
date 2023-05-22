@@ -1,9 +1,8 @@
 import { useRecoilState } from 'recoil';
 import { ChangeEvent } from 'react';
+import { produce } from 'immer';
 
 import { participantsInfoState, placementTestInfoState } from '@/services/store/placementTest';
-import { replaceItemAtIndex } from '@/utils/lib';
-import { PlacementTest } from '@/domain/placementTest';
 import { Tier } from '@/domain/architect';
 import { useMutationPlacementTest } from '@/services/placementTestAdapters';
 
@@ -21,14 +20,11 @@ export const useCreatePlacementTest = () => {
    };
 
    const changePlacementTestTier = (index: number, value: Tier) => {
-      const newValue = {
-         ...participantsInfo[index],
-         placement_result: value,
-      };
-
-      const newArr: PlacementTest['participants'] = replaceItemAtIndex(participantsInfo, index, newValue);
-
-      setParticipantsInfo(newArr);
+      setParticipantsInfo(prev =>
+         produce(prev, draft => {
+            draft[index].placement_result = value;
+         }),
+      );
    };
 
    return {

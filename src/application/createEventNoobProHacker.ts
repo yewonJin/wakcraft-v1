@@ -1,14 +1,14 @@
 import { ChangeEvent, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { produce } from 'immer';
+import { toast } from 'react-hot-toast';
 
 import { eventNoobProHackerContentState, eventNoobProHackerLineState } from '@/services/store/eventNoobProHacker';
 import { EventNoobProHacker, createEventNoobProHackerObject } from '@/domain/eventNoobProHacker';
-import { checkEmptyInDeepObject, replaceItemAtIndex } from '@/utils/lib';
+import { checkEmptyInDeepObject } from '@/utils/lib';
 import { curLineIndexState, lineDetailIndexState } from '@/services/store/noobProHacker';
 import { useAwsStorage } from './accessAwsStorage';
 import { useMutationEventNoobProHacker } from '@/services/api/eventNoobProHacker';
-import { toast } from 'react-hot-toast';
 
 export const useCreateEventNoobProHackerContent = () => {
    const [eventNoobProHackerContent, setEventNoobProHackerContent] = useRecoilState(eventNoobProHackerContentState);
@@ -106,31 +106,25 @@ export const useCreateEventNoobProHackerLine = () => {
       setEventNoobProHackerLine(newValue);
    };
 
-   const changeLine = (e: ChangeEvent<HTMLInputElement>) => {
-      const newValue = {
-         ...eventNoobProHackerLine[curLineIndex],
-         [e.target.name]: e.target.name === 'line_ranking' ? parseInt(e.target.value) : e.target.value,
-      };
-      const newArr = replaceItemAtIndex(eventNoobProHackerLine, curLineIndex, newValue);
-      setEventNoobProHackerLine(newArr);
+   const changeCommonLineInfo = (e: ChangeEvent<HTMLInputElement>) => {
+      setEventNoobProHackerLine(prev =>
+         produce(prev, draft => {
+            draft[curLineIndex] = {
+               ...draft[curLineIndex],
+               [e.target.name]: e.target.name === 'line_ranking' ? parseInt(e.target.value) : e.target.value,
+            };
+         }),
+      );
    };
 
    /** 라인 세부사항을 수정 */
    const changeLineDetails = (e: ChangeEvent<HTMLInputElement>, index: number) => {
-      const newValue = {
-         ...eventNoobProHackerLine[curLineIndex].line_details[index],
-         [e.target.name]: e.target.name === 'ranking' ? parseInt(e.target.value) : e.target.value,
-      };
-
-      const lineDetailsArr: EventNoobProHacker['lineInfo'][0]['line_details'] = replaceItemAtIndex(
-         eventNoobProHackerLine[curLineIndex].line_details,
-         index,
-         newValue,
-      );
-
       setEventNoobProHackerLine(prev =>
          produce(prev, draft => {
-            draft[curLineIndex].line_details = lineDetailsArr;
+            draft[curLineIndex].line_details[index] = {
+               ...draft[curLineIndex].line_details[index],
+               [e.target.name]: e.target.name === 'ranking' ? parseInt(e.target.value) : e.target.value,
+            };
          }),
       );
    };
@@ -174,7 +168,7 @@ export const useCreateEventNoobProHackerLine = () => {
       contentSettingPage,
       setContentSettingPage,
       resetImage,
-      changeLine,
+      changeCommonLineInfo,
       changeLineDetails,
       resetLine,
       setLineCountAndArchitectCount,

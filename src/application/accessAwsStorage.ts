@@ -1,7 +1,6 @@
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { produce } from 'immer';
 
-import { NoobProHacker } from '@/domain/noobProHacker';
 import { PlacementTest } from '@/domain/placementTest';
 import {
    curLineIndexState,
@@ -11,7 +10,6 @@ import {
 } from '@/services/store/noobProHacker';
 import { participantsInfoState } from '@/services/store/placementTest';
 import { storagePageState, storageViewableState } from '@/services/store/storage';
-import { replaceItemAtIndex } from '@/utils/lib';
 import { EventNoobProHacker } from '@/domain/eventNoobProHacker';
 import { eventNoobProHackerLineState } from '@/services/store/eventNoobProHacker';
 
@@ -47,19 +45,13 @@ export const useAwsStorage = () => {
    };
 
    const setNoobProHackerImageUrl = (imageName: string) => {
-      const newValue = {
-         ...noobProHackerLine[curLineIndex],
-         line_details: {
-            ...noobProHackerLine[curLineIndex].line_details,
-            [curLineTier]: {
-               ...noobProHackerLine[curLineIndex].line_details[curLineTier],
-               image_url: `https://wakcraft.s3.ap-northeast-2.amazonaws.com/${imageName}`,
-            },
-         },
-      };
-
-      const newArr: NoobProHacker['lineInfo'] = replaceItemAtIndex(noobProHackerLine, curLineIndex, newValue);
-      setNoobProHackerLine(newArr);
+      setNoobProHackerLine(prev =>
+         produce(prev, draft => {
+            draft[curLineIndex].line_details[
+               curLineTier
+            ].image_url = `https://wakcraft.s3.ap-northeast-2.amazonaws.com/${imageName}`;
+         }),
+      );
       setStoragePage(0);
       setIsViewable(false);
    };

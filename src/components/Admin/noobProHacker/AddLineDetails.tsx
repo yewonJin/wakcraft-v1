@@ -82,7 +82,7 @@ type LineType = 'noob' | 'pro' | 'hacker';
 const lineArr: LineType[] = ['noob', 'pro', 'hacker'];
 
 export function AddLineDetails() {
-   const { setLineImage, noobProHackerLine, curLineIndex, resetLine, changeLineDetails, addNewLine, resetImage } =
+   const { setLineImage, noobProHackerLine, curLineIndex, resetLine, changeLineDetails, changeLineCommonInfo, addNewLine, resetImage,  } =
       useCreateLine();
 
    const { isViewable } = useAwsStorage();
@@ -94,7 +94,7 @@ export function AddLineDetails() {
             <Wrapper>
                <InputBox
                   type="text"
-                  onChange={changeLineDetails}
+                  onChange={changeLineCommonInfo}
                   value={noobProHackerLine[curLineIndex].subject}
                   name="subject"
                   width="150px"
@@ -106,7 +106,7 @@ export function AddLineDetails() {
             </Wrapper>
             <Wrapper>
                <InputBox
-                  onChange={changeLineDetails}
+                  onChange={changeLineCommonInfo}
                   value={noobProHackerLine[curLineIndex].line_ranking}
                   name="line_ranking"
                   type="number"
@@ -119,7 +119,7 @@ export function AddLineDetails() {
             </Wrapper>
             <Wrapper>
                <InputBox
-                  onChange={changeLineDetails}
+                  onChange={changeLineCommonInfo}
                   value={noobProHackerLine[curLineIndex].youtube_url}
                   name="youtube_url"
                   type="string"

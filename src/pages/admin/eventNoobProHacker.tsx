@@ -34,7 +34,7 @@ export default function EventNoobProHacker() {
       setLineCountAndArchitectCount,
       changeLineDetails,
       resetLine,
-      changeLine,
+      changeCommonLineInfo,
       setLineTierName,
       setLineImage,
       resetImage,
@@ -81,7 +81,7 @@ export default function EventNoobProHacker() {
                   />
                   <AddLineDetails
                      eventNoobProHackerLine={eventNoobProHackerLine}
-                     changeLine={changeLine}
+                     changeCommonLineInfo={changeCommonLineInfo}
                      resetLine={resetLine}
                      changeLineDetails={changeLineDetails}
                      architectCountPerLine={architectCountPerLine}

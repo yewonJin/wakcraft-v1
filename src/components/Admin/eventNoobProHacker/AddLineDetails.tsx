@@ -80,7 +80,7 @@ const ResetImage = styled.span`
 type Props = {
    architectCountPerLine: number;
    eventNoobProHackerLine: EventNoobProHacker['lineInfo'];
-   changeLine: (e: React.ChangeEvent<HTMLInputElement>) => void;
+   changeCommonLineInfo: (e: React.ChangeEvent<HTMLInputElement>) => void;
    changeLineDetails: (e: React.ChangeEvent<HTMLInputElement>, index: number) => void;
    resetLine: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
    resetImage: (index: number) => void;
@@ -91,7 +91,7 @@ export function AddLineDetails(props: Props) {
    const {
       eventNoobProHackerLine,
       architectCountPerLine,
-      changeLine,
+      changeCommonLineInfo,
       changeLineDetails,
       resetLine,
       setLineImage,
@@ -109,7 +109,7 @@ export function AddLineDetails(props: Props) {
             <Wrapper>
                <InputBox
                   type="text"
-                  onChange={changeLine}
+                  onChange={changeCommonLineInfo}
                   value={eventNoobProHackerLine[curLineIndex].subject}
                   name="subject"
                   width="150px"
@@ -121,7 +121,7 @@ export function AddLineDetails(props: Props) {
             </Wrapper>
             <Wrapper>
                <InputBox
-                  onChange={changeLine}
+                  onChange={changeCommonLineInfo}
                   value={eventNoobProHackerLine[curLineIndex].line_ranking}
                   name="line_ranking"
                   type="number"
@@ -134,7 +134,7 @@ export function AddLineDetails(props: Props) {
             </Wrapper>
             <Wrapper>
                <InputBox
-                  onChange={changeLine}
+                  onChange={changeCommonLineInfo}
                   value={eventNoobProHackerLine[curLineIndex].youtube_url}
                   name="youtube_url"
                   type="string"

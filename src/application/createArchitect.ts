@@ -1,10 +1,10 @@
 import { ChangeEvent } from 'react';
 import { useRecoilState } from 'recoil';
+import { toast } from 'react-hot-toast';
 
 import { checkEmptyInDeepObject } from '@/utils/lib';
 import { architectContentInfoState } from '@/services/store/architect';
 import { useMutationArchitect } from '@/services/architectAdapters';
-import { toast } from 'react-hot-toast';
 
 export const useCreateArchitect = () => {
    const [architectInfo, setArchitectInfo] = useRecoilState(architectContentInfoState);
