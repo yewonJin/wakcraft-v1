@@ -88,14 +88,6 @@ export const useCreateEventNoobProHackerLine = () => {
       setContentSettingPage(prev => prev + 1);
    };
 
-   const resetImage = (index: number) => {
-      setEventNoobProHackerLine(prev =>
-         produce(prev, draft => {
-            draft[curLineIndex].line_details[index].image_url = '';
-         }),
-      );
-   };
-
    const setLineCountAndArchitectCount = () => {
       setContentSettingPage(prev => prev + 1);
 
@@ -147,18 +139,26 @@ export const useCreateEventNoobProHackerLine = () => {
    const resetLine = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       e.preventDefault();
 
-      if (curLineIndex === 0) {
-         const newValue = createEventNoobProHackerObject().lineInfo[0];
-
-         const newArr = replaceItemAtIndex(eventNoobProHackerLine, curLineIndex, newValue);
-
-         setEventNoobProHackerLine(newArr);
-      } else {
-         setEventNoobProHackerLine(eventNoobProHackerLine.filter((_, index) => index !== curLineIndex));
-         setCurLineIndex(curLineIndex - 1);
-      }
+      setEventNoobProHackerLine(prev =>
+         produce(prev, draft => {
+            draft[curLineIndex].line_details.forEach(item => {
+               item.image_url = '';
+               item.youtube_url = '';
+               item.ranking = 0;
+               item.minecraft_id = '';
+            });
+         }),
+      );
 
       setLineDetailIndex(0);
+   };
+
+   const resetImage = (index: number) => {
+      setEventNoobProHackerLine(prev =>
+         produce(prev, draft => {
+            draft[curLineIndex].line_details[index].image_url = '';
+         }),
+      );
    };
 
    return {
