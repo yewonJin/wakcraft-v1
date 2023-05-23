@@ -11,18 +11,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
       try {
          const data = await s3.send(
-            new ListObjectsCommand(listObjectsBucketParams(content as 'noobProHacker' | 'placementTest' | 'eventNoobProHacker')),
+            new ListObjectsCommand(
+               listObjectsBucketParams(content as 'noobProHacker' | 'placementTest' | 'eventNoobProHacker'),
+            ),
          );
 
-         if (!data.Contents) return res.status(400).send({ error: '해당 object가 없습니다.' });
+         if (!data.CommonPrefixes) return res.status(400).send({ error: '해당 object가 없습니다.' });
 
-         return res
-            .status(200)
-            .json(
-               data.Contents.filter(item => item.Key?.split('/')[2] === '').map(
-                  item => item.Key?.split('/')[1].split(' ')[1],
-               ),
-            );
+         return res.status(200).json(data.CommonPrefixes.map(item => item.Prefix?.split(' ')[1].split('/')[0]));
       } catch (e) {
          console.log(e);
       }

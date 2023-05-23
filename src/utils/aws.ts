@@ -20,43 +20,17 @@ export const listObjectsBucketParams = (
    content: 'noobProHacker' | 'placementTest' | 'eventNoobProHacker',
    episode?: string,
 ) => {
-   switch (content) {
-      case 'noobProHacker':
-         if (!episode) {
-            return {
-               Bucket: awsS3Bucket,
-               Prefix: `noobProHacker/`,
-            };
-         } else {
-            return {
-               Bucket: awsS3Bucket,
-               Prefix: `noobProHacker/episode ${episode}/`,
-            };
-         }
-      case 'placementTest':
-         if (!episode) {
-            return {
-               Bucket: awsS3Bucket,
-               Prefix: `placementTest/`,
-            };
-         } else {
-            return {
-               Bucket: awsS3Bucket,
-               Prefix: `placementTest/season ${episode}/`,
-            };
-         }
-      case 'eventNoobProHacker':
-         if (!episode) {
-            return {
-               Bucket: awsS3Bucket,
-               Prefix: `eventNoobProHacker/`,
-            };
-         } else {
-            return {
-               Bucket: awsS3Bucket,
-               Prefix: `eventNoobProHacker/episode ${episode}/`,
-            };
-         }
+   if (!episode) {
+      return {
+         Bucket: awsS3Bucket,
+         Prefix: `${content}/`,
+         Delimiter: '/',
+      };
+   } else {
+      return {
+         Bucket: awsS3Bucket,
+         Prefix: `${content}/${content === 'placementTest' ? 'season' : 'episode'} ${episode}/`,
+      };
    }
 };
 
@@ -74,33 +48,16 @@ export async function uploadFile(fileBuffer: fs.ReadStream, fileName: string, mi
 }
 
 /** 다음 회차 폴더 만들기 */
-export async function createFolder(content: 'noobProHacker' | 'placementTest' | 'eventNoobProHacker', fileName: string) {
-   if (content === 'noobProHacker') {
-      const params = {
-         Bucket: awsS3Bucket,
-         Key: 'noobProHacker/episode ' + fileName + '/',
-         Body: '',
-      };
+export async function createFolder(
+   content: 'noobProHacker' | 'placementTest' | 'eventNoobProHacker',
+   fileName: string,
+) {
+   const params = {
+      Bucket: awsS3Bucket,
+      Key: `${content}/${content === 'placementTest' ? 'season' : 'episode'} ` + fileName + '/',
+      Body: '',
+   };
 
-      const res = await s3.send(new PutObjectCommand(params));
-      return res.$metadata.httpStatusCode;
-   } else if (content === 'placementTest') {
-      const params = {
-         Bucket: awsS3Bucket,
-         Key: 'placementTest/season ' + fileName + '/',
-         Body: '',
-      };
-
-      const res = await s3.send(new PutObjectCommand(params));
-      return res.$metadata.httpStatusCode;
-   } else if (content === 'eventNoobProHacker') {
-      const params = {
-         Bucket: awsS3Bucket,
-         Key: 'eventNoobProHacker/episode ' + fileName + '/',
-         Body: '',
-      };
-
-      const res = await s3.send(new PutObjectCommand(params));
-      return res.$metadata.httpStatusCode;
-   }
+   const res = await s3.send(new PutObjectCommand(params));
+   return res.$metadata.httpStatusCode;
 }

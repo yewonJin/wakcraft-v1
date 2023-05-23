@@ -34,6 +34,7 @@ const ContentBox = styled.div`
 `;
 
 export default function NoobProHackerList({ info }: { info: Architect }) {
+
    return (
       <Layout>
          {info.portfolio.noobProHacker.map((item, index) => {
