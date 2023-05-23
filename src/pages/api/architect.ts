@@ -75,13 +75,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       try {
          await connectMongo();
 
-         ['noob', 'pro', 'hacker'].forEach(async tier => {
-            await NoobProHacker.updateArchitectId(originalId as string, minecraft_id as string, tier as string);
-         });
+         if (originalId !== minecraft_id) {
+            ['noob', 'pro', 'hacker'].forEach(async tier => {
+               await NoobProHacker.updateArchitectId(originalId as string, minecraft_id as string, tier as string);
+            });
 
-         await PlacementTest.updateArchitectId(originalId as string, minecraft_id as string);
+            await PlacementTest.updateArchitectId(originalId as string, minecraft_id as string);
 
-         await EventNoobProHacker.updateArchitectId(originalId as string, minecraft_id as string);
+            await EventNoobProHacker.updateArchitectId(originalId as string, minecraft_id as string);
+         }
 
          await Architect.findOneByMinecraftIdAndUpdate(originalId, minecraft_id, wakzoo_id, tier)
             .then(architect => res.json(architect))
