@@ -200,10 +200,11 @@ const LineItem = styled.div`
 const ImageBox = styled.div`
    position: relative;
    width: 100%;
+   aspect-ratio: 3/3.6;
    background-color: rgba(255, 255, 255, 0.5);
 
    @media screen and (min-width: 1400px) {
-      width: 320px;
+      width: 320px;  
       height: 400px;
    }
 
