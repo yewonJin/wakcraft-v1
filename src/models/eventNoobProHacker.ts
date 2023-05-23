@@ -6,6 +6,7 @@ interface EventNoobProHackerModel extends Model<EventNoobProHacker> {
    findAllWithoutLineInfo: () => Promise<EventNoobProHacker[]>;
    findByEpisode: (episode: string) => Promise<EventNoobProHacker>;
    findLastestOne: () => Promise<EventNoobProHacker>;
+   updateArchitectId: (beforeId: string, afterId: string) => Promise<EventNoobProHacker>;
 }
 
 const eventNoobProHackerSchema = new Schema({
@@ -74,8 +75,37 @@ eventNoobProHackerSchema.statics.findLastestOne = function () {
    return this.find({}).sort({ _id: -1 }).limit(1);
 };
 
+eventNoobProHackerSchema.statics.updateArchitectId = function (beforeId: string, afterId: string) {
+   return this.updateMany(
+      {},
+      {
+         $set: {
+            'lineInfo.$[line].line_details.$[detail].minecraft_id': afterId,
+         },
+      },
+      {
+         arrayFilters: [
+            {
+               'line.line_details': {
+                  $exists: true,
+               },
+            },
+            {
+               'detail.minecraft_id': beforeId,
+            },
+         ],
+      },
+   );
+};
+
 const EventNoobProHacker =
    (models['EventNoobProHacker'] as EventNoobProHackerModel) ||
    model<EventNoobProHacker, EventNoobProHackerModel>('EventNoobProHacker', eventNoobProHackerSchema);
 
 export default EventNoobProHacker;
+
+/*
+{
+
+      },
+*/

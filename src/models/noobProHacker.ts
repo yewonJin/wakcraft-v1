@@ -6,6 +6,7 @@ interface NoobProHackerModel extends Model<NoobProHacker> {
    findAllWithoutLineInfo: () => Promise<NoobProHacker[]>;
    findLastestOne: () => Promise<NoobProHacker>;
    findByEpisode: (episode: string) => Promise<NoobProHacker>;
+   updateArchitectId: (beforeId: string, afterId: string, tier: string) => Promise<NoobProHacker[]>;
 }
 
 const noobProHackerSchema = new Schema({
@@ -54,7 +55,11 @@ noobProHackerSchema.statics.findByEpisode = function (episode: string) {
 };
 
 noobProHackerSchema.statics.findAll = function () {
-   return this.find({});
+   return this.find({}, { $sort: { 'contentInfo.episode': 1 } });
+};
+
+noobProHackerSchema.statics.findLastestOne = function () {
+   return this.find({}).sort({ 'contentInfo.episode': -1 }).limit(1);
 };
 
 noobProHackerSchema.statics.findAllWithoutLineInfo = function () {
@@ -78,11 +83,27 @@ noobProHackerSchema.statics.findAllWithoutLineInfo = function () {
             },
          },
       },
+      {
+         $sort: { 'contentInfo.episode': 1 },
+      },
    ]);
 };
 
-noobProHackerSchema.statics.findLastestOne = function () {
-   return this.find({}).sort({ _id: -1 }).limit(1);
+noobProHackerSchema.statics.updateArchitectId = function (beforeId: string, afterId: string, tier: string) {
+   return this.updateMany(
+      {
+         lineInfo: {
+            $elemMatch: {
+               [`line_details.${tier}.minecraft_id`]: beforeId,
+            },
+         },
+      },
+      {
+         $set: {
+            [`lineInfo.$.line_details.${tier}.minecraft_id`]: afterId,
+         },
+      },
+   );
 };
 
 const NoobProHacker =

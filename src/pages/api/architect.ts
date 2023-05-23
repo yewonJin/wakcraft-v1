@@ -1,6 +1,9 @@
 import connectMongo from '@/utils/connectMongo';
 import Architect from '@/models/architect';
 import { NextApiRequest, NextApiResponse } from 'next';
+import NoobProHacker from '@/models/noobProHacker';
+import PlacementTest from '@/models/placementTest';
+import EventNoobProHacker from '@/models/eventNoobProHacker';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
    if (req.method === 'POST') {
@@ -67,10 +70,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
          console.log(error);
       }
    } else if (req.method === 'PATCH') {
-      try {
-         const { originalId, minecraft_id, wakzoo_id, tier } = req.body;
+      const { originalId, minecraft_id, wakzoo_id, tier } = req.body;
 
+      try {
          await connectMongo();
+
+         ['noob', 'pro', 'hacker'].forEach(async tier => {
+            await NoobProHacker.updateArchitectId(originalId as string, minecraft_id as string, tier as string);
+         });
+
+         await PlacementTest.updateArchitectId(originalId as string, minecraft_id as string);
+
+         await EventNoobProHacker.updateArchitectId(originalId as string, minecraft_id as string);
 
          await Architect.findOneByMinecraftIdAndUpdate(originalId, minecraft_id, wakzoo_id, tier)
             .then(architect => res.json(architect))

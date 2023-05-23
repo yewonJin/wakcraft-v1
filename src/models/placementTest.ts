@@ -5,6 +5,7 @@ interface PlacementTestModel extends Model<PlacementTest> {
    findAll: () => Promise<PlacementTest[]>;
    findAllWithoutParticipants: () => Promise<Omit<PlacementTest[], 'participants'>>;
    findBySeason: (season: string) => Promise<PlacementTest>;
+   updateArchitectId: (beforeId: string, afterId: string) => Promise<PlacementTest>;
 }
 
 const placementTestSchema = new Schema({
@@ -40,12 +41,29 @@ placementTestSchema.statics.findAllWithoutParticipants = function () {
             participants: 0,
          },
       },
-      { 
+      {
          $sort: {
             season: 1,
-         }
-      }
+         },
+      },
    ]);
+};
+
+placementTestSchema.statics.updateArchitectId = function (beforeId: string, afterId: string) {
+   return this.updateMany(
+      {
+         participants: {
+            $elemMatch: {
+               minecraft_id: beforeId,
+            },
+         },
+      },
+      {
+         $set: {
+            'participants.$.minecraft_id': afterId,
+         },
+      },
+   );
 };
 
 const PlacementTest =
