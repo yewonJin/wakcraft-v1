@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import { useAwsStorage } from '@/application/accessAwsStorage';
 import { Button } from '../Common/Button';
+import TextBox from '../Common/TextBox';
 
 const List = styled.ul`
    display: grid;
@@ -13,9 +14,23 @@ const List = styled.ul`
 `;
 
 const Item = styled.li`
-   list-style: none;
    position: relative;
+   list-style: none;
    aspect-ratio: 16/9;
+
+   :hover{
+      cursor: pointer;
+   }
+
+   > h2 {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      z-index: 5;
+      color: white;
+      background-color: #333;
+      padding: 3px 10px;
+   }
 `;
 
 export default function ImageList({ content }: { content: 'noobProHacker' | 'placementTest' | 'eventNoobProHacker' }) {
@@ -44,6 +59,7 @@ export default function ImageList({ content }: { content: 'noobProHacker' | 'pla
                      alt="content image"
                      src={`https://wakcraft.s3.ap-northeast-2.amazonaws.com/${item}`}
                   />
+                  <TextBox text={item.split('/')[2]} />
                </Item>
             ))}
          </List>
