@@ -11,6 +11,7 @@ import NoobProHacker from '@/models/noobProHacker';
 import TextBox from '@/components/Common/TextBox';
 import { translateTier } from '@/utils/lib';
 import { lineWinnerIndex } from '@/domain/noobProHacker';
+import { renameToWebp } from '@/services/noobProHackerAdapters';
 
 const Layout = styled.main``;
 
@@ -191,7 +192,7 @@ const LineItem = styled.div`
       padding-bottom: 10px;
    }
 
-   @media screen and (max-height: 900px) {      
+   @media screen and (max-height: 900px) {
       height: auto;
    }
 `;
@@ -199,19 +200,18 @@ const LineItem = styled.div`
 const ImageBox = styled.div`
    position: relative;
    width: 100%;
-   aspect-ratio: 3/3.6;
    background-color: rgba(255, 255, 255, 0.5);
 
    @media screen and (min-width: 1400px) {
-      width: 350px;
-      height: 450px;
+      width: 320px;
+      height: 400px;
    }
 
    @media screen and (max-width: 1000px) {
       aspect-ratio: 16/9;
    }
 
-   @media screen and (max-height: 900px) {      
+   @media screen and (max-height: 900px) {
       height: auto;
    }
 
@@ -314,7 +314,7 @@ export default function Home({ noobProHacker }: InferGetStaticPropsType<typeof g
                               <LineItem key={'line' + index}>
                                  <ImageBox onClick={() => window.open(item.line_details[line].image_url)}>
                                     <Image
-                                       src={item.line_details[line].image_url}
+                                       src={renameToWebp(item.line_details[line].image_url)}
                                        style={{ objectFit: 'cover' }}
                                        fill
                                        sizes="800px"
