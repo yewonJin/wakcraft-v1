@@ -3,7 +3,7 @@ import fs from 'fs';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { ListObjectsCommand } from '@aws-sdk/client-s3';
 
-import { listObjectsBucketParams, s3, uploadFile } from '@/utils/aws';
+import { hideFolder, hideWebp, listObjectsBucketParams, s3, uploadFile } from '@/utils/aws';
 
 type Img = {
    size: string;
@@ -41,9 +41,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
          if (!data.Contents) return res.status(400).send({ error: '해당 object가 없습니다.' });
 
-         return res
-            .status(200)
-            .send(data.Contents.filter(item => item.Key?.split('/')[2] !== '').map(item => item.Key));
+         return res.status(200).send(hideWebp(hideFolder(data.Contents)).map(item => item.Key));
       } catch (e) {
          console.log(e);
       }

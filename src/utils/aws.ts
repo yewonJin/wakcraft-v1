@@ -1,4 +1,4 @@
-import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
+import { S3Client, PutObjectCommand, _Object } from '@aws-sdk/client-s3';
 import fs from 'fs';
 
 const awsAccessKey = process.env.MY_AWS_ACCESS_KEY as string;
@@ -61,3 +61,13 @@ export async function createFolder(
    const res = await s3.send(new PutObjectCommand(params));
    return res.$metadata.httpStatusCode;
 }
+
+
+export const hideFolder = (arr: _Object[]) => {
+   return arr.filter(item => item.Key?.split('/')[2] !== '');
+};
+
+export const hideWebp = (arr: _Object[]) => {
+   return arr.filter(item => item.Key?.split('.')[1] !== 'webp');
+};
+
