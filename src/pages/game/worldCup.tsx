@@ -6,6 +6,7 @@ import Youtube from 'react-youtube';
 
 import TextBox from '@/components/Common/TextBox';
 import { getStartTime, getVideoId, usePlayWorldCup } from '@/application/playWorldCup';
+import { renameToWebp } from '@/services/noobProHackerAdapters';
 
 const Layout = styled.div`
    display: flex;
@@ -26,7 +27,7 @@ const Main = styled.div`
 const ImageBox = styled.div<{ clickedNumber: number; index: number }>`
    position: relative;
    width: 580px;
-   height: 600px;
+   height: 580px;
    transition-duration: 200ms;
    overflow: hidden;
 
@@ -127,18 +128,18 @@ export default function WorldCup() {
                      onClick={() => handleImageClick(item, index)}
                   >
                      <Image
-                        sizes="1200px"
+                        sizes="1000px"
                         fill
                         style={{ objectFit: 'cover' }}
                         alt="NoobProHacker Image"
-                        src={item.image_url}
+                        src={renameToWebp(item.image_url)}
                      />
                      <YoutubeBox isClicked={index === 0 ? leftState : rightState} index={index}>
                         <Youtube
                            onReady={e => onReadyPlayer(e.target, index)}
                            key={item.youtube_url}
                            videoId={getVideoId(item.youtube_url)}
-                           opts={{ width: '580', playerVars: { start: getStartTime(item.youtube_url) } }}
+                           opts={{ width: '550', playerVars: { start: getStartTime(item.youtube_url) } }}
                         />
                      </YoutubeBox>
                      <InfoLayout>

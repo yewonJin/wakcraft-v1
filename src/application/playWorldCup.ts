@@ -70,8 +70,9 @@ export const usePlayWorldCup = () => {
       setCurRound(
          convertToWorldCupArray(data)
             .reverse()
+            .sort((a, b) => b.episode - a.episode)
+            .slice(0, 16)
             .sort(() => Math.random() - 0.5)
-            .slice(0, 16),
       );
    };
 
