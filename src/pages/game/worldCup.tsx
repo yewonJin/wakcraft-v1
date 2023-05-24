@@ -1,11 +1,11 @@
 import Image from 'next/image';
 import { BsYoutube } from 'react-icons/bs';
 import styled from 'styled-components';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import Youtube from 'react-youtube';
 
 import TextBox from '@/components/Common/TextBox';
-import { WorldCupItem, convertToWorldCupArray, useQueryWorldCup } from '@/services/worldCupAdapters';
+import { getStartTime, getVideoId, usePlayWorldCup } from '@/application/playWorldCup';
 
 const Layout = styled.div`
    display: flex;
@@ -99,39 +99,17 @@ const YoutubeBox = styled.div<{ isClicked: boolean; index: number }>`
 `;
 
 export default function WorldCup() {
-   const [page, setPage] = useState(0);
-   const [clickedNumber, setClickedNumber] = useState(-1);
-   const [curArr, setCurArr] = useState<WorldCupItem[]>([]);
-   const [nextArr, setNextArr] = useState<WorldCupItem[]>([]);
+   const { handleImageClick, page, clickedNumber, handleYoutubeClick, curRound, onReadyPlayer, leftState, rightState } =
+      usePlayWorldCup();
 
-   const [leftPlayer, setLeftPlayer] = useState();
-   const [leftState, setLeftState] = useState(false);
-
-   const [rightPlayer, setRightPlayer] = useState();
-   const [rightState, setRightState] = useState(false);
-
-   const data = useQueryWorldCup();
-
-   // 128강으로 만들려면 slice()랑 sort() 위치 바꿔야함
-   useEffect(() => {
-      if (!data) return;
-
-      setCurArr(
-         convertToWorldCupArray(data)
-            .reverse()
-            .sort(() => Math.random() - 0.5)
-            .slice(0, 16),
-      );
-   }, [data]);
-
-   if (!data) return <div>loading</div>;
+   if (curRound.length === 0) return <div>loading</div>;
 
    return (
       <Layout>
          <TextWrapper>
-            <TextBox text={curArr.length + '강'} fontSize="32px" lineHeight="48px" color="white" fontWeight="500" />
+            <TextBox text={curRound.length + '강'} fontSize="32px" lineHeight="48px" color="white" fontWeight="500" />
             <TextBox
-               text={`(${page + 1}/${curArr.length / 2})`}
+               text={`(${page + 1}/${curRound.length / 2})`}
                fontSize="22px"
                lineHeight="32px"
                color="#ccc"
@@ -139,40 +117,14 @@ export default function WorldCup() {
             />
          </TextWrapper>
          <Main>
-            {curArr
+            {curRound
                .filter((_, index) => index < (page + 1) * 2 && index >= page * 2)
                .map((item, index) => (
                   <ImageBox
                      clickedNumber={clickedNumber}
                      index={index}
                      key={index}
-                     onClick={e => {
-                        if (curArr.length === 2) {
-                           setNextArr([...nextArr, item]);
-
-                           console.log('우승');
-                        }
-
-                        if (page * 2 >= curArr.length - 2) {
-                           setCurArr([...nextArr, item].sort(() => Math.random() - 0.5));
-
-                           setNextArr([]);
-                           setPage(0);
-                           return;
-                        }
-
-                        setNextArr([...nextArr, item]);
-
-                        setClickedNumber(index);
-
-                        setTimeout(() => {
-                           setClickedNumber(-1);
-                        }, 500);
-
-                        setTimeout(() => {
-                           setPage(prev => prev + 1);
-                        }, 700);
-                     }}
+                     onClick={() => handleImageClick(item, index)}
                   >
                      <Image
                         sizes="1200px"
@@ -183,39 +135,15 @@ export default function WorldCup() {
                      />
                      <YoutubeBox isClicked={index === 0 ? leftState : rightState} index={index}>
                         <Youtube
-                           onReady={e => {
-                              if (index === 0) setLeftPlayer(e.target);
-                              else if (index === 1) setRightPlayer(e.target);
-                           }}
+                           onReady={e => onReadyPlayer(e.target, index)}
                            key={item.youtube_url}
-                           videoId={item.youtube_url.split('/')[3].split('?')[0]}
-                           opts={{ width: '580', playerVars: { start: item.youtube_url.split('=')[1] } }}
+                           videoId={getVideoId(item.youtube_url)}
+                           opts={{ width: '580', playerVars: { start: getStartTime(item.youtube_url) } }}
                         />
                      </YoutubeBox>
                      <InfoLayout>
                         <InfoBox onClick={e => e.stopPropagation()}>
-                           <YoutubeLink
-                              onClick={() => {
-                                 if (!leftPlayer || !rightPlayer) return;
-
-                                 if (index === 0) {
-                                    setLeftState(prev => !prev);
-
-                                    if (leftState) {
-                                       leftPlayer.pauseVideo();
-                                    } else {
-                                       leftPlayer.playVideo();
-                                    }
-                                 } else {
-                                    setRightState(prev => !prev);
-                                    if (rightState) {
-                                       rightPlayer.pauseVideo();
-                                    } else {
-                                       rightPlayer.playVideo();
-                                    }
-                                 }
-                              }}
-                           >
+                           <YoutubeLink onClick={() => handleYoutubeClick(index)}>
                               <BsYoutube />
                            </YoutubeLink>
                            <TextBox text={`${item.episode}회 : ` + item.subject} fontSize="20px" lineHeight="32px" />
