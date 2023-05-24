@@ -25,7 +25,8 @@ const Main = styled.div`
    color: white;
 `;
 
-const ImageBox = styled.div<{ clickedNumber: number; index: number }>`
+const ImageBox = styled.div<{ clickedNumber: number; curRound: number; index: number }>`
+   display: ${props => props.index < (props.curRound + 1) * 2 && props.index >= props.curRound *2 ? 'flex' : 'none'};
    position: relative;
    width: 580px;
    height: 580px;
@@ -177,13 +178,14 @@ export default function WorldCup() {
                />
             </TextWrapper>
             <Main>
-               {curRoundArr
-                  .filter((_, index) => index < (curRound + 1) * 2 && index >= curRound * 2)
+               {curRoundArr                     
+                  .filter((_, index) => index < (curRound + 1) * 4)
                   .map((item, index) => (
                      <ImageBox
                         clickedNumber={clickedNumber}
+                        curRound={curRound}
                         index={index}
-                        key={index}
+                        key={item.subject}
                         onClick={() => handleImageClick(item, index)}
                      >
                         <Image
