@@ -3,6 +3,11 @@ import YoutubePlayer from 'react-youtube';
 
 import { WorldCupItem, convertToWorldCupArray, useQueryWorldCup } from '@/services/worldCupAdapters';
 
+interface BetterYoutubePlayer extends YoutubePlayer {
+   pauseVideo: () => void;
+   playVideo: () => void;
+}
+
 export const usePlayWorldCup = () => {
    const data = useQueryWorldCup();
 
@@ -12,10 +17,10 @@ export const usePlayWorldCup = () => {
    const [curRound, setCurRound] = useState<WorldCupItem[]>([]);
    const [nextRound, setNextRound] = useState<WorldCupItem[]>([]);
 
-   const [leftPlayer, setLeftPlayer] = useState<YoutubePlayer>();
+   const [leftPlayer, setLeftPlayer] = useState<BetterYoutubePlayer>();
    const [leftState, setLeftState] = useState(false);
 
-   const [rightPlayer, setRightPlayer] = useState<YoutubePlayer>();
+   const [rightPlayer, setRightPlayer] = useState<BetterYoutubePlayer>();
    const [rightState, setRightState] = useState(false);
 
    // 128강으로 만들려면 slice()랑 sort() 위치 바꿔야함
@@ -24,8 +29,8 @@ export const usePlayWorldCup = () => {
    }, [data]);
 
    const onReadyPlayer = (target: YoutubePlayer, index: number) => {
-      if (index === 0) setLeftPlayer(target);
-      else if (index === 1) setRightPlayer(target);
+      if (index === 0) setLeftPlayer(target as BetterYoutubePlayer);
+      else if (index === 1) setRightPlayer(target as BetterYoutubePlayer);
    };
 
    const handleImageClick = (item: WorldCupItem, index: number) => {
