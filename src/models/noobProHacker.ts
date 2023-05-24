@@ -7,6 +7,7 @@ interface NoobProHackerModel extends Model<NoobProHacker> {
    findLastestOne: () => Promise<NoobProHacker>;
    findByEpisode: (episode: string) => Promise<NoobProHacker>;
    updateArchitectId: (beforeId: string, afterId: string, tier: string) => Promise<NoobProHacker[]>;
+   findHackerInfo: () => Promise<NoobProHacker[]>;
 }
 
 const noobProHackerSchema = new Schema({
@@ -104,6 +105,22 @@ noobProHackerSchema.statics.updateArchitectId = function (beforeId: string, afte
          },
       },
    );
+};
+
+noobProHackerSchema.statics.findHackerInfo = function () {
+   return this.aggregate([
+      {
+         $project: {
+            contentInfo: {
+               episode: 1,
+            },
+            lineInfo: {
+               subject: 1,
+               'line_details.hacker': 1,
+            },
+         },
+      },
+   ]);
 };
 
 const NoobProHacker =

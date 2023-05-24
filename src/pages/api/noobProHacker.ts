@@ -1,6 +1,6 @@
-import connectMongo from '@/utils/connectMongo';
-import Architect from '@/models/architect';
 import { NextApiRequest, NextApiResponse } from 'next';
+
+import connectMongo from '@/utils/connectMongo';
 import NoobProHacker from '@/models/noobProHacker';
 import { convertToArchitect } from '@/services/noobProHackerAdapters';
 
