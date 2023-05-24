@@ -104,6 +104,8 @@ export default function WorldCup() {
    const {
       page,
       setPage,
+      round,
+      setRound,
       curRound,
       setIsOriginal,
       isOriginal,
@@ -138,6 +140,20 @@ export default function WorldCup() {
                   }}
                />
                <Button text="최소화로 보기" padding="8px 14px" onClick={() => setPage(1)} />
+               <select value={round} onChange={e => setRound(parseInt(e.target.value))}>
+                  <option key={128} value={128}>
+                     128
+                  </option>
+                  <option key={64} value={64}>
+                     64
+                  </option>
+                  <option key={32} value={32}>
+                     32
+                  </option>
+                  <option key={16} value={16}>
+                     16
+                  </option>
+               </select>
             </TextWrapper>
          </Layout>
       );
@@ -172,7 +188,7 @@ export default function WorldCup() {
                      >
                         <Image
                            priority
-                           sizes="1900px"
+                           sizes="1200px"
                            fill
                            style={{ objectFit: 'cover' }}
                            alt="NoobProHacker Image"

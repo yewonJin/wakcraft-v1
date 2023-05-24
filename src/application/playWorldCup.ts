@@ -12,6 +12,7 @@ export const usePlayWorldCup = () => {
    const data = useQueryWorldCup();
 
    const [page, setPage] = useState(0);
+   const [round, setRound] = useState(128);
    const [isOriginal, setIsOriginal] = useState(false);
 
    const [curRound, setCurRound] = useState(0);
@@ -26,10 +27,9 @@ export const usePlayWorldCup = () => {
    const [rightPlayer, setRightPlayer] = useState<BetterYoutubePlayer>();
    const [rightState, setRightState] = useState(false);
 
-   // 128강으로 만들려면 slice()랑 sort() 위치 바꿔야함
    useEffect(() => {
       initializeFirstRound();
-   }, [data]);
+   }, [data, round]);
 
    const onReadyPlayer = (target: YoutubePlayer, index: number) => {
       if (index === 0) setLeftPlayer(target as BetterYoutubePlayer);
@@ -74,7 +74,7 @@ export const usePlayWorldCup = () => {
          convertToWorldCupArray(data)
             .reverse()
             .sort((a, b) => b.episode - a.episode)
-            .slice(0, 16)
+            .slice(0, round)
             .sort(() => Math.random() - 0.5),
       );
    };
@@ -115,6 +115,8 @@ export const usePlayWorldCup = () => {
    return {
       data,
       page,
+      round,
+      setRound,
       setPage,
       setCurRound,
       isOriginal,
