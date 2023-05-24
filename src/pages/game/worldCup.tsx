@@ -1,12 +1,13 @@
 import Image from 'next/image';
 import { BsYoutube } from 'react-icons/bs';
 import styled from 'styled-components';
-import { useEffect } from 'react';
+
 import Youtube from 'react-youtube';
 
 import TextBox from '@/components/Common/TextBox';
 import { getStartTime, getVideoId, usePlayWorldCup } from '@/application/playWorldCup';
 import { renameToWebp } from '@/services/noobProHackerAdapters';
+import { Button } from '@/components/Common/Button';
 
 const Layout = styled.div`
    display: flex;
@@ -100,60 +101,104 @@ const YoutubeBox = styled.div<{ isClicked: boolean; index: number }>`
 `;
 
 export default function WorldCup() {
-   const { handleImageClick, page, clickedNumber, handleYoutubeClick, curRound, onReadyPlayer, leftState, rightState } =
-      usePlayWorldCup();
+   const {
+      page,
+      setPage,
+      curRound,
+      setIsOriginal,
+      isOriginal,
+      handleImageClick,
+      clickedNumber,
+      handleYoutubeClick,
+      curRoundArr,
+      onReadyPlayer,
+      leftState,
+      rightState,
+   } = usePlayWorldCup();
 
-   if (curRound.length === 0) return <div>loading</div>;
+   if (curRoundArr.length === 0)
+      return (
+         <Layout>
+            <TextWrapper>
+               <TextBox text={'로딩중'} fontSize="32px" lineHeight="48px" color="white" fontWeight="500" />
+            </TextWrapper>
+         </Layout>
+      );
 
-   return (
-      <Layout>
-         <TextWrapper>
-            <TextBox text={curRound.length + '강'} fontSize="32px" lineHeight="48px" color="white" fontWeight="500" />
-            <TextBox
-               text={`(${page + 1}/${curRound.length / 2})`}
-               fontSize="22px"
-               lineHeight="32px"
-               color="#ccc"
-               margin="8px 0px 0px 0px"
-            />
-         </TextWrapper>
-         <Main>
-            {curRound
-               .filter((_, index) => index < (page + 1) * 2 && index >= page * 2)
-               .map((item, index) => (
-                  <ImageBox
-                     clickedNumber={clickedNumber}
-                     index={index}
-                     key={index}
-                     onClick={() => handleImageClick(item, index)}
-                  >
-                     <Image
-                        sizes="1000px"
-                        fill
-                        style={{ objectFit: 'cover' }}
-                        alt="NoobProHacker Image"
-                        src={renameToWebp(item.image_url)}
-                     />
-                     <YoutubeBox isClicked={index === 0 ? leftState : rightState} index={index}>
-                        <Youtube
-                           onReady={e => onReadyPlayer(e.target, index)}
-                           key={item.youtube_url}
-                           videoId={getVideoId(item.youtube_url)}
-                           opts={{ width: '550', playerVars: { start: getStartTime(item.youtube_url) } }}
+   if (page == 0) {
+      return (
+         <Layout>
+            <TextWrapper>
+               <Button
+                  text="원본 보기"
+                  padding="8px 14px"
+                  onClick={() => {
+                     setIsOriginal(true);
+                     setPage(1);
+                  }}
+               />
+               <Button text="최소화로 보기" padding="8px 14px" onClick={() => setPage(1)} />
+            </TextWrapper>
+         </Layout>
+      );
+   } else if (page == 1) {
+      return (
+         <Layout>
+            <TextWrapper>
+               <TextBox
+                  text={curRoundArr.length + '강'}
+                  fontSize="32px"
+                  lineHeight="48px"
+                  color="white"
+                  fontWeight="500"
+               />
+               <TextBox
+                  text={`(${curRound + 1}/${curRoundArr.length / 2})`}
+                  fontSize="22px"
+                  lineHeight="32px"
+                  color="#ccc"
+                  margin="8px 0px 0px 0px"
+               />
+            </TextWrapper>
+            <Main>
+               {curRoundArr
+                  .filter((_, index) => index < (curRound + 1) * 2 && index >= curRound * 2)
+                  .map((item, index) => (
+                     <ImageBox
+                        clickedNumber={clickedNumber}
+                        index={index}
+                        key={index}
+                        onClick={() => handleImageClick(item, index)}
+                     >
+                        <Image
+                           priority
+                           sizes="1900px"
+                           fill
+                           style={{ objectFit: 'cover' }}
+                           alt="NoobProHacker Image"
+                           src={isOriginal ? item.image_url : renameToWebp(item.image_url)}
                         />
-                     </YoutubeBox>
-                     <InfoLayout>
-                        <InfoBox onClick={e => e.stopPropagation()}>
-                           <YoutubeLink onClick={() => handleYoutubeClick(index)}>
-                              <BsYoutube />
-                           </YoutubeLink>
-                           <TextBox text={`${item.episode}회 : ` + item.subject} fontSize="20px" lineHeight="32px" />
-                           <TextBox text={item.minecraft_id} fontSize="18px" lineHeight="24px" color="#BABABA" />
-                        </InfoBox>
-                     </InfoLayout>
-                  </ImageBox>
-               ))}
-         </Main>
-      </Layout>
-   );
+                        <YoutubeBox isClicked={index === 0 ? leftState : rightState} index={index}>
+                           <Youtube
+                              onReady={e => onReadyPlayer(e.target, index)}
+                              key={item.youtube_url}
+                              videoId={getVideoId(item.youtube_url)}
+                              opts={{ width: '580', playerVars: { start: getStartTime(item.youtube_url) } }}
+                           />
+                        </YoutubeBox>
+                        <InfoLayout>
+                           <InfoBox onClick={e => e.stopPropagation()}>
+                              <YoutubeLink onClick={() => handleYoutubeClick(index)}>
+                                 <BsYoutube />
+                              </YoutubeLink>
+                              <TextBox text={`${item.episode}회 : ` + item.subject} fontSize="20px" lineHeight="32px" />
+                              <TextBox text={item.minecraft_id} fontSize="18px" lineHeight="24px" color="#BABABA" />
+                           </InfoBox>
+                        </InfoLayout>
+                     </ImageBox>
+                  ))}
+            </Main>
+         </Layout>
+      );
+   }
 }

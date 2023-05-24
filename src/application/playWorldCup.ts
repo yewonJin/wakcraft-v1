@@ -12,10 +12,13 @@ export const usePlayWorldCup = () => {
    const data = useQueryWorldCup();
 
    const [page, setPage] = useState(0);
+   const [isOriginal, setIsOriginal] = useState(false);
+
+   const [curRound, setCurRound] = useState(0);
    const [clickedNumber, setClickedNumber] = useState(-1);
 
-   const [curRound, setCurRound] = useState<WorldCupItem[]>([]);
-   const [nextRound, setNextRound] = useState<WorldCupItem[]>([]);
+   const [curRoundArr, setCurRoundArr] = useState<WorldCupItem[]>([]);
+   const [nextRoundArr, setNextRoundArr] = useState<WorldCupItem[]>([]);
 
    const [leftPlayer, setLeftPlayer] = useState<BetterYoutubePlayer>();
    const [leftState, setLeftState] = useState(false);
@@ -67,55 +70,60 @@ export const usePlayWorldCup = () => {
    const initializeFirstRound = () => {
       if (!data) return;
 
-      setCurRound(
+      setCurRoundArr(
          convertToWorldCupArray(data)
             .reverse()
             .sort((a, b) => b.episode - a.episode)
             .slice(0, 16)
-            .sort(() => Math.random() - 0.5)
+            .sort(() => Math.random() - 0.5),
       );
    };
 
    const checkLastRound = (item: WorldCupItem) => {
-      if (curRound.length === 2) {
-         setNextRound([...nextRound, item]);
+      if (curRoundArr.length === 2) {
+         setNextRoundArr([...nextRoundArr, item]);
 
          console.log('우승');
       }
    };
 
    const initializeNextRound = (item: WorldCupItem) => {
-      if (page * 2 >= curRound.length - 2) {
-         setCurRound([...nextRound, item].sort(() => Math.random() - 0.5));
+      if (curRound * 2 >= curRoundArr.length - 2) {
+         setCurRoundArr([...nextRoundArr, item].sort(() => Math.random() - 0.5));
 
-         setNextRound([]);
-         setPage(0);
+         setNextRoundArr([]);
+         setCurRound(0);
 
          return 'exit';
       }
    };
 
    const setItemToNextRound = (item: WorldCupItem, index: number) => {
-      setNextRound([...nextRound, item]);
+      setNextRoundArr([...nextRoundArr, item]);
 
       setClickedNumber(index);
 
       setTimeout(() => {
          setClickedNumber(-1);
-      }, 500);
+      }, 300);
 
       setTimeout(() => {
-         setPage(prev => prev + 1);
-      }, 700);
+         setCurRound(prev => prev + 1);
+      }, 500);
    };
 
    return {
       data,
       page,
+      setPage,
+      setCurRound,
+      isOriginal,
+      setIsOriginal,
+      curRound,
       clickedNumber,
       onReadyPlayer,
-      curRound,
-      nextRound,
+      curRoundArr,
+      nextRoundArr,
       handleImageClick,
       handleYoutubeClick,
       initializeFirstRound,
