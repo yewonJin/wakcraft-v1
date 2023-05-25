@@ -20,7 +20,7 @@ const ButtonBox = styled.button<ButtonStyleType>`
    background-color: ${props => props.backgroundColor || '#4caf50'};
    color: ${props => props.color || 'white'};
    padding: ${props => props.padding || '12px 0px'};
-   margin: ${props => props.margin || 'auto'};
+   margin: ${props => props.margin || ''};
    font-size: ${props => props.fontSize || '16px'};
 
    :hover {

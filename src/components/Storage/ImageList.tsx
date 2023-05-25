@@ -18,7 +18,7 @@ const Item = styled.li`
    list-style: none;
    aspect-ratio: 16/9;
 
-   :hover{
+   :hover {
       cursor: pointer;
    }
 
