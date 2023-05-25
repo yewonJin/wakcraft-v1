@@ -4,8 +4,9 @@ import { GetStaticProps, InferGetStaticPropsType } from 'next';
 
 import connectMongo from '@/utils/connectMongo';
 import YoutubeLink from '@/components/Common/ContentDetail/YoutubeLink';
-import { useRouter } from 'next/router';
 import EventNoobProHacker from '@/models/eventNoobProHacker';
+import PlacementTest from '@/models/placementTest';
+import TextBox from '@/components/Common/TextBox';
 
 const Layout = styled.div`
    display: flex;
@@ -14,7 +15,7 @@ const Layout = styled.div`
    width: 1200px;
    height: 100vh;
    margin: 0px auto;
-   padding-top: 110px;
+   padding-top: 130px;
    padding-bottom: 50px;
 
    @media screen and (max-width: 1200px) {
@@ -26,6 +27,13 @@ const Layout = styled.div`
    @media screen and (max-width: 800px) {
       padding-top: 100px;
    }
+`;
+
+const ContentLayout = styled.div`
+   display: flex;
+   flex-direction: column;
+   width: 100%;
+   margin-bottom: 50px;
 `;
 
 const TableHeader = styled.ul`
@@ -55,7 +63,6 @@ const TableItem = styled.li<{ width?: string; margin?: string }>`
 
 const List = styled.ul`
    width: 100%;
-   height: calc(100vh - 188px);
    overflow-y: scroll;
    display: flex;
    flex-direction: column;
@@ -127,41 +134,73 @@ const Item = styled.p<{ width?: string }>`
    height: 24px;
 `;
 
-export const getStaticProps: GetStaticProps<{ eventNoobProHackers: EventNoobProHacker[] }> = async () => {
+export const getStaticProps: GetStaticProps<{
+   eventNoobProHackers: EventNoobProHacker[];
+   placementTests: PlacementTest[];
+}> = async () => {
    await connectMongo();
 
+   const placementTests = await PlacementTest.findAllWithoutParticipants();
    const eventNoobProHackers = await EventNoobProHacker.findAllWithoutLineInfo();
 
    return {
       props: {
          eventNoobProHackers: JSON.parse(JSON.stringify(eventNoobProHackers)),
+         placementTests: JSON.parse(JSON.stringify(placementTests)),
       },
    };
 };
 
-export default function Search({ eventNoobProHackers }: InferGetStaticPropsType<typeof getStaticProps>) {
+export default function Search({
+   eventNoobProHackers,
+   placementTests,
+}: InferGetStaticPropsType<typeof getStaticProps>) {
    return (
       <Layout>
-         <TableHeader>
-            <TableItem width="100px">회차</TableItem>
-            <TableItem width="250px">주제</TableItem>
-            <TableItem width="170px">날짜</TableItem>
-            <TableItem width="150px">링크</TableItem>
-         </TableHeader>
-         <List>
-            {eventNoobProHackers.map((item, _) => {
-               return (
-                  <Link key={item.contentInfo.episode} href={`/eventNoobProHacker/${item.contentInfo.episode}`}>
-                     <Box>
-                        <Item width="100px">{item.contentInfo.episode + '회'}</Item>
-                        <Item width="250px">{item.contentInfo.contentName}</Item>
-                        <Item width="170px">{item.contentInfo.date.split('T')[0]}</Item>
-                        <YoutubeLink url={item.contentInfo.youtube_url} />
-                     </Box>
-                  </Link>
-               );
-            })}
-         </List>
+         <ContentLayout>
+            <TextBox text="배치고사" fontSize="22px" lineHeight="32px" fontWeight="500" />
+            <TableHeader>
+               <TableItem width="100px">시즌</TableItem>
+               <TableItem width="170px">날짜</TableItem>
+               <TableItem width="150px">링크</TableItem>
+            </TableHeader>
+            <List>
+               {placementTests.map((item, _) => {
+                  return (
+                     <Link key={item.season} href={`/content/placementTest/${item.season}`}>
+                        <Box>
+                           <Item width="100px">{'S' + item.season}</Item>
+                           <Item width="170px">{item.date.split('T')[0]}</Item>
+                           <YoutubeLink url={item.youtube_url} />
+                        </Box>
+                     </Link>
+                  );
+               })}
+            </List>
+         </ContentLayout>
+         <ContentLayout>
+            <TextBox text="예능 눕프핵" fontSize="22px" lineHeight="32px" fontWeight="500" />
+            <TableHeader>
+               <TableItem width="100px">회차</TableItem>
+               <TableItem width="250px">주제</TableItem>
+               <TableItem width="170px">날짜</TableItem>
+               <TableItem width="150px">링크</TableItem>
+            </TableHeader>
+            <List>
+               {eventNoobProHackers.map((item, _) => {
+                  return (
+                     <Link key={item.contentInfo.episode} href={`/content/eventNoobProHacker/${item.contentInfo.episode}`}>
+                        <Box>
+                           <Item width="100px">{item.contentInfo.episode + '회'}</Item>
+                           <Item width="250px">{item.contentInfo.contentName}</Item>
+                           <Item width="170px">{item.contentInfo.date.split('T')[0]}</Item>
+                           <YoutubeLink url={item.contentInfo.youtube_url} />
+                        </Box>
+                     </Link>
+                  );
+               })}
+            </List>
+         </ContentLayout>
       </Layout>
    );
 }

@@ -1,20 +1,20 @@
 import styled from 'styled-components';
 import Link from 'next/link';
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
+import { useRouter } from 'next/router';
 
 import connectMongo from '@/utils/connectMongo';
 import NoobProHacker from '@/models/noobProHacker';
 import YoutubeLink from '@/components/Common/ContentDetail/YoutubeLink';
-import { useRouter } from 'next/router';
+import TextBox from '@/components/Common/TextBox';
 
 const Layout = styled.div`
    display: flex;
    flex-direction: column;
-   align-items: center;
    width: 1200px;
    height: 100vh;
    margin: 0px auto;
-   padding-top: 110px;
+   padding-top: 130px;
    padding-bottom: 50px;
 
    @media screen and (max-width: 1200px) {
@@ -149,6 +149,7 @@ export default function Search({ noobProHackers }: InferGetStaticPropsType<typeo
 
    return (
       <Layout>
+         <TextBox text="눕프로해커" fontSize="22px" lineHeight="32px" fontWeight="500" />
          <TableHeader>
             <TableItem width="100px">회차</TableItem>
             <TableItem width="250px">주제</TableItem>

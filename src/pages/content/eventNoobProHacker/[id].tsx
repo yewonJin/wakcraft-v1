@@ -73,7 +73,7 @@ const TierBox = styled.span`
    font-size: 16px;
    color: white;
    text-shadow: 1px 1px 2px black;
-   background: rgb(198, 142, 83);
+   background: #414141;
 `;
 
 export default function Page() {

@@ -126,8 +126,8 @@ export default function NavBar() {
                </Title>
                <Link href={'/architect'}>건축가</Link>
                <Link href={'/noobProHacker'}>눕프로해커</Link>
-               <Link href={'/placementTest'}>배치고사</Link>
-               <Link href={'/eventNoobProHacker'}>이벤트 눕프핵</Link>
+               <Link href={'/content'}>컨텐츠</Link>
+               <Link href={'/game/worldCup'}>게임</Link>
                <Menu>
                   {!isOpened ? (
                      <GiHamburgerMenu onClick={() => setIsOpened(true)} />
@@ -143,11 +143,11 @@ export default function NavBar() {
                <Link href={'/noobProHacker'} onClick={() => setIsOpened(false)}>
                   눕프로해커
                </Link>
-               <Link href={'/placementTest'} onClick={() => setIsOpened(false)}>
-                  배치고사
+               <Link href={'/content'} onClick={() => setIsOpened(false)}>
+                  컨텐츠
                </Link>
-               <Link href={'/eventNoobProHacker'} onClick={() => setIsOpened(false)}>
-                  이벤트 눕프핵
+               <Link href={'/game/worldCup'} onClick={() => setIsOpened(false)}>
+                  게임
                </Link>
             </MenuBox>
          </Container>
@@ -162,8 +162,8 @@ export default function NavBar() {
                </Title>
                <Link href={'/architect'}>건축가</Link>
                <Link href={'/noobProHacker'}>눕프로해커</Link>
-               <Link href={'/placementTest'}>배치고사</Link>
-               <Link href={'/eventNoobProHacker'}>이벤트 눕프핵</Link>
+               <Link href={'/content'}>컨텐츠</Link>
+               <Link href={'/game/worldCup'}>게임</Link>
                <Menu>
                   {!isOpened ? (
                      <GiHamburgerMenu onClick={() => setIsOpened(true)} />
@@ -179,11 +179,11 @@ export default function NavBar() {
                <Link href={'/noobProHacker'} onClick={() => setIsOpened(false)}>
                   눕프로해커
                </Link>
-               <Link href={'/placementTest'} onClick={() => setIsOpened(false)}>
-                  배치고사
+               <Link href={'/content'} onClick={() => setIsOpened(false)}>
+                  컨텐츠
                </Link>
-               <Link href={'/eventNoobProHacker'} onClick={() => setIsOpened(false)}>
-                  이벤트 눕프핵
+               <Link href={'/game/worldCup'} onClick={() => setIsOpened(false)}>
+                  게임
                </Link>
             </MenuBox>
          </Container>
