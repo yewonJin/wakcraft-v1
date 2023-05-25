@@ -6,106 +6,142 @@ export const usePlayWorldCup = () => {
    const data = useQueryWorldCup();
 
    const [page, setPage] = useState(0);
-   const [round, setRound] = useState(128);
-   const [isOriginal, setIsOriginal] = useState(false);
-
-   const [curRound, setCurRound] = useState(0);
-   const [clickedNumber, setClickedNumber] = useState(-1);
+   const [roundOfNumber, setRoundOfNumber] = useState(128);
 
    const [curRoundArr, setCurRoundArr] = useState<WorldCupItem[]>([]);
    const [nextRoundArr, setNextRoundArr] = useState<WorldCupItem[]>([]);
+   const [curRound, setCurRound] = useState(0);
+   const [clickedNumber, setClickedNumber] = useState(-1);
 
-   const [leftState, setLeftState] = useState(false);
-   const [rightState, setRightState] = useState(false);
+   const [playing, setPlaying] = useState({
+      leftPlayer: false,
+      rightPlayer: false,
+   });
 
    useEffect(() => {
       initializeFirstRound();
-   }, [data, round]);
+   }, [data, roundOfNumber]);
 
-   const handleImageClick = (item: WorldCupItem, index: number) => {
-      checkLastRound(item);
+   function shuffle(array: WorldCupItem[]) {
+      let currentIndex = array.length,randomIndex;
 
-      initializeNextRound(item);
+      // While there remain elements to shuffle.
+      while (currentIndex != 0) {
+         // Pick a remaining element.
+         randomIndex = Math.floor(Math.random() * currentIndex);
+         currentIndex--;
 
-      if (initializeNextRound(item) === 'exit') return;
-
-      setLeftState(false);
-      setRightState(false);
-
-      setItemToNextRound(item, index);
-   };
-
-   const handleYoutubeClick = (index: number) => {
-      if (index % 2 === 0) {
-         if (leftState) {
-            setLeftState(false);
-         } else {
-            setLeftState(true);
-         }
-      } else {
-         setRightState(prev => !prev);
-         if (rightState) {
-            setRightState(false);
-         } else {
-            setRightState(true);
-         }
+         // And swap it with the current element.
+         [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
       }
-   };
 
+      return array;
+   }
+
+   /** N강 설정하기  */
    const initializeFirstRound = () => {
       if (!data) return;
 
       setCurRoundArr(
-         convertToWorldCupArray(data)
-            .reverse()
-            .sort((a, b) => b.episode - a.episode)
-            .slice(0, round)
-            .sort(() => Math.random() - 0.5),
+         shuffle(
+            convertToWorldCupArray(data)
+               .reverse()
+               .sort((a, b) => b.episode - a.episode)
+               .slice(0, roundOfNumber),
+         ),
       );
    };
 
-   const checkLastRound = (item: WorldCupItem) => {
-      if (curRoundArr.length === 2) {
-         setNextRoundArr([...nextRoundArr, item]);
-
-         console.log('우승');
-      }
+   const preloadNextRound = (curRoundArr: WorldCupItem[]) => {
+      return curRoundArr.filter((_, index) => index < (curRound + 1) * 4);
    };
 
-   const initializeNextRound = (item: WorldCupItem) => {
-      if (curRound * 2 >= curRoundArr.length - 2) {
-         setCurRoundArr([...nextRoundArr, item].sort(() => Math.random() - 0.5));
-
-         setNextRoundArr([]);
-         setCurRound(0);
-
-         return 'exit';
+   /** 월드컵 설정 알고리즘 */
+   const handleImageClick = (item: WorldCupItem, index: number) => {
+      if (isFinalRound) {
+         setWinner(item);
+         return;
       }
+
+      if (isLastRound) {
+         setNextRound(item);
+         return;
+      }
+
+      pauseAllVideo();
+
+      setItemToNextRound(item, index);
+
+      clickAnimation(index);
+   };
+
+   const isFinalRound = curRoundArr.length === 2;
+
+   const setWinner = (item: WorldCupItem) => {
+      setCurRoundArr([...nextRoundArr, item]);
+
+      console.log('우승');
+   };
+
+   const isLastRound = curRound * 2 >= curRoundArr.length - 2;
+
+   const setNextRound = (item: WorldCupItem) => {
+      setCurRoundArr(shuffle([...nextRoundArr, item]));
+
+      setNextRoundArr([]);
+      setCurRound(0);
+   };
+
+   const pauseAllVideo = () => {
+      setPlaying({
+         leftPlayer: false,
+         rightPlayer: false,
+      });
    };
 
    const setItemToNextRound = (item: WorldCupItem, index: number) => {
       setNextRoundArr([...nextRoundArr, item]);
-
-      setClickedNumber(index);
-
-      setTimeout(() => {
-         setClickedNumber(-1);
-      }, 300);
 
       setTimeout(() => {
          setCurRound(prev => prev + 1);
       }, 500);
    };
 
+   const clickAnimation = (index: number) => {
+      setClickedNumber(index);
+
+      setTimeout(() => {
+         setClickedNumber(-1);
+      }, 300);
+   };
+
+   /** 유튜브 아이콘 클릭하면 영상 재생 */
+   const handleYoutubeClick = (index: number) => {
+      if (index % 2 === 0) {
+         if (playing.leftPlayer) {
+            setPlaying(prev => ({ ...prev, leftPlayer: false }));
+         } else {
+            setPlaying(prev => ({ ...prev, leftPlayer: true }));
+         }
+      } else {
+         if (playing.rightPlayer) {
+            setPlaying(prev => ({ ...prev, rightPlayer: false }));
+         } else {
+            setPlaying(prev => ({ ...prev, rightPlayer: true }));
+         }
+      }
+   };
+
+   const isLoading = curRoundArr.length === 0;
+
    return {
+      isLoading,
       data,
       page,
-      round,
-      setRound,
+      roundOfNumber,
+      setRoundOfNumber,
       setPage,
       setCurRound,
-      isOriginal,
-      setIsOriginal,
       curRound,
       clickedNumber,
       curRoundArr,
@@ -113,8 +149,8 @@ export const usePlayWorldCup = () => {
       handleImageClick,
       handleYoutubeClick,
       initializeFirstRound,
-      leftState,
-      rightState,
+      playing,
+      preloadNextRound,
    };
 };
 
