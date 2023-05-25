@@ -54,14 +54,18 @@ export default function Portfolio({ info }: { info: Architect }) {
       <Layout>
          <Category>
             <Divider />
-            {['눕프로해커', '배치고사', '이벤트 눕프핵'].map((item, index) => (                                 
-               <Fragment key={item}>
-                  <CategoryItem index={index} contentState={contentState} onClick={() => setContentState(index)}>
-                     <TextBox text={item} fontSize="18px" lineHeight="24px" fontWeight="500" />
-                  </CategoryItem>
-                  <Divider />
-               </Fragment>
-            ))}
+            {['눕프로해커', '배치고사', '이벤트 눕프핵'].map((item, index) => {
+               if (info.portfolio[categoryList[index]].length === 0) return;
+
+               return (
+                  <Fragment key={item}>
+                     <CategoryItem index={index} contentState={contentState} onClick={() => setContentState(index)}>
+                        <TextBox text={item} fontSize="18px" lineHeight="24px" fontWeight="500" />
+                     </CategoryItem>
+                     <Divider />
+                  </Fragment>
+               );
+            })}
          </Category>
          {contentState === 0 ? (
             <NoobProHackerList info={info} />
@@ -73,3 +77,9 @@ export default function Portfolio({ info }: { info: Architect }) {
       </Layout>
    );
 }
+
+const categoryList: ('noobProHacker' | 'placementTest' | 'eventNoobProHacker')[] = [
+   'noobProHacker',
+   'placementTest',
+   'eventNoobProHacker',
+];
