@@ -10,15 +10,14 @@ import TextBox from '@/components/Common/TextBox';
 
 const Layout = styled.div`
    display: flex;
-   flex-direction: column;
-   align-items: center;
+   gap: 50px;
    width: 1200px;
-   height: 100vh;
    margin: 0px auto;
    padding-top: 130px;
    padding-bottom: 50px;
 
    @media screen and (max-width: 1200px) {
+      flex-direction: column;
       width: 100%;
       padding-left: 15px;
       padding-right: 15px;
@@ -189,7 +188,10 @@ export default function Search({
             <List>
                {eventNoobProHackers.map((item, _) => {
                   return (
-                     <Link key={item.contentInfo.episode} href={`/content/eventNoobProHacker/${item.contentInfo.episode}`}>
+                     <Link
+                        key={item.contentInfo.episode}
+                        href={`/content/eventNoobProHacker/${item.contentInfo.episode}`}
+                     >
                         <Box>
                            <Item width="100px">{item.contentInfo.episode + '회'}</Item>
                            <Item width="250px">{item.contentInfo.contentName}</Item>
