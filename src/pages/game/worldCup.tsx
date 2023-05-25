@@ -133,16 +133,16 @@ export default function WorldCup() {
    const {
       isLoading,
       page,
-      setPage,
       roundOfNumber,
-      setRoundOfNumber,
       curRound,
-      handleImageClick,
       clickedNumber,
-      handleYoutubeClick,
       curRoundArr,
-      preloadNextRound,
       playing,
+      setPage,
+      setRoundOfNumber,
+      handleImageClick,
+      handleYoutubeClick,
+      preloadNextRound,
    } = usePlayWorldCup();
    const router = useRouter();
 

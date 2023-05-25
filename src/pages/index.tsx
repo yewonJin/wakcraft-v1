@@ -250,7 +250,9 @@ const TextContainer = styled.div`
          font-size: 14px;
       }
    }
-`;
+   `;
+
+const lineArr: ('noob' | 'pro' | 'hacker')[] = ['noob', 'pro', 'hacker'];
 
 export const getStaticProps: GetStaticProps<{ noobProHacker: NoobProHacker[] }> = async () => {
    await connectMongo();
@@ -264,7 +266,6 @@ export const getStaticProps: GetStaticProps<{ noobProHacker: NoobProHacker[] }> 
    };
 };
 
-const lineArr: ('noob' | 'pro' | 'hacker')[] = ['noob', 'pro', 'hacker'];
 
 export default function Home({ noobProHacker }: InferGetStaticPropsType<typeof getStaticProps>) {
    const [line, setLine] = useState(lineWinnerIndex(noobProHacker[0]));
