@@ -1,15 +1,15 @@
 import Image from 'next/image';
 import { BsYoutube } from 'react-icons/bs';
 import styled from 'styled-components';
-
-import Youtube from 'react-youtube';
+import ReactPlayer from 'react-player';
 
 import TextBox from '@/components/Common/TextBox';
-import { getStartTime, getVideoId, usePlayWorldCup } from '@/application/playWorldCup';
-import { renameToWebp } from '@/services/noobProHackerAdapters';
+import { usePlayWorldCup } from '@/application/playWorldCup';
+import { renameTo1080Webp, renameToWebp } from '@/services/noobProHackerAdapters';
 import { Button } from '@/components/Common/Button';
 
 const Layout = styled.div`
+   position: relative;
    display: flex;
    flex-direction: column;
    justify-content: center;
@@ -20,16 +20,16 @@ const Layout = styled.div`
 const Main = styled.div`
    display: flex;
    justify-content: space-between;
-   width: 1200px;
+   width: 1400px;
    margin: 0px auto;
    color: white;
 `;
 
 const ImageBox = styled.div<{ clickedNumber: number; curRound: number; index: number }>`
-   display: ${props => props.index < (props.curRound + 1) * 2 && props.index >= props.curRound *2 ? 'flex' : 'none'};
+   display: ${props => (props.index < (props.curRound + 1) * 2 && props.index >= props.curRound * 2 ? 'flex' : 'none')};
    position: relative;
-   width: 580px;
-   height: 580px;
+   width: 680px;
+   height: 680px;
    transition-duration: 200ms;
    overflow: hidden;
 
@@ -90,14 +90,30 @@ const TextWrapper = styled.div`
    display: flex;
    align-items: center;
    gap: 10px;
-   width: 1200px;
+   width: 1400px;
    margin: 0px auto;
    margin-bottom: 20px;
 `;
 
-const YoutubeBox = styled.div<{ isClicked: boolean; index: number }>`
+const YoutubeLayout = styled.div`
    position: absolute;
-   transform: ${props => (props.isClicked ? 'translateY(150px)' : 'translateY(600px)')};
+   z-index: 10;
+   display: flex;
+   justify-content: space-between;
+   width: 1400px;
+   top: 40%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   margin: 0px auto;
+`;
+
+const YoutubeBox = styled.div<{ isClicked: boolean; position: 'left' | 'right' }>`
+   display: ${props => (props.isClicked ? 'block' : 'none')};
+   width: 680px;
+   position: absolute;
+   left: ${props => (props.position === 'left' ? '0px' : '')};
+   right: ${props => (props.position === 'right' ? '0px' : '')};
+
    transition-duration: 200ms;
 `;
 
@@ -114,7 +130,6 @@ export default function WorldCup() {
       clickedNumber,
       handleYoutubeClick,
       curRoundArr,
-      onReadyPlayer,
       leftState,
       rightState,
    } = usePlayWorldCup();
@@ -132,15 +147,6 @@ export default function WorldCup() {
       return (
          <Layout>
             <TextWrapper>
-               <Button
-                  text="원본 보기"
-                  padding="8px 14px"
-                  onClick={() => {
-                     setIsOriginal(true);
-                     setPage(1);
-                  }}
-               />
-               <Button text="최소화로 보기" padding="8px 14px" onClick={() => setPage(1)} />
                <select value={round} onChange={e => setRound(parseInt(e.target.value))}>
                   <option key={128} value={128}>
                      128
@@ -155,6 +161,7 @@ export default function WorldCup() {
                      16
                   </option>
                </select>
+               <Button text="시작" padding="8px 14px" onClick={() => setPage(1)} />
             </TextWrapper>
          </Layout>
       );
@@ -178,7 +185,7 @@ export default function WorldCup() {
                />
             </TextWrapper>
             <Main>
-               {curRoundArr                     
+               {curRoundArr
                   .filter((_, index) => index < (curRound + 1) * 4)
                   .map((item, index) => (
                      <ImageBox
@@ -190,20 +197,12 @@ export default function WorldCup() {
                      >
                         <Image
                            priority
-                           sizes="1200px"
+                           sizes="1600px"
                            fill
                            style={{ objectFit: 'cover' }}
                            alt="NoobProHacker Image"
-                           src={isOriginal ? item.image_url : renameToWebp(item.image_url)}
+                           src={renameTo1080Webp(item.image_url)}
                         />
-                        <YoutubeBox isClicked={index === 0 ? leftState : rightState} index={index}>
-                           <Youtube
-                              onReady={e => onReadyPlayer(e.target, index)}
-                              key={item.youtube_url}
-                              videoId={getVideoId(item.youtube_url)}
-                              opts={{ width: '580', playerVars: { start: getStartTime(item.youtube_url) } }}
-                           />
-                        </YoutubeBox>
                         <InfoLayout>
                            <InfoBox onClick={e => e.stopPropagation()}>
                               <YoutubeLink onClick={() => handleYoutubeClick(index)}>
@@ -216,6 +215,19 @@ export default function WorldCup() {
                      </ImageBox>
                   ))}
             </Main>
+            <YoutubeLayout>
+               <YoutubeBox position="left" isClicked={leftState}>
+                  <ReactPlayer playing={leftState} controls width="100%" url={curRoundArr[curRound * 2].youtube_url} />
+               </YoutubeBox>
+               <YoutubeBox position="right" isClicked={rightState}>
+                  <ReactPlayer
+                     playing={rightState}
+                     controls
+                     width="100%"
+                     url={curRoundArr[curRound * 2 + 1].youtube_url}
+                  />
+               </YoutubeBox>
+            </YoutubeLayout>
          </Layout>
       );
    }

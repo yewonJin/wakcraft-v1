@@ -1,12 +1,6 @@
 import { useState, useEffect } from 'react';
-import YoutubePlayer from 'react-youtube';
 
 import { WorldCupItem, convertToWorldCupArray, useQueryWorldCup } from '@/services/worldCupAdapters';
-
-interface BetterYoutubePlayer extends YoutubePlayer {
-   pauseVideo: () => void;
-   playVideo: () => void;
-}
 
 export const usePlayWorldCup = () => {
    const data = useQueryWorldCup();
@@ -21,20 +15,12 @@ export const usePlayWorldCup = () => {
    const [curRoundArr, setCurRoundArr] = useState<WorldCupItem[]>([]);
    const [nextRoundArr, setNextRoundArr] = useState<WorldCupItem[]>([]);
 
-   const [leftPlayer, setLeftPlayer] = useState<BetterYoutubePlayer>();
    const [leftState, setLeftState] = useState(false);
-
-   const [rightPlayer, setRightPlayer] = useState<BetterYoutubePlayer>();
    const [rightState, setRightState] = useState(false);
 
    useEffect(() => {
       initializeFirstRound();
    }, [data, round]);
-
-   const onReadyPlayer = (target: YoutubePlayer, index: number) => {
-      if (index === 0) setLeftPlayer(target as BetterYoutubePlayer);
-      else if (index === 1) setRightPlayer(target as BetterYoutubePlayer);
-   };
 
    const handleImageClick = (item: WorldCupItem, index: number) => {
       checkLastRound(item);
@@ -43,26 +29,25 @@ export const usePlayWorldCup = () => {
 
       if (initializeNextRound(item) === 'exit') return;
 
+      setLeftState(false);
+      setRightState(false);
+
       setItemToNextRound(item, index);
    };
 
    const handleYoutubeClick = (index: number) => {
-      if (!leftPlayer || !rightPlayer) return;
-
-      if (index === 0) {
-         setLeftState(prev => !prev);
-
+      if (index % 2 === 0) {
          if (leftState) {
-            leftPlayer.pauseVideo();
+            setLeftState(false);
          } else {
-            leftPlayer.playVideo();
+            setLeftState(true);
          }
       } else {
          setRightState(prev => !prev);
          if (rightState) {
-            rightPlayer.pauseVideo();
+            setRightState(false);
          } else {
-            rightPlayer.playVideo();
+            setRightState(true);
          }
       }
    };
@@ -123,7 +108,6 @@ export const usePlayWorldCup = () => {
       setIsOriginal,
       curRound,
       clickedNumber,
-      onReadyPlayer,
       curRoundArr,
       nextRoundArr,
       handleImageClick,
