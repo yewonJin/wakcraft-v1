@@ -204,8 +204,8 @@ const ImageBox = styled.div`
    background-color: rgba(255, 255, 255, 0.5);
 
    @media screen and (min-width: 1400px) {
-      width: 320px;  
-      height: 400px;
+      width: 350px;  
+      height: 450px;
    }
 
    @media screen and (max-width: 1000px) {
@@ -318,7 +318,7 @@ export default function Home({ noobProHacker }: InferGetStaticPropsType<typeof g
                                        src={renameToWebp(item.line_details[line].image_url)}
                                        style={{ objectFit: 'cover' }}
                                        fill
-                                       sizes="800px"
+                                       sizes="900px"
                                        alt={line}
                                     />
                                  </ImageBox>
