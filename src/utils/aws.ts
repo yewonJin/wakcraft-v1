@@ -68,6 +68,6 @@ export const hideFolder = (arr: _Object[]) => {
 };
 
 export const hideWebp = (arr: _Object[]) => {
-   return arr.filter(item => item.Key?.split('.')[1] !== 'webp');
+   return arr.filter(item => item.Key?.split('.')[2] !== 'webp' && item.Key?.split('.')[1] !== 'webp');
 };
 
