@@ -48,14 +48,16 @@ const CategoryItem = styled.li<{ contentState: number; index: number }>`
 `;
 
 export default function Portfolio({ info }: { info: Architect }) {
-   const [contentState, setContentState] = useState(0);
+   const [contentState, setContentState] = useState(initializeContentState(info));
 
    return (
       <Layout>
          <Category>
             <Divider />
             {['눕프로해커', '배치고사', '이벤트 눕프핵'].map((item, index) => {
-               if (info.portfolio[categoryList[index]].length === 0) return;
+               if (info.portfolio[categoryList[index]].length === 0) {
+                  return;
+               }
 
                return (
                   <Fragment key={item}>
@@ -77,6 +79,18 @@ export default function Portfolio({ info }: { info: Architect }) {
       </Layout>
    );
 }
+
+const initializeContentState = (info: Architect) => {
+   if (info.portfolio.noobProHacker.length > 0) {
+      return 0;
+   } else {
+      if (info.portfolio.placementTest.length > 0) {
+         return 1;
+      } else {
+         return 2;
+      }
+   }
+};
 
 const categoryList: ('noobProHacker' | 'placementTest' | 'eventNoobProHacker')[] = [
    'noobProHacker',
