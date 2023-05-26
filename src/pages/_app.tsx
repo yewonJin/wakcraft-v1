@@ -4,7 +4,7 @@ import { RecoilRoot } from 'recoil';
 import type { AppProps } from 'next/app';
 
 import '@/styles/globals.css';
-import NavBar from '@/components/Navbar';
+import TopNav from '@/components/TopNav';
 
 export default function App({ Component, pageProps }: AppProps) {
    const [client] = useState(() => new QueryClient());
@@ -13,7 +13,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <QueryClientProvider client={client}>
          <Hydrate state={pageProps.dehydratedState}>
             <RecoilRoot>
-               <NavBar />
+               <TopNav />
                <Component {...pageProps} />
             </RecoilRoot>
          </Hydrate>

@@ -6,13 +6,13 @@ import styled from 'styled-components';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { AiOutlineClose } from 'react-icons/ai';
 
-const Container = styled.nav<{ pos: boolean }>`
+const Container = styled.nav<{ isScrolled: boolean }>`
    width: 100%;
    position: fixed;
    display: flex;
    height: 80px;
    color: white;
-   background-color: ${props => (props.pos ? 'rgba(16, 16, 16, 0.9)' : 'rgba(16, 16, 16, 0)')};
+   background-color: ${props => (props.isScrolled ? 'rgba(16, 16, 16, 0.9)' : 'rgba(16, 16, 16, 0)')};
    z-index: 10;
 
    @media screen and (max-width: 1000px) {
@@ -26,7 +26,7 @@ const Title = styled.h2`
    font-weight: 600;
 `;
 
-const SubContainer = styled.div`
+const NavList = styled.div`
    width: 1200px;
    margin: 0px auto;
    display: flex;
@@ -85,42 +85,39 @@ const MenuBox = styled.div<{ isOpened: boolean }>`
    }
 `;
 
-export default function NavBar() {
+export default function TopNav() {
    const router = useRouter();
 
    const [position, setPosition] = useState(0);
-   const [lastScroll, setLastScroll] = useState(0);
-   const [pos, setPos] = useState(false);
+   const [isScrolled, setIsScrolled] = useState(false);
 
    const [isOpened, setIsOpened] = useState(false);
 
    const onScroll = () => {
       setPosition(window.scrollY);
 
-      if (Math.abs(lastScroll - position) <= 30) return;
-
-      if (position > lastScroll && lastScroll > 0) {
-         setPos(true);
+      if (position > 0) {
+         setIsScrolled(true);
       } else {
-         setPos(false);
+         setIsScrolled(false);
       }
-      setLastScroll(window.scrollY);
    };
 
    useEffect(() => {
       onScroll();
 
       window.addEventListener('scroll', onScroll);
+
       return () => {
          window.removeEventListener('scroll', onScroll);
       };
-   }, [position, lastScroll]);
+   }, [position]);
 
    if (router.pathname === '/') {
       return (
-         <Container pos={pos}>
+         <Container isScrolled={isScrolled}>
             <Toaster />
-            <SubContainer>
+            <NavList>
                <Title>
                   <Link href={'/'}>WAKCRAFT</Link>
                </Title>
@@ -135,7 +132,7 @@ export default function NavBar() {
                      <AiOutlineClose onClick={() => setIsOpened(false)} />
                   )}
                </Menu>
-            </SubContainer>
+            </NavList>
             <MenuBox isOpened={isOpened}>
                <Link href={'/architect'} onClick={() => setIsOpened(false)}>
                   건축가
@@ -154,9 +151,9 @@ export default function NavBar() {
       );
    } else {
       return (
-         <Container pos={true}>
+         <Container isScrolled={true}>
             <Toaster />
-            <SubContainer>
+            <NavList>
                <Title>
                   <Link href={'/'}>WAKCRAFT</Link>
                </Title>
@@ -171,7 +168,7 @@ export default function NavBar() {
                      <AiOutlineClose onClick={() => setIsOpened(false)} />
                   )}
                </Menu>
-            </SubContainer>
+            </NavList>
             <MenuBox isOpened={isOpened}>
                <Link href={'/architect'} onClick={() => setIsOpened(false)}>
                   건축가
