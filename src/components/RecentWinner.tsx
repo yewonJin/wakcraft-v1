@@ -5,6 +5,7 @@ import TextBox from './Common/TextBox';
 import ImageInfo from './Common/ImageInfo';
 import { useQueryNoobProHackerRecentWinLine } from '@/services/noobProHackerAdapters';
 import { convertToRecentWin, renameTo1080Webp } from '@/domain/noobProHacker';
+import Skeleton from './Common/Skeleton';
 
 const Layout = styled.div`
    width: 1200px;
@@ -35,7 +36,25 @@ const ContentBox = styled.div<{ index: number; priority: number }>`
 export default function RecentWinner() {
    const data = useQueryNoobProHackerRecentWinLine();
 
-   if (!data) return <div>loading</div>;
+   if (!data)
+      return (
+         <Layout>
+            <TextBox
+               text={'최근 우승 작품'}
+               fontSize="26px"
+               lineHeight="40px"
+               fontWeight="500"
+               margin="0px 0px 30px 0px"
+            />
+            <ContentLayout>
+               {[...new Array(6).fill(0)].map((_, index) => (
+                  <ContentBox key={index} index={index} priority={index % 2}>
+                     <Skeleton key={'Skeleton' + index} width="100%" height="400px" borderRadius="10px" />
+                  </ContentBox>
+               ))}
+            </ContentLayout>
+         </Layout>
+      );
 
    return (
       <Layout>

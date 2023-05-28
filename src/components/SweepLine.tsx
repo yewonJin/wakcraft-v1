@@ -5,9 +5,10 @@ import Link from 'next/link';
 import { AiOutlineLeft, AiOutlineRight } from 'react-icons/ai';
 
 import TextBox from './Common/TextBox';
-import { convertToSweepLine, renameTo1080Webp } from '@/domain/noobProHacker';
+import { convertToSweepLine, renameTo1080Webp, renameToWebp } from '@/domain/noobProHacker';
 import { useQueryNoobProHackerSweepLine } from '@/services/noobProHackerAdapters';
 import { translateTier } from '@/utils/lib';
+import Skeleton from './Common/Skeleton';
 
 const Layout = styled.div`
    width: 100%;
@@ -169,12 +170,44 @@ const TextWrapper = styled.div<{ margin: string }>`
    margin: ${props => props.margin || '0px'};
 `;
 
+const SkeletonGroup = styled.div`
+   display: flex;
+   gap: 15px;
+   min-width: 100%;
+`;
+
 export default function MainInfo() {
    const data = useQueryNoobProHackerSweepLine();
 
    const [page, setPage] = useState(0);
 
-   if (!data) return <div>Loading</div>;
+   if (!data)
+      return (
+         <Layout>
+            <Box>
+               <TextBox
+                  text={'싹쓸이 라인'}
+                  fontSize="26px"
+                  lineHeight="40px"
+                  fontWeight="500"
+                  margin="0px 0px 30px 0px"
+               />
+               <List>
+                  <LineContainer>
+                     <SkeletonGroup>
+                        {[...new Array(3).fill(0)].map((_, index) => (
+                           <LineItem key={index}>
+                              <ImageBox>
+                                 <Skeleton key={'Skeleton' + index} width="100%" borderRadius="10px" />
+                              </ImageBox>
+                           </LineItem>
+                        ))}
+                     </SkeletonGroup>
+                  </LineContainer>
+               </List>
+            </Box>
+         </Layout>
+      );
 
    return (
       <Layout>
@@ -210,7 +243,7 @@ export default function MainInfo() {
                               <LineItem key={'line' + index}>
                                  <ImageBox onClick={() => window.open(item.line_details[line].image_url)}>
                                     <Image
-                                       src={renameTo1080Webp(item.line_details[line].image_url)}
+                                       src={renameToWebp(item.line_details[line].image_url)}
                                        style={{ objectFit: 'cover' }}
                                        fill
                                        sizes="900px"
