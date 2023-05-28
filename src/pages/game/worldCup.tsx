@@ -11,6 +11,7 @@ import Loading from '@/components/WorldCup/Loading';
 import SetRoundOfNumber from '@/components/WorldCup/SetRoundOfNumber';
 import Winner from '@/components/WorldCup/Winner';
 import { Button } from '@/components/Common/Button';
+import ImageInfo from '@/components/Common/ImageInfo';
 
 const Layout = styled.div`
    position: relative;
@@ -200,19 +201,7 @@ export default function WorldCup() {
                               alt="NoobProHacker Image"
                               src={renameTo1080Webp(item.image_url)}
                            />
-                           <InfoLayout>
-                              <InfoBox onClick={e => e.stopPropagation()}>
-                                 <YoutubeLink onClick={() => handleYoutubeClick(index)}>
-                                    <BsYoutube />
-                                 </YoutubeLink>
-                                 <TextBox
-                                    text={`${item.episode}회 : ` + item.subject}
-                                    fontSize="20px"
-                                    lineHeight="32px"
-                                 />
-                                 <TextBox text={item.minecraft_id} fontSize="18px" lineHeight="24px" color="#BABABA" />
-                              </InfoBox>
-                           </InfoLayout>
+                           <ImageInfo episode={item.episode} subject={item.subject} onClick={() => handleYoutubeClick(index)} minecraft_id={item.minecraft_id}/>
                         </ImageBox>
                      ))
                   )}
