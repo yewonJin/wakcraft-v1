@@ -61,3 +61,78 @@ export const createNoobProHackerObject = (): NoobProHacker => {
 export const lineWinnerIndex = (content: NoobProHacker) => {
    return content.lineInfo.findIndex(item => item.line_ranking == 1);
 };
+
+/** 눕프핵 정보를 싹슬이 라인 정보로 변환하는 함수 */
+export const convertToSweepLine = (arr: NoobProHacker[]): SweepLine[] => {
+   const sweepLineArr: SweepLine[] = [];
+
+   arr.forEach(item => {
+      const winnerLine = item.lineInfo.filter(line => line.line_ranking === 1)[0];
+
+      sweepLineArr.push({
+         episode: item.contentInfo.episode,
+         line_details: winnerLine.line_details,
+         line_ranking: winnerLine.line_ranking,
+         subject: winnerLine.subject,
+         youtube_url: winnerLine.youtube_url,
+      });
+   });
+
+   return sweepLineArr;
+};
+
+type SweepLine = {
+   episode: number;
+   line_details: NoobProHacker['lineInfo'][0]['line_details'];
+   line_ranking: number;
+   subject: string;
+   youtube_url: string;
+};
+
+/** 눕프핵 정보를 최근 3회 프로, 해커 정보로 바꾸기 */
+export const convertToRecentWin = (arr: NoobProHacker[]) => {
+   const recentWinArr: RecentWin[] = [];
+
+   arr.forEach(item => {
+      item.lineInfo.forEach(item2 => {
+         if (item2.line_details.pro.ranking === 1) {
+            recentWinArr.push({
+               episode: item.contentInfo.episode,
+               subject: item2.subject,
+               line: item2.line_details.pro,
+               priority: 0,
+            });
+         }
+
+         if (item2.line_details.hacker.ranking === 1) {
+            recentWinArr.push({
+               episode: item.contentInfo.episode,
+               subject: item2.subject,
+               line: item2.line_details.hacker,
+               priority: 1,
+            });
+         }
+      });
+   });
+
+   return recentWinArr.sort((a, b) => b.priority - a.priority).sort((a, b) => b.episode - a.episode);
+};
+
+type RecentWin = {
+   episode: number;
+   subject: string;
+   line: NoobProHacker['lineInfo'][0]['line_details']['pro'];
+   priority: number;
+};
+
+export const renameToWebp = (imageUrl: string) => {
+   const splitName = imageUrl.split('.');
+
+   return `${splitName.slice(0, splitName.length - 1).join('.')}.webp`;
+};
+
+export const renameTo1080Webp = (imageUrl: string) => {
+   const splitName = imageUrl.split('.');
+
+   return `${splitName.slice(0, splitName.length - 1).join('.')}.1080p.webp`;
+};

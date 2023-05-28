@@ -9,6 +9,7 @@ interface NoobProHackerModel extends Model<NoobProHacker> {
    updateArchitectId: (beforeId: string, afterId: string, tier: string) => Promise<NoobProHacker[]>;
    findHackerInfo: () => Promise<NoobProHacker[]>;
    findAllWinLine: () => Promise<NoobProHacker[]>;
+   findRecentWinLine: () => Promise<NoobProHacker[]>;
 }
 
 const noobProHackerSchema = new Schema({
@@ -146,6 +147,10 @@ noobProHackerSchema.statics.findAllWinLine = function () {
          },
       },
    ]);
+};
+
+noobProHackerSchema.statics.findRecentWinLine = function () {
+   return this.find({}).sort({ 'contentInfo.episode': -1 }).limit(3);
 };
 
 const NoobProHacker =

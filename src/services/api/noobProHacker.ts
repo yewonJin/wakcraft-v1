@@ -31,3 +31,11 @@ export const getAllWinLine = async () => {
       throw error;
    }
 };
+
+export const getRecentWinLine = async () => {
+   try {
+      return await fetch(`/api/noobProHacker?recentWinLine=true`).then(handleFetchData);
+   } catch (error) {
+      throw error;
+   }
+};
