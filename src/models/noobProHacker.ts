@@ -8,6 +8,7 @@ interface NoobProHackerModel extends Model<NoobProHacker> {
    findByEpisode: (episode: string) => Promise<NoobProHacker>;
    updateArchitectId: (beforeId: string, afterId: string, tier: string) => Promise<NoobProHacker[]>;
    findHackerInfo: () => Promise<NoobProHacker[]>;
+   findAllWinLine: () => Promise<NoobProHacker[]>;
 }
 
 const noobProHackerSchema = new Schema({
@@ -117,6 +118,30 @@ noobProHackerSchema.statics.findHackerInfo = function () {
             lineInfo: {
                subject: 1,
                'line_details.hacker': 1,
+            },
+         },
+      },
+   ]);
+};
+
+noobProHackerSchema.statics.findAllWinLine = function () {
+   return this.aggregate([
+      {
+         $match: {
+            lineInfo: {
+               $elemMatch: {
+                  $and: [
+                     {
+                        'line_details.pro.ranking': 1,
+                     },
+                     {
+                        'line_details.hacker.ranking': 1,
+                     },
+                     {
+                        line_ranking: 1,
+                     },
+                  ],
+               },
             },
          },
       },

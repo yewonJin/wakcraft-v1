@@ -23,3 +23,11 @@ export const getNoobProHackerById = async (id: string) => {
       throw error;
    }
 };
+
+export const getAllWinLine = async () => {
+   try {
+      return await fetch(`/api/noobProHacker?allWinLine=true`).then(handleFetchData);
+   } catch (error) {
+      throw error;
+   }
+};

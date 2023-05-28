@@ -6,16 +6,28 @@ import { convertToArchitect } from '@/services/noobProHackerAdapters';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
    if (req.method === 'GET') {
-      const { episode } = req.query;
+      if (req.query.allWinLine) {
+         try {
+            await connectMongo();
 
-      try {
-         await connectMongo();
+            await NoobProHacker.findAllWinLine().then(noobProHacker => {
+               res.status(200).json(noobProHacker);
+            });
+         } catch {
+            res.status(400).json({ error: 'fetch error' });
+         }
+      } else if (req.query.episode) {
+         const { episode } = req.query;
 
-         await NoobProHacker.findByEpisode(episode as string).then(noobProHacker => {
-            res.status(200).json(noobProHacker);
-         });
-      } catch {
-         res.status(400).json({ error: 'fetch error' });
+         try {
+            await connectMongo();
+
+            await NoobProHacker.findByEpisode(episode as string).then(noobProHacker => {
+               res.status(200).json(noobProHacker);
+            });
+         } catch {
+            res.status(400).json({ error: 'fetch error' });
+         }
       }
    } else if (req.method === 'POST') {
       const architectsInfo = convertToArchitect(req);
@@ -25,7 +37,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       await NoobProHacker.create(req.body);
 
       try {
-
          res.status(200).json('DB에 추가 했습니다.');
       } catch (e) {
          res.status(400).json({ error: 'DB에 추가 하지 못했습니다.' });

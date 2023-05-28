@@ -2,7 +2,7 @@ import { UseQueryResult, useMutation, useQuery } from 'react-query';
 import { toast } from 'react-hot-toast';
 import { useRouter } from 'next/router';
 
-import { addNoobProHacker, getNoobProHackerById } from './api/noobProHacker';
+import { addNoobProHacker, getAllWinLine, getNoobProHackerById } from './api/noobProHacker';
 import { NoobProHacker } from '@/domain/noobProHacker';
 import { Architect } from '@/domain/architect';
 
@@ -37,14 +37,42 @@ export const useQueryNoobProHacker = () => {
    return result;
 };
 
-/** 눕프핵 정보를 건축가 정보로 변환하는 함수 */
+export const useQueryNoobProHackerSweepLine = () => {
+   const { data: result }: UseQueryResult<NoobProHacker[]> = useQuery('getAllWinLine', () => getAllWinLine(), {
+      refetchOnWindowFocus: false,
+   });
 
-type ArchitectsInfo = {
-   minecraft_id: string;
-   portfolio: Pick<Architect['portfolio'], 'noobProHacker'>;
+   return result;
 };
 
-type Line = 'noob' | 'pro' | 'hacker';
+/** 눕프핵 정보를 싹슬이 라인 정보로 변환하는 함수 */
+export const convertToSweepLine = (arr: NoobProHacker[]): SweepLine[] => {
+   const sweepLineArr: SweepLine[] = [];
+
+   arr.forEach(item => {
+      const winnerLine = item.lineInfo.filter(line => line.line_ranking === 1)[0];
+
+      sweepLineArr.push({
+         episode: item.contentInfo.episode,
+         line_details: winnerLine.line_details,
+         line_ranking: winnerLine.line_ranking,
+         subject: winnerLine.subject,
+         youtube_url: winnerLine.youtube_url,
+      });
+   });
+
+   return sweepLineArr;
+};
+
+type SweepLine = {
+   episode: number;
+   line_details: NoobProHacker['lineInfo'][0]['line_details'];
+   line_ranking: number;
+   subject: string;
+   youtube_url: string;
+};
+
+/** 눕프핵 정보를 건축가 정보로 변환하는 함수 */
 
 export const convertToArchitect = (req: { body: NoobProHacker }) => {
    const { contentInfo, lineInfo } = req.body;
@@ -74,6 +102,13 @@ export const convertToArchitect = (req: { body: NoobProHacker }) => {
    return architectsInfo;
 };
 
+type ArchitectsInfo = {
+   minecraft_id: string;
+   portfolio: Pick<Architect['portfolio'], 'noobProHacker'>;
+};
+
+type Line = 'noob' | 'pro' | 'hacker';
+
 export const renameToWebp = (imageUrl: string) => {
    const splitName = imageUrl.split('.');
 
@@ -81,7 +116,7 @@ export const renameToWebp = (imageUrl: string) => {
 };
 
 export const renameTo1080Webp = (imageUrl: string) => {
-   const splitName = imageUrl.split('.')
+   const splitName = imageUrl.split('.');
 
-   return `${splitName.slice(0, splitName.length - 1).join('.')}.1080p.webp`
-}
+   return `${splitName.slice(0, splitName.length - 1).join('.')}.1080p.webp`;
+};
