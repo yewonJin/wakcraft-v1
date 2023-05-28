@@ -1,14 +1,12 @@
 import styled from 'styled-components';
 import { useState } from 'react';
-import { UseQueryResult, useQuery } from 'react-query';
 import Image from 'next/image';
 import Link from 'next/link';
 import { AiOutlineLeft, AiOutlineRight } from 'react-icons/ai';
 
 import TextBox from './Common/TextBox';
-import { getAllWinLine } from '@/services/api/noobProHacker';
-import { NoobProHacker } from '@/domain/noobProHacker';
-import { convertToSweepLine, renameTo1080Webp, useQueryNoobProHackerSweepLine } from '@/services/noobProHackerAdapters';
+import { convertToSweepLine, renameTo1080Webp } from '@/domain/noobProHacker';
+import { useQueryNoobProHackerSweepLine } from '@/services/noobProHackerAdapters';
 import { translateTier } from '@/utils/lib';
 
 const Layout = styled.div`

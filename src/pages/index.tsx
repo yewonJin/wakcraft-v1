@@ -10,8 +10,10 @@ import connectMongo from '@/utils/connectMongo';
 import NoobProHacker from '@/models/noobProHacker';
 import TextBox from '@/components/Common/TextBox';
 import { translateTier } from '@/utils/lib';
-import { lineWinnerIndex } from '@/domain/noobProHacker';
-import { renameToWebp } from '@/services/noobProHackerAdapters';
+import { lineWinnerIndex, renameToWebp } from '@/domain/noobProHacker';
+import MainInfo from '@/components/MainInfo';
+import SweepLine from '@/components/SweepLine';
+import RecentWinner from '@/components/RecentWinner';
 
 const Layout = styled.main``;
 
@@ -167,7 +169,7 @@ const LineList = styled.ul<{ line: number }>`
 
 const LineGroup = styled.div`
    display: flex;
-   gap: 50px;
+   justify-content: space-between;
    min-width: 100%;
 
    @media screen and (max-width: 1000px) {
@@ -178,12 +180,12 @@ const LineGroup = styled.div`
 
 const LineItem = styled.div`
    position: relative;
-   width: 350px;
+   width: 370px;
    height: 500px;
    padding-bottom: 20px;
 
    @media screen and (max-width: 1400px) {
-      width: 33%;
+      width: 30%;
       height: 100%;
    }
 
@@ -204,7 +206,7 @@ const ImageBox = styled.div`
    background-color: rgba(255, 255, 255, 0.5);
 
    @media screen and (min-width: 1400px) {
-      width: 350px;  
+      width: 370px;
       height: 450px;
    }
 
@@ -250,7 +252,7 @@ const TextContainer = styled.div`
          font-size: 14px;
       }
    }
-   `;
+`;
 
 const lineArr: ('noob' | 'pro' | 'hacker')[] = ['noob', 'pro', 'hacker'];
 
@@ -265,7 +267,6 @@ export const getStaticProps: GetStaticProps<{ noobProHacker: NoobProHacker[] }> 
       },
    };
 };
-
 
 export default function Home({ noobProHacker }: InferGetStaticPropsType<typeof getStaticProps>) {
    const [line, setLine] = useState(lineWinnerIndex(noobProHacker[0]));
@@ -349,6 +350,9 @@ export default function Home({ noobProHacker }: InferGetStaticPropsType<typeof g
                   </LineList>
                </LineContainer>
             </ContentBox>
+            <MainInfo />
+            <RecentWinner />
+            <SweepLine />
          </Layout>
       </>
    );

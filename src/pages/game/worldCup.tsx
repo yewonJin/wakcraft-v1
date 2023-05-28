@@ -6,12 +6,12 @@ import { useRouter } from 'next/router';
 
 import TextBox from '@/components/Common/TextBox';
 import { usePlayWorldCup } from '@/application/playWorldCup';
-import { renameTo1080Webp } from '@/services/noobProHackerAdapters';
 import Loading from '@/components/WorldCup/Loading';
 import SetRoundOfNumber from '@/components/WorldCup/SetRoundOfNumber';
 import Winner from '@/components/WorldCup/Winner';
 import { Button } from '@/components/Common/Button';
 import ImageInfo from '@/components/Common/ImageInfo';
+import { renameTo1080Webp } from '@/domain/noobProHacker';
 
 const Layout = styled.div`
    position: relative;
@@ -55,49 +55,6 @@ const ImageBox = styled.div<{ clickedNumber: number; curRound: number; index: nu
 
    scale: ${props => (props.clickedNumber === props.index ? '1.2' : '1')};
    z-index: ${props => (props.clickedNumber === props.index ? '3' : '1')};
-`;
-
-const InfoLayout = styled.div`
-   position: absolute;
-   display: flex;
-   justify-content: center;
-   width: 100%;
-   bottom: 20px;
-`;
-
-const InfoBox = styled.div`
-   display: flex;
-   gap: 15px;
-   align-items: center;
-   background-color: rgba(0, 0, 0, 0.8);
-   padding: 2px 15px;
-   border-radius: 10px;
-`;
-
-const YoutubeLink = styled.span`
-   display: flex;
-   justify-content: center;
-   align-items: center;
-
-   :hover {
-      cursor: pointer;
-      scale: 1.02;
-   }
-
-   > svg {
-      z-index: 3;
-      padding-top: 3px;
-      font-size: 2.7rem;
-      color: red;
-   }
-
-   ::after {
-      content: '';
-      position: absolute;
-      width: 12px;
-      height: 12px;
-      background-color: white;
-   }
 `;
 
 const TextWrapper = styled.div`

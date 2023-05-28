@@ -2,7 +2,7 @@ import Image from 'next/image';
 import styled from 'styled-components';
 
 import { WorldCupItem } from '@/services/worldCupAdapters';
-import { renameTo1080Webp } from '@/services/noobProHackerAdapters';
+import { renameTo1080Webp } from '@/domain/noobProHacker';
 
 const ImageBox = styled.div`
    position: relative;

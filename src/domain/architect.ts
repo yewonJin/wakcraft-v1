@@ -1,3 +1,5 @@
+import { NoobProHacker } from "./noobProHacker";
+
 type Line = 'noob' | 'pro' | 'hacker';
 
 export type Tier =
@@ -91,4 +93,39 @@ export const convertLineTierToTier = (req: string) => {
    else if (req === 'gyeruik') return createTierArray().slice(8, 10);
    else if (req === 'noob') return createTierArray().slice(10, 14);
    else return createTierArray().slice(14);
+};
+
+/** 눕프핵 정보를 건축가 정보로 변환하는 함수 */
+
+export const convertToArchitect = (req: { body: NoobProHacker }) => {
+   const { contentInfo, lineInfo } = req.body;
+
+   const architectsInfo: ArchitectsInfo[] = [];
+
+   lineInfo.forEach(line => {
+      for (const key in line.line_details) {
+         const portfolioInfo: Architect['portfolio']['noobProHacker'][0] = {
+            episode: contentInfo.episode,
+            subject: line.subject,
+            line: key as Line,
+            image_url: line.line_details[key as Line].image_url,
+            youtube_url: line.line_details[key as Line].youtube_url,
+            ranking: line.line_details[key as Line].ranking,
+         };
+
+         architectsInfo.push({
+            minecraft_id: line.line_details[key as Line].minecraft_id,
+            portfolio: {
+               noobProHacker: [portfolioInfo],
+            },
+         });
+      }
+   });
+
+   return architectsInfo;
+};
+
+type ArchitectsInfo = {
+   minecraft_id: string;
+   portfolio: Pick<Architect['portfolio'], 'noobProHacker'>;
 };

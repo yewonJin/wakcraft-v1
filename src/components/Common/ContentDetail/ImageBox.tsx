@@ -1,8 +1,7 @@
 import Image from 'next/image';
 import styled from 'styled-components';
 import YoutubeLink from './YoutubeLink';
-import { renameToWebp } from '@/services/noobProHackerAdapters';
-
+import { renameToWebp } from '@/domain/noobProHacker';
 
 const Layout = styled.div`
    position: relative;
