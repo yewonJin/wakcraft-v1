@@ -102,6 +102,10 @@ const Category = styled.ul`
    margin-bottom: 60px;
    font-weight: 500;
 
+   @media screen and (max-width: 1400px) {
+      margin: 35px 0px;
+   }
+
    @media screen and (max-width: 1000px) {
       margin: 22px 0px;
    }
@@ -179,12 +183,10 @@ const LineGroup = styled.div`
 
 const LineItem = styled.div`
    position: relative;
-   width: 100%;
    height: 500px;
    padding-bottom: 20px;
 
    @media screen and (max-width: 1400px) {
-      width: 30%;
       height: 100%;
    }
 
@@ -193,16 +195,12 @@ const LineItem = styled.div`
       padding-bottom: 10px;
    }
 
-   @media (min-width: 1200px) and (max-height: 900px) {
-      min-width: 30%;
-      height: auto;
-   }
 `;
 
 const ImageBox = styled.div`
    position: relative;
-   width: 100%;
-   aspect-ratio: 3/3.6;
+   width: 26vw;
+   aspect-ratio: 3/3.4;
    background-color: rgba(255, 255, 255, 0.5);
 
    @media screen and (min-width: 1400px) {
@@ -211,12 +209,8 @@ const ImageBox = styled.div`
    }
 
    @media screen and (max-width: 1000px) {
+      width: 100%;
       aspect-ratio: 16/9;
-   }
-
-   @media (min-width: 1200px) and (max-height: 900px) {
-      aspect-ratio: 4/3;
-      height: auto;
    }
 
    > img {

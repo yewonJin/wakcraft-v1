@@ -52,7 +52,7 @@ const ContentBox = styled.div<{ index: number; priority: number }>`
 
    @media screen and (max-width: 1000px) {
       width: 100%;
-      height: 50vw;
+      height: 53vw;
       grid-column: span 3;
       order: ${props => props.index};
    }

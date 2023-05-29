@@ -9,6 +9,10 @@ const InfoLayout = styled.div`
    justify-content: center;
    width: 100%;
    bottom: 20px;
+
+   @media screen and (max-width: 1000px) {
+      bottom: 10px;
+   }
 `;
 
 const InfoBox = styled.div`
@@ -21,11 +25,11 @@ const InfoBox = styled.div`
 
    @media screen and (max-width: 1000px) {
       > h2:nth-child(2) {
-         font-size: 18px;
+         font-size: 16px;
          line-height: 24px;
       }
       > h2:nth-child(3) {
-         font-size: 16px;
+         font-size: 14px;
          line-height: 24px;
       }
    }
