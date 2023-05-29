@@ -179,6 +179,8 @@ const LineGroup = styled.div`
       flex-direction: column;
       gap: 10px;
    }
+
+
 `;
 
 const LineItem = styled.div`
@@ -193,6 +195,10 @@ const LineItem = styled.div`
    @media screen and (max-width: 1000px) {
       width: 100%;
       padding-bottom: 10px;
+   }
+
+   @media (min-width: 1300px) and (max-height: 850px) {
+      height: auto;
    }
 
 `;
@@ -211,6 +217,12 @@ const ImageBox = styled.div`
    @media screen and (max-width: 1000px) {
       width: 100%;
       aspect-ratio: 16/9;
+   }
+
+   @media (min-width: 1300px) and (max-height: 850px) {
+      height: auto;
+      aspect-ratio: 3/3;
+      
    }
 
    > img {
