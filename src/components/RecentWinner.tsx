@@ -10,8 +10,11 @@ import Skeleton from './Common/Skeleton';
 const Layout = styled.div`
    width: 1200px;
    margin: 0px auto;
-   height: 1400px;
    margin-top: 120px;
+
+   @media screen and (max-width: 1400px) {
+      width: 90%;
+   }
 `;
 
 const ContentLayout = styled.div`
@@ -19,6 +22,18 @@ const ContentLayout = styled.div`
    display: grid;
    grid-template-columns: repeat(5, 1fr);
    gap: 15px;
+
+   @media screen and (max-width: 1200px) {
+      grid-template-columns: repeat(3, 1fr);
+      
+      > div:nth-child(2n-1) {
+         margin-top: 60px;
+      }
+
+      > div:nth-child(1) {
+         margin-top: 0px;
+      }
+   }
 `;
 
 const ContentBox = styled.div<{ index: number; priority: number }>`
@@ -27,6 +42,12 @@ const ContentBox = styled.div<{ index: number; priority: number }>`
    grid-column: ${props => (props.priority == 0 ? 'span 2' : 'span 3')};
    order: ${props => props.index};
    order: ${props => (props.index == 2 ? '3' : props.index == 3 ? '2' : '')};
+
+   @media screen and (max-width: 1200px) {
+      grid-column: span 3;
+      order: ${props => props.index};
+
+   }
 
    > img {
       border-radius: 20px;

@@ -5,8 +5,18 @@ import TextBox from './Common/TextBox';
 const Layout = styled.div`
    width: 1200px;
    margin: 0px auto;
-   height: 850px;
    padding-top: 160px;
+
+   @media screen and (max-width: 1400px) {
+      width: 90%;
+
+      > h2:nth-child(1) {
+         font-size: 20px;
+      }
+      > h2:nth-child(2), h2:nth-child(3) {
+         font-size: 18px;
+      }
+   }
 `;
 
 const Main = styled.main`
@@ -19,6 +29,15 @@ const Main = styled.main`
       'a b c d d'
       'a f g g g';
    margin-top: 35px;
+
+   @media screen and (max-width: 1400px) {
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(3, 1fr);
+      grid-template-areas:
+         'a b c'
+         'a f d'
+         'g g g';
+   }
 `;
 
 const Box = styled.div<{ area: string }>`
@@ -39,7 +58,6 @@ const TextWrapper = styled.div<{ flexDirection?: string }>`
 `;
 
 export default function MainInfo() {
-
    return (
       <Layout>
          <TextBox text={'눕프로해커'} fontSize="32px" lineHeight="48px" fontWeight="500" />

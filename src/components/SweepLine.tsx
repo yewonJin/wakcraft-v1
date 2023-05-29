@@ -12,18 +12,27 @@ import Skeleton from './Common/Skeleton';
 
 const Layout = styled.div`
    width: 100%;
+   margin: 0px auto;
    margin-top: 120px;
-   height: 800px;
+
+   @media screen and (max-width: 1200px) {
+      width: 90%;
+   }
 `;
 
 const Box = styled.div`
    position: relative;
    width: 1200px;
    margin: 0px auto;
+
+   @media screen and (max-width: 1200px) {
+      width: 100%;
+   }
 `;
 
 const List = styled.div`
    display: flex;
+   width: 100%;
 `;
 
 const LineContainer = styled.div`
@@ -31,8 +40,8 @@ const LineContainer = styled.div`
    width: 100%;
    overflow: hidden;
 
-   @media screen and (max-width: 1400px) {
-      width: 90%;
+   @media screen and (max-width: 1200px) {
+      width: 100%;
    }
 
    @media screen and (min-width: 1000px) {
@@ -49,11 +58,13 @@ const LineGroup = styled.div`
 
 const LineList = styled.ul<{ line: number }>`
    display: flex;
+   width: 100%;
    gap: 30px;
    transition-duration: 300ms;
    transform: ${props => `translateX(${props.line * -1200}px)`};
 
-   @media screen and (max-width: 1400px) {
+   @media screen and (max-width: 1200px) {
+      flex-direction: column;
       width: 100%;
       height: 100%;
       gap: 0px;
@@ -67,14 +78,9 @@ const LineItem = styled.div`
    height: 500px;
    padding-bottom: 20px;
 
-   @media screen and (max-width: 1400px) {
-      width: 33%;
-      height: 100%;
-   }
-
-   @media screen and (max-width: 1000px) {
+   @media screen and (max-width: 1200px) {
       width: 100%;
-      padding-bottom: 10px;
+      height: 100%;
    }
 
    @media screen and (max-height: 900px) {
@@ -88,7 +94,7 @@ const ImageBox = styled.div`
    aspect-ratio: 3/3.6;
    background-color: #ccc;
 
-   @media screen and (min-width: 1400px) {
+   @media screen and (min-width: 1200px) {
       width: 380px;
       height: 450px;
    }
@@ -105,6 +111,11 @@ const ImageBox = styled.div`
       :hover {
          scale: 1.02;
          cursor: pointer;
+      }
+      object-fit: cover;
+
+      @media screen and (min-width: 1400px) {
+         object-fit: '';
       }
    }
 `;
@@ -147,10 +158,8 @@ const ButtonBox = styled.div<{ position: 'left' | 'right'; page: number; lastPag
          : 'flex'};
    justify-content: center;
    align-items: center;
-   top: 50%;
-   left: ${props => (props.position === 'left' ? '-70px' : '')};
-   right: ${props => (props.position === 'right' ? '-70px' : '')};
-   transform: translateY(-50%);
+   top: 0px;
+   right: ${props => (props.position === 'right' ? '0px' : '80px')};
    width: 48px;
    height: 48px;
    border-radius: 30px;
@@ -160,6 +169,13 @@ const ButtonBox = styled.div<{ position: 'left' | 'right'; page: number; lastPag
    > svg {
       font-size: 1.3rem;
       color: #313131;
+   }
+
+   @media screen and (min-width: 1400px) {
+      top: 50%;
+      left: ${props => (props.position === 'left' ? '-70px' : '')};
+      right: ${props => (props.position === 'right' ? '-70px' : '')};
+      transform: translateY(-50%);
    }
 `;
 
@@ -244,7 +260,6 @@ export default function MainInfo() {
                                  <ImageBox onClick={() => window.open(item.line_details[line].image_url)}>
                                     <Image
                                        src={renameToWebp(item.line_details[line].image_url)}
-                                       style={{ objectFit: 'cover' }}
                                        fill
                                        sizes="900px"
                                        alt={line}
