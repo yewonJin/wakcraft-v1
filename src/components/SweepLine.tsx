@@ -17,6 +17,7 @@ const Layout = styled.div`
 
    @media screen and (max-width: 1200px) {
       width: 90%;
+      margin-top: 60px;
    }
 `;
 
@@ -27,6 +28,11 @@ const Box = styled.div`
 
    @media screen and (max-width: 1200px) {
       width: 100%;
+
+      > h2 {
+         font-size: 22px;
+         line-height: 32px;
+      }
    }
 `;
 
@@ -159,23 +165,29 @@ const ButtonBox = styled.div<{ position: 'left' | 'right'; page: number; lastPag
    justify-content: center;
    align-items: center;
    top: 0px;
-   right: ${props => (props.position === 'right' ? '0px' : '80px')};
-   width: 48px;
-   height: 48px;
+   right: ${props => (props.position === 'right' ? '0px' : '60px')};
+   width: 36px;
+   height: 36px;
    border-radius: 30px;
    background-color: #ddd;
    cursor: pointer;
 
    > svg {
-      font-size: 1.3rem;
+      font-size: 1rem;
       color: #313131;
    }
 
    @media screen and (min-width: 1400px) {
+      width: 48px;
+      height: 48px;
       top: 50%;
       left: ${props => (props.position === 'left' ? '-70px' : '')};
       right: ${props => (props.position === 'right' ? '-70px' : '')};
       transform: translateY(-50%);
+
+      > svg {
+         font-size: 1.3rem;
+      }
    }
 `;
 

@@ -9,12 +9,17 @@ const Layout = styled.div`
 
    @media screen and (max-width: 1400px) {
       width: 90%;
+   }
+
+   @media screen and (max-width: 1000px) {
+      padding-top: 60px;
 
       > h2:nth-child(1) {
-         font-size: 20px;
+         font-size: 24px;
       }
-      > h2:nth-child(2), h2:nth-child(3) {
-         font-size: 18px;
+      > h2:nth-child(2),
+      > h2:nth-child(3) {
+         font-size: 14px;
       }
    }
 `;
@@ -37,6 +42,16 @@ const Main = styled.main`
          'a b c'
          'a f d'
          'g g g';
+   }
+
+   @media screen and (max-width: 1000px) {
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(4, 1fr);
+      grid-template-areas:
+         'a b'
+         'a f'
+         'c d'
+         'g g';
    }
 `;
 

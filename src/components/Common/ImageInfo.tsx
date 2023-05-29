@@ -1,7 +1,7 @@
-import { BsYoutube } from 'react-icons/bs';
 import styled from 'styled-components';
+import { BsYoutube } from 'react-icons/bs';
+
 import TextBox from './TextBox';
-import { MouseEvent } from 'react';
 
 const InfoLayout = styled.div`
    position: absolute;
@@ -18,6 +18,17 @@ const InfoBox = styled.div`
    background-color: rgba(0, 0, 0, 0.8);
    padding: 2px 15px;
    border-radius: 10px;
+
+   @media screen and (max-width: 1000px) {
+      > h2:nth-child(2) {
+         font-size: 18px;
+         line-height: 24px;
+      }
+      > h2:nth-child(3) {
+         font-size: 16px;
+         line-height: 24px;
+      }
+   }
 `;
 
 const YoutubeLink = styled.span`
@@ -43,6 +54,12 @@ const YoutubeLink = styled.span`
       width: 12px;
       height: 12px;
       background-color: white;
+   }
+
+   @media screen and (max-width: 1000px) {
+      > svg {
+         font-size: 2.2rem;
+      }
    }
 `;
 

@@ -39,7 +39,6 @@ const ContentBox = styled.main`
 
    @media screen and (max-height: 900px) {
       padding-top: 100px;
-      height: auto;
    }
 `;
 
@@ -180,7 +179,7 @@ const LineGroup = styled.div`
 
 const LineItem = styled.div`
    position: relative;
-   width: 370px;
+   width: 100%;
    height: 500px;
    padding-bottom: 20px;
 
@@ -194,7 +193,8 @@ const LineItem = styled.div`
       padding-bottom: 10px;
    }
 
-   @media screen and (max-height: 900px) {
+   @media (min-width: 1200px) and (max-height: 900px) {
+      min-width: 30%;
       height: auto;
    }
 `;
@@ -214,7 +214,8 @@ const ImageBox = styled.div`
       aspect-ratio: 16/9;
    }
 
-   @media screen and (max-height: 900px) {
+   @media (min-width: 1200px) and (max-height: 900px) {
+      aspect-ratio: 4/3;
       height: auto;
    }
 

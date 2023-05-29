@@ -15,6 +15,13 @@ const Layout = styled.div`
    @media screen and (max-width: 1400px) {
       width: 90%;
    }
+
+   @media screen and (max-width: 1000px) {
+      margin-top: 60px;
+      > h2 {
+         font-size: 22px;
+      }
+   }
 `;
 
 const ContentLayout = styled.div`
@@ -23,7 +30,7 @@ const ContentLayout = styled.div`
    grid-template-columns: repeat(5, 1fr);
    gap: 15px;
 
-   @media screen and (max-width: 1200px) {
+   @media screen and (max-width: 1000px) {
       grid-template-columns: repeat(3, 1fr);
       
       > div:nth-child(2n-1) {
@@ -43,10 +50,11 @@ const ContentBox = styled.div<{ index: number; priority: number }>`
    order: ${props => props.index};
    order: ${props => (props.index == 2 ? '3' : props.index == 3 ? '2' : '')};
 
-   @media screen and (max-width: 1200px) {
+   @media screen and (max-width: 1000px) {
+      width: 100%;
+      height: 50vw;
       grid-column: span 3;
       order: ${props => props.index};
-
    }
 
    > img {
