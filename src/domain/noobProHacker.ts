@@ -62,6 +62,14 @@ export const lineWinnerIndex = (content: NoobProHacker) => {
    return content.lineInfo.findIndex(item => item.line_ranking == 1);
 };
 
+export const getLineWinnerSubject = (arr: NoobProHacker) => {
+   return arr.lineInfo.filter(line => line.line_ranking === 1)[0]?.subject ?? '없음';
+};
+
+export const getWinnerId = (arr: NoobProHacker, tier: 'pro' | 'hacker') => {
+   return arr.lineInfo.filter(line => line.line_details[tier].ranking === 1)[0].line_details[tier].minecraft_id;
+};
+
 /** 눕프핵 정보를 싹슬이 라인 정보로 변환하는 함수 */
 export const convertToSweepLine = (arr: NoobProHacker[]): SweepLine[] => {
    const sweepLineArr: SweepLine[] = [];

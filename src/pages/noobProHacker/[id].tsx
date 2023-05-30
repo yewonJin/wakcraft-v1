@@ -1,4 +1,3 @@
-import { Fragment } from 'react';
 import styled from 'styled-components';
 
 import { CommonLayout } from '@/components/Common/CommonLayout';
@@ -9,6 +8,8 @@ import TierBox from '@/components/Common/ContentDetail/TierBox';
 import ImageBox from '@/components/Common/ContentDetail/ImageBox';
 import InfoBox from '@/components/Common/ContentDetail/InfoBox';
 import RankingBox from '@/components/Common/ContentDetail/RankingBox';
+import YoutubeLink from '@/components/Common/ContentDetail/YoutubeLink';
+import { getLineWinnerSubject, getWinnerId } from '@/domain/noobProHacker';
 
 const ProfileBox = styled.div`
    position: relative;
@@ -39,8 +40,29 @@ const SkeletonBox = styled.div`
    }
 `;
 
+const Title = styled.div`
+   display: flex;
+   gap: 15px;
+   align-items: center;
+
+   > span {
+      padding-top: 5px;
+   }
+
+   > span > svg {
+      font-size: 2.3rem;
+   }
+`;
+
 const NoobProHackerLayout = styled.div`
-   margin-top: 10px;
+   margin-top: 40px;
+`;
+
+const LineBox = styled.div`
+   display: flex;
+   flex-direction: column;
+   gap: 16px;
+   margin-bottom: 40px;
 `;
 
 const PortFolioLayout = styled.div`
@@ -63,6 +85,37 @@ const ContentBox = styled.div`
    justify-content: space-between;
    align-items: center;
    gap: 10px;
+`;
+
+const TextWrapper = styled.div<{ margin?: string }>`
+   display: flex;
+   align-items: center;
+   gap: 10px;
+   margin: ${props => props.margin || ''};
+`;
+
+const Divider = styled.div`
+   width: 1px;
+   height: 24px;
+   background-color: #ddd;
+   margin: 0px 8px;
+`;
+
+const WinnerLayout = styled.div`
+   display: flex;
+   gap: 18px;
+   margin-top: 20px;
+`;
+
+const WinnerBox = styled.div`
+   min-width: 150px;
+   padding: 16px 16px;
+   align-items: center;
+   border-radius: 15px;
+   display: flex;
+   flex-direction: column;
+   gap: 6px;
+   background-color: #ddd;
 `;
 
 const lineArr: ('noob' | 'pro' | 'hacker')[] = ['noob', 'pro', 'hacker'];
@@ -89,47 +142,70 @@ export default function Page() {
       <CommonLayout>
          <TextBox
             text={'제 ' + data.contentInfo.episode + '회'}
-            fontSize="20px"
+            fontSize="22px"
             lineHeight="32px"
             color="#646464"
             margin="0px 0px 10px 0px"
          />
-         <TextBox
-            text={'눕프로해커 : ' + data.contentInfo.main_subject}
-            fontSize="24px"
-            lineHeight="32px"
-            fontWeight="500"
-         />
+         <Title>
+            <TextBox
+               text={'눕프로해커 : ' + data.contentInfo.main_subject}
+               fontSize="28px"
+               lineHeight="40px"
+               fontWeight="500"
+            />
+            <YoutubeLink url={data.contentInfo.youtube_url} />
+         </Title>
+         <WinnerLayout>
+            <WinnerBox>
+               <TextBox text="라인 우승" color="#646464" />
+               <TextBox text={getLineWinnerSubject(data)} fontWeight="500" />
+            </WinnerBox>
+            <WinnerBox>
+               <TextBox text="프로 우승" color="#646464" />
+               <TextBox text={getWinnerId(data, 'pro')} fontWeight="500" />
+            </WinnerBox>
+            <WinnerBox>
+               <TextBox text="해커 우승" color="#646464" />
+               <TextBox text={getWinnerId(data, 'hacker')}  fontWeight="500" />
+            </WinnerBox>
+         </WinnerLayout>
          <NoobProHackerLayout>
             {data.lineInfo.map((item, index) => (
-               <Fragment key={item.subject + index}>
-                  <TextBox
-                     text={index + 1 + '라인 : ' + item.subject}
-                     fontSize="20px"
-                     lineHeight="32px"
-                     margin="20px 0px 10px 0px"
-                  />
+               <LineBox key={item.subject + index}>
+                  <TextWrapper>
+                     <TextBox
+                        text={index + 1 + '라인'}
+                        fontSize="16px"
+                        fontWeight="400"
+                        lineHeight="24px"
+                        color="#646464"
+                     />
+                     <TextBox text={item.subject} fontSize="20px" fontWeight="500" lineHeight="32px" />
+                     <Divider></Divider>
+                     <TextWrapper>
+                        <TextBox text={item.line_ranking + '위'} fontSize="18px" fontWeight="500" lineHeight="24px" />
+                     </TextWrapper>
+                  </TextWrapper>
                   <PortFolioLayout>
                      {lineArr.map(line => (
-                        <Fragment key={line}>
-                           <PortFolioBox>
-                              <ImageBox
-                                 image_url={item.line_details[line].image_url}
-                                 youtube_url={item.line_details[line].youtube_url}
+                        <PortFolioBox key={item.subject + line}>
+                           <ImageBox
+                              image_url={item.line_details[line].image_url}
+                              youtube_url={item.line_details[line].youtube_url}
+                           />
+                           <ContentBox>
+                              <TierBox tier={line} />
+                              <InfoBox
+                                 topText="마인크래프트 아이디"
+                                 bottomText={item.line_details[line].minecraft_id}
                               />
-                              <ContentBox>
-                                 <TierBox tier={line} />
-                                 <InfoBox
-                                    topText="마인크래프트 아이디"
-                                    bottomText={item.line_details[line].minecraft_id}
-                                 />
-                                 <RankingBox ranking={item.line_details[line].ranking} />
-                              </ContentBox>
-                           </PortFolioBox>
-                        </Fragment>
+                              <RankingBox ranking={item.line_details[line].ranking} />
+                           </ContentBox>
+                        </PortFolioBox>
                      ))}
                   </PortFolioLayout>
-               </Fragment>
+               </LineBox>
             ))}
          </NoobProHackerLayout>
       </CommonLayout>
