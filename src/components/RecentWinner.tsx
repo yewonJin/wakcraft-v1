@@ -60,6 +60,18 @@ const ContentBox = styled.div<{ index: number; priority: number }>`
    > img {
       border-radius: 20px;
    }
+
+   :hover {
+      cursor: pointer;
+
+      > div {
+         cursor: auto;
+      }
+   }
+
+   :hover > img {
+      filter: brightness(0.9);
+   }
 `;
 
 export default function RecentWinner() {
@@ -78,7 +90,7 @@ export default function RecentWinner() {
             <ContentLayout>
                {[...new Array(6).fill(0)].map((_, index) => (
                   <ContentBox key={index} index={index} priority={index % 2}>
-                     <Skeleton key={'Skeleton' + index} width="100%" height="400px" borderRadius="10px" />
+                     <Skeleton key={'Skeleton' + index} width="800px" height="400px" borderRadius="10px" />
                   </ContentBox>
                ))}
             </ContentLayout>
@@ -97,7 +109,12 @@ export default function RecentWinner() {
          <ContentLayout>
             {convertToRecentWin(data).map((item, index) => {
                return (
-                  <ContentBox index={index} priority={item.priority} key={item.episode + item.line.minecraft_id}>
+                  <ContentBox
+                     onClick={() => window.open(item.line.image_url)}
+                     index={index}
+                     priority={item.priority}
+                     key={item.episode + item.line.minecraft_id}
+                  >
                      <Image
                         alt="image"
                         fill
