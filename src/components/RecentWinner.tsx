@@ -32,7 +32,7 @@ const ContentLayout = styled.div`
 
    @media screen and (max-width: 1000px) {
       grid-template-columns: repeat(3, 1fr);
-      
+
       > div:nth-child(2n-1) {
          margin-top: 60px;
       }
@@ -108,7 +108,7 @@ export default function RecentWinner() {
                         episode={item.episode}
                         subject={item.subject}
                         minecraft_id={item.line.minecraft_id}
-                        onClick={() => console.log('hi')}
+                        onClick={() => window.open(item.line.youtube_url)}
                      />
                   </ContentBox>
                );
