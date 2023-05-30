@@ -1,4 +1,3 @@
-import { Fragment } from 'react';
 import styled from 'styled-components';
 
 import { CommonLayout } from '@/components/Common/CommonLayout';
@@ -8,6 +7,8 @@ import ImageBox from '@/components/Common/ContentDetail/ImageBox';
 import InfoBox from '@/components/Common/ContentDetail/InfoBox';
 import RankingBox from '@/components/Common/ContentDetail/RankingBox';
 import { useQueryEventNoobProHacker } from '@/services/eventNoobProHackerAdapters';
+import YoutubeLink from '@/components/Common/ContentDetail/YoutubeLink';
+import { getLineWinnerSubject } from '@/domain/eventNoobProHacker';
 
 const ProfileBox = styled.div`
    position: relative;
@@ -38,8 +39,22 @@ const SkeletonBox = styled.div`
    }
 `;
 
-const NoobProHackerLayout = styled.div`
-   margin-top: 10px;
+const Title = styled.div`
+   display: flex;
+   gap: 15px;
+   align-items: center;
+
+   > span {
+      padding-top: 5px;
+   }
+
+   > span > svg {
+      font-size: 2.3rem;
+   }
+`;
+
+const Layout = styled.div`
+   margin-top: 40px;
 `;
 
 const PortFolioLayout = styled.div`
@@ -76,6 +91,27 @@ const TierBox = styled.span`
    background: #414141;
 `;
 
+const TextWrapper = styled.div<{ margin?: string }>`
+   display: flex;
+   align-items: center;
+   gap: 10px;
+   margin: ${props => props.margin || ''};
+`;
+
+const Divider = styled.div`
+   width: 1px;
+   height: 24px;
+   background-color: #ddd;
+   margin: 0px 8px;
+`;
+
+const LineBox = styled.div`
+   display: flex;
+   flex-direction: column;
+   gap: 16px;
+   margin-bottom: 60px;
+`;
+
 export default function Page() {
    const data = useQueryEventNoobProHacker();
 
@@ -96,33 +132,48 @@ export default function Page() {
 
    return (
       <CommonLayout>
-         <TextBox text={data.contentInfo.contentName} fontSize="24px" lineHeight="32px" fontWeight="500" />
-         <NoobProHackerLayout>
+         <Title>
+            <TextBox text={data.contentInfo.contentName} fontSize="28px" lineHeight="40px" fontWeight="500" />
+            <YoutubeLink url={data.contentInfo.youtube_url} />
+         </Title>
+         <Layout>
             {data.lineInfo.map((item, index) => (
-               <Fragment key={item.subject + index}>
-                  <TextBox
-                     text={index + 1 + '라인 : ' + item.subject}
-                     fontSize="20px"
-                     lineHeight="32px"
-                     margin="20px 0px 10px 0px"
-                  />
+               <LineBox key={item.subject + index}>
+                  <TextWrapper>
+                     <TextBox
+                        text={index + 1 + '라인'}
+                        fontSize="16px"
+                        fontWeight="400"
+                        lineHeight="24px"
+                        color="#646464"
+                     />
+                     <TextBox text={item.subject} fontSize="20px" fontWeight="500" lineHeight="32px" />
+                     <Divider></Divider>
+                     <TextWrapper>
+                        <TextBox text={item.line_ranking + '위'} fontSize="18px" fontWeight="500" lineHeight="24px" />
+                     </TextWrapper>
+                  </TextWrapper>
                   <PortFolioLayout>
                      {item.line_details.map(line => (
-                        <Fragment key={line.minecraft_id}>
-                           <PortFolioBox>
-                              <ImageBox image_url={line.image_url} youtube_url={line.youtube_url} />
-                              <ContentBox>
-                                 <TierBox>{line.line}</TierBox>
-                                 <InfoBox topText="마인크래프트 아이디" bottomText={line.minecraft_id} />
-                                 <RankingBox ranking={line.ranking} />
-                              </ContentBox>
-                           </PortFolioBox>
-                        </Fragment>
+                        <PortFolioBox key={line.minecraft_id}>
+                           <ImageBox image_url={line.image_url} youtube_url={line.youtube_url} />
+                           <ContentBox>
+                              <TierBox>{line.line}</TierBox>
+                              <InfoBox topText="마인크래프트 아이디" bottomText={line.minecraft_id} />
+                              <RankingBox ranking={line.ranking} />
+                           </ContentBox>
+                        </PortFolioBox>
                      ))}
                   </PortFolioLayout>
-               </Fragment>
+               </LineBox>
             ))}
-         </NoobProHackerLayout>
+         </Layout>
       </CommonLayout>
    );
+}
+
+export async function getServerSideProps({ params: { id } }: { params: { id: string } }) {
+   return {
+      props: {},
+   };
 }

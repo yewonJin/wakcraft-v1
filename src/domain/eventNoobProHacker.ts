@@ -47,3 +47,8 @@ export const createEventNoobProHackerObject = (): EventNoobProHacker => {
       ],
    };
 };
+
+export const getLineWinnerSubject = (arr: EventNoobProHacker) => {
+   return arr.lineInfo.filter(line => line.line_ranking === 1)[0].subject;
+};
+

@@ -199,3 +199,9 @@ export default function Page() {
       </CommonLayout>
    );
 }
+
+export async function getServerSideProps({ params: { id } }: { params: { id: string } }) {
+   return {
+      props: {},
+   };
+}

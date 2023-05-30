@@ -101,23 +101,6 @@ const Divider = styled.div`
    margin: 0px 8px;
 `;
 
-const WinnerLayout = styled.div`
-   display: flex;
-   gap: 18px;
-   margin-top: 20px;
-`;
-
-const WinnerBox = styled.div`
-   min-width: 150px;
-   padding: 16px 16px;
-   align-items: center;
-   border-radius: 15px;
-   display: flex;
-   flex-direction: column;
-   gap: 6px;
-   background-color: #ddd;
-`;
-
 const lineArr: ('noob' | 'pro' | 'hacker')[] = ['noob', 'pro', 'hacker'];
 
 export default function Page() {
@@ -156,20 +139,6 @@ export default function Page() {
             />
             <YoutubeLink url={data.contentInfo.youtube_url} />
          </Title>
-         <WinnerLayout>
-            <WinnerBox>
-               <TextBox text="라인 우승" color="#646464" />
-               <TextBox text={getLineWinnerSubject(data)} fontWeight="500" />
-            </WinnerBox>
-            <WinnerBox>
-               <TextBox text="프로 우승" color="#646464" />
-               <TextBox text={getWinnerId(data, 'pro')} fontWeight="500" />
-            </WinnerBox>
-            <WinnerBox>
-               <TextBox text="해커 우승" color="#646464" />
-               <TextBox text={getWinnerId(data, 'hacker')}  fontWeight="500" />
-            </WinnerBox>
-         </WinnerLayout>
          <NoobProHackerLayout>
             {data.lineInfo.map((item, index) => (
                <LineBox key={item.subject + index}>
@@ -210,4 +179,10 @@ export default function Page() {
          </NoobProHackerLayout>
       </CommonLayout>
    );
+}
+
+export async function getServerSideProps({ params: { id } }: { params: { id: string } }) {
+   return {
+      props: {},
+   };
 }
