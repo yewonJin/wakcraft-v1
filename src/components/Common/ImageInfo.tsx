@@ -3,7 +3,7 @@ import { BsYoutube } from 'react-icons/bs';
 
 import TextBox from './TextBox';
 
-const InfoLayout = styled.div`
+const InfoLayout = styled.div<{isWorldCup?: boolean}>`
    position: absolute;
    display: flex;
    justify-content: center;
@@ -11,11 +11,11 @@ const InfoLayout = styled.div`
    bottom: 20px;
 
    @media screen and (max-width: 1000px) {
-      bottom: 10px;
+      bottom: ${props => props.isWorldCup ? '-80px': '10px'};      
    }
 `;
 
-const InfoBox = styled.div`
+const InfoBox = styled.div<{isWorldCup?: boolean}>`
    display: flex;
    gap: 15px;
    align-items: center;
@@ -24,6 +24,11 @@ const InfoBox = styled.div`
    border-radius: 10px;
 
    @media screen and (max-width: 1000px) {
+      padding: ${props => props.isWorldCup ? '8px 15px' : ''};
+      gap: ${props => props.isWorldCup ? '2px' : '15px'};
+      flex-direction: ${props => props.isWorldCup ? 'column' : ''};
+
+
       > h2:nth-child(2) {
          font-size: 16px;
          line-height: 24px;
@@ -31,6 +36,10 @@ const InfoBox = styled.div`
       > h2:nth-child(3) {
          font-size: 14px;
          line-height: 24px;
+      }
+
+      > span {
+         display: ${props => props.isWorldCup ? 'none': 'flex'};
       }
    }
 `;
@@ -60,7 +69,7 @@ const YoutubeLink = styled.span`
       background-color: white;
    }
 
-   @media screen and (max-width: 1000px) {
+   @media screen and (max-width: 1000px) {      
       > svg {
          font-size: 2.2rem;
       }
@@ -72,14 +81,16 @@ type Props = {
    subject: string;
    minecraft_id: string;
    onClick: () => void;
+   isWorldCup?: boolean;
 };
 
 export default function ImageInfo(props: Props) {
-   const { episode, subject, minecraft_id, onClick } = props;
+   const { episode, subject, minecraft_id, onClick, isWorldCup } = props;
+
 
    return (
-      <InfoLayout>
-         <InfoBox onClick={e => e.stopPropagation()}>
+      <InfoLayout isWorldCup={isWorldCup}>
+         <InfoBox onClick={e => e.stopPropagation()} isWorldCup={isWorldCup}>
             <YoutubeLink onClick={e => onClick()}>
                <BsYoutube />
             </YoutubeLink>

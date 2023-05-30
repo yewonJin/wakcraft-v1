@@ -1,5 +1,4 @@
 import Image from 'next/image';
-import { BsYoutube } from 'react-icons/bs';
 import styled from 'styled-components';
 import ReactPlayer from 'react-player';
 import { useRouter } from 'next/router';
@@ -37,6 +36,14 @@ const Main = styled.div`
    justify-content: space-between;
    margin: 0px auto;
    color: white;
+
+   @media screen and (max-width: 1600px) {
+      width: 90%;
+   }
+
+   @media screen and (max-width: 1000px) {
+      width: 100%;
+   }
 `;
 
 const ImageBox = styled.div<{ clickedNumber: number; curRound: number; index: number }>`
@@ -45,7 +52,6 @@ const ImageBox = styled.div<{ clickedNumber: number; curRound: number; index: nu
    width: 680px;
    height: 680px;
    transition-duration: 200ms;
-   overflow: hidden;
 
    > img:hover {
       scale: 1.02;
@@ -55,6 +61,16 @@ const ImageBox = styled.div<{ clickedNumber: number; curRound: number; index: nu
 
    scale: ${props => (props.clickedNumber === props.index ? '1.2' : '1')};
    z-index: ${props => (props.clickedNumber === props.index ? '3' : '1')};
+
+   @media screen and (max-width: 1600px) {
+      width: 48%;
+      height: 50vw;
+   }
+
+   @media screen and (max-width: 1000px) {
+      width: 49%;
+      height: 70vw;
+   }
 `;
 
 const TextWrapper = styled.div`
@@ -64,6 +80,10 @@ const TextWrapper = styled.div`
    width: 1400px;
    margin: 0px auto;
    margin-bottom: 20px;
+
+   @media screen and (max-width: 1600px) {
+      width: 90%;
+   }
 `;
 
 const YoutubeLayout = styled.div`
@@ -158,7 +178,13 @@ export default function WorldCup() {
                               alt="NoobProHacker Image"
                               src={renameTo1080Webp(item.image_url)}
                            />
-                           <ImageInfo episode={item.episode} subject={item.subject} onClick={() => handleYoutubeClick(index)} minecraft_id={item.minecraft_id}/>
+                           <ImageInfo
+                              isWorldCup={true}
+                              episode={item.episode}
+                              subject={item.subject}
+                              onClick={() => handleYoutubeClick(index)}
+                              minecraft_id={item.minecraft_id}
+                           />
                         </ImageBox>
                      ))
                   )}
