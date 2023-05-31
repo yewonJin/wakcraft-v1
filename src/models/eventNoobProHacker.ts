@@ -24,7 +24,7 @@ const eventNoobProHackerSchema = new Schema({
          line_details: [
             {
                line: { type: String },
-               minecraft_id: { type: String },
+               minecraft_id: [{ type: String }],
                image_url: { type: String },
                youtube_url: { type: String },
                ranking: { type: Number },
@@ -103,9 +103,3 @@ const EventNoobProHacker =
    model<EventNoobProHacker, EventNoobProHackerModel>('EventNoobProHacker', eventNoobProHackerSchema);
 
 export default EventNoobProHacker;
-
-/*
-{
-
-      },
-*/

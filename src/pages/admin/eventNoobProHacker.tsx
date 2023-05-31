@@ -25,7 +25,7 @@ export default function EventNoobProHacker() {
    const { eventNoobProHackerContent, handleChange } = useCreateEventNoobProHackerContent();
    const {
       eventNoobProHackerLine,
-      architectCountPerLine,
+      tierCountPerLine,
       searchInput,
       handleInputChange,
       lineCount,
@@ -33,6 +33,7 @@ export default function EventNoobProHacker() {
       contentSettingPage,
       setLineCountAndArchitectCount,
       changeLineDetails,
+      setArchitectCountPerTier,
       resetLine,
       changeCommonLineInfo,
       setLineTierName,
@@ -42,6 +43,8 @@ export default function EventNoobProHacker() {
    } = useCreateEventNoobProHackerLine();
    const { addEventNoobProHacker } = useCreateEventNoobProHacker();
    const { setCurLineIndex } = useCreateLine();
+
+   console.log(eventNoobProHackerLine);
 
    return (
       <CommonLayout>
@@ -59,7 +62,7 @@ export default function EventNoobProHacker() {
          />
          {contentSettingPage === 0 ? (
             <SetLineInfo
-               architectCountPerLine={architectCountPerLine}
+               tierCountPerLine={tierCountPerLine}
                lineCount={lineCount}
                handleLineChange={handleLineChange}
                setLineCountAndArchitectCount={setLineCountAndArchitectCount}
@@ -67,8 +70,9 @@ export default function EventNoobProHacker() {
          ) : contentSettingPage === 1 ? (
             <SetLineName
                lineCount={lineCount}
-               architectCountPerLine={architectCountPerLine}
+               tierCountPerLine={tierCountPerLine}
                setLineTierName={setLineTierName}
+               setArchitectCountPerTier={setArchitectCountPerTier}
             />
          ) : (
             <Fragment>
@@ -84,7 +88,7 @@ export default function EventNoobProHacker() {
                      changeCommonLineInfo={changeCommonLineInfo}
                      resetLine={resetLine}
                      changeLineDetails={changeLineDetails}
-                     architectCountPerLine={architectCountPerLine}
+                     tierCountPerLine={tierCountPerLine}
                      setLineImage={setLineImage}
                      resetImage={resetImage}
                   />

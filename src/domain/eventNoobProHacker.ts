@@ -13,7 +13,7 @@ export type EventNoobProHacker = {
       line_ranking: Ranking;
       line_details: {
          line: string;
-         minecraft_id: string;
+         minecraft_id: string[];
          image_url: string;
          youtube_url: string;
          ranking: Ranking;
@@ -37,7 +37,7 @@ export const createEventNoobProHackerObject = (): EventNoobProHacker => {
             line_details: [
                {
                   line: '',
-                  minecraft_id: '',
+                  minecraft_id: [''],
                   image_url: '',
                   youtube_url: '',
                   ranking: 0,

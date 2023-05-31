@@ -29,7 +29,7 @@ export const useCreateEventNoobProHackerLine = () => {
    const [eventNoobProHackerLine, setEventNoobProHackerLine] =
       useRecoilState<EventNoobProHacker['lineInfo']>(eventNoobProHackerLineState);
    const [lineCount, setLineCount] = useState<number>(0);
-   const [architectCountPerLine, setArchitectCountPerLine] = useState<number>(0);
+   const [tierCountPerLine, setTierCountPerLine] = useState<number>(0);
    const [contentSettingPage, setContentSettingPage] = useState(0);
    const [searchInput, setSearchInput] = useState('');
 
@@ -52,8 +52,8 @@ export const useCreateEventNoobProHackerLine = () => {
             setLineCount(parseInt(e.target.value));
             break;
 
-         case 'architectCountPerLine':
-            setArchitectCountPerLine(parseInt(e.target.value));
+         case 'tierCountPerLine':
+            setTierCountPerLine(parseInt(e.target.value));
             break;
       }
    };
@@ -63,7 +63,7 @@ export const useCreateEventNoobProHackerLine = () => {
    };
 
    const addToLine = (minecraft_id: string) => {
-      if (eventNoobProHackerLine[curLineIndex].line_details[architectCountPerLine - 1].minecraft_id !== '') return;
+      if (eventNoobProHackerLine[curLineIndex].line_details[tierCountPerLine - 1].minecraft_id !== '') return;
 
       setEventNoobProHackerLine(prev =>
          produce(prev, draft => {
@@ -71,7 +71,7 @@ export const useCreateEventNoobProHackerLine = () => {
          }),
       );
 
-      setLineDetailIndex(lineDetailIndex == architectCountPerLine - 1 ? 0 : lineDetailIndex + 1);
+      setLineDetailIndex(lineDetailIndex == tierCountPerLine - 1 ? 0 : lineDetailIndex + 1);
    };
 
    const setLineTierName = (arr: string[], lineCount: number) => {
@@ -88,6 +88,18 @@ export const useCreateEventNoobProHackerLine = () => {
       setContentSettingPage(prev => prev + 1);
    };
 
+   const setArchitectCountPerTier = (arr: number[]) => {
+      for (let i = 0; i < lineCount; i++) {
+         arr.forEach((item, index) => {
+            setEventNoobProHackerLine(prev =>
+               produce(prev, draft => {
+                  draft[i].line_details[index].minecraft_id = new Array(item).fill('');
+               }),
+            );
+         });
+      }
+   };
+
    const setLineCountAndArchitectCount = () => {
       setContentSettingPage(prev => prev + 1);
 
@@ -98,7 +110,7 @@ export const useCreateEventNoobProHackerLine = () => {
       }
 
       for (let i = 0; i < lineCount; i++) {
-         for (let j = 1; j < architectCountPerLine; j++) {
+         for (let j = 1; j < tierCountPerLine; j++) {
             newValue[i].line_details.push(createEventNoobProHackerObject().lineInfo[0].line_details[0]);
          }
       }
@@ -139,7 +151,7 @@ export const useCreateEventNoobProHackerLine = () => {
                item.image_url = '';
                item.youtube_url = '';
                item.ranking = 0;
-               item.minecraft_id = '';
+               item.minecraft_id = [''];
             });
          }),
       );
@@ -163,8 +175,9 @@ export const useCreateEventNoobProHackerLine = () => {
       setLineTierName,
       handleInputChange,
       addToLine,
-      architectCountPerLine,
+      tierCountPerLine,
       handleChange,
+      setArchitectCountPerTier,
       contentSettingPage,
       setContentSettingPage,
       resetImage,

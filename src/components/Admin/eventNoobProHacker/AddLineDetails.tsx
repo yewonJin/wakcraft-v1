@@ -78,7 +78,7 @@ const ResetImage = styled.span`
 `;
 
 type Props = {
-   architectCountPerLine: number;
+   tierCountPerLine: number;
    eventNoobProHackerLine: EventNoobProHacker['lineInfo'];
    changeCommonLineInfo: (e: React.ChangeEvent<HTMLInputElement>) => void;
    changeLineDetails: (e: React.ChangeEvent<HTMLInputElement>, index: number) => void;
@@ -90,7 +90,7 @@ type Props = {
 export function AddLineDetails(props: Props) {
    const {
       eventNoobProHackerLine,
-      architectCountPerLine,
+      tierCountPerLine,
       changeCommonLineInfo,
       changeLineDetails,
       resetLine,
@@ -154,7 +154,7 @@ export function AddLineDetails(props: Props) {
             ></Button>
          </Container>
          <LineList>
-            {new Array(architectCountPerLine).fill(0).map((item, index) => (
+            {new Array(tierCountPerLine).fill(0).map((item, index) => (
                <LineItem key={'1' + index}>
                   <Wrapper>
                      <TextBox text={eventNoobProHackerLine[curLineIndex].line_details[index].line} fontSize="20px" />
@@ -165,7 +165,7 @@ export function AddLineDetails(props: Props) {
                         fontWeight="500"
                         text={
                            eventNoobProHackerLine[curLineIndex]?.line_details
-                              ? eventNoobProHackerLine[curLineIndex].line_details[index].minecraft_id
+                              ? eventNoobProHackerLine[curLineIndex].line_details[index].minecraft_id.join(',')
                               : ''
                         }
                      />

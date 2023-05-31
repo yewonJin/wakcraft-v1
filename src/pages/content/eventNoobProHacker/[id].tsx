@@ -8,7 +8,6 @@ import InfoBox from '@/components/Common/ContentDetail/InfoBox';
 import RankingBox from '@/components/Common/ContentDetail/RankingBox';
 import { useQueryEventNoobProHacker } from '@/services/eventNoobProHackerAdapters';
 import YoutubeLink from '@/components/Common/ContentDetail/YoutubeLink';
-import { getLineWinnerSubject } from '@/domain/eventNoobProHacker';
 
 const ProfileBox = styled.div`
    position: relative;
@@ -155,11 +154,11 @@ export default function Page() {
                   </TextWrapper>
                   <PortFolioLayout>
                      {item.line_details.map(line => (
-                        <PortFolioBox key={line.minecraft_id}>
+                        <PortFolioBox key={line.minecraft_id[0]}>
                            <ImageBox image_url={line.image_url} youtube_url={line.youtube_url} />
                            <ContentBox>
                               <TierBox>{line.line}</TierBox>
-                              <InfoBox topText="마인크래프트 아이디" bottomText={line.minecraft_id} />
+                              <InfoBox topText="마인크래프트 아이디" bottomText={line.minecraft_id[0]} />
                               <RankingBox ranking={line.ranking} />
                            </ContentBox>
                         </PortFolioBox>

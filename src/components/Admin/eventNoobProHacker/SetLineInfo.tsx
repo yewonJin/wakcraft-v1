@@ -22,11 +22,11 @@ type Props = {
    handleLineChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
    setLineCountAndArchitectCount: () => void;
    lineCount: number;
-   architectCountPerLine: number;
+   tierCountPerLine: number;
 };
 
 export default function SetLineInfo(props: Props) {
-   const { lineCount, architectCountPerLine, handleLineChange, setLineCountAndArchitectCount } = props;
+   const { lineCount, tierCountPerLine, handleLineChange, setLineCountAndArchitectCount } = props;
 
    return (
       <Layout>
@@ -35,12 +35,12 @@ export default function SetLineInfo(props: Props) {
             <InputBox name="lineCount" type="number" onChange={handleLineChange} value={lineCount} width="43px" />
          </Wrapper>
          <Wrapper>
-            <TextBox text="라인별 건축가 수" />
+            <TextBox text="라인별 등급 개수 ex) 눕, 프로, 해커 -> 3" />
             <InputBox
-               name="architectCountPerLine"
+               name="tierCountPerLine"
                type="number"
                onChange={handleLineChange}
-               value={architectCountPerLine}
+               value={tierCountPerLine}
                width="43px"
             />
          </Wrapper>
