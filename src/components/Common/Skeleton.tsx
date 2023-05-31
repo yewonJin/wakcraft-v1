@@ -15,21 +15,12 @@ type SkeletonStyleType = {
 
 const loading = keyframes`
     0% {
-         transform: translateX(0px);
+         background-color: #ddd;
     }
     50%,
     100% {
-         transform: translateX(400px);
+         background-color: #eee;
     }
-`;
-
-const Span = styled.span<SkeletonStyleType>`
-   position: absolute;
-   width: 10px;
-   height: 100%;
-   background-color: #d3d3d3;
-   z-index: 2;
-   animation: ${loading} 1.5s infinite linear;
 `;
 
 const Layout = styled.div<SkeletonStyleType>`
@@ -41,6 +32,9 @@ const Layout = styled.div<SkeletonStyleType>`
    margin: ${props => props.margin || '0px'};
    padding: ${props => props.padding || '0px'};
    overflow: hidden;
+
+   animation: ${loading} 1s infinite linear;
+
 `;
 
 export default function Skeleton(props: SkeletonType) {
@@ -48,7 +42,6 @@ export default function Skeleton(props: SkeletonType) {
 
    return (
       <Layout {...restProps}>
-         <Span></Span>
       </Layout>
    );
 }

@@ -90,7 +90,7 @@ export default function RecentWinner() {
             <ContentLayout>
                {[...new Array(6).fill(0)].map((_, index) => (
                   <ContentBox key={index} index={index} priority={index % 2}>
-                     <Skeleton key={'Skeleton' + index} width="800px" height="400px" borderRadius="10px" />
+                     <Skeleton key={'Skeleton' + index} width="100%" height="400px" borderRadius="10px" />
                   </ContentBox>
                ))}
             </ContentLayout>
