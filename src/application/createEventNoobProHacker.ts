@@ -76,7 +76,10 @@ export const useCreateEventNoobProHackerLine = () => {
 
       setCurArchitectIndex(prev => prev + 1);
 
-      if (curArchitectIndex >= eventNoobProHackerLine[curLineIndex].line_details[lineDetailIndex].minecraft_id.length - 1) {
+      if (
+         curArchitectIndex >=
+         eventNoobProHackerLine[curLineIndex].line_details[lineDetailIndex].minecraft_id.length - 1
+      ) {
          setLineDetailIndex(lineDetailIndex == tierCountPerLine - 1 ? 0 : lineDetailIndex + 1);
          setCurArchitectIndex(0);
       }

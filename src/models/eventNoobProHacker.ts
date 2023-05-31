@@ -24,7 +24,7 @@ const eventNoobProHackerSchema = new Schema({
          line_details: [
             {
                line: { type: String },
-               minecraft_id: [{ type: String }],
+               minecraft_id: { type: [String] },
                image_url: { type: String },
                youtube_url: { type: String },
                ranking: { type: Number },
@@ -80,7 +80,7 @@ eventNoobProHackerSchema.statics.updateArchitectId = function (beforeId: string,
       {},
       {
          $set: {
-            'lineInfo.$[line].line_details.$[detail].minecraft_id': afterId,
+            'lineInfo.$[line].line_details.$[detail].minecraft_id.$[id]': afterId,
          },
       },
       {
@@ -91,7 +91,12 @@ eventNoobProHackerSchema.statics.updateArchitectId = function (beforeId: string,
                },
             },
             {
-               'detail.minecraft_id': beforeId,
+               'detail.minecraft_id': {
+                  $exists: true,
+               },
+            },
+            {
+               id: beforeId,
             },
          ],
       },
