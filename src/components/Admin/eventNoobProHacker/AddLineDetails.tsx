@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import Image from 'next/image';
 import { Fragment } from 'react';
+import { IoMdClose } from 'react-icons/io';
 
 import TextBox from '@/components/Common/TextBox';
 import InputBox from '@/components/Common/InputBox';
@@ -9,7 +10,6 @@ import { Button } from '@/components/Common/Button';
 import AwsStorage from '@/components/Storage/AwsStorage';
 import { useAwsStorage } from '@/application/accessAwsStorage';
 import { EventNoobProHacker } from '@/domain/eventNoobProHacker';
-import { IoMdClose } from 'react-icons/io';
 
 const Layout = styled.div`
    width: calc(100% - 350px);

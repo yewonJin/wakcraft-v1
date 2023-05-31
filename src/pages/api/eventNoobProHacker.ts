@@ -19,7 +19,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
          res.status(400).json({ error: 'fetch error' });
       }
    } else if (req.method === 'POST') {
-      const architectsInfo = convertToArchitect(req);
+      const architectsInfo = convertToArchitect(req);      
 
       await connectMongo();
 

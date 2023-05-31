@@ -60,11 +60,13 @@ export const convertToArchitect = (req: { body: EventNoobProHacker }) => {
             ranking: item.ranking,
          };
 
-         architectsInfo.push({
-            minecraft_id: item.minecraft_id,
-            portfolio: {
-               eventNoobProHacker: [portfolioInfo],
-            },
+         item.minecraft_id.forEach(id => {
+            architectsInfo.push({
+               minecraft_id: id,
+               portfolio: {
+                  eventNoobProHacker: [portfolioInfo],
+               },
+            });
          });
       });
    });

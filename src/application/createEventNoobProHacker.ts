@@ -159,7 +159,7 @@ export const useCreateEventNoobProHackerLine = () => {
                item.image_url = '';
                item.youtube_url = '';
                item.ranking = 0;
-               item.minecraft_id = [''];
+               item.minecraft_id = item.minecraft_id.map(() => '');
             });
          }),
       );
