@@ -1,5 +1,3 @@
-type Ranking = 0 | 1 | 2 | 3 | 4 | 5 | 6;
-
 export type EventNoobProHacker = {
    contentInfo: {
       contentName: string;
@@ -10,13 +8,13 @@ export type EventNoobProHacker = {
    lineInfo: {
       subject: string;
       youtube_url: string;
-      line_ranking: Ranking;
+      line_ranking: number;
       line_details: {
          line: string;
          minecraft_id: string[];
          image_url: string;
          youtube_url: string;
-         ranking: Ranking;
+         ranking: number;
       }[];
    }[];
 };
