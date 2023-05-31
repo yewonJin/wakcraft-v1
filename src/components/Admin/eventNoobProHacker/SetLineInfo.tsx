@@ -1,7 +1,5 @@
 import styled from 'styled-components';
-import { Dispatch, SetStateAction } from 'react';
 
-import { useCreateEventNoobProHackerLine } from '@/application/createEventNoobProHacker';
 import InputBox from '@/components/Common/InputBox';
 import TextBox from '@/components/Common/TextBox';
 import { Button } from '@/components/Common/Button';

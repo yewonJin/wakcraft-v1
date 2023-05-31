@@ -32,6 +32,7 @@ export const useCreateEventNoobProHackerLine = () => {
    const [tierCountPerLine, setTierCountPerLine] = useState<number>(0);
    const [contentSettingPage, setContentSettingPage] = useState(0);
    const [searchInput, setSearchInput] = useState('');
+   const [curArchitectIndex, setCurArchitectIndex] = useState(0);
 
    const [curLineIndex, setCurLineIndex] = useRecoilState(curLineIndexState);
    const [lineDetailIndex, setLineDetailIndex] = useRecoilState(lineDetailIndexState);
@@ -63,15 +64,22 @@ export const useCreateEventNoobProHackerLine = () => {
    };
 
    const addToLine = (minecraft_id: string) => {
-      if (eventNoobProHackerLine[curLineIndex].line_details[tierCountPerLine - 1].minecraft_id !== '') return;
+      const tierMinecraftIdArr = eventNoobProHackerLine[curLineIndex].line_details[tierCountPerLine - 1].minecraft_id;
+
+      if (tierMinecraftIdArr[tierMinecraftIdArr.length - 1] !== '') return;
 
       setEventNoobProHackerLine(prev =>
          produce(prev, draft => {
-            draft[curLineIndex].line_details[lineDetailIndex].minecraft_id = minecraft_id;
+            draft[curLineIndex].line_details[lineDetailIndex].minecraft_id[curArchitectIndex] = minecraft_id;
          }),
       );
 
-      setLineDetailIndex(lineDetailIndex == tierCountPerLine - 1 ? 0 : lineDetailIndex + 1);
+      setCurArchitectIndex(prev => prev + 1);
+
+      if (curArchitectIndex >= eventNoobProHackerLine[curLineIndex].line_details[lineDetailIndex].minecraft_id.length - 1) {
+         setLineDetailIndex(lineDetailIndex == tierCountPerLine - 1 ? 0 : lineDetailIndex + 1);
+         setCurArchitectIndex(0);
+      }
    };
 
    const setLineTierName = (arr: string[], lineCount: number) => {
