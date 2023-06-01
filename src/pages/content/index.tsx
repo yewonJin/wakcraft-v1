@@ -5,7 +5,7 @@ import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import connectMongo from '@/utils/connectMongo';
 import YoutubeLink from '@/components/Common/ContentDetail/YoutubeLink';
 import EventNoobProHacker from '@/models/eventNoobProHacker';
-import PlacementTest from '@/models/placementTest';
+import PlacementTest, { PlacementTestWithNumberOfParticipants } from '@/models/placementTest';
 import TextBox from '@/components/Common/TextBox';
 
 const Layout = styled.div`
@@ -135,7 +135,7 @@ const Item = styled.p<{ width?: string }>`
 
 export const getStaticProps: GetStaticProps<{
    eventNoobProHackers: EventNoobProHacker[];
-   placementTests: PlacementTest[];
+   placementTests: PlacementTestWithNumberOfParticipants[];
 }> = async () => {
    await connectMongo();
 
@@ -150,7 +150,7 @@ export const getStaticProps: GetStaticProps<{
    };
 };
 
-export default function Search({
+export default function Content({
    eventNoobProHackers,
    placementTests,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
@@ -160,16 +160,18 @@ export default function Search({
             <TextBox text="배치고사" fontSize="22px" lineHeight="32px" fontWeight="500" />
             <TableHeader>
                <TableItem width="100px">시즌</TableItem>
-               <TableItem width="170px">날짜</TableItem>
-               <TableItem width="150px">링크</TableItem>
+               <TableItem width="140px">참가 인원</TableItem>
+               <TableItem width="150px">날짜</TableItem>
+               <TableItem width="50px">링크</TableItem>
             </TableHeader>
             <List>
                {placementTests.map((item, _) => {
                   return (
-                     <Link key={item.season} href={`/content/placementTest/${item.season}`}>
+                     <Link key={'season ' + item.season} href={`/content/placementTest/${item.season}`}>
                         <Box>
                            <Item width="100px">{'S' + item.season}</Item>
-                           <Item width="170px">{item.date.split('T')[0]}</Item>
+                           <Item width="140px">{item.numberOfParticipants + '명'}</Item>
+                           <Item width="150px">{item.date.split('T')[0]}</Item>
                            <YoutubeLink url={item.youtube_url} />
                         </Box>
                      </Link>
@@ -181,9 +183,9 @@ export default function Search({
             <TextBox text="예능 눕프핵" fontSize="22px" lineHeight="32px" fontWeight="500" />
             <TableHeader>
                <TableItem width="100px">회차</TableItem>
-               <TableItem width="250px">주제</TableItem>
+               <TableItem width="200px">주제</TableItem>
                <TableItem width="170px">날짜</TableItem>
-               <TableItem width="150px">링크</TableItem>
+               <TableItem width="100px">링크</TableItem>
             </TableHeader>
             <List>
                {eventNoobProHackers.map((item, _) => {
@@ -194,7 +196,7 @@ export default function Search({
                      >
                         <Box>
                            <Item width="100px">{item.contentInfo.episode + '회'}</Item>
-                           <Item width="250px">{item.contentInfo.contentName}</Item>
+                           <Item width="200px">{item.contentInfo.contentName}</Item>
                            <Item width="170px">{item.contentInfo.date.split('T')[0]}</Item>
                            <YoutubeLink url={item.contentInfo.youtube_url} />
                         </Box>

@@ -1,9 +1,13 @@
 import { PlacementTest } from '@/domain/placementTest';
 import { Schema, Model, model, models } from 'mongoose';
 
+export interface PlacementTestWithNumberOfParticipants extends Omit<PlacementTest, 'participants'> {
+   numberOfParticipants: number;
+}
+
 interface PlacementTestModel extends Model<PlacementTest> {
    findAll: () => Promise<PlacementTest[]>;
-   findAllWithoutParticipants: () => Promise<Omit<PlacementTest[], 'participants'>>;
+   findAllWithoutParticipants: () => Promise<PlacementTestWithNumberOfParticipants[]>;
    findBySeason: (season: string) => Promise<PlacementTest>;
    updateArchitectId: (beforeId: string, afterId: string) => Promise<PlacementTest>;
 }
@@ -36,6 +40,11 @@ placementTestSchema.statics.findBySeason = function (season: string) {
 
 placementTestSchema.statics.findAllWithoutParticipants = function () {
    return this.aggregate([
+      {
+         $addFields: {
+            numberOfParticipants: { $size: '$participants' },
+         },
+      },
       {
          $project: {
             participants: 0,
