@@ -31,8 +31,8 @@ const Main = styled.main`
    grid-auto-rows: 200px;
    grid-template-columns: repeat(5, 1fr);
    grid-template-areas:
-      'a b c d d'
-      'a f g g g';
+      'a b d d d'
+      'a c d d d';
    margin-top: 35px;
 
    @media screen and (max-width: 1400px) {
@@ -40,8 +40,7 @@ const Main = styled.main`
       grid-template-rows: repeat(3, 1fr);
       grid-template-areas:
          'a b c'
-         'a f d'
-         'g g g';
+         'd d d';
    }
 
    @media screen and (max-width: 1000px) {
@@ -49,9 +48,9 @@ const Main = styled.main`
       grid-template-rows: repeat(4, 1fr);
       grid-template-areas:
          'a b'
-         'a f'
-         'c d'
-         'g g';
+         'a c'
+         'd d'
+         'd d';
    }
 `;
 
@@ -92,44 +91,121 @@ export default function MainInfo() {
          <Main>
             <Box area="a">
                <TextBox text="건축가 수" fontSize="18px" fontWeight="500" color="#868686" />
-               <TextBox text="해커 14명" fontSize="18px" fontWeight="500" color="#313131" />
-               <TextBox text="국밥 14명" fontSize="18px" fontWeight="500" color="#313131" />
-               <TextBox text="프로 12명" fontSize="18px" fontWeight="500" color="#313131" />
-               <TextBox text="계륵 13명" fontSize="18px" fontWeight="500" color="#313131" />
-               <TextBox text="눕 22명" fontSize="18px" fontWeight="500" color="#313131" />
-               <TextBox text="언랭 122명" fontSize="18px" fontWeight="500" color="#313131" />
+               <TextBox
+                  text={`해커 ${getNumberOfArchitectsByTier(architects).hacker}명`}
+                  fontSize="18px"
+                  fontWeight="500"
+                  color="#313131"
+               />
+               <TextBox
+                  text={`국밥 ${getNumberOfArchitectsByTier(architects).gukbap}명`}
+                  fontSize="18px"
+                  fontWeight="500"
+                  color="#313131"
+               />
+               <TextBox
+                  text={`프로 ${getNumberOfArchitectsByTier(architects).pro}명`}
+                  fontSize="18px"
+                  fontWeight="500"
+                  color="#313131"
+               />
+               <TextBox
+                  text={`계륵 ${getNumberOfArchitectsByTier(architects).gyeruik}명`}
+                  fontSize="18px"
+                  fontWeight="500"
+                  color="#313131"
+               />
+               <TextBox
+                  text={`눕 ${getNumberOfArchitectsByTier(architects).noob}명`}
+                  fontSize="18px"
+                  fontWeight="500"
+                  color="#313131"
+               />
+               <TextBox
+                  text={`언랭 ${getNumberOfArchitectsByTier(architects).unranked}명`}
+                  fontSize="18px"
+                  fontWeight="500"
+                  color="#313131"
+               />
             </Box>
             <Box area="b">
                <TextBox text="최다 우승" fontSize="18px" fontWeight="500" color="#868686" />
                <TextWrapper flexDirection="column">
-                  <TextBox text="dackbal" fontSize="20px" fontWeight="500" color="#313131" />
-                  <TextBox text="(13회)" fontSize="18px" fontWeight="500" textAlign="center" />
-               </TextWrapper>
-            </Box>
-            <Box area="f">
-               <TextBox text="최다 참여" fontSize="18px" fontWeight="500" color="#868686" />
-               <TextWrapper flexDirection="column">
-                  <TextBox text="dackbal" fontSize="20px" fontWeight="500" color="#313131" />
-                  <TextBox text="(24회)" fontSize="18px" fontWeight="500" textAlign="center" />
+                  {getMostWinsArchitect(architects).map(item => (
+                     <TextBox
+                        key={item.minecraft_id}
+                        text={item.minecraft_id}
+                        fontSize="20px"
+                        fontWeight="500"
+                        color="#313131"
+                     />
+                  ))}
+                  <TextBox
+                     text={`(${getMostWinsArchitect(architects)[0].noobProHackerInfo.win}회)`}
+                     fontSize="18px"
+                     fontWeight="500"
+                     textAlign="center"
+                  />
                </TextWrapper>
             </Box>
             <Box area="c">
-               <TextBox text="현재 시즌" fontSize="18px" fontWeight="500" color="#868686" />
+               <TextBox text="최다 참여" fontSize="18px" fontWeight="500" color="#868686" />
                <TextWrapper flexDirection="column">
-                  <TextBox text="시즌 3" fontSize="20px" fontWeight="500" textAlign="center" />
-                  <TextBox text="(2023/04/01 ~ )" fontSize="16px" fontWeight="500" textAlign="center" />
+                  {getMostParticipationArchitect(architects).map(item => (
+                     <TextBox
+                        key={item.minecraft_id}
+                        text={item.minecraft_id}
+                        fontSize="20px"
+                        fontWeight="500"
+                        color="#313131"
+                     />
+                  ))}
+                  <TextBox
+                     text={`(${getMostParticipationArchitect(architects)[0].noobProHackerInfo.participation}회)`}
+                     fontSize="18px"
+                     fontWeight="500"
+                     textAlign="center"
+                  />
                </TextWrapper>
             </Box>
             <Box area="d">
-               <TextBox text="눕프핵 진행 날짜" fontSize="18px" fontWeight="500" color="#868686" />
-            </Box>
-
-            <Box area="g">
-               <TextBox text="현재까지 진행한 컨텐츠" fontSize="18px" fontWeight="500" color="#868686" />
-               <TextWrapper>
-                  <TextBox text="눕프로해커 : 34편" fontSize="20px" fontWeight="500" />
-                  <TextBox text="배치고사 : 3번" fontSize="20px" fontWeight="500" />
-                  <TextBox text="이벤트 눕프핵 : 3번" fontSize="20px" fontWeight="500" />
+               <TextBox text="눕프핵 우승 라인" fontSize="18px" fontWeight="500" color="#868686" />
+               <TextWrapper flexDirection="column">
+                  <TextBox
+                     text="#햄버그 스테이크 #장수말벌 #초염몽 #이노스케 #드루이드 #뢴트게늄 #징크스"
+                     fontSize="18px"
+                     fontWeight="500"
+                     textAlign="center"
+                     color="#333"
+                  />
+                  <TextBox
+                     text="#국밥 #모크나이퍼 #키노모토 사쿠라 #히나츠루 #릴파 #제트 #흰수염"
+                     fontSize="18px"
+                     fontWeight="500"
+                     textAlign="center"
+                     color="#333"
+                  />
+                  <TextBox
+                     text="#데스 #그레이몬 #리 신 #데드셀 죄수 #레미 #가오가이가 #춘리"
+                     fontSize="18px"
+                     fontWeight="500"
+                     textAlign="center"
+                     color="#333"
+                  />
+                  <TextBox
+                     text="#징징이 #잉클링 #가로우 #키리코 #메이 #루시나 쿠시나다 #바보들의 배"
+                     fontSize="18px"
+                     fontWeight="500"
+                     textAlign="center"
+                     color="#333"
+                  />
+                  <TextBox
+                     text="#뿌리 괴물 삼총사 #마리오"
+                     fontSize="18px"
+                     fontWeight="500"
+                     textAlign="center"
+                     color="#333"
+                  />
                </TextWrapper>
             </Box>
          </Main>

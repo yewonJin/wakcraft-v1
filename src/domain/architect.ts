@@ -1,4 +1,4 @@
-import { NoobProHacker } from "./noobProHacker";
+import { NoobProHacker } from './noobProHacker';
 
 type Line = 'noob' | 'pro' | 'hacker';
 
@@ -73,6 +73,36 @@ export const createTierArray = (): Tier[] => {
    ];
 };
 
+export interface ArchitectWithSortPriority extends Architect {
+   sortPriority: number;
+}
+
+/** 가장 많이 우승한 건축가 */
+export const getMostWinsArchitect = (architects: ArchitectWithSortPriority[]) => {
+   const maxValue = Math.max(...architects.map(item => item.noobProHackerInfo.win));
+
+   return architects.filter(architect => architect.noobProHackerInfo.win === maxValue);
+};
+
+/** 가장 많이 참가한 건축가 */
+export const getMostParticipationArchitect = (architects: ArchitectWithSortPriority[]) => {
+   const maxValue = Math.max(...architects.map(item => item.noobProHackerInfo.participation));
+
+   return architects.filter(architect => architect.noobProHackerInfo.participation === maxValue);
+};
+
+/** 티어 별 건축가 수 */
+export const getNumberOfArchitectsByTier = (architects: ArchitectWithSortPriority[]) => {
+   return {
+      hacker: architects.filter(architect => architect.sortPriority <= 4).length,
+      gukbap: architects.filter(architect => architect.sortPriority > 4 && architect.sortPriority <= 7).length,
+      pro: architects.filter(architect => architect.sortPriority === 8).length,
+      gyeruik: architects.filter(architect => architect.sortPriority > 8 && architect.sortPriority <= 10).length,
+      noob: architects.filter(architect => architect.sortPriority > 10 && architect.sortPriority <= 14).length,
+      unranked: architects.filter(architect => architect.sortPriority === 15).length,
+   };
+};
+
 /** 건축가의 현재 티어  */
 export const currentTier = (architect: Architect) => {
    const { tier } = architect;
@@ -96,7 +126,6 @@ export const convertLineTierToTier = (req: string) => {
 };
 
 /** 눕프핵 정보를 건축가 정보로 변환하는 함수 */
-
 export const convertToArchitect = (req: { body: NoobProHacker }) => {
    const { contentInfo, lineInfo } = req.body;
 
