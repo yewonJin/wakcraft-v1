@@ -1,6 +1,12 @@
 import styled from 'styled-components';
 
 import TextBox from './Common/TextBox';
+import {
+   ArchitectWithSortPriority,
+   getMostParticipationArchitect,
+   getMostWinsArchitect,
+   getNumberOfArchitectsByTier,
+} from '@/domain/architect';
 
 const Layout = styled.div`
    width: 1200px;
@@ -71,7 +77,7 @@ const TextWrapper = styled.div<{ flexDirection?: string }>`
    gap: 20px;
 `;
 
-export default function MainInfo() {
+export default function MainInfo({ architects }: { architects: ArchitectWithSortPriority[] }) {
    return (
       <Layout>
          <TextBox text={'눕프로해커'} fontSize="32px" lineHeight="48px" fontWeight="500" />

@@ -1,4 +1,3 @@
-import Head from 'next/head';
 import styled from 'styled-components';
 import { Fragment, useState } from 'react';
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
@@ -14,6 +13,8 @@ import { lineWinnerIndex, renameToWebp } from '@/domain/noobProHacker';
 import MainInfo from '@/components/MainInfo';
 import SweepLine from '@/components/SweepLine';
 import RecentWinner from '@/components/RecentWinner';
+import Architect from '@/models/architect';
+import { ArchitectWithSortPriority } from '@/domain/architect';
 
 const Layout = styled.main``;
 
@@ -259,19 +260,35 @@ const TextContainer = styled.div`
 
 const lineArr: ('noob' | 'pro' | 'hacker')[] = ['noob', 'pro', 'hacker'];
 
-export const getStaticProps: GetStaticProps<{ noobProHacker: NoobProHacker[] }> = async () => {
+export const getStaticProps: GetStaticProps<{
+   noobProHacker: NoobProHacker[];
+   architects: ArchitectWithSortPriority[];
+   recentNoobProHacker: NoobProHacker[];
+   sweepLine: NoobProHacker[];
+}> = async () => {
    await connectMongo();
 
    const noobProHacker = await NoobProHacker.findLastestOne();
+   const recentNoobProHacker = await NoobProHacker.findRecentWinLine();
+   const architects = await Architect.findAllWithoutPortfolio();
+   const sweepLine = await NoobProHacker.findAllWinLine();
 
    return {
       props: {
          noobProHacker: JSON.parse(JSON.stringify(noobProHacker)),
+         recentNoobProHacker: JSON.parse(JSON.stringify(recentNoobProHacker)),
+         architects: JSON.parse(JSON.stringify(architects)),
+         sweepLine: JSON.parse(JSON.stringify(sweepLine)),
       },
    };
 };
 
-export default function Home({ noobProHacker }: InferGetStaticPropsType<typeof getStaticProps>) {
+export default function Home({
+   noobProHacker,
+   architects,
+   recentNoobProHacker,
+   sweepLine,
+}: InferGetStaticPropsType<typeof getStaticProps>) {
    const [line, setLine] = useState(lineWinnerIndex(noobProHacker[0]));
 
    return (
@@ -347,9 +364,9 @@ export default function Home({ noobProHacker }: InferGetStaticPropsType<typeof g
                   </LineList>
                </LineContainer>
             </ContentBox>
-            <MainInfo />
-            <RecentWinner />
-            <SweepLine />
+            <MainInfo architects={architects} />
+            <RecentWinner noobProHackers={recentNoobProHacker} />
+            <SweepLine sweepLine={sweepLine} />
          </Layout>
       </>
    );

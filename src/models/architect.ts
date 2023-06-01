@@ -2,36 +2,6 @@ import { Schema, Model, model, models } from 'mongoose';
 import { fuzzySearchRegExp } from '@/utils/fuzzySearch';
 import { Architect, convertLineTierToTier, createTierArray } from '@/domain/architect';
 
-interface ArchitectModel extends Model<Architect> {
-   findAll: () => Promise<Architect[]>;
-   findAllWithoutPortfolio: () => Promise<Exclude<Architect[], 'portfolio'>>;
-   findAllByLineTier: (tier: string) => Promise<Architect[]>;
-   findAllByInput: (input: string) => Promise<Architect[]>;
-   findOneByMinecraftId: (minecraft_id: string) => Promise<Architect>;
-   findOneAndPushToPortfolio: (
-      minecraft_id: string,
-      payload: Architect['portfolio']['noobProHacker'][0],
-   ) => Promise<void>;
-   findAllAndSetTierUnRanked: () => Promise<void>;
-   findOneAndPushToPlacementTest: (
-      minecraft_id: string,
-      payload: Architect['portfolio']['placementTest'][0],
-   ) => Promise<void>;
-   findOneAndPushToEventNoobProHacker: (
-      minecraft_id: string,
-      payload: Architect['portfolio']['eventNoobProHacker'][0],
-   ) => Promise<void>;
-   findOneAndUnSetTierFirstIndex: (minecraft_id: string) => Promise<void>;
-   findOneAndPullTierNull: (minecraft_id: string) => Promise<void>;
-   findOneByMinecraftIdAndUpdate: (
-      originalId: string,
-      minecraft_id: string,
-      wakzoo_id: string,
-      tier: string,
-   ) => Promise<void>;
-   test: () => Promise<Architect[]>;
-}
-
 // Define Schemes
 const architectSchema = new Schema<Architect>({
    minecraft_id: {
@@ -76,6 +46,35 @@ const architectSchema = new Schema<Architect>({
       ],
    },
 });
+
+interface ArchitectModel extends Model<Architect> {
+   findAll: () => Promise<Architect[]>;
+   findAllWithoutPortfolio: () => Promise<Exclude<Architect[], 'portfolio'>>;
+   findAllByLineTier: (tier: string) => Promise<Architect[]>;
+   findAllByInput: (input: string) => Promise<Architect[]>;
+   findOneByMinecraftId: (minecraft_id: string) => Promise<Architect>;
+   findOneAndPushToPortfolio: (
+      minecraft_id: string,
+      payload: Architect['portfolio']['noobProHacker'][0],
+   ) => Promise<void>;
+   findAllAndSetTierUnRanked: () => Promise<void>;
+   findOneAndPushToPlacementTest: (
+      minecraft_id: string,
+      payload: Architect['portfolio']['placementTest'][0],
+   ) => Promise<void>;
+   findOneAndPushToEventNoobProHacker: (
+      minecraft_id: string,
+      payload: Architect['portfolio']['eventNoobProHacker'][0],
+   ) => Promise<void>;
+   findOneAndUnSetTierFirstIndex: (minecraft_id: string) => Promise<void>;
+   findOneAndPullTierNull: (minecraft_id: string) => Promise<void>;
+   findOneByMinecraftIdAndUpdate: (
+      originalId: string,
+      minecraft_id: string,
+      wakzoo_id: string,
+      tier: string,
+   ) => Promise<void>;
+}
 
 // Create new todo document
 architectSchema.statics.create = function (payload: Exclude<keyof Architect, 'portfolio'>) {

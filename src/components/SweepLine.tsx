@@ -5,10 +5,8 @@ import Link from 'next/link';
 import { AiOutlineLeft, AiOutlineRight } from 'react-icons/ai';
 
 import TextBox from './Common/TextBox';
-import { convertToSweepLine, renameTo1080Webp, renameToWebp } from '@/domain/noobProHacker';
-import { useQueryNoobProHackerSweepLine } from '@/services/noobProHackerAdapters';
+import { NoobProHacker, convertToSweepLine, renameToWebp } from '@/domain/noobProHacker';
 import { translateTier } from '@/utils/lib';
-import Skeleton from './Common/Skeleton';
 
 const Layout = styled.div`
    width: 100%;
@@ -204,38 +202,8 @@ const SkeletonGroup = styled.div`
    min-width: 100%;
 `;
 
-export default function MainInfo() {
-   const data = useQueryNoobProHackerSweepLine();
-
+export default function MainInfo({ sweepLine }: { sweepLine: NoobProHacker[] }) {
    const [page, setPage] = useState(0);
-
-   if (!data)
-      return (
-         <Layout>
-            <Box>
-               <TextBox
-                  text={'싹쓸이 라인'}
-                  fontSize="26px"
-                  lineHeight="40px"
-                  fontWeight="500"
-                  margin="0px 0px 30px 0px"
-               />
-               <List>
-                  <LineContainer>
-                     <SkeletonGroup>
-                        {[...new Array(3).fill(0)].map((_, index) => (
-                           <LineItem key={index}>
-                              <ImageBox>
-                                 <Skeleton key={'Skeleton' + index} width="100%" borderRadius="10px" />
-                              </ImageBox>
-                           </LineItem>
-                        ))}
-                     </SkeletonGroup>
-                  </LineContainer>
-               </List>
-            </Box>
-         </Layout>
-      );
 
    return (
       <Layout>
@@ -249,18 +217,18 @@ export default function MainInfo() {
             />
             <List>
                <LineContainer>
-                  {convertToSweepLine(data).map(item => (
+                  {convertToSweepLine(sweepLine).map(item => (
                      <LineGroup key={'line_' + item.subject}>
                         <TextWrapper margin="0px">
                            <TextBox
-                              text={`EP${data[page].contentInfo.episode} `}
+                              text={`EP${sweepLine[page].contentInfo.episode} `}
                               fontSize="20px"
                               lineHeight="32px"
                               fontWeight="500"
                               color="#646464"
                            />
                            <TextBox
-                              text={convertToSweepLine(data)[page].subject}
+                              text={convertToSweepLine(sweepLine)[page].subject}
                               fontSize="20px"
                               lineHeight="32px"
                               fontWeight="500"
@@ -302,10 +270,10 @@ export default function MainInfo() {
                   ))}
                </LineContainer>
             </List>
-            <ButtonBox position="left" page={page} lastPage={data.length} onClick={() => setPage(prev => prev - 1)}>
+            <ButtonBox position="left" page={page} lastPage={sweepLine.length} onClick={() => setPage(prev => prev - 1)}>
                <AiOutlineLeft />
             </ButtonBox>
-            <ButtonBox position="right" page={page} lastPage={data.length} onClick={() => setPage(prev => prev + 1)}>
+            <ButtonBox position="right" page={page} lastPage={sweepLine.length} onClick={() => setPage(prev => prev + 1)}>
                <AiOutlineRight />
             </ButtonBox>
          </Box>
