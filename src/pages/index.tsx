@@ -179,8 +179,6 @@ const LineGroup = styled.div`
       flex-direction: column;
       gap: 10px;
    }
-
-
 `;
 
 const LineItem = styled.div`
@@ -200,7 +198,6 @@ const LineItem = styled.div`
    @media (min-width: 1300px) and (max-height: 850px) {
       height: auto;
    }
-
 `;
 
 const ImageBox = styled.div`
@@ -222,7 +219,6 @@ const ImageBox = styled.div`
    @media (min-width: 1300px) and (max-height: 850px) {
       height: auto;
       aspect-ratio: 3/3;
-      
    }
 
    > img {
@@ -280,12 +276,6 @@ export default function Home({ noobProHacker }: InferGetStaticPropsType<typeof g
 
    return (
       <>
-         <Head>
-            <title>Wakcraft</title>
-            <meta name="description" content="유튜버 우왁굳의 마인크래프트 컨텐츠 웹사이트" />
-            <meta name="viewport" content="width=device-width, initial-scale=1" />
-            <link rel="icon" href="/favicon.ico" />
-         </Head>
          <Layout>
             <BackgroundImage bg={bg} />
             <ContentBox>
