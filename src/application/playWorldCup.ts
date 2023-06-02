@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 
-import { WorldCupItem, convertToWorldCupArray, useQueryWorldCup } from '@/services/worldCupAdapters';
+import { useQueryWorldCup } from '@/services/worldcupAdapters';
+import { Worldcup } from '@/domain/worldcup';
 
 export const usePlayWorldCup = () => {
    const data = useQueryWorldCup();
@@ -8,8 +9,8 @@ export const usePlayWorldCup = () => {
    const [page, setPage] = useState(0);
    const [roundOfNumber, setRoundOfNumber] = useState(128);
 
-   const [curRoundArr, setCurRoundArr] = useState<WorldCupItem[]>([]);
-   const [nextRoundArr, setNextRoundArr] = useState<WorldCupItem[]>([]);
+   const [curRoundArr, setCurRoundArr] = useState<Worldcup[]>([]);
+   const [nextRoundArr, setNextRoundArr] = useState<Worldcup[]>([]);
    const [curRound, setCurRound] = useState(0);
    const [clickedNumber, setClickedNumber] = useState(-1);
 
@@ -22,8 +23,9 @@ export const usePlayWorldCup = () => {
       initializeFirstRound();
    }, [data, roundOfNumber]);
 
-   function shuffle(array: WorldCupItem[]) {
-      let currentIndex = array.length,randomIndex;
+   function shuffle(array: Worldcup[]) {
+      let currentIndex = array.length,
+         randomIndex;
 
       // While there remain elements to shuffle.
       while (currentIndex != 0) {
@@ -42,22 +44,15 @@ export const usePlayWorldCup = () => {
    const initializeFirstRound = () => {
       if (!data) return;
 
-      setCurRoundArr(
-         shuffle(
-            convertToWorldCupArray(data)
-               .reverse()
-               .sort((a, b) => b.episode - a.episode)
-               .slice(0, roundOfNumber),
-         ),
-      );
+      setCurRoundArr(data.slice(0, roundOfNumber));
    };
 
-   const preloadNextRound = (curRoundArr: WorldCupItem[]) => {
+   const preloadNextRound = (curRoundArr: Worldcup[]) => {
       return curRoundArr.filter((_, index) => index < (curRound + 1) * 4);
    };
 
    /** 월드컵 설정 알고리즘 */
-   const handleImageClick = (item: WorldCupItem, index: number) => {
+   const handleImageClick = (item: Worldcup, index: number) => {
       if (isFinalRound) {
          setWinner(item);
          return;
@@ -70,14 +65,14 @@ export const usePlayWorldCup = () => {
 
       pauseAllVideo();
 
-      setItemToNextRound(item, index);
+      setItemToNextRound(item);
 
       clickAnimation(index);
    };
 
    const isFinalRound = curRoundArr.length === 2;
 
-   const setWinner = (item: WorldCupItem) => {
+   const setWinner = (item: Worldcup) => {
       setCurRoundArr([...nextRoundArr, item]);
 
       console.log('우승');
@@ -85,7 +80,7 @@ export const usePlayWorldCup = () => {
 
    const isLastRound = curRound * 2 >= curRoundArr.length - 2;
 
-   const setNextRound = (item: WorldCupItem) => {
+   const setNextRound = (item: Worldcup) => {
       setCurRoundArr(shuffle([...nextRoundArr, item]));
 
       setNextRoundArr([]);
@@ -99,7 +94,7 @@ export const usePlayWorldCup = () => {
       });
    };
 
-   const setItemToNextRound = (item: WorldCupItem, index: number) => {
+   const setItemToNextRound = (item: Worldcup) => {
       setNextRoundArr([...nextRoundArr, item]);
 
       setTimeout(() => {

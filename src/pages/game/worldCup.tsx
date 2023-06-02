@@ -122,6 +122,7 @@ export default function WorldCup() {
       handleYoutubeClick,
       preloadNextRound,
    } = usePlayWorldCup();
+
    const router = useRouter();
 
    if (isLoading)
@@ -167,7 +168,7 @@ export default function WorldCup() {
                            clickedNumber={clickedNumber}
                            curRound={curRound}
                            index={index}
-                           key={item.subject}
+                           key={item.workInfo.subject}
                            onClick={() => handleImageClick(item, index)}
                         >
                            <Image
@@ -176,14 +177,14 @@ export default function WorldCup() {
                               fill
                               style={{ objectFit: 'cover' }}
                               alt="NoobProHacker Image"
-                              src={renameTo1080Webp(item.image_url)}
+                              src={renameTo1080Webp(item.workInfo.image_url)}
                            />
                            <ImageInfo
                               isWorldCup={true}
-                              episode={item.episode}
-                              subject={item.subject}
+                              episode={item.workInfo.episode}
+                              subject={item.workInfo.subject}
                               onClick={() => handleYoutubeClick(index)}
-                              minecraft_id={item.minecraft_id}
+                              minecraft_id={item.workInfo.minecraft_id}
                            />
                         </ImageBox>
                      ))
@@ -195,7 +196,7 @@ export default function WorldCup() {
                         playing={playing.leftPlayer}
                         controls
                         width="100%"
-                        url={curRoundArr[curRound * 2].youtube_url}
+                        url={curRoundArr[curRound * 2].workInfo.youtube_url}
                      />
                   </YoutubeBox>
                   {curRoundArr.length !== 1 && (
@@ -204,7 +205,7 @@ export default function WorldCup() {
                            playing={playing.rightPlayer}
                            controls
                            width="100%"
-                           url={curRoundArr[curRound * 2 + 1].youtube_url}
+                           url={curRoundArr[curRound * 2 + 1].workInfo.youtube_url}
                         />
                      </YoutubeBox>
                   )}

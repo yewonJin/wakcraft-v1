@@ -10,7 +10,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       try {
          await connectMongo();
 
-         await Worldcup.findAllByGameName('HackerWorldCup' as Game).then(worldcup => res.status(200).json(worldcup));
+         await Worldcup.findAllByGameName('HackerWorldCup' as Game).then(worldcup => {
+            res.status(200).json(worldcup);
+         });
       } catch {
          res.status(400).json({ error: 'fetch error' });
       }
