@@ -75,9 +75,10 @@ export const usePlayWorldCup = () => {
 
    const setWinner = (item: Worldcup) => {
       setCurRoundArr([...nextRoundArr, item]);
-      mutation.mutate(item);
 
-      console.log('우승');
+      if (roundOfNumber === 128) {
+         mutation.mutate(item);
+      }
    };
 
    const isLastRound = curRound * 2 >= curRoundArr.length - 2;
