@@ -2,7 +2,7 @@ import { UseQueryResult, useMutation, useQuery } from 'react-query';
 import { toast } from 'react-hot-toast';
 import { useRouter } from 'next/router';
 
-import { addNoobProHacker, getAllWinLine, getNoobProHackerById, getRecentWinLine } from './api/noobProHacker';
+import { addNoobProHacker, getNoobProHackerById } from './api/noobProHacker';
 import { NoobProHacker } from '@/domain/noobProHacker';
 
 export const useMutationNoobProHacker = () => {
@@ -32,22 +32,6 @@ export const useQueryNoobProHacker = () => {
          refetchOnWindowFocus: false,
       },
    );
-
-   return result;
-};
-
-export const useQueryNoobProHackerSweepLine = () => {
-   const { data: result }: UseQueryResult<NoobProHacker[]> = useQuery('getAllWinLine', () => getAllWinLine(), {
-      refetchOnWindowFocus: false,
-   });
-
-   return result;
-};
-
-export const useQueryNoobProHackerRecentWinLine = () => {
-   const { data: result }: UseQueryResult<NoobProHacker[]> = useQuery('getRecentWinLine', () => getRecentWinLine(), {
-      refetchOnWindowFocus: false,
-   });
 
    return result;
 };

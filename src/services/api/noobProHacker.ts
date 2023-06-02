@@ -23,19 +23,3 @@ export const getNoobProHackerById = async (id: string) => {
       throw error;
    }
 };
-
-export const getAllWinLine = async () => {
-   try {
-      return await fetch(`/api/noobProHacker?allWinLine=true`).then(handleFetchData);
-   } catch (error) {
-      throw error;
-   }
-};
-
-export const getRecentWinLine = async () => {
-   try {
-      return await fetch(`/api/noobProHacker?recentWinLine=true`).then(handleFetchData);
-   } catch (error) {
-      throw error;
-   }
-};

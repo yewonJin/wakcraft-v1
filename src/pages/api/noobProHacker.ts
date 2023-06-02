@@ -19,26 +19,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
          } catch {
             res.status(400).json({ error: 'fetch error' });
          }
-      } else if (req.query.allWinLine) {
-         try {
-            await connectMongo();
-
-            await NoobProHacker.findAllWinLine().then(noobProHacker => {
-               res.status(200).json(noobProHacker);
-            });
-         } catch {
-            res.status(400).json({ error: 'fetch error' });
-         }
-      } else if (req.query.recentWinLine) {
-         try {
-            await connectMongo();
-
-            await NoobProHacker.findRecentWinLine().then(noobProHacker => {
-               res.status(200).json(noobProHacker);
-            });
-         } catch {
-            res.status(400).json({ error: 'fetch error' });
-         }
       }
    } else if (req.method === 'POST') {
       const architectsInfo = convertToArchitect(req);
@@ -58,7 +38,3 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
    }
 }
-
-/*
-
-*/
