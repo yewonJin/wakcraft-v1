@@ -41,13 +41,12 @@ worldcupSchema.statics.increaseNumberOfWin = function (subject: string) {
 worldcupSchema.statics.increaseNumberOfParticipation = function (subject: string) {
    return this.updateOne(
       { 'workInfo.subject': subject },
-
       {
          $inc: { numberOfParticipation: 1 },
       },
    );
 };
 
-const Worldcup = (models['Worldcup'] as WorldcupModel) || model<Worldcup, WorldcupModel>('WorldCup', worldcupSchema);
+const Worldcup = (models['Worldcup'] as WorldcupModel) || model<Worldcup, WorldcupModel>('Worldcup', worldcupSchema);
 
 export default Worldcup;
