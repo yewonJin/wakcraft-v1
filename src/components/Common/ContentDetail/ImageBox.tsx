@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import styled from 'styled-components';
 import YoutubeLink from './YoutubeLink';
-import { renameToWebp } from '@/domain/noobProHacker';
+import { renameTo1080Webp, renameToWebp } from '@/domain/noobProHacker';
 
 const Layout = styled.div`
    position: relative;
@@ -33,7 +33,7 @@ export default function ImageBox(props: Props) {
    const { image_url, youtube_url } = props;
 
    return (
-      <Layout onClick={() => window.open(image_url)}>
+      <Layout onClick={() => window.open(renameTo1080Webp(image_url))}>
          <Image fill sizes="400px" alt="noobProHacker image" src={renameToWebp(image_url)} />
          {youtube_url && <YoutubeLink url={youtube_url} isIconOnImage={true} />}
       </Layout>

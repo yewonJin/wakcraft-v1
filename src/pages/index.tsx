@@ -9,7 +9,7 @@ import connectMongo from '@/utils/connectMongo';
 import NoobProHacker from '@/models/noobProHacker';
 import TextBox from '@/components/Common/TextBox';
 import { translateTier } from '@/utils/lib';
-import { lineWinnerIndex, renameToWebp } from '@/domain/noobProHacker';
+import { lineWinnerIndex, renameTo1080Webp, renameToWebp } from '@/domain/noobProHacker';
 import MainInfo from '@/components/MainInfo';
 import SweepLine from '@/components/SweepLine';
 import RecentWinner from '@/components/RecentWinner';
@@ -329,7 +329,9 @@ export default function Home({
                         <LineGroup key={'lineInfo' + index}>
                            {lineArr.map((line, index) => (
                               <LineItem key={'line' + index}>
-                                 <ImageBox onClick={() => window.open(item.line_details[line].image_url)}>
+                                 <ImageBox
+                                    onClick={() => window.open(renameTo1080Webp(item.line_details[line].image_url))}
+                                 >
                                     <Image
                                        src={renameToWebp(item.line_details[line].image_url)}
                                        style={{ objectFit: 'cover' }}

@@ -86,7 +86,7 @@ export default function RecentWinner({ noobProHackers }: { noobProHackers: NoobP
             {convertToRecentWin(noobProHackers).map((item, index) => {
                return (
                   <ContentBox
-                     onClick={() => window.open(item.line.image_url)}
+                     onClick={() => window.open(renameTo1080Webp(item.line.image_url))}
                      index={index}
                      priority={item.priority}
                      key={item.episode + item.line.minecraft_id}

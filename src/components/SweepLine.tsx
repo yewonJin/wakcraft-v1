@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { AiOutlineLeft, AiOutlineRight } from 'react-icons/ai';
 
 import TextBox from './Common/TextBox';
-import { NoobProHacker, convertToSweepLine, renameToWebp } from '@/domain/noobProHacker';
+import { NoobProHacker, convertToSweepLine, renameTo1080Webp, renameToWebp } from '@/domain/noobProHacker';
 import { translateTier } from '@/utils/lib';
 
 const Layout = styled.div`
@@ -237,7 +237,9 @@ export default function MainInfo({ sweepLine }: { sweepLine: NoobProHacker[] }) 
                         <LineList line={page}>
                            {lineArr.map((line, index) => (
                               <LineItem key={'line' + index}>
-                                 <ImageBox onClick={() => window.open(item.line_details[line].image_url)}>
+                                 <ImageBox
+                                    onClick={() => window.open(renameTo1080Webp(item.line_details[line].image_url))}
+                                 >
                                     <Image
                                        src={renameToWebp(item.line_details[line].image_url)}
                                        fill
@@ -270,10 +272,20 @@ export default function MainInfo({ sweepLine }: { sweepLine: NoobProHacker[] }) 
                   ))}
                </LineContainer>
             </List>
-            <ButtonBox position="left" page={page} lastPage={sweepLine.length} onClick={() => setPage(prev => prev - 1)}>
+            <ButtonBox
+               position="left"
+               page={page}
+               lastPage={sweepLine.length}
+               onClick={() => setPage(prev => prev - 1)}
+            >
                <AiOutlineLeft />
             </ButtonBox>
-            <ButtonBox position="right" page={page} lastPage={sweepLine.length} onClick={() => setPage(prev => prev + 1)}>
+            <ButtonBox
+               position="right"
+               page={page}
+               lastPage={sweepLine.length}
+               onClick={() => setPage(prev => prev + 1)}
+            >
                <AiOutlineRight />
             </ButtonBox>
          </Box>
