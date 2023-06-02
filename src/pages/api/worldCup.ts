@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 
 import connectMongo from '@/utils/connectMongo';
 import NoobProHacker from '@/models/noobProHacker';
-import { convertToWorldcup } from '@/domain/worldcup';
+import { Game, convertToWorldcup } from '@/domain/worldcup';
 import Worldcup from '@/models/worldcup';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -10,9 +10,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       try {
          await connectMongo();
 
-         await NoobProHacker.findHackerInfo().then(noobProHacker => {
-            res.status(200).json(noobProHacker);
-         });
+         await Worldcup.findAllByGameName('HackerWorldCup' as Game).then(worldcup => res.status(200).json(worldcup));
       } catch {
          res.status(400).json({ error: 'fetch error' });
       }
@@ -28,7 +26,30 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
          res.status(200).json('성공');
       } catch {
-         res.status(400).json({ error: 'fetch error' });
+         res.status(400).json({ error: 'POST Error' });
+      }
+   } else if (req.method === 'PATCH') {
+      if (req.query.winner) {
+         const { winner } = req.query;
+
+         try {
+            await connectMongo();
+
+            const worldcups = await Worldcup.findAllByGameName('HackerWorldCup');
+
+            worldcups
+               .sort((a, b) => b.workInfo.episode - a.workInfo.episode)
+               .slice(0, 128)
+               .forEach(async item => {
+                  await Worldcup.increaseNumberOfParticipation(item.workInfo.subject);
+               });
+
+            await Worldcup.increaseNumberOfWin(winner as string);
+
+            res.status(200).json('성공');
+         } catch {
+            res.status(400).json({ error: 'PATCH Error' });
+         }
       }
    }
 }

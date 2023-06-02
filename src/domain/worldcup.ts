@@ -1,7 +1,9 @@
 import { NoobProHacker } from './noobProHacker';
 
+export type Game = 'HackerWorldCup';
+
 export type Worldcup = {
-   subject: 'HackerWorldCup';
+   game: Game;
    workInfo: {
       minecraft_id: string;
       episode: number;
@@ -19,7 +21,7 @@ export const convertToWorldcup = (arr: NoobProHacker[]): Worldcup[] => {
    arr.forEach(item => {
       item.lineInfo.forEach(line => {
          const worldcupItem: Worldcup = {
-            subject: 'HackerWorldCup',
+            game: 'HackerWorldCup',
             workInfo: {
                minecraft_id: line.line_details.hacker.minecraft_id,
                episode: item.contentInfo.episode,
