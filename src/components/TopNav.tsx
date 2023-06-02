@@ -124,7 +124,7 @@ export default function TopNav() {
                <Link href={'/architect'}>건축가</Link>
                <Link href={'/noobProHacker'}>눕프로해커</Link>
                <Link href={'/content'}>컨텐츠</Link>
-               <Link href={'/game/worldCup'}>게임</Link>
+               <Link href={'/game/worldCup'}>월드컵</Link>
                <Menu>
                   {!isOpened ? (
                      <GiHamburgerMenu onClick={() => setIsOpened(true)} />
@@ -144,7 +144,7 @@ export default function TopNav() {
                   컨텐츠
                </Link>
                <Link href={'/game/worldCup'} onClick={() => setIsOpened(false)}>
-                  게임
+                  월드컵
                </Link>
             </MenuBox>
          </Container>
@@ -160,7 +160,7 @@ export default function TopNav() {
                <Link href={'/architect'}>건축가</Link>
                <Link href={'/noobProHacker'}>눕프로해커</Link>
                <Link href={'/content'}>컨텐츠</Link>
-               <Link href={'/game/worldCup'}>게임</Link>
+               <Link href={'/game/worldCup'}>월드컵</Link>
                <Menu>
                   {!isOpened ? (
                      <GiHamburgerMenu onClick={() => setIsOpened(true)} />
@@ -180,7 +180,7 @@ export default function TopNav() {
                   컨텐츠
                </Link>
                <Link href={'/game/worldCup'} onClick={() => setIsOpened(false)}>
-                  게임
+                  월드컵
                </Link>
             </MenuBox>
          </Container>
