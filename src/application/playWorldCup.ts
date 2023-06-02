@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 
-import { useQueryWorldCup } from '@/services/worldcupAdapters';
+import { useMutationWorldcup, useQueryWorldCup } from '@/services/worldcupAdapters';
 import { Worldcup } from '@/domain/worldcup';
 
 export const usePlayWorldCup = () => {
    const data = useQueryWorldCup();
+   const mutation = useMutationWorldcup();
 
    const [page, setPage] = useState(0);
    const [roundOfNumber, setRoundOfNumber] = useState(128);
@@ -74,6 +75,7 @@ export const usePlayWorldCup = () => {
 
    const setWinner = (item: Worldcup) => {
       setCurRoundArr([...nextRoundArr, item]);
+      mutation.mutate(item);
 
       console.log('우승');
    };

@@ -1,6 +1,6 @@
-import { UseQueryResult, useQuery } from 'react-query';
+import { UseQueryResult, useMutation, useQuery } from 'react-query';
 
-import { getWorldCup } from './api/worldcup';
+import { getWorldCup, increaseWinnerCount } from './api/worldcup';
 import { Worldcup } from '@/domain/worldcup';
 
 export const useQueryWorldCup = () => {
@@ -9,4 +9,13 @@ export const useQueryWorldCup = () => {
    });
 
    return result;
+};
+
+export const useMutationWorldcup = () => {
+   var myHeaders = new Headers();
+   myHeaders.append('Content-Type', 'application/json');
+
+   const mutation = useMutation((body: Worldcup) => increaseWinnerCount(body.workInfo.subject));
+
+   return mutation;
 };

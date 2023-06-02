@@ -1,8 +1,8 @@
 import Image from 'next/image';
 import styled from 'styled-components';
 
-import { WorldCupItem } from '@/services/worldcupAdapters';
 import { renameTo1080Webp } from '@/domain/noobProHacker';
+import { Worldcup } from '@/domain/worldcup';
 
 const ImageBox = styled.div`
    position: relative;
@@ -19,7 +19,7 @@ const ImageBox = styled.div`
    }
 `;
 
-export default function Winner({ curRoundArr }: { curRoundArr: WorldCupItem[] }) {
+export default function Winner({ curRoundArr }: { curRoundArr: Worldcup[] }) {
    return (
       <ImageBox>
          <Image
@@ -27,7 +27,7 @@ export default function Winner({ curRoundArr }: { curRoundArr: WorldCupItem[] })
             sizes="1600px"
             fill
             alt="NoobProHacker Image"
-            src={renameTo1080Webp(curRoundArr[0].image_url)}
+            src={renameTo1080Webp(curRoundArr[0].workInfo.image_url)}
          />
       </ImageBox>
    );

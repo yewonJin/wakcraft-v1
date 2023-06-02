@@ -31,27 +31,23 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
          res.status(400).json({ error: 'POST Error' });
       }
    } else if (req.method === 'PATCH') {
-      if (req.query.winner) {
-         const { winner } = req.query;
+      try {
+         await connectMongo();
 
-         try {
-            await connectMongo();
+         await Worldcup.increaseNumberOfWin(req.body as string);
 
-            const worldcups = await Worldcup.findAllByGameName('HackerWorldCup');
+         const worldcups = await Worldcup.findAllByGameName('HackerWorldCup');
 
-            worldcups
-               .sort((a, b) => b.workInfo.episode - a.workInfo.episode)
-               .slice(0, 128)
-               .forEach(async item => {
-                  await Worldcup.increaseNumberOfParticipation(item.workInfo.subject);
-               });
+         worldcups
+            .sort((a, b) => b.workInfo.episode - a.workInfo.episode)
+            .slice(0, 128)
+            .forEach(async item => {
+               await Worldcup.increaseNumberOfParticipation(item.workInfo.subject);
+            });
 
-            await Worldcup.increaseNumberOfWin(winner as string);
-
-            res.status(200).json('성공');
-         } catch {
-            res.status(400).json({ error: 'PATCH Error' });
-         }
+         res.status(200).json('성공');
+      } catch {
+         res.status(400).json({ error: 'PATCH Error' });
       }
    }
 }
