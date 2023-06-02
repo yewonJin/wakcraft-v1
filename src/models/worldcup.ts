@@ -27,6 +27,6 @@ worldcupSchema.statics.findAllBySubject = function (subject: string) {
    return this.find({ subject: subject });
 };
 
-const Worldcup = (models['Worldcup'] as WorldcupModel) || model<Worldcup, WorldcupModel>('Admin', worldcupSchema);
+const Worldcup = (models['Worldcup'] as WorldcupModel) || model<Worldcup, WorldcupModel>('WorldCup', worldcupSchema);
 
 export default Worldcup;
