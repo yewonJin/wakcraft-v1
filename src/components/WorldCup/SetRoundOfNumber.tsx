@@ -3,6 +3,7 @@ import { SetStateAction } from 'react';
 
 import { Button } from '../Common/Button';
 import TextBox from '../Common/TextBox';
+import { useRouter } from 'next/router';
 
 const Layout = styled.div`
    display: flex;
@@ -40,6 +41,7 @@ type Props = {
 };
 
 export default function SetRoundOfNumber(props: Props) {
+   const router = useRouter();
    const { roundOfNumber, setRoundOfNumber, setPage } = props;
 
    return (
@@ -61,6 +63,7 @@ export default function SetRoundOfNumber(props: Props) {
                </option>
             </Select>
             <Button text="시작" padding="6px 14px" margin="0px" onClick={() => setPage(1)} />
+            <Button text="랭킹 보기" padding="6px 14px" margin="0px" onClick={() => router.push('/worldcup/ranking')} />
          </SelectBox>
          <TextWrapper>
             <TextBox text={'유의사항'} fontSize="24px" lineHeight="32px" color="white" fontWeight="500" />

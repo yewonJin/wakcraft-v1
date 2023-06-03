@@ -39,3 +39,11 @@ export const convertToWorldcup = (arr: NoobProHacker[]): Worldcup[] => {
 
    return worldcupArr;
 };
+
+export const getWinRatio = (item: Worldcup) => {
+   const { numberOfWin, numberOfParticipation } = item;
+
+   return numberOfParticipation === 0
+      ? '??%'
+      : Math.floor((numberOfWin / numberOfParticipation) * 100).toString() + '%';
+};
