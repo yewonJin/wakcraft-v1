@@ -1,7 +1,8 @@
 import { UseQueryResult, useMutation, useQuery } from 'react-query';
 
-import { getWorldCup, increaseWinnerCount } from './api/worldcup';
+import { getWorldCup, increaseWinnerCount, resetCount } from './api/worldcup';
 import { Worldcup } from '@/domain/worldcup';
+import { toast } from 'react-hot-toast';
 
 export const useQueryWorldCup = () => {
    const { data: result }: UseQueryResult<Worldcup[]> = useQuery(['getWorldCup'], () => getWorldCup(), {
@@ -18,4 +19,16 @@ export const useMutationWorldcup = () => {
    const mutation = useMutation((body: Worldcup) => increaseWinnerCount(body.workInfo.subject));
 
    return mutation;
+};
+
+export const useMutationResetWorldcup = () => {
+   const { mutate } = useMutation(() =>
+      toast.promise(resetCount(), {
+         loading: '리셋 중',
+         success: '리셋 완료',
+         error: err => err.message,
+      }),
+   );
+
+   return { mutate };
 };

@@ -42,6 +42,10 @@ export default function Index() {
             <Link href={'/admin/eventNoobProHacker'}>
                <li>이벤트 눕프핵</li>
             </Link>
+            <Divider />
+            <Link href={'/admin/worldcup'}>
+               <li>월드컵</li>
+            </Link>
          </List>
       </CommonLayout>
    );

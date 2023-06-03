@@ -5,6 +5,8 @@ interface WorldcupModel extends Model<Worldcup> {
    findAllByGameName: (game: Game) => Promise<Worldcup[]>;
    increaseNumberOfWin: (subject: string) => Promise<void>;
    increaseNumberOfParticipation: (subject: string) => Promise<void>;
+   resetNumberOfWin: () => Promise<void>;
+   resetNumberOfParticipation: () => Promise<void>;
 }
 
 const worldcupSchema = new Schema<Worldcup, WorldcupModel>({
@@ -43,6 +45,24 @@ worldcupSchema.statics.increaseNumberOfParticipation = function (subject: string
       { 'workInfo.subject': subject },
       {
          $inc: { numberOfParticipation: 1 },
+      },
+   );
+};
+
+worldcupSchema.statics.resetNumberOfWin = function () {
+   return this.updateMany(
+      {},
+      {
+         $set: { numberOfWin: 0 },
+      },
+   );
+};
+
+worldcupSchema.statics.resetNumberOfParticipation = function () {
+   return this.updateMany(
+      {},
+      {
+         $set: { numberOfParticipation: 0 },
       },
    );
 };

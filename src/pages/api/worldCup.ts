@@ -31,23 +31,38 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
          res.status(400).json({ error: 'POST Error' });
       }
    } else if (req.method === 'PATCH') {
-      try {
-         await connectMongo();
+      if (req.query.reset) {
+         try {
+            await connectMongo();
 
-         await Worldcup.increaseNumberOfWin(req.body as string);
+            await Worldcup.resetNumberOfParticipation();
 
-         const worldcups = await Worldcup.findAllByGameName('HackerWorldCup');
+            await Worldcup.resetNumberOfWin();
 
-         worldcups
-            .sort((a, b) => b.workInfo.episode - a.workInfo.episode)
-            .slice(0, 128)
-            .forEach(async item => {
-               await Worldcup.increaseNumberOfParticipation(item.workInfo.subject);
-            });
+            res.status(200).json('리셋 성공');
+         } catch {
+            res.status(400).json({ error: 'PUT Error' });
+         }
+      } else {
+         try {
+            await connectMongo();
 
-         res.status(200).json('성공');
-      } catch {
-         res.status(400).json({ error: 'PATCH Error' });
+            await Worldcup.increaseNumberOfWin(req.body as string);
+
+            const worldcups = await Worldcup.findAllByGameName('HackerWorldCup');
+
+            worldcups
+               .sort((a, b) => b.workInfo.episode - a.workInfo.episode)
+               .slice(0, 128)
+               .forEach(async item => {
+                  await Worldcup.increaseNumberOfParticipation(item.workInfo.subject);
+               });
+
+            res.status(200).json('성공');
+         } catch {
+            res.status(400).json({ error: 'PATCH Error' });
+         }
       }
+   } else if (req.method === 'PUT') {
    }
 }

@@ -22,3 +22,13 @@ export const increaseWinnerCount = async (subject: string) => {
       throw error;
    }
 };
+
+export const resetCount = async () => {
+   try {
+      return await fetch(`/api/worldcup?reset=true`, {
+         method: 'PATCH',
+      }).then(handleFetchData);
+   } catch (error) {
+      throw error;
+   }
+};
