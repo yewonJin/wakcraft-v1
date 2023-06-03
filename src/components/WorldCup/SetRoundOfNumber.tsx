@@ -30,7 +30,7 @@ const Select = styled.select`
 const TextWrapper = styled.div`
    display: flex;
    flex-direction: column;
-   gap: 10px;
+   gap: 16px;
    margin-top: 40px;
 `;
 
@@ -76,6 +76,13 @@ export default function SetRoundOfNumber(props: Props) {
             />
             <TextBox
                text={'페이지를 닫거나 새로고침을 누르면 진행 사항이 초기화 됩니다'}
+               fontSize="18px"
+               lineHeight="24px"
+               color="#ccc"
+               fontWeight="400"
+            />
+            <TextBox
+               text={'정확한 데이터를 위해 128강 외에는 투표 결과를 반영하지 않습니다.'}
                fontSize="18px"
                lineHeight="24px"
                color="#ccc"

@@ -5,9 +5,9 @@ import { useRouter } from 'next/router';
 
 import TextBox from '@/components/Common/TextBox';
 import { usePlayWorldCup } from '@/application/playWorldCup';
-import Loading from '@/components/WorldCup/Loading';
-import SetRoundOfNumber from '@/components/WorldCup/SetRoundOfNumber';
-import Winner from '@/components/WorldCup/Winner';
+import Loading from '@/components/Worldcup/Loading';
+import SetRoundOfNumber from '@/components/Worldcup/SetRoundOfNumber';
+import Winner from '@/components/Worldcup/Winner';
 import { Button } from '@/components/Common/Button';
 import ImageInfo from '@/components/Common/ImageInfo';
 import { renameTo1080Webp } from '@/domain/noobProHacker';
@@ -16,7 +16,7 @@ const Layout = styled.div`
    position: relative;
    display: flex;
    flex-direction: column;
-   padding-top: 150px;
+   padding-top: 130px;
    height: 100vh;
    background-color: #0f0f0f;
 `;
@@ -157,7 +157,17 @@ export default function WorldCup() {
                      color="#ccc"
                      margin="8px 0px 0px 0px"
                   />
-                  <Button text="다시하기" onClick={() => router.reload()} padding="5px 8px" margin="9px 0px 0px 5px" />
+                  <Button text="다시 하기" onClick={() => router.reload()} padding="5px 8px" margin="9px 0px 0px 5px" />
+                  {curRoundArr.length === 1 ? (
+                     <Button
+                        text="랭킹 보기"
+                        onClick={() => router.push('/worldcup/ranking')}
+                        padding="5px 8px"
+                        margin="9px 0px 0px 5px"
+                     />
+                  ) : (
+                     ''
+                  )}
                </TextWrapper>
                <Main>
                   {curRoundArr.length === 1 ? (

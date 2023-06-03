@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-import { Worldcup } from '@/domain/worldcup';
+import { Worldcup, shuffle } from '@/domain/worldcup';
 import { useMutationWorldcup, useQueryWorldCup } from '@/services/worldcupAdapters';
 
 export const usePlayWorldCup = () => {
@@ -24,23 +24,6 @@ export const usePlayWorldCup = () => {
       initializeFirstRound();
    }, [data, roundOfNumber]);
 
-   function shuffle(array: Worldcup[]) {
-      let currentIndex = array.length,
-         randomIndex;
-
-      // While there remain elements to shuffle.
-      while (currentIndex != 0) {
-         // Pick a remaining element.
-         randomIndex = Math.floor(Math.random() * currentIndex);
-         currentIndex--;
-
-         // And swap it with the current element.
-         [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
-      }
-
-      return array;
-   }
-
    /** N강 설정하기  */
    const initializeFirstRound = () => {
       if (!data) return;
@@ -52,7 +35,6 @@ export const usePlayWorldCup = () => {
       return curRoundArr.filter((_, index) => index < (curRound + 1) * 4);
    };
 
-   /** 월드컵 설정 알고리즘 */
    const handleImageClick = (item: Worldcup, index: number) => {
       if (isFinalRound) {
          setWinner(item);
@@ -67,7 +49,7 @@ export const usePlayWorldCup = () => {
       pauseAllVideo();
 
       setItemToNextRound(item);
-
+      
       clickAnimation(index);
    };
 
