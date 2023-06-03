@@ -10,9 +10,9 @@ import NoobProHacker from '@/models/noobProHacker';
 import TextBox from '@/components/Common/TextBox';
 import { translateTier } from '@/utils/lib';
 import { lineWinnerIndex, renameTo1080Webp, renameToWebp } from '@/domain/noobProHacker';
-import MainInfo from '@/components/MainInfo';
-import SweepLine from '@/components/SweepLine';
-import RecentWinner from '@/components/RecentWinner';
+import MainInfo from '@/components/Home/MainInfo';
+import SweepLine from '@/components/Home/SweepLine';
+import RecentWinner from '@/components/Home/RecentWinner';
 import Architect from '@/models/architect';
 import { ArchitectWithSortPriority } from '@/domain/architect';
 

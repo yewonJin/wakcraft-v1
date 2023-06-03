@@ -72,7 +72,6 @@ const WinRatio = styled.div`
    flex: 4;
 `;
 
-
 const YoutubeBox = styled.div`
    display: flex;
    flex: 2;
@@ -93,7 +92,6 @@ const SelectPageItem = styled.li<{ page: number; index: number }>`
       cursor: pointer;
    }
 `;
-
 
 export default function Ranking() {
    const { data } = usePlayWorldCup();
@@ -165,7 +163,7 @@ export default function Ranking() {
                   ))}
             </RankingLayout>
             <SelectPageList>
-               {new Array(Math.floor(data.length / 10) + 1).fill(0).map((item, index) => (
+               {new Array(Math.floor(data.length / 10) + 1).fill(0).map((_, index) => (
                   <SelectPageItem page={page} index={index} key={index} onClick={() => setPage(index)}>
                      {index + 1}
                   </SelectPageItem>
