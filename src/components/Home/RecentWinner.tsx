@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import Image from 'next/image';
 
-import TextBox from './Common/TextBox';
-import ImageInfo from './Common/ImageInfo';
+import TextBox from '../Common/TextBox';
+import ImageInfo from '../Common/ImageInfo';
 import { NoobProHacker, convertToRecentWin, renameTo1080Webp } from '@/domain/noobProHacker';
 
 const Layout = styled.div`
@@ -44,6 +44,8 @@ const ContentLayout = styled.div`
 const ContentBox = styled.div<{ index: number; priority: number }>`
    position: relative;
    height: 400px;
+   box-shadow: 1px 1px 5px #999;
+   border-radius: 20px;
    grid-column: ${props => (props.priority == 0 ? 'span 2' : 'span 3')};
    order: ${props => props.index};
    order: ${props => (props.index == 2 ? '3' : props.index == 3 ? '2' : '')};

@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { AiOutlineLeft, AiOutlineRight } from 'react-icons/ai';
 
-import TextBox from './Common/TextBox';
+import TextBox from '../Common/TextBox';
 import { NoobProHacker, convertToSweepLine, renameTo1080Webp, renameToWebp } from '@/domain/noobProHacker';
 import { translateTier } from '@/utils/lib';
 
@@ -12,6 +12,7 @@ const Layout = styled.div`
    width: 100%;
    margin: 0px auto;
    margin-top: 120px;
+   margin-bottom: 60px;
 
    @media screen and (max-width: 1200px) {
       width: 90%;
@@ -97,6 +98,9 @@ const ImageBox = styled.div`
    width: 100%;
    aspect-ratio: 3/3.6;
    background-color: #ccc;
+   border-radius: 20px;
+   box-shadow: 1px 1px 5px #999;
+
 
    @media screen and (min-width: 1200px) {
       width: 380px;
@@ -112,6 +116,8 @@ const ImageBox = styled.div`
    }
 
    > img {
+      border-radius: 20px;
+
       :hover {
          scale: 1.02;
          cursor: pointer;

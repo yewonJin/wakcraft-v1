@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import TextBox from './Common/TextBox';
+import TextBox from '../Common/TextBox';
 import {
    ArchitectWithSortPriority,
    getMostParticipationArchitect,
@@ -51,11 +51,10 @@ const Main = styled.main`
 
    @media screen and (max-width: 1000px) {
       grid-template-columns: repeat(2, 1fr);
-      grid-template-rows: repeat(4, 1fr);
+      grid-template-rows: repeat(3, 200px);
       grid-template-areas:
          'a b'
          'a c'
-         'd d'
          'd d';
    }
 `;
@@ -69,12 +68,56 @@ const Box = styled.div<{ area: string }>`
    background-color: #f0f0f0;
    border-radius: 15px;
    grid-area: ${props => props.area};
+   box-shadow: 1px 1px 5px #999;
 `;
 
 const TextWrapper = styled.div<{ flexDirection?: string }>`
    display: flex;
    flex-direction: ${props => (props.flexDirection === 'column' ? 'column' : 'row')};
    gap: 20px;
+`;
+
+const DateLayout = styled.div`
+   display: flex;
+   gap: 30px;
+   width: 100%;
+   height: 50%;
+   margin-top: 50px;
+   padding: 0px 50px;
+
+   @media screen and (max-width: 1000px) {
+      padding: 0px;
+      margin-top: 10px;
+   }
+`;
+
+const DateBox = styled.div`
+   display: flex;
+   flex-direction: column;
+   gap: 20px;
+   align-items: center;
+   justify-content: center;
+   flex: 1;
+   padding-bottom: 20px;
+
+   @media screen and (max-width: 1000px) {
+      gap: 10px;
+
+      > h2:nth-child(1) {
+         font-size: 16px;
+         line-height: 24px;
+      }
+
+      > h2:nth-child(2) {
+         font-size: 18px;
+         line-height: 24px;
+      }
+
+      > h2:nth-child(3) {
+         font-size: 12px;
+         line-height: 20px;
+      }
+   }
 `;
 
 export default function MainInfo({ architects }: { architects: ArchitectWithSortPriority[] }) {
@@ -175,46 +218,90 @@ export default function MainInfo({ architects }: { architects: ArchitectWithSort
                </TextWrapper>
             </Box>
             <Box area="d">
-               <TextBox text="눕프핵 우승 라인" fontSize="18px" fontWeight="500" color="#868686" />
-               <TextWrapper flexDirection="column">
-                  <TextBox
-                     text="#햄버그 스테이크 #장수말벌 #초염몽 #이노스케 #드루이드 #뢴트게늄 #징크스"
-                     fontSize="18px"
-                     fontWeight="500"
-                     textAlign="center"
-                     color="#333"
-                  />
-                  <TextBox
-                     text="#국밥 #모크나이퍼 #키노모토 사쿠라 #히나츠루 #릴파 #제트 #흰수염"
-                     fontSize="18px"
-                     fontWeight="500"
-                     textAlign="center"
-                     color="#333"
-                  />
-                  <TextBox
-                     text="#데스 #그레이몬 #리 신 #데드셀 죄수 #레미 #가오가이가 #춘리"
-                     fontSize="18px"
-                     fontWeight="500"
-                     textAlign="center"
-                     color="#333"
-                  />
-                  <TextBox
-                     text="#징징이 #잉클링 #가로우 #키리코 #메이 #루시나 쿠시나다 #바보들의 배"
-                     fontSize="18px"
-                     fontWeight="500"
-                     textAlign="center"
-                     color="#333"
-                  />
-                  <TextBox
-                     text="#뿌리 괴물 삼총사 #마리오"
-                     fontSize="18px"
-                     fontWeight="500"
-                     textAlign="center"
-                     color="#333"
-                  />
-               </TextWrapper>
+               <TextBox text="눕프핵 TMI" fontSize="18px" fontWeight="500" color="#868686" />
+               <DateLayout>
+                  <DateBox>
+                     <TextBox text="첫 눕프핵" fontSize="18px" fontWeight="500" textAlign="center" color="#333" />
+                     <TextBox
+                        text={
+                           'D+' +
+                           Math.floor(
+                              (new Date().getTime() - new Date('2021-06-05').getTime()) / (24 * 1000 * 3600) - 1,
+                           ).toString()
+                        }
+                        fontSize="40px"
+                        lineHeight="60px"
+                        fontWeight="500"
+                        textAlign="center"
+                        color="#333"
+                     />
+                     <TextBox text="(2021-06-25 ~ )" fontSize="16px" textAlign="center" color="#777" />
+                  </DateBox>
+                  <DateBox>
+                     <TextBox text="최근 눕프핵" fontSize="18px" fontWeight="500" textAlign="center" color="#333" />
+                     <TextBox
+                        text={
+                           'D+' +
+                           Math.floor(
+                              (new Date().getTime() - new Date('2023-02-26').getTime()) / (24 * 1000 * 3600) - 1,
+                           ).toString()
+                        }
+                        fontSize="40px"
+                        lineHeight="60px"
+                        fontWeight="500"
+                        textAlign="center"
+                        color="#333"
+                     />
+                     <TextBox text="(2023-02-26 ~ )" fontSize="16px" textAlign="center" color="#777" />
+                  </DateBox>
+                  <DateBox>
+                     <TextBox text="시즌3" fontSize="18px" fontWeight="500" textAlign="center" color="#333" />
+                     <TextBox
+                        text={
+                           'D+' +
+                           Math.floor(
+                              (new Date().getTime() - new Date('2023-03-19').getTime()) / (24 * 1000 * 3600) - 1,
+                           ).toString()
+                        }
+                        fontSize="40px"
+                        lineHeight="60px"
+                        fontWeight="500"
+                        textAlign="center"
+                        color="#333"
+                     />
+                     <TextBox text="(2023-03-19 ~ )" fontSize="16px" textAlign="center" color="#777" />
+                  </DateBox>
+               </DateLayout>
             </Box>
          </Main>
       </Layout>
    );
 }
+
+/*
+
+               <TextWrapper flexDirection="column">
+                  <TextWrapper flexDirection="row">                     
+                     <TextBox
+                        text="첫 눕프핵 날짜 : 2021년 6월 5일"
+                        fontSize="18px"
+                        fontWeight="500"
+                        textAlign="center"
+                        color="#333"
+                     />
+                     <TextBox
+                        text={
+                           '누적시간 : ' +
+                           Math.floor(
+                              (new Date().getTime() - new Date('2021-06-05').getTime()) / (24 * 1000 * 3600) - 1,
+                           ).toString() +
+                           '일'
+                        }
+                        fontSize="18px"
+                        fontWeight="500"
+                        textAlign="center"
+                        color="#666"
+                     />
+                  </TextWrapper>
+               </TextWrapper>
+*/
