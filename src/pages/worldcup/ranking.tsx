@@ -7,6 +7,7 @@ import TextBox from '@/components/Common/TextBox';
 import { renameToWebp } from '@/domain/noobProHacker';
 import Skeleton from '@/components/Common/Skeleton';
 import { getWinRatio } from '@/domain/worldcup';
+import YoutubeLink from '@/components/Common/ContentDetail/YoutubeLink';
 
 const Layout = styled.div`
    position: relative;
@@ -63,12 +64,18 @@ const TextWrapper = styled.div<{ direction: string }>`
    display: flex;
    flex-direction: ${props => (props.direction === 'column' ? 'column' : 'row')};
    gap: 6px;
-   flex: 6;
+   flex: 5;
 `;
 
 const WinRatio = styled.div`
    display: flex;
    flex: 4;
+`;
+
+
+const YoutubeBox = styled.div`
+   display: flex;
+   flex: 2;
 `;
 
 const SelectPageList = styled.ul`
@@ -86,6 +93,7 @@ const SelectPageItem = styled.li<{ page: number; index: number }>`
       cursor: pointer;
    }
 `;
+
 
 export default function Ranking() {
    const { data } = usePlayWorldCup();
@@ -123,6 +131,9 @@ export default function Ranking() {
                <WinRatio>
                   <TextBox text="우승 비율 (우승 횟수 / 참여 횟수)" fontSize="16px" lineHeight="24px" />
                </WinRatio>
+               <YoutubeBox>
+                  <TextBox text="링크" fontSize="16px" lineHeight="24px" />
+               </YoutubeBox>
             </TableBox>
             <RankingLayout>
                {data
@@ -147,6 +158,9 @@ export default function Ranking() {
                         <WinRatio>
                            <TextBox text={getWinRatio(item)} fontSize="16px" lineHeight="24px" />
                         </WinRatio>
+                        <YoutubeBox>
+                           <YoutubeLink url={item.workInfo.youtube_url} />
+                        </YoutubeBox>
                      </RankingItem>
                   ))}
             </RankingLayout>
