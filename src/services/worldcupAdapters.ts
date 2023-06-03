@@ -2,7 +2,7 @@ import { UseQueryResult, useMutation, useQuery } from 'react-query';
 
 import { Worldcup } from '@/domain/worldcup';
 import { toast } from 'react-hot-toast';
-import { getWorldCup, increaseWinnerCount, resetCount } from './api/worldCup';
+import { getWorldCup, increaseWinnerCount, resetCount } from './api/worldcup';
 
 export const useQueryWorldCup = () => {
    const { data: result }: UseQueryResult<Worldcup[]> = useQuery(['getWorldCup'], () => getWorldCup(), {
