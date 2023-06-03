@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
-import { useMutationWorldcup, useQueryWorldCup } from '@/services/worldcupAdapters';
 import { Worldcup } from '@/domain/worldcup';
+import { useMutationWorldcup, useQueryWorldCup } from '@/services/worldcupAdapters';
 
 export const usePlayWorldCup = () => {
    const data = useQueryWorldCup();
