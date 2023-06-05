@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 import { translateTier } from '@/utils/lib';
 
-const Layout = styled.span<{ tier: 'noob' | 'pro' | 'hacker' }>`
+const Layout = styled.span<{ tier: string }>`
    display: flex;
    justify-content: center;
    align-items: center;
@@ -12,12 +12,24 @@ const Layout = styled.span<{ tier: 'noob' | 'pro' | 'hacker' }>`
    font-size: 16px;
    color: white;
    text-shadow: 1px 1px 2px black;
-   background: ${props =>
-      props.tier === 'hacker' ? 'rgb(177, 41, 98)' : props.tier === 'pro' ? 'rgb(59, 157, 177)' : 'rgb(198,142,83)'};
+   background: ${props => setBackground(props.tier)};
 `;
 
+const setBackground = (tier: string) => {
+   switch (tier) {
+      case 'noob':
+         return 'rgb(198,142,83)';
+      case 'pro':
+         return 'rgb(59, 157, 177)';
+      case 'hacker':
+         return 'rgb(177, 41, 98)';
+      default:
+         return '#414141';
+   }
+};
+
 type Props = {
-   tier: 'noob' | 'pro' | 'hacker';
+   tier: string;
 };
 
 export default function TierBox(props: Props) {
