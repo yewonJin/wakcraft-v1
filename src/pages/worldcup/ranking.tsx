@@ -8,6 +8,7 @@ import { renameToWebp } from '@/domain/noobProHacker';
 import Skeleton from '@/components/Common/Skeleton';
 import { getWinRatio } from '@/domain/worldcup';
 import YoutubeLink from '@/components/Common/ContentDetail/YoutubeLink';
+import { AiOutlineLeft, AiOutlineRight } from 'react-icons/ai';
 
 const Layout = styled.div`
    position: relative;
@@ -19,6 +20,10 @@ const Layout = styled.div`
 const Main = styled.main`
    width: 1200px;
    margin: 0px auto;
+
+   @media screen and (max-width: 1300px) {
+      width: 95%;
+   }
 `;
 
 const TableBox = styled.ul`
@@ -29,8 +34,12 @@ const TableBox = styled.ul`
    list-style: none;
    margin-top: 15px;
    border-radius: 10px;
-   height: 60px;
+   padding: 15px 0px;
    background-color: #eee;
+
+   @media screen and (max-width: 800px) {
+      gap: 10px;
+   }
 `;
 
 const RankingLayout = styled.ul``;
@@ -43,6 +52,10 @@ const RankingItem = styled.li`
    gap: 40px;
    list-style: none;
    border-bottom: 1px solid #ddd;
+
+   @media screen and (max-width: 800px) {
+      gap: 15px;
+   }
 `;
 
 const RankingBox = styled.div`
@@ -58,39 +71,98 @@ const ImageBox = styled.div`
    align-items: center;
    flex: 2;
    height: 100%;
+
+   @media screen and (max-width: 800px) {
+      min-width: 120px;
+   }
 `;
 
 const TextWrapper = styled.div<{ direction: string }>`
    display: flex;
    flex-direction: ${props => (props.direction === 'column' ? 'column' : 'row')};
-   gap: 6px;
+   gap: 4px;
    flex: 5;
+
+   @media screen and (max-width: 800px) {
+      > h2 {
+         font-size: 14px;
+      }
+      flex: 3;
+   }
 `;
 
 const WinRatio = styled.div`
    display: flex;
    flex: 4;
+
+   @media screen and (max-width: 800px) {
+      flex: 1;
+
+      > div > h2:nth-child(2) {
+         display: none;
+      }
+   }
 `;
 
 const YoutubeBox = styled.div`
    display: flex;
    flex: 2;
+
+   @media screen and (max-width: 800px) {
+      flex: 1;
+      display: none;
+   }
 `;
 
-const SelectPageList = styled.ul`
-   display: flex;
-   justify-content: center;
-   gap: 10px;
+const SelectPageBox = styled.div`
+   position: relative;
    padding-top: 20px;
    margin-bottom: 40px;
 `;
 
+const SelectPageList = styled.ul`
+   width: 350px;
+   position: relative;
+   display: flex;
+   justify-content: center;
+   gap: 10px;
+   margin: 0px auto;
+`;
+
 const SelectPageItem = styled.li<{ page: number; index: number }>`
+   display: ${props =>
+      props.index < Math.floor(props.page / 5 + 1) * 5 && props.index >= Math.floor(props.page / 5) * 5
+         ? 'flex'
+         : 'none'};
+
    list-style: none;
    padding: 5px 10px;
    background-color: ${props => (props.page === props.index ? '#ddd' : '')};
    :hover {
       cursor: pointer;
+   }
+`;
+
+const SelectPageButton = styled.span<{ direction: 'left' | 'right'; page: number }>`
+   position: absolute;
+   display: ${props =>
+      (props.direction === 'left' && props.page === 0) || (props.direction === 'right' && props.page === 12)
+         ? 'none'
+         : 'flex'};
+   justify-content: center;
+   align-items: center;
+   width: 24px;
+   height: 24px;
+   bottom: 4px;
+   left: ${props => (props.direction === 'left' ? '43px' : '')};
+   right: ${props => (props.direction === 'right' ? '43px' : '')};
+
+   :hover {
+      cursor: pointer;
+
+      > svg {
+         font-size: 1.1rem;
+      }
    }
 `;
 
@@ -124,11 +196,15 @@ export default function Ranking() {
                <ImageBox>
                   <TextBox text="이미지" fontSize="16px" lineHeight="24px" />
                </ImageBox>
-               <TextWrapper direction="row">
-                  <TextBox text="주제 / 마인크래프트 아이디" fontSize="16px" lineHeight="24px" />
+               <TextWrapper direction="column">
+                  <TextBox text="주제" fontSize="16px" lineHeight="24px" />
+                  <TextBox text="건축가" fontSize="14px" lineHeight="24px" color="#666" />
                </TextWrapper>
                <WinRatio>
-                  <TextBox text="우승 비율 (우승 횟수 / 참여 횟수)" fontSize="16px" lineHeight="24px" />
+                  <TextWrapper direction="column">
+                     <TextBox text="우승 비율" fontSize="16px" lineHeight="24px" />
+                     <TextBox text="(우승 횟수 / 참여 횟수)" fontSize="14px" lineHeight="24px" color="#666" />
+                  </TextWrapper>
                </WinRatio>
                <YoutubeBox>
                   <TextBox text="링크" fontSize="16px" lineHeight="24px" />
@@ -163,13 +239,39 @@ export default function Ranking() {
                      </RankingItem>
                   ))}
             </RankingLayout>
-            <SelectPageList>
-               {new Array(Math.floor(data.length / 10) + 1).fill(0).map((_, index) => (
-                  <SelectPageItem page={page} index={index} key={index} onClick={() => setPage(index)}>
-                     {index + 1}
-                  </SelectPageItem>
-               ))}
-            </SelectPageList>
+            <SelectPageBox>
+               <SelectPageList>
+                  <SelectPageButton
+                     direction="left"
+                     page={page}
+                     onClick={() =>
+                        setPage(prev => {
+                           if (prev === 0) return prev;
+                           return prev - 1;
+                        })
+                     }
+                  >
+                     <AiOutlineLeft />
+                  </SelectPageButton>
+                  {new Array(Math.floor(data.length / 10) + 1).fill(0).map((_, index) => (
+                     <SelectPageItem page={page} index={index} key={index} onClick={() => setPage(index)}>
+                        {index + 1}
+                     </SelectPageItem>
+                  ))}
+                  <SelectPageButton
+                     direction="right"
+                     page={page}
+                     onClick={() =>
+                        setPage(prev => {
+                           if (prev === Math.floor(data.length / 10)) return prev;
+                           return prev + 1;
+                        })
+                     }
+                  >
+                     <AiOutlineRight />
+                  </SelectPageButton>
+               </SelectPageList>
+            </SelectPageBox>
          </Main>
       </Layout>
    );
