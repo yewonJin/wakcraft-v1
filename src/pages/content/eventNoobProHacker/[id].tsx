@@ -1,17 +1,14 @@
 import styled from 'styled-components';
+import { AiFillCaretDown, AiOutlineLeft, AiOutlineRight } from 'react-icons/ai';
 
 import { CommonLayout } from '@/components/Common/CommonLayout';
 import TextBox from '@/components/Common/TextBox';
 import Skeleton from '@/components/Common/Skeleton';
 import ImageBox from '@/components/Common/ContentDetail/ImageBox';
 import RankingBox from '@/components/Common/ContentDetail/RankingBox';
-import { useQueryEventNoobProHacker } from '@/services/eventNoobProHackerAdapters';
 import YoutubeLink from '@/components/Common/ContentDetail/YoutubeLink';
-import { useState } from 'react';
-import { produce } from 'immer';
-import { AiFillCaretDown } from 'react-icons/ai';
 import { useShowEventNoobProHacker } from '@/application/showEventNoobProHacker';
-import { EventNoobProHacker } from '@/domain/eventNoobProHacker';
+import TierBox from '@/components/Common/ContentDetail/TierBox';
 
 const ProfileBox = styled.div`
    position: relative;
@@ -54,24 +51,75 @@ const Title = styled.div`
    > span > svg {
       font-size: 2.3rem;
    }
+
+   
+   @media screen and (max-width: 800px) {
+      padding: 0px 3%;
+   }
 `;
 
-const Layout = styled.div`
+const Main = styled.main`
+   width: auto;
    margin-top: 40px;
 `;
 
-const PortFolioLayout = styled.div`
+const PortfolioContainer = styled.div`
    position: relative;
-   display: grid;
-   grid-template-columns: repeat(3, minmax(300px, 1fr));
+   width: 1200px;
+   overflow-x: hidden;
+
+   @media screen and (max-width: 1250px) {
+      width: 100%;
+      margin: 0px auto;
+   }
+
+   @media screen and (max-width: 800px) {
+      overflow-x: visible;
+   }
+`;
+
+const PortFolioLayout = styled.div<{ linePage: number }>`
+   width: 1200px;
+   position: relative;
+   display: flex;
    gap: 30px;
+   transform: ${props => `translateX(-${props.linePage * 410}px)`};
+   transition-duration: 300ms;
+
+   @media screen and (max-width: 1250px) {
+      width: 100%;
+      margin: 0px auto;
+      transform: ${props => `translateX(-${props.linePage * 51}%)`};
+      gap: 3%;
+   }
+
+   @media screen and (max-width: 800px) {
+      overflow-x: scroll;
+      gap: 5%;
+      padding: 0px 3%;
+
+      ::-webkit-scrollbar {
+         width: 0px;
+      }
+   }
 `;
 
 const PortFolioBox = styled.div`
+   min-width: 380px;
    position: relative;
    display: flex;
    flex-direction: column;
    gap: 15px;
+
+   @media screen and (max-width: 1250px) {
+      min-width: 48%;
+      margin: 0px auto;
+   }
+
+   @media screen and (max-width: 800px) {
+      min-width: 98%;
+      margin: 0px auto;
+   }
 `;
 
 const ContentBox = styled.div`
@@ -82,24 +130,16 @@ const ContentBox = styled.div`
    gap: 10px;
 `;
 
-const TierBox = styled.span`
-   display: flex;
-   justify-content: center;
-   align-items: center;
-   width: 90px;
-   height: 53px;
-   border-radius: 10px;
-   font-size: 16px;
-   color: white;
-   text-shadow: 1px 1px 2px black;
-   background: #414141;
-`;
-
 const TextWrapper = styled.div<{ margin?: string }>`
+   position: relative;
    display: flex;
    align-items: center;
    gap: 10px;
    margin: ${props => props.margin || ''};
+
+   @media screen and (max-width: 800px) {
+      padding: 0px 3%;
+   }
 `;
 
 const Divider = styled.div`
@@ -110,10 +150,20 @@ const Divider = styled.div`
 `;
 
 const LineBox = styled.div`
+   width: 1200px;
+   position: relative;
    display: flex;
    flex-direction: column;
    gap: 16px;
    margin-bottom: 60px;
+
+   @media screen and (max-width: 1250px) {
+      width: 100%;
+   }
+
+   @media screen and (max-width: 800px) {
+      width: 100%;
+   }
 `;
 
 const InfoBox = styled.div`
@@ -161,8 +211,51 @@ const IdItem = styled.li`
    list-style: none;
 `;
 
+const PageButton = styled.span<{ linePage: number; direction: 'left' | 'right' }>`
+   position: absolute;
+   top: 130px;
+   left: ${props => (props.direction === 'left' ? '-35px' : '')};
+   right: ${props => (props.direction === 'right' ? '-35px' : '')};
+   display: ${props => ((props.direction === 'left' && props.linePage === 0) || (props.direction === 'right' && props.linePage === 2) ? 'none' : 'flex')};
+   justify-content: center;
+   align-items: center;
+   width: 48px;
+   height: 48px;
+   border-radius: 24px;
+   background-color: #ddd;
+   opacity: 0.6;
+   z-index: 5;
+
+   :hover {
+      cursor: pointer;
+      opacity: 0.8;
+   }
+
+   > svg {
+      font-size: 1.3rem;
+   }
+
+   @media screen and (max-width: 1250px) {
+
+      display: ${props => ((props.direction === 'right' && props.linePage === 3) ? 'none' : 'flex')};
+
+      left: ${props => (props.direction === 'left' ? '-15px' : '')};
+      right: ${props => (props.direction === 'right' ? '-15px' : '')};
+   }
+
+   @media screen and (max-width: 800px) {
+      display: none;
+      top: 0px;
+      width: 32px;
+      height: 32px;
+      > svg {
+         font-size: 1rem;
+      }
+   }
+`;
+
 export default function Page() {
-   const { data, modalState, toggleModal } = useShowEventNoobProHacker();
+   const { data, linePage, modalState, increasePage, decreasePage, toggleModal } = useShowEventNoobProHacker();
 
    if (!data)
       return (
@@ -185,7 +278,7 @@ export default function Page() {
             <TextBox text={data.contentInfo.contentName} fontSize="28px" lineHeight="40px" fontWeight="500" />
             <YoutubeLink url={data.contentInfo.youtube_url} />
          </Title>
-         <Layout>
+         <Main>
             {data.lineInfo.map((item, lineIndex) => (
                <LineBox key={item.subject + lineIndex}>
                   <TextWrapper>
@@ -202,64 +295,72 @@ export default function Page() {
                         <TextBox text={item.line_ranking + '위'} fontSize="18px" fontWeight="500" lineHeight="24px" />
                      </TextWrapper>
                   </TextWrapper>
-                  <PortFolioLayout>
-                     {item.line_details.map((line, tierIndex) => (
-                        <PortFolioBox key={line.minecraft_id[0]}>
-                           <ImageBox image_url={line.image_url} youtube_url={line.youtube_url} />
-                           <ContentBox>
-                              {line.minecraft_id.length !== 1 && (
-                                 <IdList visible={modalState[lineIndex][tierIndex]}>
-                                    {line.minecraft_id.map(item => (
-                                       <IdItem key={item}>
-                                          <TextBox
-                                             text={item}
-                                             textAlign="center"
-                                             fontSize="16px"
-                                             lineHeight="24px"
-                                             fontWeight="500"
-                                             color="#313131"
-                                          />
-                                       </IdItem>
-                                    ))}
-                                 </IdList>
-                              )}
-                              <TierBox>{line.line}</TierBox>
-                              <InfoBox>
+                  <PageButton direction="left" linePage={linePage[lineIndex]} onClick={() => decreasePage(lineIndex)}>
+                     <AiOutlineLeft />
+                  </PageButton>
+                  <PageButton direction="right" linePage={linePage[lineIndex]} onClick={() => increasePage(lineIndex)}>
+                     <AiOutlineRight />
+                  </PageButton>
+                  <PortfolioContainer>
+                     <PortFolioLayout linePage={linePage[lineIndex]}>
+                        {item.line_details.map((line, tierIndex) => (
+                           <PortFolioBox key={line.minecraft_id[0]}>
+                              <ImageBox image_url={line.image_url} youtube_url={line.youtube_url} />
+                              <ContentBox>
                                  {line.minecraft_id.length !== 1 && (
-                                    <IdListButton
-                                       visible={modalState[lineIndex][tierIndex]}
-                                       onClick={() => toggleModal(lineIndex, tierIndex)}
-                                    >
-                                       <AiFillCaretDown />
-                                    </IdListButton>
+                                    <IdList visible={modalState[lineIndex][tierIndex]}>
+                                       {line.minecraft_id.map(item => (
+                                          <IdItem key={item}>
+                                             <TextBox
+                                                text={item}
+                                                textAlign="center"
+                                                fontSize="16px"
+                                                lineHeight="24px"
+                                                fontWeight="500"
+                                                color="#313131"
+                                             />
+                                          </IdItem>
+                                       ))}
+                                    </IdList>
                                  )}
-                                 <TextBox
-                                    text="마인크래프트 아이디"
-                                    textAlign="center"
-                                    fontSize="16px"
-                                    lineHeight="24px"
-                                    color="#646464"
-                                 />
-                                 <TextBox
-                                    text={
-                                       line.minecraft_id.length === 1
-                                          ? line.minecraft_id[0]
-                                          : line.line + ' x ' + line.minecraft_id.length
-                                    }
-                                    textAlign="center"
-                                    fontSize="16px"
-                                    lineHeight="24px"
-                                    fontWeight="500"
-                                 />
-                              </InfoBox>
-                              <RankingBox ranking={line.ranking} />
-                           </ContentBox>
-                        </PortFolioBox>
-                     ))}
-                  </PortFolioLayout>
+                                 <TierBox tier={line.line} />
+                                 <InfoBox>
+                                    {line.minecraft_id.length !== 1 && (
+                                       <IdListButton
+                                          visible={modalState[lineIndex][tierIndex]}
+                                          onClick={() => toggleModal(lineIndex, tierIndex)}
+                                       >
+                                          <AiFillCaretDown />
+                                       </IdListButton>
+                                    )}
+                                    <TextBox
+                                       text="건축가"
+                                       textAlign="center"
+                                       fontSize="16px"
+                                       lineHeight="24px"
+                                       color="#646464"
+                                    />
+                                    <TextBox
+                                       text={
+                                          line.minecraft_id.length === 1
+                                             ? line.minecraft_id[0]
+                                             : line.line + ' x ' + line.minecraft_id.length
+                                       }
+                                       textAlign="center"
+                                       fontSize="16px"
+                                       lineHeight="24px"
+                                       fontWeight="500"
+                                    />
+                                 </InfoBox>
+                                 <RankingBox ranking={line.ranking} />
+                              </ContentBox>
+                           </PortFolioBox>
+                        ))}
+                     </PortFolioLayout>
+                  </PortfolioContainer>
                </LineBox>
             ))}
-         </Layout>
+         </Main>
       </CommonLayout>
    );
 }
