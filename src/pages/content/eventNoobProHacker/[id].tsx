@@ -52,7 +52,6 @@ const Title = styled.div`
       font-size: 2.3rem;
    }
 
-   
    @media screen and (max-width: 800px) {
       padding: 0px 3%;
    }
@@ -211,12 +210,15 @@ const IdItem = styled.li`
    list-style: none;
 `;
 
-const PageButton = styled.span<{ linePage: number; direction: 'left' | 'right' }>`
+const PageButton = styled.span<{ linePage: number; lastPage: number; direction: 'left' | 'right' }>`
    position: absolute;
    top: 130px;
    left: ${props => (props.direction === 'left' ? '-35px' : '')};
    right: ${props => (props.direction === 'right' ? '-35px' : '')};
-   display: ${props => ((props.direction === 'left' && props.linePage === 0) || (props.direction === 'right' && props.linePage === 2) ? 'none' : 'flex')};
+   display: ${props =>
+      (props.direction === 'left' && props.linePage === 0) || (props.direction === 'right' && props.linePage === props.lastPage - 3)
+         ? 'none'
+         : 'flex'};
    justify-content: center;
    align-items: center;
    width: 48px;
@@ -236,9 +238,8 @@ const PageButton = styled.span<{ linePage: number; direction: 'left' | 'right' }
    }
 
    @media screen and (max-width: 1250px) {
-
-      display: ${props => ((props.direction === 'right' && props.linePage === 3) ? 'none' : 'flex')};
-
+      display: ${props => (props.direction === 'right' && props.linePage === props.lastPage - 2 ? 'none' : 'flex')};
+      top: 180px;
       left: ${props => (props.direction === 'left' ? '-15px' : '')};
       right: ${props => (props.direction === 'right' ? '-15px' : '')};
    }
@@ -295,10 +296,20 @@ export default function Page() {
                         <TextBox text={item.line_ranking + '위'} fontSize="18px" fontWeight="500" lineHeight="24px" />
                      </TextWrapper>
                   </TextWrapper>
-                  <PageButton direction="left" linePage={linePage[lineIndex]} onClick={() => decreasePage(lineIndex)}>
+                  <PageButton
+                     direction="left"
+                     linePage={linePage[lineIndex]}
+                     lastPage={linePage.length}
+                     onClick={() => decreasePage(lineIndex)}
+                  >
                      <AiOutlineLeft />
                   </PageButton>
-                  <PageButton direction="right" linePage={linePage[lineIndex]} onClick={() => increasePage(lineIndex)}>
+                  <PageButton
+                     direction="right"
+                     linePage={linePage[lineIndex]}
+                     lastPage={linePage.length}
+                     onClick={() => increasePage(lineIndex)}
+                  >
                      <AiOutlineRight />
                   </PageButton>
                   <PortfolioContainer>

@@ -8,8 +8,13 @@ import PlacementTestList from './PlacementTestList';
 import EventNoobProHackerList from './EventNoobProHackerList';
 
 const Layout = styled.div`
-   width: 100%;
    margin-top: 20px;
+
+   @media screen and (max-width: 800px) {
+      width: 95%;
+      margin: 0px auto;
+      margin-top: 20px;
+   }
 `;
 
 const Category = styled.ul`
@@ -18,9 +23,6 @@ const Category = styled.ul`
    margin-bottom: 30px;
 
    @media screen and (max-width: 800px) {
-      justify-content: space-between;
-      gap: 0px;
-
       > div {
          display: none;
       }

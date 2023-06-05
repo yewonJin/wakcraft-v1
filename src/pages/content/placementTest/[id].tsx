@@ -20,6 +20,13 @@ const ProfileBox = styled.div`
    }
 `;
 
+const Title = styled.div`
+   @media screen and (max-width: 800px) {
+      width: 93%;
+      margin: 0px auto;
+   }
+`;
+
 const SkeletonBox = styled.div`
    display: grid;
    grid-template-columns: repeat(3, minmax(300px, 1fr));
@@ -41,6 +48,16 @@ const PortFolioLayout = styled.div`
    display: grid;
    grid-template-columns: repeat(3, minmax(300px, 1fr));
    gap: 30px;
+
+   @media screen and (max-width: 1000px) {
+      grid-template-columns: repeat(2, minmax(300px, 1fr));
+   }
+
+   @media screen and (max-width: 800px) {
+      width: 93%;
+      margin: 0px auto;
+      grid-template-columns: repeat(1, minmax(300px, 1fr));
+   }
 `;
 
 const PortFolioBox = styled.div`
@@ -77,13 +94,15 @@ export default function Page() {
 
    return (
       <CommonLayout>
-         <TextBox
-            text={'시즌 ' + data.season + ' 배치고사'}
-            fontSize="24px"
-            lineHeight="36px"
-            fontWeight="500"
-            margin="0px 0px 20px 0px"
-         />
+         <Title>
+            <TextBox
+               text={'시즌 ' + data.season + ' 배치고사'}
+               fontSize="24px"
+               lineHeight="36px"
+               fontWeight="500"
+               margin="0px 0px 20px 0px"
+            />
+         </Title>
          <PortFolioLayout>
             {data.participants.map((item, index) => (
                <Fragment key={item.minecraft_id}>

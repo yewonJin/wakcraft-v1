@@ -67,13 +67,13 @@ const MenuBox = styled.div<{ isOpened: boolean }>`
    background-color: rgba(0, 0, 0, 0.9);
    flex-direction: column;
    margin-top: 80px;
-   padding-top: 30px;
-   gap: 15px;
+   padding-top: 20px;
+   gap: 26px;
 
    > a {
       font-size: 24px;
       width: 100%;
-      text-align: center;
+      text-align: center;      
    }
 
    > svg {

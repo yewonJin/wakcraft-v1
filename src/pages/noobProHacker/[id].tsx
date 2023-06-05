@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 
-import { CommonLayout } from '@/components/Common/CommonLayout';
 import TextBox from '@/components/Common/TextBox';
 import Skeleton from '@/components/Common/Skeleton';
 import { useQueryNoobProHacker } from '@/services/noobProHackerAdapters';
@@ -9,7 +8,18 @@ import ImageBox from '@/components/Common/ContentDetail/ImageBox';
 import InfoBox from '@/components/Common/ContentDetail/InfoBox';
 import RankingBox from '@/components/Common/ContentDetail/RankingBox';
 import YoutubeLink from '@/components/Common/ContentDetail/YoutubeLink';
-import { getLineWinnerSubject, getWinnerId } from '@/domain/noobProHacker';
+
+const Layout = styled.div`
+   width: 1200px;
+   margin: 0px auto;
+   padding-top: 130px;
+   padding-bottom: 50px;
+
+   @media screen and (max-width: 1250px) {
+      width: 100%;
+      padding-top: 110px;
+   }
+`;
 
 const ProfileBox = styled.div`
    position: relative;
@@ -21,6 +31,13 @@ const ProfileBox = styled.div`
       gap: 8px;
       align-items: start;
       flex-direction: column;
+   }
+`;
+
+const EpisodeBox = styled.div`
+   @media screen and (max-width: 1250px) {
+      width: 95%;
+      margin: 0px auto;
    }
 `;
 
@@ -52,6 +69,11 @@ const Title = styled.div`
    > span > svg {
       font-size: 2.3rem;
    }
+
+   @media screen and (max-width: 1250px) {
+      width: 95%;
+      margin: 0px auto;
+   }
 `;
 
 const NoobProHackerLayout = styled.div`
@@ -62,15 +84,23 @@ const LineBox = styled.div`
    display: flex;
    flex-direction: column;
    gap: 16px;
-   margin-bottom: 40px;
+   margin-bottom: 60px;
 `;
 
 const PortFolioLayout = styled.div`
    position: relative;
    display: grid;
-   grid-template-columns: repeat(3, minmax(300px, 1fr));
+   grid-template-columns: repeat(3, 1fr);
    gap: 30px;
-   height: 300px;
+
+   @media screen and (max-width: 1250px) {
+      padding: 0px 3%;
+      overflow-x: scroll;
+
+      ::-webkit-scrollbar {
+         width: 0px;
+      }
+   }
 `;
 
 const PortFolioBox = styled.div`
@@ -92,6 +122,10 @@ const TextWrapper = styled.div<{ margin?: string }>`
    align-items: center;
    gap: 10px;
    margin: ${props => props.margin || ''};
+
+   @media screen and (max-width: 1250px) {
+      padding: 0px 3%;
+   }
 `;
 
 const Divider = styled.div`
@@ -108,7 +142,7 @@ export default function Page() {
 
    if (!data)
       return (
-         <CommonLayout>
+         <Layout>
             <ProfileBox>
                <Skeleton width="85px" height="94px" />
             </ProfileBox>
@@ -118,18 +152,20 @@ export default function Page() {
                   <Skeleton key={'Skeleton' + index} width="380px" height="213px" borderRadius="10px" />
                ))}
             </SkeletonBox>
-         </CommonLayout>
+         </Layout>
       );
 
    return (
-      <CommonLayout>
-         <TextBox
-            text={'제 ' + data.contentInfo.episode + '회'}
-            fontSize="22px"
-            lineHeight="32px"
-            color="#646464"
-            margin="0px 0px 10px 0px"
-         />
+      <Layout>
+         <EpisodeBox>
+            <TextBox
+               text={'제 ' + data.contentInfo.episode + '회'}
+               fontSize="22px"
+               lineHeight="32px"
+               color="#646464"
+               margin="0px 0px 10px 0px"
+            />
+         </EpisodeBox>
          <Title>
             <TextBox
                text={'눕프로해커 : ' + data.contentInfo.main_subject}
@@ -165,10 +201,7 @@ export default function Page() {
                            />
                            <ContentBox>
                               <TierBox tier={line} />
-                              <InfoBox
-                                 topText="건축가"
-                                 bottomText={item.line_details[line].minecraft_id}
-                              />
+                              <InfoBox topText="건축가" bottomText={item.line_details[line].minecraft_id} />
                               <RankingBox ranking={item.line_details[line].ranking} />
                            </ContentBox>
                         </PortFolioBox>
@@ -177,7 +210,7 @@ export default function Page() {
                </LineBox>
             ))}
          </NoobProHackerLayout>
-      </CommonLayout>
+      </Layout>
    );
 }
 

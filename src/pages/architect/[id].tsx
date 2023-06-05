@@ -15,6 +15,8 @@ const ProfileBox = styled.div`
    justify-content: space-between;
 
    @media screen and (max-width: 800px) {
+      width: 95%;
+      margin: 0px auto;
       gap: 8px;
       align-items: start;
       flex-direction: column;
@@ -58,7 +60,7 @@ const ContentContainer = styled.div`
    gap: 20px;
    align-items: start;
 
-   @media screen and (max-width: 800px) {
+   @media screen and (max-width: 800px) {      
       gap: 5px;
 
       > div:nth-child(3) {

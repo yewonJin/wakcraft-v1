@@ -11,6 +11,10 @@ const Layout = styled.div`
    width: 1200px;
    margin: 0px auto;
    gap: 10px;
+
+   @media screen and (max-width: 1200px) {
+      width: 90%;      
+   }
 `;
 
 const SelectBox = styled.div`
@@ -32,6 +36,16 @@ const TextWrapper = styled.div`
    flex-direction: column;
    gap: 16px;
    margin-top: 40px;
+
+   @media screen and (max-width: 800px) {
+      > h2:first-child{
+         font-size: 20px;
+      }
+
+      > h2{
+         font-size: 16px;
+      }
+   }
 `;
 
 type Props = {

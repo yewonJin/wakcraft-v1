@@ -24,7 +24,7 @@ const Layout = styled.div`
    }
 
    @media screen and (max-width: 800px) {
-      padding-top: 100px;
+      padding-top: 120px;
    }
 `;
 
@@ -106,15 +106,19 @@ const NoobProHackerBox = styled.li`
       > p:first-child {
          display: flex;
          align-items: center;
-         width: 70px;
+         width: 80px;
          height: 60px;
-      }
+      }      
 
       > p:nth-child(3) {
          display: none;
       }
 
       > p:nth-child(4) {
+         display: none;
+      }
+
+      > p:nth-child(5) {
          display: none;
       }
    }

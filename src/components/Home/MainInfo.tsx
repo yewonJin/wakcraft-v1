@@ -69,6 +69,10 @@ const Box = styled.div<{ area: string }>`
    border-radius: 15px;
    grid-area: ${props => props.area};
    box-shadow: 1px 1px 5px #999;
+
+   @media screen and (max-width: 800px) {
+      box-shadow: 0px 0px 0px;
+   }
 `;
 
 const TextWrapper = styled.div<{ flexDirection?: string }>`
