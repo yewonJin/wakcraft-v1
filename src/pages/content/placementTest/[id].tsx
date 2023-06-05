@@ -6,6 +6,7 @@ import TextBox from '@/components/Common/TextBox';
 import Skeleton from '@/components/Common/Skeleton';
 import ImageBox from '@/components/Common/ContentDetail/ImageBox';
 import { useQueryPlacementTest } from '@/services/placementTestAdapters';
+import Link from 'next/link';
 
 const ProfileBox = styled.div`
    position: relative;
@@ -109,13 +110,15 @@ export default function Page() {
                   <PortFolioBox>
                      <ImageBox image_url={item.image_url} />
                      <ContentBox>
-                        <TextBox
-                           text={item.minecraft_id}
-                           textAlign="center"
-                           fontSize="16px"
-                           lineHeight="24px"
-                           fontWeight="500"
-                        />
+                        <Link href={`/architect/${item.minecraft_id}`}>
+                           <TextBox
+                              text={item.minecraft_id}
+                              textAlign="center"
+                              fontSize="16px"
+                              lineHeight="24px"
+                              fontWeight="500"
+                           />
+                        </Link>
                         <TextBox
                            text={item.placement_result}
                            textAlign="center"

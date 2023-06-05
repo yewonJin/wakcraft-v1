@@ -201,7 +201,7 @@ export default function Page() {
                            />
                            <ContentBox>
                               <TierBox tier={line} />
-                              <InfoBox topText="건축가" bottomText={item.line_details[line].minecraft_id} />
+                              <InfoBox isArchitect={true} topText="건축가" bottomText={item.line_details[line].minecraft_id} />
                               <RankingBox ranking={item.line_details[line].ranking} />
                            </ContentBox>
                         </PortFolioBox>
