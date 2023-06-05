@@ -149,7 +149,7 @@ export default function Search({ noobProHackers }: InferGetStaticPropsType<typeo
 
    return (
       <Layout>
-         <TextBox text="눕프로해커" fontSize="22px" lineHeight="32px" fontWeight="500" />
+         <TextBox text="눕프로해커" fontSize="24px" lineHeight="32px" fontWeight="500" />
          <TableHeader>
             <TableItem width="100px">회차</TableItem>
             <TableItem width="250px">주제</TableItem>

@@ -11,7 +11,7 @@ import { translateTier } from '@/utils/lib';
 const Layout = styled.div`
    width: 100%;
    margin: 0px auto;
-   margin-top: 120px;
+   margin-top: 200px;
    margin-bottom: 60px;
 
    @media screen and (max-width: 1200px) {
@@ -216,7 +216,7 @@ export default function MainInfo({ sweepLine }: { sweepLine: NoobProHacker[] }) 
          <Box>
             <TextBox
                text={'싹쓸이 라인'}
-               fontSize="26px"
+               fontSize="28px"
                lineHeight="40px"
                fontWeight="500"
                margin="0px 0px 30px 0px"

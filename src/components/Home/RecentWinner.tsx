@@ -8,7 +8,7 @@ import { NoobProHacker, convertToRecentWin, renameTo1080Webp } from '@/domain/no
 const Layout = styled.div`
    width: 1200px;
    margin: 0px auto;
-   margin-top: 120px;
+   margin-top: 200px;
 
    @media screen and (max-width: 1400px) {
       width: 90%;
@@ -79,7 +79,7 @@ export default function RecentWinner({ noobProHackers }: { noobProHackers: NoobP
       <Layout>
          <TextBox
             text={'최근 우승 작품'}
-            fontSize="26px"
+            fontSize="28px"
             lineHeight="40px"
             fontWeight="500"
             margin="0px 0px 30px 0px"

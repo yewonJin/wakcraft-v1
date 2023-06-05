@@ -157,7 +157,7 @@ export default function Content({
    return (
       <Layout>
          <ContentLayout>
-            <TextBox text="배치고사" fontSize="22px" lineHeight="32px" fontWeight="500" />
+            <TextBox text="배치고사" fontSize="24px" lineHeight="32px" fontWeight="500" />
             <TableHeader>
                <TableItem width="100px">시즌</TableItem>
                <TableItem width="140px">참가 인원</TableItem>
@@ -180,7 +180,7 @@ export default function Content({
             </List>
          </ContentLayout>
          <ContentLayout>
-            <TextBox text="예능 눕프핵" fontSize="22px" lineHeight="32px" fontWeight="500" />
+            <TextBox text="예능 눕프핵" fontSize="24px" lineHeight="32px" fontWeight="500" />
             <TableHeader>
                <TableItem width="100px">회차</TableItem>
                <TableItem width="200px">주제</TableItem>

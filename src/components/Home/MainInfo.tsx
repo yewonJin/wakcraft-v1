@@ -218,7 +218,7 @@ export default function MainInfo({ architects }: { architects: ArchitectWithSort
                </TextWrapper>
             </Box>
             <Box area="d">
-               <TextBox text="눕프핵 TMI" fontSize="18px" fontWeight="500" color="#868686" />
+               <TextBox text="마크 컨텐츠 많이 해줘" fontSize="18px" fontWeight="500" color="#868686" />
                <DateLayout>
                   <DateBox>
                      <TextBox text="첫 눕프핵" fontSize="18px" fontWeight="500" textAlign="center" color="#333" />
@@ -235,7 +235,7 @@ export default function MainInfo({ architects }: { architects: ArchitectWithSort
                         textAlign="center"
                         color="#333"
                      />
-                     <TextBox text="(2021-06-25 ~ )" fontSize="16px" textAlign="center" color="#777" />
+                     <TextBox text="(2021-06-25)" fontSize="16px" textAlign="center" color="#777" />
                   </DateBox>
                   <DateBox>
                      <TextBox text="최근 눕프핵" fontSize="18px" fontWeight="500" textAlign="center" color="#333" />
@@ -252,7 +252,7 @@ export default function MainInfo({ architects }: { architects: ArchitectWithSort
                         textAlign="center"
                         color="#333"
                      />
-                     <TextBox text="(2023-02-26 ~ )" fontSize="16px" textAlign="center" color="#777" />
+                     <TextBox text="(2023-02-26)" fontSize="16px" textAlign="center" color="#777" />
                   </DateBox>
                   <DateBox>
                      <TextBox text="시즌3" fontSize="18px" fontWeight="500" textAlign="center" color="#333" />
@@ -269,7 +269,7 @@ export default function MainInfo({ architects }: { architects: ArchitectWithSort
                         textAlign="center"
                         color="#333"
                      />
-                     <TextBox text="(2023-03-19 ~ )" fontSize="16px" textAlign="center" color="#777" />
+                     <TextBox text="(2023-03-19)" fontSize="16px" textAlign="center" color="#777" />
                   </DateBox>
                </DateLayout>
             </Box>
