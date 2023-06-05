@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 export const useShowEventNoobProHacker = () => {
    const data = useQueryEventNoobProHacker();
 
+   const [linePage, setLinePage] = useState<number[]>(new Array(5).fill(0));
    const [modalState, setModalState] = useState(Array.from(Array(4), () => Array(4).fill(false)));
 
    useEffect(() => {
@@ -13,6 +14,8 @@ export const useShowEventNoobProHacker = () => {
             Array(data?.lineInfo[0].line_details.length ?? 3).fill(false),
          ),
       );
+
+      setLinePage(new Array(data?.lineInfo.length).fill(0));
    }, [data]);
 
    const toggleModal = (lineIndex: number, tierIndex: number) => {
@@ -23,5 +26,23 @@ export const useShowEventNoobProHacker = () => {
       );
    };
 
-   return { data, modalState, toggleModal };
+   const increasePage = (index: number) => {
+      setLinePage(prev =>
+         produce(prev, draft => {
+            draft[index] = draft[index] + 1;
+         }),
+      );
+   };
+
+   const decreasePage = (index: number) => {
+      if (linePage[index] === 0) return;
+
+      setLinePage(prev =>
+         produce(prev, draft => {
+            draft[index] = draft[index] - 1;
+         }),
+      );
+   };
+
+   return { data, linePage, modalState, increasePage, decreasePage, toggleModal };
 };
