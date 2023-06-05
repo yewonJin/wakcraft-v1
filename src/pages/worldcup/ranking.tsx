@@ -82,6 +82,7 @@ const SelectPageList = styled.ul`
    justify-content: center;
    gap: 10px;
    padding-top: 20px;
+   margin-bottom: 40px;
 `;
 
 const SelectPageItem = styled.li<{ page: number; index: number }>`

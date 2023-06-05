@@ -43,7 +43,7 @@ const Main = styled.main`
 
    @media screen and (max-width: 1400px) {
       grid-template-columns: repeat(3, 1fr);
-      grid-template-rows: repeat(3, 1fr);
+      grid-template-rows: repeat(2, 1fr);
       grid-template-areas:
          'a b c'
          'd d d';
@@ -222,7 +222,7 @@ export default function MainInfo({ architects }: { architects: ArchitectWithSort
                </TextWrapper>
             </Box>
             <Box area="d">
-               <TextBox text="마크 컨텐츠 많이 해줘" fontSize="18px" fontWeight="500" color="#868686" />
+               <TextBox text="형 마크 컨텐츠 많이 해줘" fontSize="18px" fontWeight="500" color="#868686" />
                <DateLayout>
                   <DateBox>
                      <TextBox text="첫 눕프핵" fontSize="18px" fontWeight="500" textAlign="center" color="#333" />

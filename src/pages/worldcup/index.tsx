@@ -31,6 +31,7 @@ const MainLayout = styled.div`
 
 const Main = styled.div`
    width: 1400px;
+   height: auto;
    display: flex;
    align-items: center;
    justify-content: space-between;
@@ -54,22 +55,22 @@ const ImageBox = styled.div<{ clickedNumber: number; curRound: number; index: nu
    transition-duration: 200ms;
 
    > img:hover {
-      scale: 1.02;
+      scale: 1.01;
       cursor: pointer;
       transition-duration: 200ms;
    }
 
-   scale: ${props => (props.clickedNumber === props.index ? '1.2' : '1')};
+   scale: ${props => (props.clickedNumber === props.index ? '1.1' : '1')};
    z-index: ${props => (props.clickedNumber === props.index ? '3' : '1')};
 
    @media screen and (max-width: 1600px) {
       width: 48%;
-      height: 50vw;
+      height: 50vh;
    }
 
    @media screen and (max-width: 1000px) {
       width: 49%;
-      height: 70vw;
+      height: 35vh;
    }
 `;
 

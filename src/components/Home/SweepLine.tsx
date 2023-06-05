@@ -100,7 +100,7 @@ const ImageBox = styled.div`
    background-color: #ccc;
    border-radius: 20px;
    box-shadow: 1px 1px 5px #999;
-
+   overflow: hidden;
 
    @media screen and (min-width: 1200px) {
       width: 380px;
@@ -264,7 +264,7 @@ export default function MainInfo({ sweepLine }: { sweepLine: NoobProHacker[] }) 
                                     </Link>
                                     <TextBox
                                        text={translateTier(line)}
-                                       color="#aaa"
+                                       color="#949494"
                                        fontSize="16px"
                                        lineHeight="24px"
                                        margin="3px 0px 0px 0px"

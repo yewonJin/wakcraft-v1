@@ -89,12 +89,13 @@ const LineBox = styled.div`
 
 const PortFolioLayout = styled.div`
    position: relative;
-   display: grid;
-   grid-template-columns: repeat(3, 1fr);
+   display: flex;
    gap: 30px;
 
    @media screen and (max-width: 1250px) {
+      width: 100%;
       padding: 0px 3%;
+      gap: 5%;
       overflow-x: scroll;
 
       ::-webkit-scrollbar {
@@ -108,6 +109,15 @@ const PortFolioBox = styled.div`
    display: flex;
    flex-direction: column;
    gap: 15px;
+
+   @media screen and (max-width: 1250px) {
+      min-width: 48%;
+      margin: 0px auto;
+   }
+
+   @media screen and (max-width: 800px) {
+      min-width: 98%;
+   }
 `;
 
 const ContentBox = styled.div`
@@ -201,7 +211,11 @@ export default function Page() {
                            />
                            <ContentBox>
                               <TierBox tier={line} />
-                              <InfoBox isArchitect={true} topText="건축가" bottomText={item.line_details[line].minecraft_id} />
+                              <InfoBox
+                                 isArchitect={true}
+                                 topText="건축가"
+                                 bottomText={item.line_details[line].minecraft_id}
+                              />
                               <RankingBox ranking={item.line_details[line].ranking} />
                            </ContentBox>
                         </PortFolioBox>

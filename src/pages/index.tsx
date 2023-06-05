@@ -292,84 +292,82 @@ export default function Home({
    const [line, setLine] = useState(lineWinnerIndex(noobProHacker[0]));
 
    return (
-      <>
-         <Layout>
-            <BackgroundImage bg={bg} />
-            <ContentBox>
-               <ContentNav>
-                  <TextBox
-                     text={'제 ' + noobProHacker[0].contentInfo.episode + '회'}
-                     fontSize="28px"
-                     fontWeight="500"
-                     lineHeight="36px"
-                     margin="0px 0px 10px 0px"
-                     color="#aaa"
-                  />
-                  <TextBox
-                     text={'눕프로해커 : ' + noobProHacker[0].contentInfo.main_subject + '편'}
-                     fontSize="36px"
-                     fontWeight="500"
-                     lineHeight="48px"
-                  />
-                  <Category>
-                     {noobProHacker[0].lineInfo.map((item, index) => (
-                        <Fragment key={item + index.toString()}>
-                           <Divider />
-                           <LineSubject line={line} index={index} onClick={() => setLine(index)}>
-                              {item.subject}
-                           </LineSubject>
-                        </Fragment>
-                     ))}
-                     <Divider />
-                  </Category>
-               </ContentNav>
-               <LineContainer>
-                  <LineList line={line}>
-                     {noobProHacker[0].lineInfo.map((item, index) => (
-                        <LineGroup key={'lineInfo' + index}>
-                           {lineArr.map((line, index) => (
-                              <LineItem key={'line' + index}>
-                                 <ImageBox
-                                    onClick={() => window.open(renameTo1080Webp(item.line_details[line].image_url))}
-                                 >
-                                    <Image
-                                       src={renameToWebp(item.line_details[line].image_url)}
-                                       style={{ objectFit: 'cover' }}
-                                       fill
-                                       sizes="900px"
-                                       alt={line}
-                                    />
-                                 </ImageBox>
-                                 <TextContainer>
-                                    <Link href={`/architect/${item.line_details[line].minecraft_id}`}>
-                                       <TextBox
-                                          text={item.line_details[line].minecraft_id}
-                                          color="white"
-                                          fontSize="20px"
-                                          lineHeight="32px"
-                                          fontWeight="500"
-                                       />
-                                    </Link>
+      <Layout>
+         <BackgroundImage bg={bg} />
+         <ContentBox>
+            <ContentNav>
+               <TextBox
+                  text={'제 ' + noobProHacker[0].contentInfo.episode + '회'}
+                  fontSize="28px"
+                  fontWeight="500"
+                  lineHeight="36px"
+                  margin="0px 0px 10px 0px"
+                  color="#aaa"
+               />
+               <TextBox
+                  text={'눕프로해커 : ' + noobProHacker[0].contentInfo.main_subject + '편'}
+                  fontSize="36px"
+                  fontWeight="500"
+                  lineHeight="48px"
+               />
+               <Category>
+                  {noobProHacker[0].lineInfo.map((item, index) => (
+                     <Fragment key={item + index.toString()}>
+                        <Divider />
+                        <LineSubject line={line} index={index} onClick={() => setLine(index)}>
+                           {item.subject}
+                        </LineSubject>
+                     </Fragment>
+                  ))}
+                  <Divider />
+               </Category>
+            </ContentNav>
+            <LineContainer>
+               <LineList line={line}>
+                  {noobProHacker[0].lineInfo.map((item, index) => (
+                     <LineGroup key={'lineInfo' + index}>
+                        {lineArr.map((line, index) => (
+                           <LineItem key={'line' + index}>
+                              <ImageBox
+                                 onClick={() => window.open(renameTo1080Webp(item.line_details[line].image_url))}
+                              >
+                                 <Image
+                                    src={renameToWebp(item.line_details[line].image_url)}
+                                    style={{ objectFit: 'cover' }}
+                                    fill
+                                    sizes="900px"
+                                    alt={line}
+                                 />
+                              </ImageBox>
+                              <TextContainer>
+                                 <Link href={`/architect/${item.line_details[line].minecraft_id}`}>
                                     <TextBox
-                                       text={translateTier(line)}
-                                       color="#aaa"
-                                       fontSize="16px"
-                                       lineHeight="24px"
-                                       margin="3px 0px 0px 0px"
+                                       text={item.line_details[line].minecraft_id}
+                                       color="white"
+                                       fontSize="20px"
+                                       lineHeight="32px"
                                        fontWeight="500"
                                     />
-                                 </TextContainer>
-                              </LineItem>
-                           ))}
-                        </LineGroup>
-                     ))}
-                  </LineList>
-               </LineContainer>
-            </ContentBox>
-            <MainInfo architects={architects} />
-            <RecentWinner noobProHackers={recentNoobProHacker} />
-            <SweepLine sweepLine={sweepLine} />
-         </Layout>
-      </>
+                                 </Link>
+                                 <TextBox
+                                    text={translateTier(line)}
+                                    color="#aaa"
+                                    fontSize="16px"
+                                    lineHeight="24px"
+                                    margin="3px 0px 0px 0px"
+                                    fontWeight="500"
+                                 />
+                              </TextContainer>
+                           </LineItem>
+                        ))}
+                     </LineGroup>
+                  ))}
+               </LineList>
+            </LineContainer>
+         </ContentBox>
+         <MainInfo architects={architects} />
+         <RecentWinner noobProHackers={recentNoobProHacker} />
+         <SweepLine sweepLine={sweepLine} />
+      </Layout>
    );
 }
