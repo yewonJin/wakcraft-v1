@@ -166,7 +166,7 @@ export default function Page() {
                            <ContentBox>
                               <TierBox tier={line} />
                               <InfoBox
-                                 topText="마인크래프트 아이디"
+                                 topText="건축가"
                                  bottomText={item.line_details[line].minecraft_id}
                               />
                               <RankingBox ranking={item.line_details[line].ranking} />
