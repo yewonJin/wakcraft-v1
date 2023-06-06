@@ -81,8 +81,9 @@ const PortFolioLayout = styled.div<{ linePage: number }>`
    width: 1200px;
    position: relative;
    display: flex;
+   flex-direction: row-reverse;
    gap: 30px;
-   transform: ${props => `translateX(-${props.linePage * 410}px)`};
+   transform: ${props => `translateX(${props.linePage * 410}px)`};
    transition-duration: 300ms;
 
    @media screen and (max-width: 1250px) {
@@ -216,7 +217,8 @@ const PageButton = styled.span<{ linePage: number; lastPage: number; direction: 
    left: ${props => (props.direction === 'left' ? '-35px' : '')};
    right: ${props => (props.direction === 'right' ? '-35px' : '')};
    display: ${props =>
-      (props.direction === 'left' && props.linePage === 0) || (props.direction === 'right' && props.linePage === props.lastPage - 3)
+      (props.direction === 'left' && props.linePage === props.lastPage -3  ) ||
+      (props.direction === 'right' && props.linePage === 0)
          ? 'none'
          : 'flex'};
    justify-content: center;
@@ -314,59 +316,62 @@ export default function Page() {
                   </PageButton>
                   <PortfolioContainer>
                      <PortFolioLayout linePage={linePage[lineIndex]}>
-                        {item.line_details.map((line, tierIndex) => (
-                           <PortFolioBox key={line.minecraft_id[0]}>
-                              <ImageBox image_url={line.image_url} youtube_url={line.youtube_url} />
-                              <ContentBox>
-                                 {line.minecraft_id.length !== 1 && (
-                                    <IdList visible={modalState[lineIndex][tierIndex]}>
-                                       {line.minecraft_id.map(item => (
-                                          <IdItem key={item}>
-                                             <TextBox
-                                                text={item}
-                                                textAlign="center"
-                                                fontSize="16px"
-                                                lineHeight="24px"
-                                                fontWeight="500"
-                                                color="#313131"
-                                             />
-                                          </IdItem>
-                                       ))}
-                                    </IdList>
-                                 )}
-                                 <TierBox tier={line.line} />
-                                 <InfoBox>
+                        {item.line_details
+                           .slice(0)
+                           .reverse()
+                           .map((line, tierIndex) => (
+                              <PortFolioBox key={line.minecraft_id[0]}>
+                                 <ImageBox image_url={line.image_url} youtube_url={line.youtube_url} />
+                                 <ContentBox>
                                     {line.minecraft_id.length !== 1 && (
-                                       <IdListButton
-                                          visible={modalState[lineIndex][tierIndex]}
-                                          onClick={() => toggleModal(lineIndex, tierIndex)}
-                                       >
-                                          <AiFillCaretDown />
-                                       </IdListButton>
+                                       <IdList visible={modalState[lineIndex][tierIndex]}>
+                                          {line.minecraft_id.map(item => (
+                                             <IdItem key={item}>
+                                                <TextBox
+                                                   text={item}
+                                                   textAlign="center"
+                                                   fontSize="16px"
+                                                   lineHeight="24px"
+                                                   fontWeight="500"
+                                                   color="#313131"
+                                                />
+                                             </IdItem>
+                                          ))}
+                                       </IdList>
                                     )}
-                                    <TextBox
-                                       text="건축가"
-                                       textAlign="center"
-                                       fontSize="16px"
-                                       lineHeight="24px"
-                                       color="#646464"
-                                    />
-                                    <TextBox
-                                       text={
-                                          line.minecraft_id.length === 1
-                                             ? line.minecraft_id[0]
-                                             : line.line + ' x ' + line.minecraft_id.length
-                                       }
-                                       textAlign="center"
-                                       fontSize="16px"
-                                       lineHeight="24px"
-                                       fontWeight="500"
-                                    />
-                                 </InfoBox>
-                                 <RankingBox ranking={line.ranking} />
-                              </ContentBox>
-                           </PortFolioBox>
-                        ))}
+                                    <TierBox tier={line.line} />
+                                    <InfoBox>
+                                       {line.minecraft_id.length !== 1 && (
+                                          <IdListButton
+                                             visible={modalState[lineIndex][tierIndex]}
+                                             onClick={() => toggleModal(lineIndex, tierIndex)}
+                                          >
+                                             <AiFillCaretDown />
+                                          </IdListButton>
+                                       )}
+                                       <TextBox
+                                          text="건축가"
+                                          textAlign="center"
+                                          fontSize="16px"
+                                          lineHeight="24px"
+                                          color="#646464"
+                                       />
+                                       <TextBox
+                                          text={
+                                             line.minecraft_id.length === 1
+                                                ? line.minecraft_id[0]
+                                                : line.line + ' x ' + line.minecraft_id.length
+                                          }
+                                          textAlign="center"
+                                          fontSize="16px"
+                                          lineHeight="24px"
+                                          fontWeight="500"
+                                       />
+                                    </InfoBox>
+                                    <RankingBox ranking={line.ranking} />
+                                 </ContentBox>
+                              </PortFolioBox>
+                           ))}
                      </PortFolioLayout>
                   </PortfolioContainer>
                </LineBox>
