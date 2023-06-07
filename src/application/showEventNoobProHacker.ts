@@ -1,7 +1,7 @@
-import { EventNoobProHacker } from '@/domain/eventNoobProHacker';
-import { useQueryEventNoobProHacker } from '@/services/eventNoobProHackerAdapters';
 import { produce } from 'immer';
 import { useState, useEffect } from 'react';
+
+import { useQueryEventNoobProHacker } from '@/services/eventNoobProHackerAdapters';
 
 export const useShowEventNoobProHacker = () => {
    const data = useQueryEventNoobProHacker();
@@ -48,8 +48,4 @@ export const useShowEventNoobProHacker = () => {
    };
 
    return { data, linePage, modalState, increasePage, decreasePage, toggleModal };
-};
-
-const getLastPage = (data: EventNoobProHacker) => {
-   return data.lineInfo[0].line_details.length;
 };

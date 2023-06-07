@@ -89,7 +89,7 @@ const PortFolioLayout = styled.div<{ linePage: number }>`
    @media screen and (max-width: 1250px) {
       width: 100%;
       margin: 0px auto;
-      transform: ${props => `translateX(-${props.linePage * 51}%)`};
+      transform: ${props => `translateX(${props.linePage * 51}%)`};
       gap: 3%;
    }
 
@@ -217,7 +217,7 @@ const PageButton = styled.span<{ linePage: number; lastPage: number; direction: 
    left: ${props => (props.direction === 'left' ? '-35px' : '')};
    right: ${props => (props.direction === 'right' ? '-35px' : '')};
    display: ${props =>
-      (props.direction === 'left' && props.linePage === props.lastPage -3  ) ||
+      (props.direction === 'left' && props.linePage === props.lastPage - 3) ||
       (props.direction === 'right' && props.linePage === 0)
          ? 'none'
          : 'flex'};
@@ -240,7 +240,11 @@ const PageButton = styled.span<{ linePage: number; lastPage: number; direction: 
    }
 
    @media screen and (max-width: 1250px) {
-      display: ${props => (props.direction === 'right' && props.linePage === props.lastPage - 2 ? 'none' : 'flex')};
+      display: ${props =>
+         (props.direction === 'left' && props.linePage === props.lastPage - 2) ||
+         (props.direction === 'right' && props.linePage === 0)
+            ? 'none'
+            : 'flex'};
       top: 180px;
       left: ${props => (props.direction === 'left' ? '-15px' : '')};
       right: ${props => (props.direction === 'right' ? '-15px' : '')};
