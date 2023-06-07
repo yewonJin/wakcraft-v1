@@ -4,6 +4,7 @@ import Link from 'next/link';
 
 import InputBox from '../Common/InputBox';
 import { useShowArchitect } from '@/application/showArchitect';
+import { useQueryArchitectBySearch } from '@/services/architectAdapters';
 
 const Layout = styled.div`
    position: relative;
@@ -63,8 +64,10 @@ type PropsType = {
 };
 
 export function SearchArchitect({ handleClick }: PropsType) {
-   const { searchData, input, handleChange, resetInput } = useShowArchitect();
+   const { input, handleChange, resetInput } = useShowArchitect();
 
+   const searchData = useQueryArchitectBySearch(input);
+   
    if (!searchData)
       return (
          <Layout>
@@ -106,9 +109,9 @@ export function SearchArchitect({ handleClick }: PropsType) {
                   return (
                      <li
                         key={item.minecraft_id}
-                        onClick={e => handleClick(item.minecraft_id, item.wakzoo_id, item.tier[item.tier.length-1])}
+                        onClick={e => handleClick(item.minecraft_id, item.wakzoo_id, item.tier[item.tier.length - 1])}
                      >
-                        {item.minecraft_id + ' / ' + item.wakzoo_id + ' / ' + item.tier[item.tier.length-1]}
+                        {item.minecraft_id + ' / ' + item.wakzoo_id + ' / ' + item.tier[item.tier.length - 1]}
                      </li>
                   );
                })}
@@ -137,7 +140,7 @@ export function SearchArchitect({ handleClick }: PropsType) {
             {searchData.map(item => {
                return (
                   <Link href={`/search/${item.minecraft_id}`} key={item.minecraft_id}>
-                     <li>{item.minecraft_id + ' / ' + item.wakzoo_id + ' / ' + item.tier[item.tier.length-1]}</li>
+                     <li>{item.minecraft_id + ' / ' + item.wakzoo_id + ' / ' + item.tier[item.tier.length - 1]}</li>
                   </Link>
                );
             })}

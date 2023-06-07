@@ -1,4 +1,5 @@
 import { useMutationUpdateArchitect } from '@/services/architectAdapters';
+import { useMutationRenameFiles } from '@/services/awsAdapters';
 import { useState, ChangeEvent, FormEvent } from 'react';
 
 export const useUpdateArchitect = () => {
@@ -10,6 +11,7 @@ export const useUpdateArchitect = () => {
    });
 
    const mutation = useMutationUpdateArchitect();
+   const renameMutation = useMutationRenameFiles();
 
    const handleClick = (minecraft_id: string, wakzoo_id: string, tier: string) => {
       setInput(prev => ({
@@ -33,7 +35,10 @@ export const useUpdateArchitect = () => {
 
       const { minecraft_id, wakzoo_id, tier } = input;
 
+      renameMutation.mutate({ beforeId: originalId, afterId: minecraft_id });
+      
       mutation.mutate({ originalId, minecraft_id, wakzoo_id, tier });
+      
 
       setInput(prev => ({
          ...prev,

@@ -1,5 +1,6 @@
 import { S3Client, PutObjectCommand, _Object } from '@aws-sdk/client-s3';
 import fs from 'fs';
+import { before } from 'node:test';
 
 const awsAccessKey = process.env.MY_AWS_ACCESS_KEY as string;
 const awsSecretKey = process.env.MY_AWS_SECRET_KEY as string;
@@ -34,6 +35,28 @@ export const listObjectsBucketParams = (
    }
 };
 
+export const copyObjectBucketParams = (beforeId: string, afterId: string, season: number, extension: string) => {
+   return {
+      CopySource: `${awsS3Bucket}/placementTest/season ${season}/${beforeId}.${extension}`,
+      Bucket: awsS3Bucket,
+      Key: `placementTest/season ${season}/${afterId}.${extension}`,
+   };
+};
+
+export const headObjectParams = (beforeId: string, season: number, extension: string) => {
+   return {
+      Bucket: awsS3Bucket,
+      Key: `placementTest/season ${season}/${beforeId}.${extension}`,
+   };
+};
+
+export const deleteObjectParams = (beforeId: string, season: number, extension: string) => {
+   return {
+      Bucket: awsS3Bucket,
+      Key: `placementTest/season ${season}/${beforeId}.${extension}`,
+   };
+};
+
 // 파일 업로드
 export async function uploadFile(fileBuffer: fs.ReadStream, fileName: string, mimetype: string) {
    const uploadParams = {
@@ -62,6 +85,12 @@ export async function createFolder(
    return res.$metadata.httpStatusCode;
 }
 
+export const renameBucketParams = (beforeId: string) => {
+   return {
+      Bucket: awsS3Bucket,
+      Prefix: `placementTest/season 1/${beforeId}`,
+   };
+};
 
 export const hideFolder = (arr: _Object[]) => {
    return arr.filter(item => item.Key?.split('/')[2] !== '');
@@ -70,4 +99,3 @@ export const hideFolder = (arr: _Object[]) => {
 export const hideWebp = (arr: _Object[]) => {
    return arr.filter(item => item.Key?.split('.')[2] !== 'webp' && item.Key?.split('.')[1] !== 'webp');
 };
-

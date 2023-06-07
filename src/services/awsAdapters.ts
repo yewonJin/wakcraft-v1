@@ -1,7 +1,7 @@
 import { UseQueryResult, useMutation, useQuery, useQueryClient } from 'react-query';
 import { toast } from 'react-hot-toast';
 
-import { getAwsDirectory, getAwsImages, postAwsDirectory, postAwsImages } from './api/aws';
+import { getAwsDirectory, getAwsImages, patchAwsPlacementTestImages, postAwsDirectory, postAwsImages } from './api/aws';
 import { ContentType } from '@/components/Storage/AwsStorage';
 
 export const useQueryAwsDirectory = (content: ContentType) => {
@@ -54,6 +54,18 @@ export const useMutationUploadFiles = (page: number) => {
             }, 1000);
          },
       },
+   );
+
+   return mutation;
+};
+
+export const useMutationRenameFiles = () => {
+   const mutation = useMutation(({ beforeId, afterId }: { beforeId: string; afterId: string }) =>
+      toast.promise(patchAwsPlacementTestImages(beforeId, afterId), {
+         loading: 's3 이미지 이름 변경 중',
+         success: '변경 완료',
+         error: err => err.message,
+      }),
    );
 
    return mutation;
