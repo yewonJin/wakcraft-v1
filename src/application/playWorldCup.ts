@@ -28,7 +28,7 @@ export const usePlayWorldCup = () => {
    const initializeFirstRound = () => {
       if (!data) return;
 
-      setCurRoundArr(data.slice(0, roundOfNumber));
+      setCurRoundArr(shuffle(data.slice(0, roundOfNumber)));
    };
 
    const preloadNextRound = (curRoundArr: Worldcup[]) => {
