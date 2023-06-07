@@ -74,6 +74,7 @@ interface ArchitectModel extends Model<Architect> {
       wakzoo_id: string,
       tier: string,
    ) => Promise<void>;
+   findOneByMinecraftIdAndUpdatePortfolio: (beforeId: string, afterId: string, season: number) => Promise<void>;
 }
 
 // Create new todo document
@@ -284,6 +285,28 @@ architectSchema.statics.findOneByMinecraftIdAndUpdate = function (
             wakzoo_id: wakzoo_id,
             tier: [tier],
          },
+      },
+   );
+};
+
+architectSchema.statics.findOneByMinecraftIdAndUpdatePortfolio = function (
+   beforeId: string,
+   afterId: string,
+   season: number,
+) {
+   return this.findOneAndUpdate(
+      { minecraft_id: beforeId },
+      {
+         $set: {
+            'portfolio.placementTest.$[elem].image_url': `https://wakcraft.s3.ap-northeast-2.amazonaws.com/placementTest/season ${season.toString()}/${afterId}.png`,
+         },
+      },
+      {
+         arrayFilters: [
+            {
+               'elem.season': season,
+            },
+         ],
       },
    );
 };

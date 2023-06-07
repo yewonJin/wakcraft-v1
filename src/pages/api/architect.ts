@@ -83,11 +83,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             await PlacementTest.updateArchitectId(originalId as string, minecraft_id as string);
 
             await EventNoobProHacker.updateArchitectId(originalId as string, minecraft_id as string);
+
+            const data = await Architect.findOneByMinecraftId(originalId);
+
+            data.portfolio.placementTest.forEach(async season => {
+               await Architect.findOneByMinecraftIdAndUpdatePortfolio(originalId, minecraft_id, season.season);
+            });
          }
 
-         await Architect.findOneByMinecraftIdAndUpdate(originalId, minecraft_id, wakzoo_id, tier)
-            .then(architect => res.json(architect))
-            .catch(err => res.status(500).send(err));
+         await Architect.findOneByMinecraftIdAndUpdate(originalId, minecraft_id, wakzoo_id, tier);
+
+         return res.status(200).send('변경 성공');
       } catch (e) {
          console.log(e);
       }

@@ -35,10 +35,11 @@ export const useUpdateArchitect = () => {
 
       const { minecraft_id, wakzoo_id, tier } = input;
 
-      renameMutation.mutate({ beforeId: originalId, afterId: minecraft_id });
-      
+      if (originalId !== minecraft_id) {
+         renameMutation.mutate({ beforeId: originalId, afterId: minecraft_id });
+      }
+
       mutation.mutate({ originalId, minecraft_id, wakzoo_id, tier });
-      
 
       setInput(prev => ({
          ...prev,
