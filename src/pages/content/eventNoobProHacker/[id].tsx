@@ -101,6 +101,10 @@ const PortFolioLayout = styled.div<{ linePage: number }>`
       ::-webkit-scrollbar {
          width: 0px;
       }
+
+      > div:first-child {
+         margin-right: 1%;
+      }
    }
 `;
 

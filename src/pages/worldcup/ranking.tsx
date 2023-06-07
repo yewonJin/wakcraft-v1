@@ -15,6 +15,10 @@ const Layout = styled.div`
    display: flex;
    flex-direction: column;
    padding-top: 130px;
+
+   @media screen and (max-width: 800px) {
+      padding-top: 110px;
+   }
 `;
 
 const Main = styled.main`
@@ -38,11 +42,15 @@ const TableBox = styled.ul`
    background-color: #eee;
 
    @media screen and (max-width: 800px) {
-      gap: 10px;
+      display: none;
    }
 `;
 
-const RankingLayout = styled.ul``;
+const RankingLayout = styled.ul`
+   @media screen and (max-width: 800px) {
+      margin-top: 20px;
+   }
+`;
 
 const RankingItem = styled.li`
    position: relative;
@@ -54,6 +62,7 @@ const RankingItem = styled.li`
    border-bottom: 1px solid #ddd;
 
    @media screen and (max-width: 800px) {
+      height: 70px;
       gap: 15px;
    }
 `;
@@ -62,7 +71,15 @@ const RankingBox = styled.div`
    display: flex;
    justify-content: center;
    align-items: center;
-   flex: 1;
+   margin-left: 30px;
+   min-width: 30px;   
+
+   @media screen and (max-width: 800px) {
+      flex: 0;
+      min-width: 20px;   
+      margin-left: 5px;
+      margin-right: 3px;
+   }
 `;
 
 const ImageBox = styled.div`
@@ -73,7 +90,11 @@ const ImageBox = styled.div`
    height: 100%;
 
    @media screen and (max-width: 800px) {
-      min-width: 120px;
+      min-width: 60px;
+
+      > img {
+         object-fit: cover;
+      }
    }
 `;
 
@@ -87,7 +108,7 @@ const TextWrapper = styled.div<{ direction: string }>`
       > h2 {
          font-size: 14px;
       }
-      flex: 3;
+      flex: 4;
    }
 `;
 
@@ -224,7 +245,7 @@ export default function Ranking() {
                            <TextBox text={(index + 1 + page * 10).toString()} fontSize="16px" lineHeight="24px" />
                         </RankingBox>
                         <ImageBox>
-                           <Image alt="worldcup image" fill src={renameToWebp(item.workInfo.image_url)} sizes="300px" />
+                           <Image alt="worldcup image" fill src={renameToWebp(item.workInfo.image_url)} sizes="200px" />
                         </ImageBox>
                         <TextWrapper direction="column">
                            <TextBox text={item.workInfo.subject} fontSize="18px" lineHeight="24px" />

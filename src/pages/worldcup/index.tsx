@@ -174,7 +174,7 @@ export default function WorldCup() {
                   {curRoundArr.length === 1 ? (
                      <Winner curRoundArr={curRoundArr} />
                   ) : (
-                     preloadNextRound(curRoundArr).map((item, index) => (
+                      preloadNextRound(curRoundArr).map((item, index) => (
                         <ImageBox
                            clickedNumber={clickedNumber}
                            curRound={curRound}
