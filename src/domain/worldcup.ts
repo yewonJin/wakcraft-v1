@@ -15,7 +15,7 @@ export type Worldcup = {
    numberOfParticipation: number;
 };
 
-export const convertToWorldcup = (arr: NoobProHacker[]): Worldcup[] => {
+export const convertAllNoobProHackerToWorldcup = (arr: NoobProHacker[]): Worldcup[] => {
    const worldcupArr: Worldcup[] = [];
 
    arr.forEach(item => {
@@ -35,6 +35,29 @@ export const convertToWorldcup = (arr: NoobProHacker[]): Worldcup[] => {
 
          worldcupArr.push(worldcupItem);
       });
+   });
+
+   return worldcupArr;
+};
+
+export const convertToWorldcup = (noobProHacker: NoobProHacker): Worldcup[] => {
+   const worldcupArr: Worldcup[] = [];
+
+   noobProHacker.lineInfo.forEach(line => {
+      const worldcupItem: Worldcup = {
+         game: 'HackerWorldCup',
+         workInfo: {
+            minecraft_id: line.line_details.hacker.minecraft_id,
+            episode: noobProHacker.contentInfo.episode,
+            subject: line.subject,
+            image_url: line.line_details.hacker.image_url,
+            youtube_url: line.line_details.hacker.youtube_url,
+         },
+         numberOfWin: 0,
+         numberOfParticipation: 0,
+      };
+
+      worldcupArr.push(worldcupItem);
    });
 
    return worldcupArr;

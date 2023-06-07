@@ -4,6 +4,8 @@ import connectMongo from '@/utils/connectMongo';
 import NoobProHacker from '@/models/noobProHacker';
 import { convertToArchitect } from '@/domain/architect';
 import Architect from '@/models/architect';
+import Worldcup from '@/models/worldcup';
+import { convertToWorldcup } from '@/domain/worldcup';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
    if (req.method === 'GET') {
@@ -26,6 +28,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       await connectMongo();
 
       await NoobProHacker.create(req.body);
+
+      convertToWorldcup(req.body).forEach(async item => {
+         await Worldcup.create(item);
+      });
 
       try {
          architectsInfo.forEach(async item => {

@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 
 import connectMongo from '@/utils/connectMongo';
 import NoobProHacker from '@/models/noobProHacker';
-import { Game, convertToWorldcup } from '@/domain/worldcup';
+import { Game, convertAllNoobProHackerToWorldcup } from '@/domain/worldcup';
 import Worldcup from '@/models/worldcup';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -22,7 +22,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
          const noobProHackers = await NoobProHacker.findHackerInfo();
 
-         convertToWorldcup(noobProHackers).forEach(async item => {
+         convertAllNoobProHackerToWorldcup(noobProHackers).forEach(async item => {
             await Worldcup.create(item);
          });
 
