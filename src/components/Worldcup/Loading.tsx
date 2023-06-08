@@ -26,11 +26,11 @@ const SkeletonBox = styled.div<{ margin?: string; direction?: string }>`
 export default function Loading() {
    return (
       <Layout>
-         <Skeleton width="270px" height="38px" darkMode={true} />
+         <Skeleton width="270px" height="32px" darkMode={true} margin="0px 0px 6px 0px" />
          <SkeletonBox>
-            <Skeleton width="100px" height="38px" darkMode={true} />
-            <Skeleton width="60px" height="38px" darkMode={true} />
-            <Skeleton width="100px" height="38px" darkMode={true} />
+            <Skeleton width="100px" height="32px" darkMode={true} />
+            <Skeleton width="60px" height="32px" darkMode={true} />
+            <Skeleton width="100px" height="32px" darkMode={true} />
          </SkeletonBox>
          <SkeletonBox direction="column" margin="40px 0px 0px 0px">
             <Skeleton width="80px" height="30px" darkMode={true} />
