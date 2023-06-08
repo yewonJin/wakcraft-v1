@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Toaster } from 'react-hot-toast';
 import styled from 'styled-components';
 import { GiHamburgerMenu } from 'react-icons/gi';
@@ -61,7 +61,7 @@ const Menu = styled.span`
 
 const MenuBox = styled.div<{ isOpened: boolean }>`
    display: ${props => (props.isOpened ? 'flex' : 'none')};
-   position: absolute;
+   position: fixed;
    width: 100vw;
    height: 100vh;
    background-color: rgba(0, 0, 0, 0.9);
@@ -73,7 +73,7 @@ const MenuBox = styled.div<{ isOpened: boolean }>`
    > a {
       font-size: 24px;
       width: 100%;
-      text-align: center;      
+      text-align: center;
    }
 
    > svg {
@@ -90,20 +90,19 @@ export default function TopNav() {
 
    const [position, setPosition] = useState(0);
    const [isScrolled, setIsScrolled] = useState(false);
-
    const [isOpened, setIsOpened] = useState(false);
 
-   const onScroll = () => {
-      setPosition(window.scrollY);
-
-      if (position > 0) {
-         setIsScrolled(true);
-      } else {
-         setIsScrolled(false);
-      }
-   };
-
    useEffect(() => {
+      const onScroll = () => {
+         setPosition(window.scrollY);
+
+         if (position > 0) {
+            setIsScrolled(true);
+         } else {
+            setIsScrolled(false);
+         }
+      };
+
       onScroll();
 
       window.addEventListener('scroll', onScroll);
@@ -112,6 +111,21 @@ export default function TopNav() {
          window.removeEventListener('scroll', onScroll);
       };
    }, [position]);
+
+   // 모바일 환경에서 Navbar 클릭하면 스크롤 잠그기
+   useCallback(() => {
+      if (typeof document === 'undefined') return;
+
+      if (isOpened) {
+         document.body.style.cssText = `
+         position: fixed; 
+         top: -${window.scrollY}px;
+         overflow-y: scroll;
+         width: 100%;`;
+      } else {
+         document.body.style.cssText = '';
+      }
+   }, [isOpened])();
 
    if (router.pathname === '/') {
       return (
