@@ -8,19 +8,6 @@ import ImageBox from '@/components/Common/ContentDetail/ImageBox';
 import { useQueryPlacementTest } from '@/services/placementTestAdapters';
 import Link from 'next/link';
 
-const ProfileBox = styled.div`
-   position: relative;
-   display: flex;
-   align-items: center;
-   justify-content: space-between;
-
-   @media screen and (max-width: 800px) {
-      gap: 8px;
-      align-items: start;
-      flex-direction: column;
-   }
-`;
-
 const Title = styled.div`
    @media screen and (max-width: 800px) {
       width: 93%;
@@ -82,7 +69,7 @@ export default function Page() {
    if (!data)
       return (
          <CommonLayout>
-            <Skeleton width="120px" height="30px" margin="0px 3%" />
+            <Skeleton width="120px" height="30px" />
             <SkeletonBox>
                {[...new Array(9).fill(0)].map((_, index) => (
                   <Skeleton key={'Skeleton' + index} width="100%" aspectRatio="16/9" borderRadius="10px" />
