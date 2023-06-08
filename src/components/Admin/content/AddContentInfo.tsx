@@ -30,11 +30,11 @@ type Content = Partial<
 >;
 
 type Props = {
-   isEdit: boolean;
+   isEdit?: boolean;
    contentInfo: Content;
    handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
    addContent: (e: React.MouseEvent<HTMLButtonElement>) => void;
-   editContent: (e: React.MouseEvent<HTMLButtonElement>) => void;
+   editContent?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 };
 
 export function AddContentInfo(props: Props) {
@@ -96,19 +96,23 @@ export function AddContentInfo(props: Props) {
                />
             </Item>
          </List>
-         <Button
-            text="DB에 추가하기"
-            onClick={e => {
-               if (isEdit) {
-                  editContent(e);
-               } else {
-                  addContent(e);
-               }
-            }}
-            padding="12px 20px"
-            backgroundColor="#797979"
-            hoverBackgroundColor="#474747"
-         ></Button>
+         {isEdit && editContent ? (
+            <Button
+               text="DB 수정하기"
+               onClick={editContent}
+               padding="12px 20px"
+               backgroundColor="#797979"
+               hoverBackgroundColor="#474747"
+            />
+         ) : (
+            <Button
+               text="DB에 추가하기"
+               onClick={addContent}
+               padding="12px 20px"
+               backgroundColor="#797979"
+               hoverBackgroundColor="#474747"
+            />
+         )}
       </Layout>
    );
 }
