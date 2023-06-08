@@ -333,6 +333,7 @@ export default function Home({
                               >
                                  <Image
                                     src={renameToWebp(item.line_details[line].image_url)}
+                                    priority
                                     style={{ objectFit: 'cover' }}
                                     fill
                                     sizes="900px"

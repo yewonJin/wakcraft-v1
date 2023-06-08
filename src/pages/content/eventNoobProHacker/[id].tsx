@@ -105,6 +105,11 @@ const PortFolioLayout = styled.div<{ linePage: number }>`
       > div:first-child {
          margin-right: 1%;
       }
+
+      
+      > div:last-child {
+         margin-left: 1%;
+      }
    }
 `;
 
