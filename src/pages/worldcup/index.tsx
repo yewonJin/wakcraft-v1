@@ -19,6 +19,7 @@ const Layout = styled.div`
    padding-top: 130px;
    height: 100vh;
    background-color: #0f0f0f;
+
 `;
 
 const MainLayout = styled.div`

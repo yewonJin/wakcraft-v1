@@ -10,16 +10,11 @@ import YoutubeLink from '@/components/Common/ContentDetail/YoutubeLink';
 import { useShowEventNoobProHacker } from '@/application/showEventNoobProHacker';
 import TierBox from '@/components/Common/ContentDetail/TierBox';
 
-const ProfileBox = styled.div`
-   position: relative;
-   display: flex;
-   align-items: center;
-   justify-content: space-between;
+const SkeletonTitle = styled.div`
+   margin-bottom: 80px;
 
    @media screen and (max-width: 800px) {
-      gap: 8px;
-      align-items: start;
-      flex-direction: column;
+      padding: 0px 3%;
    }
 `;
 
@@ -30,11 +25,12 @@ const SkeletonBox = styled.div`
    gap: 30px;
    row-gap: 50px;
 
-   @media screen and (max-width: 1000px) {
+   @media screen and (max-width: 1200px) {
       grid-template-columns: repeat(2, minmax(300px, 1fr));
    }
 
    @media screen and (max-width: 800px) {
+      padding: 0px 3%;
       grid-template-columns: repeat(1, minmax(300px, 1fr));
    }
 `;
@@ -106,7 +102,6 @@ const PortFolioLayout = styled.div<{ linePage: number }>`
          margin-right: 1%;
       }
 
-      
       > div:last-child {
          margin-left: 1%;
       }
@@ -276,13 +271,12 @@ export default function Page() {
    if (!data)
       return (
          <CommonLayout>
-            <ProfileBox>
-               <Skeleton width="85px" height="94px" />
-            </ProfileBox>
-            <Skeleton width="95px" height="22px" margin="25px 0px 0px 0px" />
+            <SkeletonTitle>
+               <Skeleton width="120px" height="36px" />
+            </SkeletonTitle>
             <SkeletonBox>
                {[...new Array(9).fill(0)].map((_, index) => (
-                  <Skeleton key={'Skeleton' + index} width="380px" height="213px" borderRadius="10px" />
+                  <Skeleton key={'Skeleton' + index} width="100%" aspectRatio="16/9" borderRadius="10px" />
                ))}
             </SkeletonBox>
          </CommonLayout>

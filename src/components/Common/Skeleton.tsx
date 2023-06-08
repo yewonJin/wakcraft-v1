@@ -5,9 +5,10 @@ type SkeletonType = {
 };
 
 type SkeletonStyleType = {
-   backgroundColor?: string;
+   darkMode?: boolean;
    width?: string;
    height?: string;
+   aspectRatio?: string;
    margin?: string;
    padding?: string;
    borderRadius?: string;
@@ -23,25 +24,32 @@ const loading = keyframes`
     }
 `;
 
+const darkModeLoading = keyframes`
+       0% {
+         background-color: #333;
+    }
+    50%,
+    100% {
+         background-color: #555;
+    }
+`;
+
 const Layout = styled.div<SkeletonStyleType>`
    position: relative;
-   background-color: ${props => props.backgroundColor || '#ddd'};
+   background-color: ${props => (props.darkMode ? '#333' : '#ddd')};
    width: ${props => props.width || 'auto'};
    height: ${props => props.height || 'auto'};
+   aspect-ratio: ${props => props.aspectRatio || ''};
    border-radius: ${props => props.borderRadius || '0px'};
    margin: ${props => props.margin || '0px'};
    padding: ${props => props.padding || '0px'};
    overflow: hidden;
 
-   animation: ${loading} 1s infinite linear;
-
+   animation: ${props => (props.darkMode ? darkModeLoading : loading)} 1s infinite linear;
 `;
 
 export default function Skeleton(props: SkeletonType) {
    const { ...restProps } = props;
 
-   return (
-      <Layout {...restProps}>
-      </Layout>
-   );
+   return <Layout {...restProps}></Layout>;
 }

@@ -195,7 +195,7 @@ export default function Ranking() {
       return (
          <Layout>
             <Main>
-               <Skeleton width="80px" height="32px" />
+               <Skeleton width="160px" height="30px" />
                <Skeleton height="60px" margin="15px 0px 0px 0px" borderRadius="10px" />
                {new Array(10).fill(0).map(index => (
                   <RankingItem key={index}>

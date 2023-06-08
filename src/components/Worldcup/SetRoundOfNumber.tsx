@@ -12,8 +12,8 @@ const Layout = styled.div`
    margin: 0px auto;
    gap: 10px;
 
-   @media screen and (max-width: 1200px) {
-      width: 90%;      
+   @media screen and (max-width: 1400px) {
+      width: 90%;
    }
 `;
 

@@ -41,6 +41,17 @@ const EpisodeBox = styled.div`
    }
 `;
 
+const SkeletonTitle = styled.div`
+   display: flex;
+   flex-direction: column;
+   margin-bottom: 50px;
+   gap: 20px;
+
+   @media screen and (max-width: 1200px) {
+      padding: 0px 3%;
+   }
+`;
+
 const SkeletonBox = styled.div`
    display: grid;
    grid-template-columns: repeat(3, minmax(300px, 1fr));
@@ -48,7 +59,8 @@ const SkeletonBox = styled.div`
    gap: 30px;
    row-gap: 50px;
 
-   @media screen and (max-width: 1000px) {
+   @media screen and (max-width: 1200px) {
+      padding: 0px 3%;
       grid-template-columns: repeat(2, minmax(300px, 1fr));
    }
 
@@ -153,13 +165,13 @@ export default function Page() {
    if (!data)
       return (
          <Layout>
-            <ProfileBox>
-               <Skeleton width="85px" height="94px" />
-            </ProfileBox>
-            <Skeleton width="95px" height="22px" margin="25px 0px 0px 0px" />
+            <SkeletonTitle>
+               <Skeleton width="60px" height="22px" />
+               <Skeleton width="160px" height="28px"/>
+            </SkeletonTitle>
             <SkeletonBox>
                {[...new Array(9).fill(0)].map((_, index) => (
-                  <Skeleton key={'Skeleton' + index} width="380px" height="213px" borderRadius="10px" />
+                  <Skeleton key={'Skeleton' + index} width="100%" aspectRatio="16/9" borderRadius="10px" />
                ))}
             </SkeletonBox>
          </Layout>

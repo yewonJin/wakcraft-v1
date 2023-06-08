@@ -33,6 +33,19 @@ const TierImageBox = styled.span`
    background-position: center;
 `;
 
+const SkeletonProfileBox = styled.div`
+   position: relative;
+   display: flex;
+   align-items: center;
+   gap: 20px;
+
+   @media screen and (max-width: 800px) {
+      width: 95%;
+      margin: 0px auto;
+      align-items: center;
+   }
+`;
+
 const SkeletonBox = styled.div`
    display: grid;
    grid-template-columns: repeat(3, minmax(300px, 1fr));
@@ -40,11 +53,12 @@ const SkeletonBox = styled.div`
    gap: 30px;
    row-gap: 50px;
 
-   @media screen and (max-width: 1000px) {
-      grid-template-columns: repeat(2, minmax(300px, 1fr));
+   @media screen and (max-width: 1200px) {
+      grid-template-columns: repeat(2, 1fr);
    }
 
    @media screen and (max-width: 800px) {
+      padding: 0px 3%;
       grid-template-columns: repeat(1, minmax(300px, 1fr));
    }
 `;
@@ -52,6 +66,7 @@ const SkeletonBox = styled.div`
 const IdBox = styled.div`
    display: flex;
    flex-direction: column;
+
 `;
 
 const ContentContainer = styled.div`
@@ -103,17 +118,17 @@ export default function Page() {
    if (!data)
       return (
          <CommonLayout>
-            <ProfileBox>
+            <SkeletonProfileBox>
                <Skeleton width="85px" height="94px" />
                <IdBox>
-                  <Skeleton width="120px" height="20px" margin="0px 0px 4px 0px" />
+                  <Skeleton width="140px" height="20px" margin="0px 0px 4px 0px" />
                   <Skeleton width="80px" height="18px" />
                </IdBox>
-            </ProfileBox>
-            <Skeleton width="95px" height="22px" margin="25px 0px 0px 0px" />
+            </SkeletonProfileBox>
+            <Skeleton width="140px" height="22px" margin="25px 0px 0px 0px" />
             <SkeletonBox>
                {[...new Array(9).fill(0)].map((_, index) => (
-                  <Skeleton key={'Skeleton' + index} width="380px" height="213px" borderRadius="10px" />
+                  <Skeleton key={'Skeleton' + index} width="100%" aspectRatio="16/9" borderRadius="10px" />
                ))}
             </SkeletonBox>
          </CommonLayout>

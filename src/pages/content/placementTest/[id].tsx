@@ -40,6 +40,7 @@ const SkeletonBox = styled.div`
    }
 
    @media screen and (max-width: 800px) {
+      padding: 0px 3%;
       grid-template-columns: repeat(1, minmax(300px, 1fr));
    }
 `;
@@ -81,13 +82,10 @@ export default function Page() {
    if (!data)
       return (
          <CommonLayout>
-            <ProfileBox>
-               <Skeleton width="85px" height="94px" />
-            </ProfileBox>
-            <Skeleton width="95px" height="22px" margin="25px 0px 0px 0px" />
+            <Skeleton width="120px" height="30px" margin="0px 3%" />
             <SkeletonBox>
                {[...new Array(9).fill(0)].map((_, index) => (
-                  <Skeleton key={'Skeleton' + index} width="380px" height="213px" borderRadius="10px" />
+                  <Skeleton key={'Skeleton' + index} width="100%" aspectRatio="16/9" borderRadius="10px" />
                ))}
             </SkeletonBox>
          </CommonLayout>
