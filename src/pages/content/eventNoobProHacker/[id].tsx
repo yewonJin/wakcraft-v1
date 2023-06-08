@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 import { AiFillCaretDown, AiOutlineLeft, AiOutlineRight } from 'react-icons/ai';
+import { useEffect } from 'react';
+import Link from 'next/link';
 
 import { CommonLayout } from '@/components/Common/CommonLayout';
 import TextBox from '@/components/Common/TextBox';
@@ -63,9 +65,11 @@ const PortfolioContainer = styled.div`
    width: 1200px;
    overflow-x: hidden;
 
+
    @media screen and (max-width: 1250px) {
       width: 100%;
       margin: 0px auto;
+      overflow-y: hidden;
    }
 
    @media screen and (max-width: 800px) {
@@ -127,7 +131,6 @@ const PortFolioBox = styled.div`
 `;
 
 const ContentBox = styled.div`
-   position: relative;
    display: flex;
    justify-content: space-between;
    align-items: center;
@@ -178,18 +181,32 @@ const InfoBox = styled.div`
 `;
 
 const IdList = styled.ul<{ visible: boolean }>`
-   display: ${props => (props.visible ? 'flex' : 'none')};
+   display: ${props => (props.visible ? 'grid' : 'none')};
+   grid-template-columns: repeat(3, 1fr);
    position: absolute;
-   top: 58px;
+   width: 380px;
+   min-height: 160px;
+   bottom: 68px;
    left: 50%;
    transform: translateX(-50%);
    flex-direction: column;
    gap: 8px;
-   padding: 10px 20px;
-   min-width: 160px;
+   padding: 10px 10px;
    border-radius: 10px;
-   background-color: #f1f1f1;
-   z-index: 11;
+   background-color: rgba(32, 32, 32, 0.9);
+
+   @media screen and (max-width: 1200px) {
+      width: 95%;
+   }
+
+   > a {
+      :hover {
+         cursor: pointer;
+         > h2 {
+            color: #aaa;
+         }      
+      }
+   }
 `;
 
 const IdListButton = styled.span<{ visible: boolean }>`
@@ -197,7 +214,7 @@ const IdListButton = styled.span<{ visible: boolean }>`
    width: 16px;
    height: 16px;
    top: 28px;
-   right: 10px;
+   right: -20px;
    border-radius: 8px;
    z-index: 10;
 
@@ -211,10 +228,6 @@ const IdListButton = styled.span<{ visible: boolean }>`
    }
 `;
 
-const IdItem = styled.li`
-   list-style: none;
-`;
-
 const PageButton = styled.span<{ linePage: number; lastPage: number; direction: 'left' | 'right' }>`
    position: absolute;
    top: 130px;
@@ -225,6 +238,7 @@ const PageButton = styled.span<{ linePage: number; lastPage: number; direction: 
       (props.direction === 'right' && props.linePage === 0)
          ? 'none'
          : 'flex'};
+   display: ${props => (props.lastPage === 3 ? 'none' : '')};
    justify-content: center;
    align-items: center;
    width: 48px;
@@ -249,6 +263,7 @@ const PageButton = styled.span<{ linePage: number; lastPage: number; direction: 
          (props.direction === 'right' && props.linePage === 0)
             ? 'none'
             : 'flex'};
+
       top: 180px;
       left: ${props => (props.direction === 'left' ? '-15px' : '')};
       right: ${props => (props.direction === 'right' ? '-15px' : '')};
@@ -266,7 +281,14 @@ const PageButton = styled.span<{ linePage: number; lastPage: number; direction: 
 `;
 
 export default function Page() {
-   const { data, linePage, modalState, increasePage, decreasePage, toggleModal } = useShowEventNoobProHacker();
+   const { data, linePage, modalState, increasePage, decreasePage, toggleModal, initialize } =
+      useShowEventNoobProHacker();
+
+   useEffect(() => {
+      if (!data) return;
+
+      initialize(data);
+   }, [data]);
 
    if (!data)
       return (
@@ -321,7 +343,7 @@ export default function Page() {
                   >
                      <AiOutlineRight />
                   </PageButton>
-                  <PortfolioContainer>
+                  <PortfolioContainer >
                      <PortFolioLayout linePage={linePage[lineIndex]}>
                         {item.line_details
                            .slice(0)
@@ -330,19 +352,19 @@ export default function Page() {
                               <PortFolioBox key={line.minecraft_id[0]}>
                                  <ImageBox image_url={line.image_url} youtube_url={line.youtube_url} />
                                  <ContentBox>
-                                    {line.minecraft_id.length !== 1 && (
+                                    {line.minecraft_id.length > 1 && (
                                        <IdList visible={modalState[lineIndex][tierIndex]}>
                                           {line.minecraft_id.map(item => (
-                                             <IdItem key={item}>
+                                             <Link key={item} href={`/architect/${item}`}>
                                                 <TextBox
                                                    text={item}
                                                    textAlign="center"
-                                                   fontSize="16px"
+                                                   fontSize="14px"
                                                    lineHeight="24px"
                                                    fontWeight="500"
-                                                   color="#313131"
+                                                   color="#ddd"
                                                 />
-                                             </IdItem>
+                                             </Link>
                                           ))}
                                        </IdList>
                                     )}
@@ -363,17 +385,25 @@ export default function Page() {
                                           lineHeight="24px"
                                           color="#646464"
                                        />
-                                       <TextBox
-                                          text={
-                                             line.minecraft_id.length === 1
-                                                ? line.minecraft_id[0]
-                                                : line.line + ' x ' + line.minecraft_id.length
-                                          }
-                                          textAlign="center"
-                                          fontSize="16px"
-                                          lineHeight="24px"
-                                          fontWeight="500"
-                                       />
+                                       {line.minecraft_id.length === 1 ? (
+                                          <Link href={`/architect/${line.minecraft_id}`}>
+                                             <TextBox
+                                                text={line.minecraft_id[0]}
+                                                textAlign="center"
+                                                fontSize="16px"
+                                                lineHeight="24px"
+                                                fontWeight="500"
+                                             />
+                                          </Link>
+                                       ) : (
+                                          <TextBox
+                                             text={line.line + ' x ' + line.minecraft_id.length}
+                                             textAlign="center"
+                                             fontSize="16px"
+                                             lineHeight="24px"
+                                             fontWeight="500"
+                                          />
+                                       )}
                                     </InfoBox>
                                     <RankingBox ranking={line.ranking} />
                                  </ContentBox>
