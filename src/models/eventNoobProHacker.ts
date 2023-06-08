@@ -7,6 +7,7 @@ interface EventNoobProHackerModel extends Model<EventNoobProHacker> {
    findByEpisode: (episode: string) => Promise<EventNoobProHacker>;
    findLastestOne: () => Promise<EventNoobProHacker>;
    updateArchitectId: (beforeId: string, afterId: string) => Promise<EventNoobProHacker>;
+   findOneByEpisodeAndUpdate: (payload: EventNoobProHacker) => Promise<void>;
 }
 
 const eventNoobProHackerSchema = new Schema({
@@ -52,20 +53,6 @@ eventNoobProHackerSchema.statics.findAllWithoutLineInfo = function () {
       {
          $project: {
             contentInfo: 1,
-            winnerLine: {
-               $filter: {
-                  input: '$lineInfo',
-                  as: 'line',
-                  cond: { $eq: ['$$line.line_ranking', 1] },
-               },
-            },
-            winner: {
-               $filter: {
-                  input: '$lineInfo',
-                  as: 'line',
-                  cond: { $eq: ['$$line.line_details.hacker.ranking', 1] },
-               },
-            },
          },
       },
    ]);
@@ -99,6 +86,20 @@ eventNoobProHackerSchema.statics.updateArchitectId = function (beforeId: string,
                id: beforeId,
             },
          ],
+      },
+   );
+};
+
+eventNoobProHackerSchema.statics.findOneByEpisodeAndUpdate = function (payload: EventNoobProHacker) {
+   return this.updateOne(
+      {
+         'contentInfo.episode': payload.contentInfo.episode,
+      },
+      {
+         $set: {
+            contentInfo: payload.contentInfo,
+            lineInfo: payload.lineInfo,
+         },
       },
    );
 };

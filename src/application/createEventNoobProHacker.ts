@@ -8,7 +8,7 @@ import { EventNoobProHacker, createEventNoobProHackerObject } from '@/domain/eve
 import { checkEmptyInDeepObject } from '@/utils/lib';
 import { curLineIndexState, lineDetailIndexState } from '@/services/store/noobProHacker';
 import { useAwsStorage } from './accessAwsStorage';
-import { useMutationEventNoobProHacker } from '@/services/eventNoobProHackerAdapters';
+import { useMutationEditEventNoobProHacker, useMutationEventNoobProHacker } from '@/services/eventNoobProHackerAdapters';
 
 export const useCreateEventNoobProHackerContent = () => {
    const [eventNoobProHackerContent, setEventNoobProHackerContent] = useRecoilState(eventNoobProHackerContentState);
@@ -45,6 +45,10 @@ export const useCreateEventNoobProHackerLine = () => {
 
       setIsViewable(true);
       setLineDetailIndex(index);
+   };
+
+   const moveToEditPage = () => {
+      setContentSettingPage(2);
    };
 
    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -196,6 +200,7 @@ export const useCreateEventNoobProHackerLine = () => {
       changeLineDetails,
       resetLine,
       setLineCountAndArchitectCount,
+      moveToEditPage,
    };
 };
 
@@ -203,7 +208,14 @@ export const useCreateEventNoobProHacker = () => {
    const [eventNoobProHackerLine, setEventNoobProHackerLine] = useRecoilState(eventNoobProHackerLineState);
    const [eventNoobProHackerContent, setEventNoobProHackerContent] = useRecoilState(eventNoobProHackerContentState);
 
-   const mutation = useMutationEventNoobProHacker();
+   const addMutation = useMutationEventNoobProHacker();
+   const editMutation = useMutationEditEventNoobProHacker();
+
+   const putEventNoobProHacker = (item: EventNoobProHacker) => {
+      setEventNoobProHackerContent(item.contentInfo);
+
+      setEventNoobProHackerLine(item.lineInfo);
+   };
 
    const addEventNoobProHacker = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       e.preventDefault();
@@ -213,11 +225,25 @@ export const useCreateEventNoobProHacker = () => {
          return;
       }
 
-      mutation.mutate({
+      addMutation.mutate({
          contentInfo: eventNoobProHackerContent,
          lineInfo: eventNoobProHackerLine,
       });
    };
 
-   return { addEventNoobProHacker };
+   const editEventNoobProHacker = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+      e.preventDefault();
+
+      if (!checkEmptyInDeepObject(eventNoobProHackerContent)) {
+         toast.error('컨텐츠 입력 폼에 빈 값이 있습니다.');
+         return;
+      }
+
+      editMutation.mutate({
+         contentInfo: eventNoobProHackerContent,
+         lineInfo: eventNoobProHackerLine,
+      });
+   };
+
+   return { addEventNoobProHacker, putEventNoobProHacker, editEventNoobProHacker };
 };

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Fragment } from 'react';
+import { Fragment, useState, useEffect } from 'react';
 
 import {
    useCreateEventNoobProHacker,
@@ -15,10 +15,21 @@ import { ContentLineInfo } from '@/components/Admin/content/ContentLineInfo';
 import { useCreateLine } from '@/application/createNoobProHacker';
 import { SearchArchitect } from '@/components/Admin/content/SearchArchitect';
 import SetLineName from '@/components/Admin/eventNoobProHacker/SetLineName';
+import {
+   useQueryEventNoobProHackerByEpisode,
+   useQueryEventNoobProHackerWithoutLine,
+} from '@/services/eventNoobProHackerAdapters';
+import { Button } from '@/components/Common/Button';
 
 const Wrapper = styled.div`
    display: flex;
    gap: 20px;
+`;
+
+const EditBox = styled.div`
+   display: flex;
+   gap: 20px;
+   margin-bottom: 30px;
 `;
 
 export default function EventNoobProHacker() {
@@ -40,11 +51,23 @@ export default function EventNoobProHacker() {
       setLineImage,
       resetImage,
       handleChange: handleLineChange,
+      moveToEditPage,
    } = useCreateEventNoobProHackerLine();
-   const { addEventNoobProHacker } = useCreateEventNoobProHacker();
+   const { addEventNoobProHacker, putEventNoobProHacker, editEventNoobProHacker } = useCreateEventNoobProHacker();
    const { setCurLineIndex } = useCreateLine();
 
-   console.log(eventNoobProHackerLine);
+   const contentInfo = useQueryEventNoobProHackerWithoutLine();
+   const [selectInput, setSelectInput] = useState(1);
+   const [isEdit, setIsEdit] = useState(false);
+   const { data, refetch } = useQueryEventNoobProHackerByEpisode(selectInput);
+
+   useEffect(() => {
+      if (!data) return;
+
+      setIsEdit(true);
+      moveToEditPage();
+      putEventNoobProHacker(data);
+   }, [data]);
 
    return (
       <CommonLayout>
@@ -53,13 +76,27 @@ export default function EventNoobProHacker() {
             fontSize="24px"
             lineHeight="36px"
             fontWeight="500"
-            margin="0px 0px 25px 0px"
+            margin="0px 0px 15px 0px"
          />
-         <AddContentInfo
-            contentInfo={eventNoobProHackerContent}
-            handleChange={handleChange}
-            addContent={addEventNoobProHacker}
-         />
+         <EditBox>
+            {contentInfo && (
+               <select onChange={e => setSelectInput(parseInt(e.target.value))}>
+                  {contentInfo.map(item => (
+                     <option key={item.contentInfo.episode} value={item.contentInfo.episode}>
+                        {item.contentInfo.episode + '화 : ' + item.contentInfo.contentName}
+                     </option>
+                  ))}
+               </select>
+            )}
+            <Button
+               text="불러오기"
+               padding="5px 10px"
+               onClick={async () => {
+                  await refetch();
+               }}
+            />
+         </EditBox>
+
          {contentSettingPage === 0 ? (
             <SetLineInfo
                tierCountPerLine={tierCountPerLine}
@@ -76,6 +113,13 @@ export default function EventNoobProHacker() {
             />
          ) : (
             <Fragment>
+               <AddContentInfo
+                  isEdit={isEdit}
+                  contentInfo={eventNoobProHackerContent}
+                  handleChange={handleChange}
+                  addContent={addEventNoobProHacker}
+                  editContent={editEventNoobProHacker}
+               />
                <ContentLineInfo lines={eventNoobProHackerLine} setCurLineIndex={setCurLineIndex} />
                <Wrapper>
                   <SearchArchitect

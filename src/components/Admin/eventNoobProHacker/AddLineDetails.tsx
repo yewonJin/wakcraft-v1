@@ -154,79 +154,72 @@ export function AddLineDetails(props: Props) {
             ></Button>
          </Container>
          <LineList>
-            {new Array(tierCountPerLine).fill(0).map((item, index) => (
-               <LineItem key={'1' + index}>
-                  <Wrapper>
-                     <TextBox text={eventNoobProHackerLine[curLineIndex].line_details[index].line} fontSize="20px" />
-                  </Wrapper>
-                  <Wrapper>
-                     <TextBox text="마인크래프트 아이디 : " />
-                     <TextBox
-                        fontWeight="500"
-                        text={
-                           eventNoobProHackerLine[curLineIndex]?.line_details
-                              ? eventNoobProHackerLine[curLineIndex].line_details[index].minecraft_id.join(',')
-                              : ''
-                        }
-                     />
-                  </Wrapper>
-                  <LineInfoBox>
-                     <Wrapper flexDirection="column">
-                        {eventNoobProHackerLine[curLineIndex].line_details[index].image_url === '' ? (
-                           <Fragment>
-                              <TextBox text="개인 이미지 링크" fontSize="18px" lineHeight="26px" />
-                              <Button text="파일 찾기" padding="8px 0px" onClick={e => setLineImage(e, index)} />
-                           </Fragment>
-                        ) : (
-                           <ImageBox>
-                              <Image
-                                 fill
-                                 src={eventNoobProHackerLine[curLineIndex].line_details[index].image_url}
-                                 alt="image"
-                              />
-                              <ResetImage onClick={() => resetImage(index)}>
-                                 <IoMdClose />
-                              </ResetImage>
-                           </ImageBox>
-                        )}
+            {new Array(tierCountPerLine == 0 ? eventNoobProHackerLine[0].line_details.length : tierCountPerLine)
+               .fill(0)
+               .map((item, index) => (
+                  <LineItem key={'1' + index}>
+                     <Wrapper>
+                        <TextBox text={eventNoobProHackerLine[curLineIndex].line_details[index].line} fontSize="20px" />
                      </Wrapper>
-                     <Wrapper flexDirection="column">
-                        <TextBox text="개인 유튜브 링크" fontSize="18px" lineHeight="26px" />
-                        <InputBox
-                           type="text"
-                           height="35px"
-                           border="1px solid #aaa"
-                           onChange={e => changeLineDetails(e, index)}
-                           value={eventNoobProHackerLine[curLineIndex].line_details[index].youtube_url}
-                           name="youtube_url"
-                           width="250px"
+                     <Wrapper>
+                        <TextBox text="마인크래프트 아이디 : " />
+                        <TextBox
+                           fontWeight="500"
+                           text={
+                              eventNoobProHackerLine[curLineIndex]?.line_details
+                                 ? eventNoobProHackerLine[curLineIndex].line_details[index].minecraft_id.join(',')
+                                 : ''
+                           }
                         />
                      </Wrapper>
-                     <Wrapper flexDirection="column">
-                        <TextBox text="개인 랭킹" fontSize="18px" lineHeight="26px" />
-                        <InputBox
-                           type="text"
-                           height="35px"
-                           border="1px solid #aaa"
-                           onChange={e => changeLineDetails(e, index)}
-                           value={eventNoobProHackerLine[curLineIndex].line_details[index].ranking}
-                           name="ranking"
-                           width="150px"
-                        />
-                     </Wrapper>
-                  </LineInfoBox>
-               </LineItem>
-            ))}
+                     <LineInfoBox>
+                        <Wrapper flexDirection="column">
+                           {eventNoobProHackerLine[curLineIndex].line_details[index].image_url === '' ? (
+                              <Fragment>
+                                 <TextBox text="개인 이미지 링크" fontSize="18px" lineHeight="26px" />
+                                 <Button text="파일 찾기" padding="8px 0px" onClick={e => setLineImage(e, index)} />
+                              </Fragment>
+                           ) : (
+                              <ImageBox>
+                                 <Image
+                                    fill
+                                    src={eventNoobProHackerLine[curLineIndex].line_details[index].image_url}
+                                    alt="image"
+                                 />
+                                 <ResetImage onClick={() => resetImage(index)}>
+                                    <IoMdClose />
+                                 </ResetImage>
+                              </ImageBox>
+                           )}
+                        </Wrapper>
+                        <Wrapper flexDirection="column">
+                           <TextBox text="개인 유튜브 링크" fontSize="18px" lineHeight="26px" />
+                           <InputBox
+                              type="text"
+                              height="35px"
+                              border="1px solid #aaa"
+                              onChange={e => changeLineDetails(e, index)}
+                              value={eventNoobProHackerLine[curLineIndex].line_details[index].youtube_url}
+                              name="youtube_url"
+                              width="250px"
+                           />
+                        </Wrapper>
+                        <Wrapper flexDirection="column">
+                           <TextBox text="개인 랭킹" fontSize="18px" lineHeight="26px" />
+                           <InputBox
+                              type="text"
+                              height="35px"
+                              border="1px solid #aaa"
+                              onChange={e => changeLineDetails(e, index)}
+                              value={eventNoobProHackerLine[curLineIndex].line_details[index].ranking}
+                              name="ranking"
+                              width="150px"
+                           />
+                        </Wrapper>
+                     </LineInfoBox>
+                  </LineItem>
+               ))}
          </LineList>
       </Layout>
    );
 }
-
-/* 
-   <Button
-      text="라인 추가"
-      onClick={addNewLine}
-      backgroundColor="#797979"
-      hoverBackgroundColor="#474747"
-   ></Button>
-*/

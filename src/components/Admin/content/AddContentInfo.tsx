@@ -25,16 +25,20 @@ const Item = styled.li`
    gap: 7px;
 `;
 
-type Content = Partial<NoobProHacker['contentInfo'] & Omit<PlacementTest, 'participants'> & EventNoobProHacker['contentInfo']>;
+type Content = Partial<
+   NoobProHacker['contentInfo'] & Omit<PlacementTest, 'participants'> & EventNoobProHacker['contentInfo']
+>;
 
 type Props = {
+   isEdit: boolean;
    contentInfo: Content;
    handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
    addContent: (e: React.MouseEvent<HTMLButtonElement>) => void;
+   editContent: (e: React.MouseEvent<HTMLButtonElement>) => void;
 };
 
 export function AddContentInfo(props: Props) {
-   const { contentInfo, handleChange, addContent } = props;
+   const { isEdit, contentInfo, handleChange, addContent, editContent } = props;
 
    return (
       <Layout>
@@ -94,7 +98,13 @@ export function AddContentInfo(props: Props) {
          </List>
          <Button
             text="DB에 추가하기"
-            onClick={addContent}
+            onClick={e => {
+               if (isEdit) {
+                  editContent(e);
+               } else {
+                  addContent(e);
+               }
+            }}
             padding="12px 20px"
             backgroundColor="#797979"
             hoverBackgroundColor="#474747"

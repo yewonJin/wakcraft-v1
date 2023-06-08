@@ -1,7 +1,12 @@
 import { UseQueryResult, useMutation, useQuery } from 'react-query';
 import { toast } from 'react-hot-toast';
 
-import { addEventNoobProHacker, getNoobProHackerById } from './api/eventNoobProHacker';
+import {
+   addEventNoobProHacker,
+   editEventNoobProHacker,
+   getEventNoobProHackerByEpisode,
+   getEventNoobProHackerWithoutLine,
+} from './api/eventNoobProHacker';
 import { EventNoobProHacker } from '@/domain/eventNoobProHacker';
 import { useRouter } from 'next/router';
 import { Architect } from '@/domain/architect';
@@ -21,6 +26,21 @@ export const useMutationEventNoobProHacker = () => {
    return mutation;
 };
 
+export const useMutationEditEventNoobProHacker = () => {
+   var myHeaders = new Headers();
+   myHeaders.append('Content-Type', 'application/json');
+
+   const mutation = useMutation((body: EventNoobProHacker) =>
+      toast.promise(editEventNoobProHacker(body), {
+         loading: '수정중',
+         success: '수정 완료',
+         error: err => err.message,
+      }),
+   );
+
+   return mutation;
+};
+
 export const useQueryEventNoobProHacker = () => {
    const router = useRouter();
 
@@ -28,13 +48,38 @@ export const useQueryEventNoobProHacker = () => {
 
    const { data: result }: UseQueryResult<EventNoobProHacker> = useQuery(
       ['getEventNoobProHacker'],
-      () => getNoobProHackerById(id as string),
+      () => getEventNoobProHackerByEpisode(id as string),
       {
          refetchOnWindowFocus: false,
       },
    );
 
    return result;
+};
+
+export const useQueryEventNoobProHackerWithoutLine = () => {
+   const { data: result }: UseQueryResult<EventNoobProHacker[]> = useQuery(
+      ['getEventNoobProHackerWithoutLine'],
+      () => getEventNoobProHackerWithoutLine(),
+      {
+         refetchOnWindowFocus: false,
+      },
+   );
+
+   return result;
+};
+
+export const useQueryEventNoobProHackerByEpisode = (episode: number) => {
+   const { data, refetch }: UseQueryResult<EventNoobProHacker> = useQuery(
+      ['getEventNoobProHackerByEpisode'],
+      () => getEventNoobProHackerByEpisode(episode.toString()),
+      {
+         refetchOnWindowFocus: false,
+         enabled: false,
+      },
+   );
+
+   return { data, refetch };
 };
 
 /** 이벤트 눕프핵 정보를 건축가 정보로 변환하는 함수 */
