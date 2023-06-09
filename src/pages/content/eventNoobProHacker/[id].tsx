@@ -99,7 +99,7 @@ const PortFolioLayout = styled.div<{ linePage: number }>`
 
       ::-webkit-scrollbar {
          width: 0px;
-      }      
+      }
    }
 `;
 
@@ -188,7 +188,11 @@ const IdList = styled.ul<{ visible: boolean }>`
    background-color: rgba(32, 32, 32, 0.9);
 
    @media screen and (max-width: 1200px) {
-      width: 100%;
+      width: 96%;
+   }
+
+   @media screen and (max-width: 800px) {
+      width: 93%;
    }
 
    > a {
