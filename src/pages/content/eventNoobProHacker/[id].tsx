@@ -96,19 +96,10 @@ const PortFolioLayout = styled.div<{ linePage: number }>`
       overflow-x: scroll;
       overflow-y: hidden;
       gap: 5%;
-      padding: 0px 3%;
 
       ::-webkit-scrollbar {
          width: 0px;
-      }
-
-      > div:first-child {
-         margin-right: 1%;
-      }
-
-      > div:last-child {
-         margin-left: 1%;
-      }
+      }      
    }
 `;
 
@@ -125,8 +116,9 @@ const PortFolioBox = styled.div`
    }
 
    @media screen and (max-width: 800px) {
-      min-width: 98%;
+      min-width: 100%;
       margin: 0px auto;
+      padding: 0px 3%;
    }
 `;
 
