@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { AiFillCaretDown, AiOutlineLeft, AiOutlineRight } from 'react-icons/ai';
-import { useEffect } from 'react';
 import Link from 'next/link';
 
 import { CommonLayout } from '@/components/Common/CommonLayout';
@@ -277,14 +276,7 @@ const PageButton = styled.span<{ linePage: number; lastPage: number; direction: 
 `;
 
 export default function Page() {
-   const { data, linePage, modalState, increasePage, decreasePage, toggleModal, initialize } =
-      useShowEventNoobProHacker();
-
-   useEffect(() => {
-      if (!data) return;
-
-      initialize(data);
-   }, [data]);
+   const { data, linePage, modalState, increasePage, decreasePage, toggleModal } = useShowEventNoobProHacker();
 
    if (!data)
       return (

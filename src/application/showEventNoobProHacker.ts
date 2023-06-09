@@ -1,5 +1,5 @@
 import { produce } from 'immer';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useQueryEventNoobProHacker } from '@/services/eventNoobProHackerAdapters';
 import { EventNoobProHacker } from '@/domain/eventNoobProHacker';
@@ -7,14 +7,16 @@ import { EventNoobProHacker } from '@/domain/eventNoobProHacker';
 export const useShowEventNoobProHacker = () => {
    const data = useQueryEventNoobProHacker();
 
-   const [linePage, setLinePage] = useState<number[]>(new Array(5).fill(0));
-   const [modalState, setModalState] = useState(Array.from(Array(5), () => Array(5).fill(false)));
+   const [linePage, setLinePage] = useState<number[]>(new Array(5).fill(0));   
+   const [modalState, setModalState] = useState(Array.from(Array(7), () => Array(5).fill(false)));
+
+   useEffect(() => {
+      if (!data) return;
+
+      initialize(data);
+   }, [data]);
 
    const initialize = (data: EventNoobProHacker) => {
-      setModalState(
-         Array.from(Array(data.lineInfo.length), () => Array(data.lineInfo[0].line_details.length).fill(false)),
-      );
-
       setLinePage(new Array(data.lineInfo[0].line_details.length).fill(0));
    };
 
