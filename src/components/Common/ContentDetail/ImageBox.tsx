@@ -32,6 +32,14 @@ type Props = {
 export default function ImageBox(props: Props) {
    const { image_url, youtube_url } = props;
 
+   if (youtube_url === 'null') {
+      return (
+         <Layout onClick={() => window.open(renameTo1080Webp(image_url))}>
+            <Image fill sizes="400px" alt="noobProHacker image" src={renameToWebp(image_url)} />
+         </Layout>
+      );
+   }
+
    return (
       <Layout onClick={() => window.open(renameTo1080Webp(image_url))}>
          <Image fill sizes="400px" alt="noobProHacker image" src={renameToWebp(image_url)} />
@@ -39,7 +47,3 @@ export default function ImageBox(props: Props) {
       </Layout>
    );
 }
-
-/*
-
-*/
