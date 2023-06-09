@@ -1,5 +1,6 @@
-import { useMutationUploadFiles } from '@/services/awsAdapters';
 import { toast } from 'react-hot-toast';
+
+import { useMutationUploadFiles } from '@/services/awsAdapters';
 
 export const useUpload = (page: number) => {
    const mutation = useMutationUploadFiles(page);

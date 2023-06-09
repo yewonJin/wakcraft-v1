@@ -1,4 +1,5 @@
 import { UseQueryResult, useMutation, useQuery } from 'react-query';
+import { useRouter } from 'next/router';
 import { toast } from 'react-hot-toast';
 
 import {
@@ -8,7 +9,6 @@ import {
    getEventNoobProHackerWithoutLine,
 } from './api/eventNoobProHacker';
 import { EventNoobProHacker } from '@/domain/eventNoobProHacker';
-import { useRouter } from 'next/router';
 import { Architect } from '@/domain/architect';
 
 export const useMutationEventNoobProHacker = () => {
