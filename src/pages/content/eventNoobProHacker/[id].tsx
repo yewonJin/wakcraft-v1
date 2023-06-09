@@ -65,7 +65,6 @@ const PortfolioContainer = styled.div`
    width: 1200px;
    overflow-x: hidden;
 
-
    @media screen and (max-width: 1250px) {
       width: 100%;
       margin: 0px auto;
@@ -95,6 +94,7 @@ const PortFolioLayout = styled.div<{ linePage: number }>`
 
    @media screen and (max-width: 800px) {
       overflow-x: scroll;
+      overflow-y: hidden;
       gap: 5%;
       padding: 0px 3%;
 
@@ -196,7 +196,7 @@ const IdList = styled.ul<{ visible: boolean }>`
    background-color: rgba(32, 32, 32, 0.9);
 
    @media screen and (max-width: 1200px) {
-      width: 95%;
+      width: 100%;
    }
 
    > a {
@@ -204,7 +204,7 @@ const IdList = styled.ul<{ visible: boolean }>`
          cursor: pointer;
          > h2 {
             color: #aaa;
-         }      
+         }
       }
    }
 `;
@@ -343,7 +343,7 @@ export default function Page() {
                   >
                      <AiOutlineRight />
                   </PageButton>
-                  <PortfolioContainer >
+                  <PortfolioContainer>
                      <PortFolioLayout linePage={linePage[lineIndex]}>
                         {item.line_details
                            .slice(0)
