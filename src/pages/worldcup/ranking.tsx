@@ -1,14 +1,14 @@
 import styled from 'styled-components';
 import Image from 'next/image';
 import { useState } from 'react';
+import { AiOutlineLeft, AiOutlineRight } from 'react-icons/ai';
 
 import { usePlayWorldCup } from '@/application/playWorldCup';
 import TextBox from '@/components/Common/TextBox';
-import { renameToWebp } from '@/domain/noobProHacker';
+import { renameTo1080Webp, renameToWebp } from '@/domain/noobProHacker';
 import Skeleton from '@/components/Common/Skeleton';
 import { getWinRatio } from '@/domain/worldcup';
 import YoutubeLink from '@/components/Common/ContentDetail/YoutubeLink';
-import { AiOutlineLeft, AiOutlineRight } from 'react-icons/ai';
 
 const Layout = styled.div`
    position: relative;
@@ -72,11 +72,11 @@ const RankingBox = styled.div`
    justify-content: center;
    align-items: center;
    margin-left: 30px;
-   min-width: 30px;   
+   min-width: 30px;
 
    @media screen and (max-width: 800px) {
       flex: 0;
-      min-width: 20px;   
+      min-width: 20px;
       margin-left: 5px;
       margin-right: 3px;
    }
@@ -88,6 +88,15 @@ const ImageBox = styled.div`
    align-items: center;
    flex: 2;
    height: 100%;
+   overflow: hidden;
+
+   :hover {
+      cursor: pointer;
+
+      > img {
+         scale: 1.02;
+      }
+   }
 
    @media screen and (max-width: 800px) {
       min-width: 60px;
@@ -244,7 +253,7 @@ export default function Ranking() {
                         <RankingBox>
                            <TextBox text={(index + 1 + page * 10).toString()} fontSize="16px" lineHeight="24px" />
                         </RankingBox>
-                        <ImageBox>
+                        <ImageBox onClick={() => window.open(renameTo1080Webp(item.workInfo.image_url))}>
                            <Image alt="worldcup image" fill src={renameToWebp(item.workInfo.image_url)} sizes="200px" />
                         </ImageBox>
                         <TextWrapper direction="column">
