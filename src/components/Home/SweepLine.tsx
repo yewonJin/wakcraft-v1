@@ -14,7 +14,7 @@ const Layout = styled.div`
    margin-top: 200px;
    margin-bottom: 100px;
 
-   @media screen and (max-width: 1200px) {
+   @media screen and (max-width: 1400px) {
       width: 90%;
       margin-top: 60px;
    }
@@ -25,7 +25,7 @@ const Box = styled.div`
    width: 1200px;
    margin: 0px auto;
 
-   @media screen and (max-width: 1200px) {
+   @media screen and (max-width: 1400px) {
       width: 100%;
 
       > h2 {
@@ -102,12 +102,12 @@ const ImageBox = styled.div`
    box-shadow: 1px 1px 5px #999;
    overflow: hidden;
 
-   @media screen and (min-width: 1200px) {
+   @media screen and (min-width: 1400px) {
       width: 380px;
       height: 450px;
    }
 
-   @media screen and (max-width: 1000px) {
+   @media screen and (max-width: 1200px) {
       aspect-ratio: 16/9;
    }
 
@@ -181,6 +181,12 @@ const ButtonBox = styled.div<{ position: 'left' | 'right'; page: number; lastPag
       color: #313131;
    }
 
+   @media screen and (min-width: 800px) {
+      width: 40px;
+      height: 40px;
+      top: 50px;
+   }
+
    @media screen and (min-width: 1400px) {
       width: 48px;
       height: 48px;
@@ -231,7 +237,13 @@ export default function MainInfo({ sweepLine }: { sweepLine: NoobProHacker[] }) 
          <Box>
             <Title>
                <TextBox text={'싹쓸이 라인'} fontSize="28px" lineHeight="40px" fontWeight="500" />
-               <TextBox text={'(프로 1등, 해커 1등, 라인 1등)'} fontSize="18px" lineHeight="28px" fontWeight="400" color="#666"/>
+               <TextBox
+                  text={'(프로 1등, 해커 1등, 라인 1등)'}
+                  fontSize="18px"
+                  lineHeight="28px"
+                  fontWeight="400"
+                  color="#666"
+               />
             </Title>
             <List>
                <LineContainer>
