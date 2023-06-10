@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Hydrate, QueryClient, QueryClientProvider } from 'react-query';
 import { RecoilRoot } from 'recoil';
 import type { AppProps } from 'next/app';
+import { Analytics } from '@vercel/analytics/react';
 
 import '@/styles/globals.css';
 import TopNav from '@/components/TopNav';
@@ -22,6 +23,7 @@ export default function App({ Component, pageProps }: AppProps) {
                </Head>
                <TopNav />
                <Component {...pageProps} />
+               <Analytics />
             </RecoilRoot>
          </Hydrate>
       </QueryClientProvider>
