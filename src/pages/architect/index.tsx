@@ -27,6 +27,7 @@ const Layout = styled.div`
    }
 
    @media screen and (max-width: 800px) {
+      height: auto;
       padding-top: 100px;
    }
 `;
@@ -105,6 +106,7 @@ const ArchitectList = styled.ul`
    @media screen and (max-width: 800px) {
       border-top: 1px solid #ddd;
       margin-top: 10px;
+      height: auto;
    }
 `;
 
@@ -163,9 +165,9 @@ const ArchitectInfoList = styled.ul`
    padding: 10px 25px;
    border-bottom: 1px solid #cacaca;
 
-   @media screen and (max-width: 800px) {
-      height: 80px;
+   @media screen and (max-width: 800px) {      
       padding: 5px 10px;
+      height: auto;
       gap: 20px;
 
       > li:first-child {
@@ -198,7 +200,6 @@ const IdBox = styled.div`
 
    @media screen and (max-width: 800px) {
       flex-direction: column;
-      width: 150px;
       > li {
          width: 100%;
       }

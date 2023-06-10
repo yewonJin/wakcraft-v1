@@ -38,11 +38,11 @@ const TextWrapper = styled.div`
    margin-top: 40px;
 
    @media screen and (max-width: 800px) {
-      > h2:first-child{
+      > h2:first-child {
          font-size: 20px;
       }
 
-      > h2{
+      > h2 {
          font-size: 16px;
       }
    }

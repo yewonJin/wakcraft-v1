@@ -12,7 +12,7 @@ const Layout = styled.div`
    width: 100%;
    margin: 0px auto;
    margin-top: 200px;
-   margin-bottom: 60px;
+   margin-bottom: 100px;
 
    @media screen and (max-width: 1200px) {
       width: 90%;
@@ -168,10 +168,10 @@ const ButtonBox = styled.div<{ position: 'left' | 'right'; page: number; lastPag
          : 'flex'};
    justify-content: center;
    align-items: center;
-   top: 0px;
+   top: 105px;
    right: ${props => (props.position === 'right' ? '0px' : '60px')};
-   width: 36px;
-   height: 36px;
+   width: 30px;
+   height: 30px;
    border-radius: 30px;
    background-color: #ddd;
    cursor: pointer;
@@ -202,10 +202,25 @@ const TextWrapper = styled.div<{ margin: string }>`
    margin: ${props => props.margin || '0px'};
 `;
 
-const SkeletonGroup = styled.div`
+const Title = styled.div`
    display: flex;
+   align-items: end;
    gap: 15px;
-   min-width: 100%;
+   margin-bottom: 30px;
+
+   @media screen and (max-width: 800px) {
+      align-items: start;
+      gap: 5px;
+      flex-direction: column;
+
+      > h2:first-child {
+         font-size: 22px;
+      }
+
+      > h2:last-child {
+         font-size: 16px;
+      }
+   }
 `;
 
 export default function MainInfo({ sweepLine }: { sweepLine: NoobProHacker[] }) {
@@ -214,13 +229,10 @@ export default function MainInfo({ sweepLine }: { sweepLine: NoobProHacker[] }) 
    return (
       <Layout>
          <Box>
-            <TextBox
-               text={'싹쓸이 라인'}
-               fontSize="28px"
-               lineHeight="40px"
-               fontWeight="500"
-               margin="0px 0px 30px 0px"
-            />
+            <Title>
+               <TextBox text={'싹쓸이 라인'} fontSize="28px" lineHeight="40px" fontWeight="500" />
+               <TextBox text={'(프로 1등, 해커 1등, 라인 1등)'} fontSize="18px" lineHeight="28px" fontWeight="400" color="#666"/>
+            </Title>
             <List>
                <LineContainer>
                   {convertToSweepLine(sweepLine).map(item => (
