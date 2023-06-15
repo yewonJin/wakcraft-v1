@@ -8,7 +8,10 @@ import { EventNoobProHacker, createEventNoobProHackerObject } from '@/domain/eve
 import { checkEmptyInDeepObject } from '@/utils/lib';
 import { curLineIndexState, lineDetailIndexState } from '@/services/store/noobProHacker';
 import { useAwsStorage } from './accessAwsStorage';
-import { useMutationEditEventNoobProHacker, useMutationEventNoobProHacker } from '@/services/eventNoobProHackerAdapters';
+import {
+   useMutationEditEventNoobProHacker,
+   useMutationEventNoobProHacker,
+} from '@/services/eventNoobProHackerAdapters';
 
 export const useCreateEventNoobProHackerContent = () => {
    const [eventNoobProHackerContent, setEventNoobProHackerContent] = useRecoilState(eventNoobProHackerContentState);
@@ -213,6 +216,11 @@ export const useCreateEventNoobProHacker = () => {
 
    const putEventNoobProHacker = (item: EventNoobProHacker) => {
       setEventNoobProHackerContent(item.contentInfo);
+      setEventNoobProHackerContent(prev =>
+         produce(prev, draft => {
+            draft.date = item.contentInfo.date.split('T')[0];
+         }),
+      );
 
       setEventNoobProHackerLine(item.lineInfo);
    };
