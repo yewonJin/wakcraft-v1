@@ -28,7 +28,7 @@ export const useCreateArchitect = () => {
                wakzoo_id: '',
             };
          });
-         mutate(architectInfo);
+         mutate({ ...architectInfo, tier: ['언랭', '언랭', architectInfo.tier] });
       } else {
          toast.error('빈 입력 창이 있습니다.');
       }
