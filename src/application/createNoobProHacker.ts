@@ -3,7 +3,7 @@ import { useRecoilState } from 'recoil';
 import { toast } from 'react-hot-toast';
 import { produce } from 'immer';
 
-import { createNoobProHackerObject } from '@/domain/noobProHacker';
+import { NoobProHacker, createNoobProHackerObject } from '@/domain/noobProHacker';
 import { checkEmptyInDeepObject } from '@/utils/lib';
 import {
    noobProHackerContentState,
@@ -14,7 +14,7 @@ import {
    searchInputState,
    curLineIndexState,
 } from '@/services/store/noobProHacker';
-import { useMutationNoobProHacker } from '@/services/noobProHackerAdapters';
+import { useMutationEditNoobProHacker, useMutationNoobProHacker } from '@/services/noobProHackerAdapters';
 import { useAwsStorage } from './accessAwsStorage';
 
 export const useCreateContent = () => {
@@ -162,10 +162,22 @@ export const useCreateLine = () => {
 };
 
 export const useCreateNoobProHacker = () => {
-   const { noobProHackerLine } = useCreateLine();
-   const { noobProHackerContent } = useCreateContent();
+   const [noobProHackerLine, setNoobProHackerLine] = useRecoilState(noobProHackerLineState);
+   const [noobProHackerContent, setNoobProHackerContent] = useRecoilState(noobProHackerContentState);
 
    const mutation = useMutationNoobProHacker();
+   const editMutation = useMutationEditNoobProHacker();
+
+   const putNoobProHacker = (noobProHacker: NoobProHacker) => {
+      setNoobProHackerContent(noobProHacker.contentInfo);
+      setNoobProHackerContent(prev =>
+         produce(prev, draft => {
+            draft.date = noobProHacker.contentInfo.date.split('T')[0];
+         }),
+      );
+
+      setNoobProHackerLine(noobProHacker.lineInfo);
+   };
 
    const addNoobProHacker = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       e.preventDefault();
@@ -186,5 +198,19 @@ export const useCreateNoobProHacker = () => {
       });
    };
 
-   return { addNoobProHacker };
+   const editNoobProHacker = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+      e.preventDefault();
+
+      if (!checkEmptyInDeepObject(noobProHackerContent) || noobProHackerLine.length < 5) {
+         toast.error('컨텐츠 입력 폼에 빈 값이 있습니다.');
+         return;
+      }
+
+      editMutation.mutate({
+         contentInfo: noobProHackerContent,
+         lineInfo: noobProHackerLine,
+      });
+   };
+
+   return { addNoobProHacker, putNoobProHacker, editNoobProHacker };
 };

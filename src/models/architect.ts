@@ -75,7 +75,12 @@ interface ArchitectModel extends Model<Architect> {
       tier: string,
    ) => Promise<void>;
    findOneByMinecraftIdAndUpdatePortfolio: (beforeId: string, afterId: string, season: number) => Promise<void>;
-   findOneByMinecraftIdAndUpdateEventNoobProHacker: (minecraft_id: string, episode: number, url: string) => Promise<void>;
+   findOneByMinecraftIdAndUpdateEventNoobProHacker: (
+      minecraft_id: string,
+      episode: number,
+      url: string,
+   ) => Promise<void>;
+   findOneByMinecraftIdAndUpdateNoobProHacker: (minecraft_id: string, episode: number, url: string) => Promise<void>;
 }
 
 // Create new todo document
@@ -324,6 +329,30 @@ architectSchema.statics.findOneByMinecraftIdAndUpdateEventNoobProHacker = functi
       {
          $set: {
             'portfolio.eventNoobProHacker.$[elem].youtube_url': url,
+         },
+      },
+      {
+         arrayFilters: [
+            {
+               'elem.episode': episode,
+            },
+         ],
+      },
+   );
+};
+
+architectSchema.statics.findOneByMinecraftIdAndUpdateNoobProHacker = function (
+   minecraft_id: string,
+   episode: number,
+   url: string,
+) {
+   return this.findOneAndUpdate(
+      {
+         minecraft_id: minecraft_id,
+      },
+      {
+         $set: {
+            'portfolio.noobProHacker.$[elem].youtube_url': url,
          },
       },
       {

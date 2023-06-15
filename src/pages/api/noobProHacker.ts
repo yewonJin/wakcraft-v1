@@ -21,6 +21,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
          } catch {
             res.status(400).json({ error: 'fetch error' });
          }
+      } else if (req.query.line === 'false') {
+         try {
+            await connectMongo();
+
+            await NoobProHacker.findAllWithoutLineInfo().then(noobProHackers => {
+               res.status(200).json(noobProHackers);
+            });
+         } catch {
+            res.status(400).json({ error: 'fetch error' });
+         }
       }
    } else if (req.method === 'POST') {
       const architectsInfo = convertToArchitect(req);
@@ -38,6 +48,25 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             await Architect.findOneAndPushToPortfolio(item.minecraft_id, item.portfolio.noobProHacker[0]);
          });
 
+         res.status(200).json('DB에 추가 했습니다.');
+      } catch (e) {
+         res.status(400).json({ error: 'DB에 추가 하지 못했습니다.' });
+      }
+   } else if (req.method === 'PUT') {
+      const architectsInfo = convertToArchitect(req);
+
+      await connectMongo();
+
+      await NoobProHacker.findOneByEpisodeAndUpdate(req.body);
+
+      try {
+         architectsInfo.forEach(async item => {
+            await Architect.findOneByMinecraftIdAndUpdateNoobProHacker(
+               item.minecraft_id,
+               item.portfolio.noobProHacker[0].episode,
+               item.portfolio.noobProHacker[0].youtube_url,
+            );
+         });
          res.status(200).json('DB에 추가 했습니다.');
       } catch (e) {
          res.status(400).json({ error: 'DB에 추가 하지 못했습니다.' });
