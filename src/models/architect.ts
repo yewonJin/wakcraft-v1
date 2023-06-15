@@ -289,7 +289,6 @@ architectSchema.statics.findOneByMinecraftIdAndUpdate = function (
          $set: {
             minecraft_id: minecraft_id,
             wakzoo_id: wakzoo_id,
-            tier: [tier],
          },
       },
    );
