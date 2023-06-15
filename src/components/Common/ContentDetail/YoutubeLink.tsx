@@ -46,6 +46,10 @@ export default function YoutubeLink(props: Props) {
       return window.open(url);
    };
 
+   if (url === 'null') {
+      return <Layout isIconOnImage={isIconOnImage}></Layout>;
+   }
+
    return (
       <Layout isIconOnImage={isIconOnImage}>
          <BsYoutube onClick={handleClick} />
