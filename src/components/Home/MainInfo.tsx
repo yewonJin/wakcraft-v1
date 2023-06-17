@@ -247,7 +247,7 @@ export default function MainInfo({ architects }: { architects: ArchitectWithSort
                         text={
                            'D+' +
                            Math.floor(
-                              (new Date().getTime() - new Date('2023-02-26').getTime()) / (24 * 1000 * 3600) - 1,
+                              (new Date().getTime() - new Date('2023-06-18').getTime()) / (24 * 1000 * 3600) - 1,
                            ).toString()
                         }
                         fontSize="40px"
