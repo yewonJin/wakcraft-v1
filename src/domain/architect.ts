@@ -94,8 +94,8 @@ export const getMostParticipationArchitect = (architects: ArchitectWithSortPrior
 /** 티어 별 건축가 수 */
 export const getNumberOfArchitectsByTier = (architects: ArchitectWithSortPriority[]) => {
    return {
-      hacker: architects.filter(architect => architect.sortPriority <= 4).length,
-      gukbap: architects.filter(architect => architect.sortPriority > 4 && architect.sortPriority <= 7).length,
+      hacker: architects.filter(architect => architect.sortPriority <= 3).length,
+      gukbap: architects.filter(architect => architect.sortPriority > 3 && architect.sortPriority <= 7).length,
       pro: architects.filter(architect => architect.sortPriority === 8).length,
       gyeruik: architects.filter(architect => architect.sortPriority > 8 && architect.sortPriority <= 10).length,
       noob: architects.filter(architect => architect.sortPriority > 10 && architect.sortPriority <= 14).length,
@@ -117,8 +117,8 @@ export const numberParticipationInLine = (architect: Architect, line: Line) => {
 
 /**  */
 export const convertLineTierToTier = (req: string) => {
-   if (req === 'hacker') return createTierArray().slice(0, 4);
-   else if (req === 'gukbap') return createTierArray().slice(4, 7);
+   if (req === 'hacker') return createTierArray().slice(0, 3);
+   else if (req === 'gukbap') return createTierArray().slice(3, 7);
    else if (req === 'pro') return createTierArray().slice(7, 8);
    else if (req === 'gyeruik') return createTierArray().slice(8, 10);
    else if (req === 'noob') return createTierArray().slice(10, 14);
