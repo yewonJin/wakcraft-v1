@@ -1,9 +1,10 @@
-import { useState, ChangeEvent } from 'react';
+import { useState, ChangeEvent, MouseEvent } from 'react';
 import { useRecoilState } from 'recoil';
 
 import { Architect } from '@/domain/architect';
 import { searchCurrentTierState } from '@/services/store/architect';
 import { fuzzySearch, fuzzySearchRegExp } from '@/utils/fuzzySearch';
+import { createTierArray } from '@/domain/architect';
 
 interface ArchitectWithIndexArr extends Architect {
    minecraftHighlightIndex: number[];
@@ -18,6 +19,62 @@ interface HighlightIndex {
 export const useShowArchitect = () => {
    const [curTier, setCurTier] = useRecoilState(searchCurrentTierState);
    const [input, setInput] = useState('');
+
+   const [sortByTier, setSortByTier] = useState(1);
+   const [sortByParticipation, setSortByParticipation] = useState(0);
+   const [sortByNumberOfWin, setSortByNumberOfWin] = useState(0);
+
+   const sort = (architects: Architect[]) => {
+      if (sortByTier === 1) {
+         return architects;
+      } else if (sortByTier === -1) {
+         return architects.sort((a, b) => {
+            if (a.tier[a.tier.length - 1] === '언랭') return 0;
+
+            return (
+               createTierArray().indexOf(b.tier[a.tier.length - 1]) -
+               createTierArray().indexOf(a.tier[b.tier.length - 1])
+            );
+         });
+      }
+
+      if (sortByParticipation === 1) {
+         return architects.sort((a, b) => b.noobProHackerInfo.participation - a.noobProHackerInfo.participation);
+      } else if (sortByParticipation === -1) {
+         return architects.sort((a, b) => a.noobProHackerInfo.participation - b.noobProHackerInfo.participation);
+      }
+
+      if (sortByNumberOfWin === 1) {
+         return architects.sort((a, b) => b.noobProHackerInfo.win - a.noobProHackerInfo.win);
+      } else if (sortByNumberOfWin === -1) {
+         return architects.sort((a, b) => a.noobProHackerInfo.win - b.noobProHackerInfo.win);
+      } else return architects;
+   };
+
+   const handleSortButtonClick = (e: MouseEvent<HTMLButtonElement>) => {
+      switch (e.currentTarget.name) {
+         case 'tier':
+            setSortByNumberOfWin(0);
+            setSortByParticipation(0);
+            if (sortByTier === 0) setSortByTier(1);
+            else setSortByTier(prev => prev * -1);
+            break;
+
+         case 'participation':
+            setSortByNumberOfWin(0);
+            setSortByTier(0);
+            if (sortByParticipation === 0) setSortByParticipation(1);
+            else setSortByParticipation(prev => prev * -1);
+            break;
+
+         case 'win':
+            setSortByParticipation(0);
+            setSortByTier(0);
+            if (sortByNumberOfWin === 0) setSortByNumberOfWin(1);
+            else setSortByNumberOfWin(prev => prev * -1);
+            break;
+      }
+   };
 
    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
       setInput(e.target.value);
@@ -97,8 +154,13 @@ export const useShowArchitect = () => {
    };
 
    return {
+      sortByTier,
+      sortByNumberOfWin,
+      sortByParticipation,
       input,
       handleChange,
+      handleSortButtonClick,
+      sort,
       curTier,
       setNavCurrentTier,
       resetInput,

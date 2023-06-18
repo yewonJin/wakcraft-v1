@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import Link from 'next/link';
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
+import { AiFillCaretDown } from 'react-icons/ai';
 
 import connectMongo from '@/utils/connectMongo';
 import Architect from '@/models/architect';
@@ -70,6 +71,9 @@ const TableHeader = styled.ul`
 `;
 
 const TableItem = styled.li<{ width?: string; margin?: string }>`
+   display: flex;
+   align-items: center;
+   gap: 5px;
    list-style: none;
    width: ${props => props.width || 'auto'};
    margin: ${props => props.margin || '0px'};
@@ -165,7 +169,7 @@ const ArchitectInfoList = styled.ul`
    padding: 10px 25px;
    border-bottom: 1px solid #cacaca;
 
-   @media screen and (max-width: 800px) {      
+   @media screen and (max-width: 800px) {
       padding: 5px 10px;
       height: auto;
       gap: 20px;
@@ -211,6 +215,32 @@ const IdBox = styled.div`
    }
 `;
 
+const SortButton = styled.button<{sortIndex: number}>`
+   display: flex;
+   align-items: center;
+   padding-top: 2px;
+   justify-content: center;
+   width: 20px;
+   height: 20px;
+   outline: none;
+   border: none;
+   background-color: #ddd;
+
+   > svg {
+      font-size: 1.1rem;
+      color: #666;
+      transform: ${props => props.sortIndex === -1 ? 'rotate(180deg)' : ''};
+   }
+
+   :hover {
+      cursor: pointer;
+
+      > svg {
+         color: #222;
+      }
+   }
+`;
+
 export const getStaticProps: GetStaticProps<{ architects: Architect[] }> = async () => {
    await connectMongo();
 
@@ -224,7 +254,9 @@ export const getStaticProps: GetStaticProps<{ architects: Architect[] }> = async
 };
 
 export default function Search({ architects }: InferGetStaticPropsType<typeof getStaticProps>) {
-   const { curTier, setNavCurrentTier } = useShowArchitect();
+   const { sortByTier, sortByNumberOfWin, sortByParticipation,curTier, setNavCurrentTier, handleSortButtonClick, sort } = useShowArchitect();
+
+   console.log(sortByTier + ' ' + sortByParticipation + ' ' + sortByNumberOfWin)
 
    return (
       <Layout>
@@ -242,23 +274,30 @@ export default function Search({ architects }: InferGetStaticPropsType<typeof ge
             <SearchArchitectWithProps architects={architects} />
          </TierNav>
          <TableHeader>
-            <TableItem width="180px">티어</TableItem>
+            <TableItem width="180px">
+               <TextBox text="티어" />
+               <SortButton sortIndex={sortByTier} name="tier" onClick={handleSortButtonClick}>
+                  <AiFillCaretDown />
+               </SortButton>
+            </TableItem>
             <TableItem width="250px">마인크래프트 아이디</TableItem>
             <TableItem width="220px">왁물원 아이디</TableItem>
-            <TableItem width="150px">참여 횟수</TableItem>
-            <TableItem width="150px">우승 횟수</TableItem>
+            <TableItem width="150px">
+               <TextBox text="참여 횟수" />
+               <SortButton sortIndex={sortByParticipation} name="participation" onClick={handleSortButtonClick}>
+                  <AiFillCaretDown />
+               </SortButton>
+            </TableItem>
+            <TableItem width="150px">
+               <TextBox text="우승 횟수" />
+               <SortButton sortIndex={sortByNumberOfWin} name="win" onClick={handleSortButtonClick}>
+                  <AiFillCaretDown />
+               </SortButton>
+            </TableItem>
          </TableHeader>
          <ArchitectList>
-            {architects
-               .filter(item => convertLineTierToTier(curTier).includes(currentTier(item)))
-               .sort((a, b) => {
-                  if (currentTier(a) === '언랭' && currentTier(b) === '언랭') {
-                     return b.noobProHackerInfo.participation - a.noobProHackerInfo.participation;
-                  }
-
-                  return 0;
-               })
-               .map((item, _) => {
+            {sort(architects.filter(item => convertLineTierToTier(curTier).includes(currentTier(item)))).map(
+               (item, _) => {
                   return (
                      <Link key={item.wakzoo_id} href={`/architect/${item.minecraft_id}`}>
                         <ArchitectInfoList>
@@ -274,7 +313,8 @@ export default function Search({ architects }: InferGetStaticPropsType<typeof ge
                         </ArchitectInfoList>
                      </Link>
                   );
-               })}
+               },
+            )}
          </ArchitectList>
       </Layout>
    );
