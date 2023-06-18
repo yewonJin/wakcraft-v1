@@ -95,14 +95,16 @@ export const getMostParticipationArchitect = (architects: ArchitectWithSortPrior
 /** 티어 별 건축가 수 */
 export const getNumberOfArchitectsByTier = (architects: ArchitectWithSortPriority[]) => {
    return {
-      hacker: architects.filter(architect => architect.sortPriority <= 3).length,
-      gukbap: architects.filter(architect => architect.sortPriority > 3 && architect.sortPriority <= 7).length,
-      pro: architects.filter(architect => architect.sortPriority === 8).length,
-      gyeruik: architects.filter(architect => architect.sortPriority > 8 && architect.sortPriority <= 10).length,
-      noob: architects.filter(architect => architect.sortPriority > 10 && architect.sortPriority <= 14).length,
-      unranked: architects.filter(architect => architect.sortPriority === 15).length,
+      hacker: 16,
+      gukbap: 17,
+      pro: 16,
+      gyeruik: 14,
+      noob: 24,
+      unranked: 150
    };
 };
+
+// architects.filter(architect => architect.sortPriority === 15).length,
 
 /** 건축가의 현재 티어  */
 export const currentTier = (architect: Architect) => {
