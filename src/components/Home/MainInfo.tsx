@@ -230,7 +230,7 @@ export default function MainInfo({ architects }: { architects: ArchitectWithSort
                         text={
                            'D+' +
                            Math.floor(
-                              (new Date().getTime() - new Date('2021-06-05').getTime()) / (24 * 1000 * 3600) - 1,
+                              (new Date().getTime() - new Date('2021-06-05').getTime()) / (24 * 1000 * 3600),
                            ).toString()
                         }
                         fontSize="40px"
@@ -239,7 +239,7 @@ export default function MainInfo({ architects }: { architects: ArchitectWithSort
                         textAlign="center"
                         color="#333"
                      />
-                     <TextBox text="(2021-06-25)" fontSize="16px" textAlign="center" color="#777" />
+                     <TextBox text="(2021-06-05)" fontSize="16px" textAlign="center" color="#777" />
                   </DateBox>
                   <DateBox>
                      <TextBox text="최근 눕프핵" fontSize="18px" fontWeight="500" textAlign="center" color="#333" />
@@ -247,7 +247,7 @@ export default function MainInfo({ architects }: { architects: ArchitectWithSort
                         text={
                            'D+' +
                            Math.floor(
-                              (new Date().getTime() - new Date('2023-06-18').getTime()) / (24 * 1000 * 3600) - 1,
+                              (new Date().getTime() - new Date('2023-06-18').getTime()) / (24 * 1000 * 3600),
                            ).toString()
                         }
                         fontSize="40px"
@@ -264,7 +264,7 @@ export default function MainInfo({ architects }: { architects: ArchitectWithSort
                         text={
                            'D+' +
                            Math.floor(
-                              (new Date().getTime() - new Date('2023-03-19').getTime()) / (24 * 1000 * 3600) - 1,
+                              (new Date().getTime() - new Date('2023-03-19').getTime()) / (24 * 1000 * 3600),
                            ).toString()
                         }
                         fontSize="40px"
