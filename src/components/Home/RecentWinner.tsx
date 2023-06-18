@@ -104,7 +104,7 @@ export default function RecentWinner({ noobProHackers }: { noobProHackers: NoobP
                         episode={item.episode}
                         subject={item.subject}
                         minecraft_id={item.line.minecraft_id}
-                        onClick={() => window.open(item.line.youtube_url)}
+                        onClick={() => (item.line.youtube_url === 'null' ? '' : window.open(item.line.youtube_url))}
                      />
                   </ContentBox>
                );

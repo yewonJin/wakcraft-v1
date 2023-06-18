@@ -87,11 +87,10 @@ type Props = {
 export default function ImageInfo(props: Props) {
    const { episode, subject, minecraft_id, onClick, isWorldCup } = props;
 
-
    return (
       <InfoLayout isWorldCup={isWorldCup}>
          <InfoBox onClick={e => e.stopPropagation()} isWorldCup={isWorldCup}>
-            <YoutubeLink onClick={e => onClick()}>
+            <YoutubeLink onClick={() => onClick()}>
                <BsYoutube />
             </YoutubeLink>
             <TextBox text={`${episode}회 : ${subject}`} fontSize="20px" lineHeight="32px" color="white" />

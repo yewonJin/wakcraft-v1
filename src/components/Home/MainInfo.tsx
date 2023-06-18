@@ -256,7 +256,7 @@ export default function MainInfo({ architects }: { architects: ArchitectWithSort
                         textAlign="center"
                         color="#333"
                      />
-                     <TextBox text="(2023-02-26)" fontSize="16px" textAlign="center" color="#777" />
+                     <TextBox text="(2023-06-18)" fontSize="16px" textAlign="center" color="#777" />
                   </DateBox>
                   <DateBox>
                      <TextBox text="시즌3" fontSize="18px" fontWeight="500" textAlign="center" color="#333" />
