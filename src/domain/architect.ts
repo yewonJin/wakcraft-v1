@@ -96,7 +96,7 @@ export const getMostParticipationArchitect = (architects: ArchitectWithSortPrior
 export const getNumberOfArchitectsByTier = (architects: ArchitectWithSortPriority[]) => {
    return {
       hacker: 16,
-      gukbap: 18,
+      gukbap: 19,
       pro: 16,
       gyeruik: 14,
       noob: 24,
