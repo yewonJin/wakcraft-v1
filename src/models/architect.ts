@@ -11,6 +11,7 @@ const architectSchema = new Schema<Architect>({
    },
    wakzoo_id: { type: String, unique: true },
    tier: { type: [String] },
+   curTier: { type: String },
    noobProHackerInfo: {
       win: { type: Number, default: 0 },
       participation: { type: Number, default: 0 },
@@ -109,7 +110,7 @@ architectSchema.statics.findAllWithoutPortfolio = function () {
                   branches: createTierArray().map((item, index) => {
                      return {
                         case: {
-                           $eq: [item, { $last: '$tier' }],
+                           item: 'curTier',
                         },
                         then: index + 1,
                      };
@@ -289,6 +290,7 @@ architectSchema.statics.findOneByMinecraftIdAndUpdate = function (
          $set: {
             minecraft_id: minecraft_id,
             wakzoo_id: wakzoo_id,
+            curTier: tier,
          },
       },
    );

@@ -23,6 +23,7 @@ export type Architect = {
    minecraft_id: string;
    wakzoo_id: string;
    tier: Tier[];
+   curTier: Tier;
    noobProHackerInfo: {
       win: number;
       participation: number;
@@ -105,9 +106,8 @@ export const getNumberOfArchitectsByTier = (architects: ArchitectWithSortPriorit
 
 /** 건축가의 현재 티어  */
 export const currentTier = (architect: Architect) => {
-   const { tier } = architect;
 
-   return tier[tier.length - 1];
+   return architect.curTier;
 };
 
 /** 해당하는 라인의 참여 횟수 */

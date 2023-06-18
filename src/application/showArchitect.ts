@@ -26,14 +26,21 @@ export const useShowArchitect = () => {
 
    const sort = (architects: Architect[]) => {
       if (sortByTier === 1) {
-         return architects;
-      } else if (sortByTier === -1) {
          return architects.sort((a, b) => {
-            if (a.tier[a.tier.length - 1] === '언랭') return 0;
+            if (a.curTier === '언랭') return 0;
 
             return (
-               createTierArray().indexOf(b.tier[a.tier.length - 1]) -
-               createTierArray().indexOf(a.tier[b.tier.length - 1])
+               createTierArray().indexOf(a.curTier) -
+               createTierArray().indexOf(b.curTier)
+            );
+         });
+      } else if (sortByTier === -1) {
+         return architects.sort((a, b) => {
+            if (a.curTier === '언랭') return 0;
+
+            return (
+               createTierArray().indexOf(b.curTier) -
+               createTierArray().indexOf(a.curTier)
             );
          });
       }
