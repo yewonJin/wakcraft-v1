@@ -96,19 +96,18 @@ export const getMostParticipationArchitect = (architects: ArchitectWithSortPrior
 export const getNumberOfArchitectsByTier = (architects: ArchitectWithSortPriority[]) => {
    return {
       hacker: 16,
-      gukbap: 17,
+      gukbap: 18,
       pro: 16,
       gyeruik: 14,
       noob: 24,
-      unranked: 150
+      unranked: 150,
    };
 };
 
-// architects.filter(architect => architect.sortPriority === 15).length,
+//
 
 /** 건축가의 현재 티어  */
 export const currentTier = (architect: Architect) => {
-
    return architect.curTier;
 };
 
