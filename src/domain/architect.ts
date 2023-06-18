@@ -108,7 +108,6 @@ export const getNumberOfArchitectsByTier = (architects: ArchitectWithSortPriorit
 
 /** 건축가의 현재 티어  */
 export const currentTier = (architect: Architect) => {
-
    return architect.curTier;
 };
 
@@ -119,8 +118,8 @@ export const numberParticipationInLine = (architect: Architect, line: Line) => {
 
 /**  */
 export const convertLineTierToTier = (req: string) => {
-   if (req === 'hacker') return createTierArray().slice(0, 3);
-   else if (req === 'gukbap') return createTierArray().slice(3, 7);
+   if (req === 'hacker') return createTierArray().slice(0, 4);
+   else if (req === 'gukbap') return createTierArray().slice(4, 7);
    else if (req === 'pro') return createTierArray().slice(7, 8);
    else if (req === 'gyeruik') return createTierArray().slice(8, 10);
    else if (req === 'noob') return createTierArray().slice(10, 14);
