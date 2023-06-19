@@ -6,6 +6,7 @@ import TextBox from '../Common/TextBox';
 import NoobProHackerList from './NoobProHackerList';
 import PlacementTestList from './PlacementTestList';
 import EventNoobProHackerList from './EventNoobProHackerList';
+import ArchitectureContest from './ArchitectureContest';
 
 const Layout = styled.div`
    margin-top: 20px;
@@ -56,7 +57,7 @@ export default function Portfolio({ info }: { info: Architect }) {
       <Layout>
          <Category>
             <Divider />
-            {['눕프로해커', '배치고사', '이벤트 눕프핵'].map((item, index) => {
+            {['눕프로해커', '배치고사', '이벤트 눕프핵', '치즐 건콘'].map((item, index) => {
                if (info.portfolio[categoryList[index]].length === 0) {
                   return;
                }
@@ -75,8 +76,10 @@ export default function Portfolio({ info }: { info: Architect }) {
             <NoobProHackerList info={info} />
          ) : contentState === 1 ? (
             <PlacementTestList info={info} />
-         ) : (
+         ) : contentState === 2 ? (
             <EventNoobProHackerList info={info} />
+         ) : (
+            <ArchitectureContest info={info} />
          )}
       </Layout>
    );
@@ -94,8 +97,9 @@ const initializeContentState = (info: Architect) => {
    }
 };
 
-const categoryList: ('noobProHacker' | 'placementTest' | 'eventNoobProHacker')[] = [
+const categoryList: ('noobProHacker' | 'placementTest' | 'eventNoobProHacker' | 'architectureContest')[] = [
    'noobProHacker',
    'placementTest',
    'eventNoobProHacker',
+   'architectureContest',
 ];

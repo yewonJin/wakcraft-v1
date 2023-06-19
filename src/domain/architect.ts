@@ -51,6 +51,15 @@ export type Architect = {
          youtube_url: string;
          ranking: number;
       }[];
+      architectureContest: {
+         contentName: string;
+         episode: number;
+         subject: string;
+         line: string;
+         image_url: string;
+         youtube_url: string;
+         ranking: number;
+      }[];
    };
 };
 

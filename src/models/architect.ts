@@ -45,6 +45,17 @@ const architectSchema = new Schema<Architect>({
             ranking: { type: Number, default: 0 },
          },
       ],
+      architectureContest: [
+         {
+            contentName: { type: String, required: true },
+            episode: { type: Number, required: true },
+            subject: { type: String, required: true },
+            line: { type: String, required: true },
+            image_url: { type: String, required: true },
+            youtube_url: { type: String, required: true },
+            ranking: { type: Number, default: 0 },
+         },
+      ],
    },
 });
 
@@ -67,6 +78,10 @@ interface ArchitectModel extends Model<Architect> {
       minecraft_id: string,
       payload: Architect['portfolio']['eventNoobProHacker'][0],
    ) => Promise<void>;
+   findOneAndPushToArchitectureContest: (
+      minecraft_id: string,
+      payload: Architect['portfolio']['architectureContest'][0],
+   ) => Promise<void>;
    findOneAndUnSetTierFirstIndex: (minecraft_id: string) => Promise<void>;
    findOneAndPullTierNull: (minecraft_id: string) => Promise<void>;
    findOneByMinecraftIdAndUpdate: (
@@ -82,6 +97,11 @@ interface ArchitectModel extends Model<Architect> {
       url: string,
    ) => Promise<void>;
    findOneByMinecraftIdAndUpdateNoobProHacker: (minecraft_id: string, episode: number, url: string) => Promise<void>;
+   findOneByMinecraftIdAndUpdateArchitectureContest: (
+      minecraft_id: string,
+      episode: number,
+      url: string,
+   ) => Promise<void>;
 }
 
 // Create new todo document
@@ -278,6 +298,18 @@ architectSchema.statics.findOneAndPushToEventNoobProHacker = function (
    );
 };
 
+architectSchema.statics.findOneAndPushToArchitectureContest = function (
+   minecraft_id: string,
+   payload: Architect['portfolio']['architectureContest'][0],
+) {
+   return this.findOneAndUpdate(
+      { minecraft_id },
+      {
+         $push: { 'portfolio.architectureContest': payload },
+      },
+   );
+};
+
 architectSchema.statics.findOneByMinecraftIdAndUpdate = function (
    originalId: string,
    minecraft_id: string,
@@ -354,6 +386,30 @@ architectSchema.statics.findOneByMinecraftIdAndUpdateNoobProHacker = function (
       {
          $set: {
             'portfolio.noobProHacker.$[elem].youtube_url': url,
+         },
+      },
+      {
+         arrayFilters: [
+            {
+               'elem.episode': episode,
+            },
+         ],
+      },
+   );
+};
+
+architectSchema.statics.findOneByMinecraftIdAndUpdateArchitectureContest = function (
+   minecraft_id: string,
+   episode: number,
+   url: string,
+) {
+   return this.findOneAndUpdate(
+      {
+         minecraft_id: minecraft_id,
+      },
+      {
+         $set: {
+            'portfolio.architectureContest.$[elem].youtube_url': url,
          },
       },
       {

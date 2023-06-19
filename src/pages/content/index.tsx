@@ -7,6 +7,7 @@ import YoutubeLink from '@/components/Common/ContentDetail/YoutubeLink';
 import EventNoobProHacker from '@/models/eventNoobProHacker';
 import PlacementTest, { PlacementTestWithNumberOfParticipants } from '@/models/placementTest';
 import TextBox from '@/components/Common/TextBox';
+import ArchitectureContest from '@/models/architectureContest';
 
 const Layout = styled.div`
    display: flex;
@@ -136,16 +137,19 @@ const Item = styled.p<{ width?: string }>`
 export const getStaticProps: GetStaticProps<{
    eventNoobProHackers: EventNoobProHacker[];
    placementTests: PlacementTestWithNumberOfParticipants[];
+   architectureContests: ArchitectureContest[];
 }> = async () => {
    await connectMongo();
 
    const placementTests = await PlacementTest.findAllWithoutParticipants();
    const eventNoobProHackers = await EventNoobProHacker.findAllWithoutLineInfo();
+   const architectureContests = await ArchitectureContest.findAllWithoutLineInfo();
 
    return {
       props: {
          eventNoobProHackers: JSON.parse(JSON.stringify(eventNoobProHackers)),
          placementTests: JSON.parse(JSON.stringify(placementTests)),
+         architectureContests: JSON.parse(JSON.stringify(architectureContests)),
       },
    };
 };
@@ -153,6 +157,7 @@ export const getStaticProps: GetStaticProps<{
 export default function Content({
    eventNoobProHackers,
    placementTests,
+   architectureContests,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
    return (
       <Layout>
@@ -173,6 +178,36 @@ export default function Content({
                            <Item width="140px">{item.numberOfParticipants + '명'}</Item>
                            <Item width="150px">{item.date.split('T')[0]}</Item>
                            <YoutubeLink url={item.youtube_url} />
+                        </Box>
+                     </Link>
+                  );
+               })}
+            </List>
+            <TextBox
+               text="돌아온 치즐 건콘"
+               fontSize="24px"
+               lineHeight="32px"
+               fontWeight="500"
+               margin="50px 0px 0px 0px"
+            />
+            <TableHeader>
+               <TableItem width="100px">회차</TableItem>
+               <TableItem width="200px">주제</TableItem>
+               <TableItem width="170px">날짜</TableItem>
+               <TableItem width="100px">링크</TableItem>
+            </TableHeader>
+            <List>
+               {architectureContests.map((item, _) => {
+                  return (
+                     <Link
+                        key={item.contentInfo.episode}
+                        href={`/content/architectureContest/${item.contentInfo.episode}`}
+                     >
+                        <Box>
+                           <Item width="100px">{item.contentInfo.episode + '회'}</Item>
+                           <Item width="200px">{item.contentInfo.subject}</Item>
+                           <Item width="170px">{item.contentInfo.date.split('T')[0]}</Item>
+                           <YoutubeLink url={item.contentInfo.youtube_url} />
                         </Box>
                      </Link>
                   );

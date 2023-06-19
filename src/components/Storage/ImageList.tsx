@@ -33,7 +33,7 @@ const Item = styled.li`
    }
 `;
 
-export default function ImageList({ content }: { content: 'noobProHacker' | 'placementTest' | 'eventNoobProHacker' }) {
+export default function ImageList({ content }: { content: 'noobProHacker' | 'placementTest' | 'eventNoobProHacker' | 'architectureContest' }) {
    const { storagePage, setContentImageUrl, setPlacementTestAllImageUrl } = useAwsStorage();
 
    const { data } = useQueryAwsImages(content, storagePage);

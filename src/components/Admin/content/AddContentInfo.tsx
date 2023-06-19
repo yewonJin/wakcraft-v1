@@ -6,6 +6,7 @@ import { Button } from '@/components/Common/Button';
 import { NoobProHacker } from '@/domain/noobProHacker';
 import { PlacementTest } from '@/domain/placementTest';
 import { EventNoobProHacker } from '@/domain/eventNoobProHacker';
+import { ArchitectureContest } from '@/domain/architectureContest';
 
 const Layout = styled.div`
    display: flex;
@@ -26,7 +27,7 @@ const Item = styled.li`
 `;
 
 type Content = Partial<
-   NoobProHacker['contentInfo'] & Omit<PlacementTest, 'participants'> & EventNoobProHacker['contentInfo']
+   NoobProHacker['contentInfo'] & Omit<PlacementTest, 'participants'> & EventNoobProHacker['contentInfo'] & ArchitectureContest['contentInfo']
 >;
 
 type Props = {
@@ -51,6 +52,18 @@ export function AddContentInfo(props: Props) {
                      value={contentInfo.contentName}
                      type="text"
                      name="contentName"
+                     width="150px"
+                  />
+               </Item>
+            )}
+             {Object.keys(contentInfo).includes('subject') && (
+               <Item>
+                  <TextBox text="주제" fontSize="18px" fontWeight="32px" />
+                  <InputBox
+                     onChange={handleChange}
+                     value={contentInfo.subject}
+                     type="text"
+                     name="subject"
                      width="150px"
                   />
                </Item>

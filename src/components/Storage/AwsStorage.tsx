@@ -68,7 +68,7 @@ const Wrapper = styled.div`
    }
 `;
 
-export type ContentType = 'noobProHacker' | 'placementTest' | 'eventNoobProHacker';
+export type ContentType = 'noobProHacker' | 'placementTest' | 'eventNoobProHacker' | 'architectureContest';
 
 export default function AwsStorage({ content }: { content: ContentType }) {
    const { storagePage, setStoragePage, setIsViewable } = useAwsStorage();
@@ -86,7 +86,9 @@ export default function AwsStorage({ content }: { content: ContentType }) {
                         ? '눕프로해커'
                         : content === 'placementTest'
                         ? '배치고사'
-                        : '이벤트 눕프핵'
+                        : content === 'eventNoobProHacker'
+                        ? '이벤트 눕프핵'
+                        : '치즐 건콘'
                   }
                   fontSize="24px"
                   fontWeight="500"

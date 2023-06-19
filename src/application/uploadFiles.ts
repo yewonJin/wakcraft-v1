@@ -8,7 +8,7 @@ export const useUpload = (page: number) => {
    const handleFileChange = async (
       e: React.ChangeEvent<HTMLInputElement>,
       episode: string,
-      content: 'noobProHacker' | 'placementTest' | 'eventNoobProHacker',
+      content: 'noobProHacker' | 'placementTest' | 'eventNoobProHacker' | 'architectureContest',
    ) => {
       if (!e.target.files) {
          toast.error('파일을 제대로 첨부해주세요');
