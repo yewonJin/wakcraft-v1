@@ -197,7 +197,6 @@ export default function Page() {
                      <PortFolioLayout>
                         {item.line_details
                            .slice(0)
-                           .reverse()
                            .map(line => (
                               <PortFolioBox key={line.minecraft_id}>
                                  <ImageBox image_url={line.image_url} youtube_url={line.youtube_url} />
