@@ -21,8 +21,10 @@ const Layout = styled.div`
 const Category = styled.ul`
    display: flex;
    margin-bottom: 30px;
+   gap: 25px;
 
    @media screen and (max-width: 800px) {
+      gap: 0px;
       justify-content: space-between;
 
       h2 {
