@@ -61,12 +61,10 @@ const Main = styled.main`
 const PortfolioContainer = styled.div`
    position: relative;
    width: 1200px;
-   overflow-x: hidden;
 
    @media screen and (max-width: 1250px) {
       width: 100%;
       margin: 0px auto;
-      overflow-y: hidden;
    }
 
    @media screen and (max-width: 800px) {
@@ -75,27 +73,19 @@ const PortfolioContainer = styled.div`
 `;
 
 const PortFolioLayout = styled.div`
-   width: 1200px;
    position: relative;
    display: grid;
    grid-template-columns: repeat(3, minmax(300px, 1fr));
    gap: 30px;
-   transition-duration: 300ms;
 
-   @media screen and (max-width: 1250px) {
-      width: 100%;
-      margin: 0px auto;
-      gap: 3%;
+   @media screen and (max-width: 1200px) {
+      grid-template-columns: repeat(2, minmax(300px, 1fr));
    }
 
    @media screen and (max-width: 800px) {
-      overflow-x: scroll;
-      overflow-y: hidden;
-      gap: 5%;
-
-      ::-webkit-scrollbar {
-         width: 0px;
-      }
+      width: 93%;
+      margin: 0px auto;
+      grid-template-columns: repeat(1, minmax(300px, 1fr));
    }
 `;
 
@@ -106,16 +96,6 @@ const PortFolioBox = styled.div`
    flex-direction: column;
    gap: 15px;
 
-   @media screen and (max-width: 1250px) {
-      min-width: 48%;
-      margin: 0px auto;
-   }
-
-   @media screen and (max-width: 800px) {
-      min-width: 100%;
-      margin: 0px auto;
-      padding: 0px 3%;
-   }
 `;
 
 const ContentBox = styled.div`
