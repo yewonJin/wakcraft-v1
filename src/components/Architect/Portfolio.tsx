@@ -20,12 +20,23 @@ const Layout = styled.div`
 
 const Category = styled.ul`
    display: flex;
-   gap: 25px;
    margin-bottom: 30px;
 
    @media screen and (max-width: 800px) {
+      justify-content: space-between;
+
+      h2 {
+         font-size: 16px;
+      }
+
       > div {
          display: none;
+      }
+   }
+
+   @media screen and (max-width: 800px) {
+      h2 {
+         font-size: 14px;
       }
    }
 `;
