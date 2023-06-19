@@ -96,6 +96,10 @@ const PortFolioBox = styled.div`
    flex-direction: column;
    gap: 15px;
 
+   @media screen and (max-width: 800px) {
+      min-width: auto;
+   }
+
 `;
 
 const ContentBox = styled.div`
