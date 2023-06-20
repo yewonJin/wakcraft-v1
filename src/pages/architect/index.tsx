@@ -256,8 +256,6 @@ export const getStaticProps: GetStaticProps<{ architects: Architect[] }> = async
 export default function Search({ architects }: InferGetStaticPropsType<typeof getStaticProps>) {
    const { sortByTier, sortByNumberOfWin, sortByParticipation,curTier, setNavCurrentTier, handleSortButtonClick, sort } = useShowArchitect();
 
-   console.log(sortByTier + ' ' + sortByParticipation + ' ' + sortByNumberOfWin)
-
    return (
       <Layout>
          <TierNav>
