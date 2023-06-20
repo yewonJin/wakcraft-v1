@@ -244,8 +244,8 @@ export default function Ranking() {
                {data
                   .sort(
                      (a, b) =>
-                        Math.floor((b.numberOfWin / b.numberOfParticipation) * 100) -
-                        Math.floor((a.numberOfWin / a.numberOfParticipation) * 100),
+                        Math.floor((b.numberOfWin / b.numberOfParticipation) * 10000) -
+                        Math.floor((a.numberOfWin / a.numberOfParticipation) * 10000),
                   )
                   .slice(page * 10, page * 10 + 10)
                   .map((item, index) => (

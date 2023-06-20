@@ -66,9 +66,7 @@ export const convertToWorldcup = (noobProHacker: NoobProHacker): Worldcup[] => {
 export const getWinRatio = (item: Worldcup) => {
    const { numberOfWin, numberOfParticipation } = item;
 
-   return numberOfParticipation === 0
-      ? '??%'
-      : Math.floor((numberOfWin / numberOfParticipation) * 100).toString() + '%';
+   return numberOfParticipation === 0 ? '??%' : ((numberOfWin * 100) / numberOfParticipation).toFixed(2) + '%';
 };
 
 export function shuffle(array: Worldcup[]) {
