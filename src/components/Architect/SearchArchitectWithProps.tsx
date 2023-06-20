@@ -92,6 +92,7 @@ export function SearchArchitectWithProps({ architects }: { architects: Architect
                width="320px"
                height="40px"
                borderRadius="10px"
+               placeholder="검색..."
                border="none"
                backgroundColor="#F5F5F5"
                padding="0px 20px 0px 45px"
