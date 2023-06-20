@@ -1,9 +1,11 @@
 import { Tier, createTierArray } from '@/domain/architect';
 
 import noob from '../../public/assets/images/tier/noob.webp';
+import noob2 from '../../public/assets/images/tier/noob2.webp';
 import gyeruik from '../../public/assets/images/tier/gyeruik.webp';
 import pro from '../../public/assets/images/tier/pro.webp';
 import gukbap from '../../public/assets/images/tier/gukbap.webp';
+import gukbap2 from '../../public/assets/images/tier/gukbap2.webp';
 import hacker from '../../public/assets/images/tier/hacker.webp';
 import hacker2 from '../../public/assets/images/tier/hacker2.webp';
 
@@ -29,9 +31,11 @@ export const translateTier = (tier: string) => {
 export const tierImage = (tier: Tier) => {
    if (createTierArray().slice(0, 2).includes(tier)) return hacker2;
    else if (createTierArray().slice(2, 4).includes(tier)) return hacker;
-   else if (createTierArray().slice(4, 7).includes(tier)) return gukbap;
+   else if (createTierArray().slice(4, 5).includes(tier)) return gukbap2;
+   else if (createTierArray().slice(5, 7).includes(tier)) return gukbap;
    else if (createTierArray().slice(7, 9).includes(tier)) return pro;
-   else if (createTierArray().slice(9, 12).includes(tier)) return gyeruik;
+   else if (createTierArray().slice(9, 11).includes(tier)) return gyeruik;
+   else if (createTierArray().slice(11, 12).includes(tier)) return noob2;
    else return noob;
 };
 
