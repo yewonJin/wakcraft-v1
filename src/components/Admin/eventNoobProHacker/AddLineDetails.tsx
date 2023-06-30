@@ -159,7 +159,17 @@ export function AddLineDetails(props: Props) {
                .map((item, index) => (
                   <LineItem key={'1' + index}>
                      <Wrapper>
-                        <TextBox text={eventNoobProHackerLine[curLineIndex].line_details[index].line} fontSize="20px" />
+                        <InputBox
+                           onChange={(e) => changeLineDetails(e, index)}
+                           value={eventNoobProHackerLine[curLineIndex].line_details[index].line}
+                           name="line"
+                           type="string"
+                           width="250px"
+                           height="40px"
+                           placeholder={eventNoobProHackerLine[curLineIndex].line_details[index].line}
+                           border="none"
+                           borderBottom="1px solid #cacaca"
+                        />
                      </Wrapper>
                      <Wrapper>
                         <TextBox text="마인크래프트 아이디 : " />
