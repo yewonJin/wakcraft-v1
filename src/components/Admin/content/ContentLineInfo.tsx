@@ -34,7 +34,7 @@ export function ContentLineInfo(props: Props) {
          {lines.map((line, index) => {
             return (
                <LineItem onClick={() => setCurLineIndex(index)} key={index}>
-                  {index + 1 + '라인 : ' + line.line}
+                  {index + 1 + '라인 : ' + line.subject}
                </LineItem>
             );
          })}
