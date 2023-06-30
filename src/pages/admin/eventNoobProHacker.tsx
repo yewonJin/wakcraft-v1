@@ -69,8 +69,6 @@ export default function EventNoobProHacker() {
       putEventNoobProHacker(data);
    }, [data]);
 
-   console.log(eventNoobProHackerLine);
-
    return (
       <CommonLayout>
          <TextBox

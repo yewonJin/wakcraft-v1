@@ -53,8 +53,6 @@ export default function NoobProhacker() {
       putNoobProHacker(data);
    }, [data]);
 
-   console.log(data);
-
    return (
       <CommonLayout>
          <TextBox text="눕프로해커" fontSize="28px" lineHeight="42px" fontWeight="500" margin="0px 0px 5px 0px" />
