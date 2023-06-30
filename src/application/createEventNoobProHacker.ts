@@ -42,6 +42,22 @@ export const useCreateEventNoobProHackerLine = () => {
 
    const { setIsViewable } = useAwsStorage();
 
+   const increaseArchitectCount = (index: number) => {
+      setEventNoobProHackerLine(prev =>
+         produce(prev, draft => {
+            draft[curLineIndex].line_details[index].minecraft_id.push('');
+         }),
+      );
+   };
+
+   const decreaseArchitectCount = (index: number) => {
+      setEventNoobProHackerLine(prev =>
+         produce(prev, draft => {
+            draft[curLineIndex].line_details[index].minecraft_id.pop();
+         }),
+      );
+   };
+
    /** AWS Storage 창을 띄움 */
    const setLineImage = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, index: number) => {
       e.preventDefault();
@@ -204,6 +220,8 @@ export const useCreateEventNoobProHackerLine = () => {
       resetLine,
       setLineCountAndArchitectCount,
       moveToEditPage,
+      increaseArchitectCount,
+      decreaseArchitectCount,
    };
 };
 

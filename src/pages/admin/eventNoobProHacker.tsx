@@ -52,6 +52,8 @@ export default function EventNoobProHacker() {
       resetImage,
       handleChange: handleLineChange,
       moveToEditPage,
+      increaseArchitectCount,
+      decreaseArchitectCount
    } = useCreateEventNoobProHackerLine();
    const { addEventNoobProHacker, putEventNoobProHacker, editEventNoobProHacker } = useCreateEventNoobProHacker();
    const { setCurLineIndex } = useCreateLine();
@@ -135,6 +137,8 @@ export default function EventNoobProHacker() {
                      tierCountPerLine={tierCountPerLine}
                      setLineImage={setLineImage}
                      resetImage={resetImage}
+                     increaseArchitectCount={increaseArchitectCount}
+                     decreaseArchitectCount={decreaseArchitectCount}
                   />
                </Wrapper>
             </Fragment>

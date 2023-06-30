@@ -85,6 +85,8 @@ type Props = {
    resetLine: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
    resetImage: (index: number) => void;
    setLineImage: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, index: number) => void;
+   increaseArchitectCount: (index: number) => void;
+   decreaseArchitectCount: (index: number) => void;
 };
 
 export function AddLineDetails(props: Props) {
@@ -96,6 +98,8 @@ export function AddLineDetails(props: Props) {
       resetLine,
       setLineImage,
       resetImage,
+      increaseArchitectCount,
+      decreaseArchitectCount
    } = props;
 
    const { curLineIndex } = useCreateLine();
@@ -160,15 +164,13 @@ export function AddLineDetails(props: Props) {
                   <LineItem key={'1' + index}>
                      <Wrapper>
                         <InputBox
-                           onChange={(e) => changeLineDetails(e, index)}
+                           onChange={e => changeLineDetails(e, index)}
                            value={eventNoobProHackerLine[curLineIndex].line_details[index].line}
                            name="line"
                            type="string"
-                           width="250px"
+                           width="150px"
                            height="40px"
                            placeholder={eventNoobProHackerLine[curLineIndex].line_details[index].line}
-                           border="none"
-                           borderBottom="1px solid #cacaca"
                         />
                      </Wrapper>
                      <Wrapper>
@@ -181,6 +183,9 @@ export function AddLineDetails(props: Props) {
                                  : ''
                            }
                         />
+                        <Button onClick={() => increaseArchitectCount(index)} text="+" padding="0px 6px" />
+                        <Button onClick={() => decreaseArchitectCount(index)} text="-" padding="0px 8px" />
+                        <TextBox text={'총 ' + eventNoobProHackerLine[curLineIndex].line_details[index].minecraft_id.length + '명'}/>
                      </Wrapper>
                      <LineInfoBox>
                         <Wrapper flexDirection="column">
