@@ -80,7 +80,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                await NoobProHacker.updateArchitectId(originalId as string, minecraft_id as string, tier as string);
             });
 
-            await PlacementTest.updateArchitectId(originalId as string, minecraft_id as string);
+            const placementTests = await PlacementTest.findByArchitectId(originalId);
+
+            placementTests.forEach(async placementTest => {
+               await PlacementTest.updateArchitectId(
+                  placementTest.season,
+                  originalId as string,
+                  minecraft_id as string,
+               );
+            });
 
             await EventNoobProHacker.updateArchitectId(originalId as string, minecraft_id as string);
 

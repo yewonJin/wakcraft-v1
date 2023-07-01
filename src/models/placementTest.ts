@@ -9,7 +9,8 @@ interface PlacementTestModel extends Model<PlacementTest> {
    findAll: () => Promise<PlacementTest[]>;
    findAllWithoutParticipants: () => Promise<PlacementTestWithNumberOfParticipants[]>;
    findBySeason: (season: string) => Promise<PlacementTest>;
-   updateArchitectId: (beforeId: string, afterId: string) => Promise<PlacementTest>;
+   findByArchitectId: (id: string) => Promise<PlacementTest[]>;
+   updateArchitectId: (season: number, beforeId: string, afterId: string) => Promise<PlacementTest>;
 }
 
 const placementTestSchema = new Schema({
@@ -58,9 +59,20 @@ placementTestSchema.statics.findAllWithoutParticipants = function () {
    ]);
 };
 
-placementTestSchema.statics.updateArchitectId = function (beforeId: string, afterId: string) {
-   return this.updateMany(
+placementTestSchema.statics.findByArchitectId = function (id: string) {
+   return this.find({
+      participants: {
+         $elemMatch: {
+            minecraft_id: id,
+         },
+      },
+   });
+};
+
+placementTestSchema.statics.updateArchitectId = function (season: number, beforeId: string, afterId: string) {
+   return this.updateOne(
       {
+         season: season,
          participants: {
             $elemMatch: {
                minecraft_id: beforeId,
@@ -70,6 +82,7 @@ placementTestSchema.statics.updateArchitectId = function (beforeId: string, afte
       {
          $set: {
             'participants.$.minecraft_id': afterId,
+            'participants.$.image_url': `https://wakcraft.s3.ap-northeast-2.amazonaws.com/placementTest/season ${season}/${afterId}.png`,
          },
       },
    );
