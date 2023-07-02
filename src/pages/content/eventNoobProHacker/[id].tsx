@@ -10,6 +10,7 @@ import RankingBox from '@/components/Common/ContentDetail/RankingBox';
 import YoutubeLink from '@/components/Common/ContentDetail/YoutubeLink';
 import { useShowEventNoobProHacker } from '@/application/showEventNoobProHacker';
 import TierBox from '@/components/Common/ContentDetail/TierBox';
+import { getMinecraftIdText } from '@/domain/eventNoobProHacker';
 
 const SkeletonTitle = styled.div`
    margin-bottom: 80px;
@@ -385,7 +386,7 @@ export default function Page() {
                                           </Link>
                                        ) : (
                                           <TextBox
-                                             text={line.line + ' x ' + line.minecraft_id.length}
+                                             text={getMinecraftIdText(line)}
                                              textAlign="center"
                                              fontSize="16px"
                                              lineHeight="24px"

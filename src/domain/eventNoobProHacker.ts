@@ -50,3 +50,7 @@ export const getLineWinnerSubject = (arr: EventNoobProHacker) => {
    return arr.lineInfo.filter(line => line.line_ranking === 1)[0].subject;
 };
 
+export const getMinecraftIdText = (arr: EventNoobProHacker['lineInfo'][0]['line_details'][0]) => {
+   if (arr.line.includes('x')) return arr.line.split('x').join(' x ');
+   else return arr.line + ' x ' + arr.minecraft_id.length;
+};
