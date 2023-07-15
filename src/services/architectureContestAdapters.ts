@@ -4,7 +4,12 @@ import { toast } from 'react-hot-toast';
 
 import { ArchitectureContest } from '@/domain/architectureContest';
 import { Architect } from '@/domain/architect';
-import { addArchitectureContest, editArchitectureContest, getArchitectureContestByEpisode, getArchitectureContestWithoutLine } from './api/architectureContest';
+import {
+   addArchitectureContest,
+   editArchitectureContest,
+   getArchitectureContestByEpisode,
+   getArchitectureContestWithoutLine,
+} from './api/architectureContest';
 
 export const useMutationArchitectureContest = () => {
    var myHeaders = new Headers();
@@ -98,6 +103,7 @@ export const convertToArchitect = (req: { body: ArchitectureContest }) => {
             image_url: item.image_url,
             youtube_url: item.youtube_url,
             ranking: item.ranking,
+            date: new Date(contentInfo.date),
          };
 
          architectsInfo.push({

@@ -58,6 +58,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                item.minecraft_id,
                item.portfolio.eventNoobProHacker[0].episode,
                item.portfolio.eventNoobProHacker[0].youtube_url,
+               item.portfolio.eventNoobProHacker[0].date,
             );
          });
          res.status(200).json('DB에 추가 했습니다.');

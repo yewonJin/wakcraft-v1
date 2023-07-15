@@ -25,6 +25,7 @@ const architectSchema = new Schema<Architect>({
             image_url: { type: String, required: true },
             youtube_url: { type: String, required: true },
             ranking: { type: Number, default: 0 },
+            date: { type: Date },
          },
       ],
       placementTest: [
@@ -32,6 +33,7 @@ const architectSchema = new Schema<Architect>({
             season: { type: Number },
             image_url: { type: String },
             placement_result: { type: String },
+            date: { type: Date },
          },
       ],
       eventNoobProHacker: [
@@ -43,6 +45,7 @@ const architectSchema = new Schema<Architect>({
             image_url: { type: String, required: true },
             youtube_url: { type: String, required: true },
             ranking: { type: Number, default: 0 },
+            date: { type: Date },
          },
       ],
       architectureContest: [
@@ -54,6 +57,7 @@ const architectSchema = new Schema<Architect>({
             image_url: { type: String, required: true },
             youtube_url: { type: String, required: true },
             ranking: { type: Number, default: 0 },
+            date: { type: Date },
          },
       ],
    },
@@ -90,17 +94,30 @@ interface ArchitectModel extends Model<Architect> {
       wakzoo_id: string,
       tier: string,
    ) => Promise<void>;
-   findOneByMinecraftIdAndUpdatePortfolio: (beforeId: string, afterId: string, season: number) => Promise<void>;
+   findOneByMinecraftIdAndUpdatePortfolio: (
+      beforeId: string,
+      afterId: string,
+      season: number,
+      date: Date,
+   ) => Promise<void>;
+   findOneByMinecraftIdAndUpdatePlacementTest: (minecraft_id: string, season: number, date: Date) => Promise<void>;
    findOneByMinecraftIdAndUpdateEventNoobProHacker: (
       minecraft_id: string,
       episode: number,
       url: string,
+      date: Date,
    ) => Promise<void>;
-   findOneByMinecraftIdAndUpdateNoobProHacker: (minecraft_id: string, episode: number, url: string) => Promise<void>;
+   findOneByMinecraftIdAndUpdateNoobProHacker: (
+      minecraft_id: string,
+      episode: number,
+      url: string,
+      date: Date,
+   ) => Promise<void>;
    findOneByMinecraftIdAndUpdateArchitectureContest: (
       minecraft_id: string,
       episode: number,
       url: string,
+      date: Date,
    ) => Promise<void>;
 }
 
@@ -354,6 +371,7 @@ architectSchema.statics.findOneByMinecraftIdAndUpdateEventNoobProHacker = functi
    minecraft_id: string,
    episode: number,
    url: string,
+   date: Date,
 ) {
    return this.findOneAndUpdate(
       {
@@ -362,6 +380,7 @@ architectSchema.statics.findOneByMinecraftIdAndUpdateEventNoobProHacker = functi
       {
          $set: {
             'portfolio.eventNoobProHacker.$[elem].youtube_url': url,
+            'portfolio.eventNoobProHacker.$[elem].date': date,
          },
       },
       {
@@ -374,10 +393,35 @@ architectSchema.statics.findOneByMinecraftIdAndUpdateEventNoobProHacker = functi
    );
 };
 
+architectSchema.statics.findOneByMinecraftIdAndUpdatePlacementTest = function (
+   minecraft_id: string,
+   season: number,
+   date: Date,
+) {
+   return this.findOneAndUpdate(
+      {
+         minecraft_id: minecraft_id,
+      },
+      {
+         $set: {
+            'portfolio.placementTest.$[elem].date': date,
+         },
+      },
+      {
+         arrayFilters: [
+            {
+               'elem.season': season,
+            },
+         ],
+      },
+   );
+};
+
 architectSchema.statics.findOneByMinecraftIdAndUpdateNoobProHacker = function (
    minecraft_id: string,
    episode: number,
    url: string,
+   date: Date,
 ) {
    return this.findOneAndUpdate(
       {
@@ -386,6 +430,7 @@ architectSchema.statics.findOneByMinecraftIdAndUpdateNoobProHacker = function (
       {
          $set: {
             'portfolio.noobProHacker.$[elem].youtube_url': url,
+            'portfolio.noobProHacker.$[elem].date': date,
          },
       },
       {

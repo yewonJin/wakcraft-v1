@@ -3,6 +3,7 @@ import Architect from '@/models/architect';
 import PlacementTest from '@/models/placementTest';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { Tier } from '@/domain/architect';
+import { convertToArchitect } from '@/domain/placementTest';
 
 type PlacementTestType = {
    season: number;
@@ -48,11 +49,29 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                season: body.season,
                image_url: item.image_url,
                placement_result: item.placement_result,
+               date: new Date(body.date),
             });
          });
          return res.status(200).json('DB에 추가 했습니다.');
       } catch (e) {
          res.status(400).json({ error: 'DB에 추가 하지 못했습니다.' });
+      }
+   } else if (req.method === 'PATCH') {
+      const architectsInfo = convertToArchitect(req);
+
+      await connectMongo();
+
+      try {
+         architectsInfo.forEach(async item => {
+            await Architect.findOneByMinecraftIdAndUpdatePlacementTest(
+               item.minecraft_id,
+               item.portfolio.placementTest[0].season,
+               item.portfolio.placementTest[0].date,
+            );
+         });
+         res.status(200).json('DB 수정 완료');
+      } catch (e) {
+         res.status(400).json({ error: 'DB 수정 실패' });
       }
    }
 }

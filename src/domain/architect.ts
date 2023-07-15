@@ -36,11 +36,13 @@ export type Architect = {
          image_url: string;
          youtube_url: string;
          ranking: number;
+         date: Date;
       }[];
       placementTest: {
          season: number;
          image_url: string;
          placement_result: Tier;
+         date: Date;
       }[];
       eventNoobProHacker: {
          contentName: string;
@@ -50,6 +52,7 @@ export type Architect = {
          image_url: string;
          youtube_url: string;
          ranking: number;
+         date: Date;
       }[];
       architectureContest: {
          contentName: string;
@@ -59,6 +62,7 @@ export type Architect = {
          image_url: string;
          youtube_url: string;
          ranking: number;
+         date: Date;
       }[];
    };
 };
@@ -104,12 +108,20 @@ export const getMostParticipationArchitect = (architects: ArchitectWithSortPrior
 /** 티어 별 건축가 수 */
 export const getNumberOfArchitectsByTier = (architects: ArchitectWithSortPriority[]) => {
    return {
-      hacker: architects.filter((item) => createTierArray().indexOf(item.curTier) <= 2).length,
-      gukbap: architects.filter((item) => createTierArray().indexOf(item.curTier) > 2 && createTierArray().indexOf(item.curTier) <= 6).length,
-      pro: architects.filter((item) => createTierArray().indexOf(item.curTier) > 6 && createTierArray().indexOf(item.curTier) <= 7).length,
-      gyeruik: architects.filter((item) => createTierArray().indexOf(item.curTier) > 7 && createTierArray().indexOf(item.curTier) <= 9).length,
-      noob:architects.filter((item) => createTierArray().indexOf(item.curTier) > 9 && createTierArray().indexOf(item.curTier) <= 13).length,
-      unranked: architects.filter((item) => createTierArray().indexOf(item.curTier) > 13).length,
+      hacker: architects.filter(item => createTierArray().indexOf(item.curTier) <= 2).length,
+      gukbap: architects.filter(
+         item => createTierArray().indexOf(item.curTier) > 2 && createTierArray().indexOf(item.curTier) <= 6,
+      ).length,
+      pro: architects.filter(
+         item => createTierArray().indexOf(item.curTier) > 6 && createTierArray().indexOf(item.curTier) <= 7,
+      ).length,
+      gyeruik: architects.filter(
+         item => createTierArray().indexOf(item.curTier) > 7 && createTierArray().indexOf(item.curTier) <= 9,
+      ).length,
+      noob: architects.filter(
+         item => createTierArray().indexOf(item.curTier) > 9 && createTierArray().indexOf(item.curTier) <= 13,
+      ).length,
+      unranked: architects.filter(item => createTierArray().indexOf(item.curTier) > 13).length,
    };
 };
 
@@ -150,6 +162,7 @@ export const convertToArchitect = (req: { body: NoobProHacker }) => {
             image_url: line.line_details[key as Line].image_url,
             youtube_url: line.line_details[key as Line].youtube_url,
             ranking: line.line_details[key as Line].ranking,
+            date: new Date(contentInfo.date),
          };
 
          architectsInfo.push({

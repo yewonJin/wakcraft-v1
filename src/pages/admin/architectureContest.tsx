@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Fragment, useState } from 'react';
+import { Fragment, useState, useEffect } from 'react';
 
 import { Button } from '@/components/Common/Button';
 import { CommonLayout } from '@/components/Common/CommonLayout';
@@ -51,15 +51,16 @@ export default function ArchitectureContest() {
    const { addArchitectureContest, putArchitectureContest, editArchitectureContest } = useCreateArchitectureContest();
    const { setCurLineIndex } = useCreateLine();
 
+   useEffect(() => {
+      if (!data) return;
+
+      setIsEdit(true);
+      putArchitectureContest(data);
+   }, [data]);
+
    return (
       <CommonLayout>
-         <TextBox
-            text="치즐 건콘"
-            fontSize="24px"
-            lineHeight="36px"
-            fontWeight="500"
-            margin="0px 0px 15px 0px"
-         />
+         <TextBox text="치즐 건콘" fontSize="24px" lineHeight="36px" fontWeight="500" margin="0px 0px 15px 0px" />
          <EditBox>
             {contentInfo && (
                <select onChange={e => setSelectInput(parseInt(e.target.value))}>
@@ -74,12 +75,14 @@ export default function ArchitectureContest() {
                text="불러오기"
                padding="5px 10px"
                onClick={async () => {
+                  setIsEdit(true);
                   await refetch();
                }}
             />
          </EditBox>
          <Fragment>
             <AddContentInfo
+               isEdit={isEdit}
                contentInfo={architectureContestContent}
                handleChange={handleChange}
                addContent={addArchitectureContest}

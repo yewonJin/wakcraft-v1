@@ -103,6 +103,7 @@ export const convertToArchitect = (req: { body: EventNoobProHacker }) => {
             image_url: item.image_url,
             youtube_url: item.youtube_url,
             ranking: item.ranking,
+            date: new Date(contentInfo.date),
          };
 
          item.minecraft_id.forEach(id => {
