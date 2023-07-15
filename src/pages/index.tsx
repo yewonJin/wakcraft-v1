@@ -366,7 +366,10 @@ export default function Home({
                </LineList>
             </LineContainer>
          </ContentBox>
-         <MainInfo architects={architects} />
+         <MainInfo
+            architects={architects}
+            recentNoobProHackerDate={new Date(noobProHacker[0].contentInfo.date)}
+         />
          <RecentWinner noobProHackers={recentNoobProHacker} />
          <SweepLine sweepLine={sweepLine} />
       </Layout>

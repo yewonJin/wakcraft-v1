@@ -7,6 +7,7 @@ import {
    getMostWinsArchitect,
    getNumberOfArchitectsByTier,
 } from '@/domain/architect';
+import { useCallback } from 'react';
 
 const Layout = styled.div`
    width: 1200px;
@@ -124,7 +125,15 @@ const DateBox = styled.div`
    }
 `;
 
-export default function MainInfo({ architects }: { architects: ArchitectWithSortPriority[] }) {
+export default function MainInfo({
+   architects,
+   recentNoobProHackerDate,
+}: {
+   architects: ArchitectWithSortPriority[];
+   recentNoobProHackerDate: Date;
+}) {
+   recentNoobProHackerDate.setHours(0);
+
    return (
       <Layout>
          <TextBox text={'눕프로해커'} fontSize="32px" lineHeight="48px" fontWeight="500" />
@@ -247,7 +256,7 @@ export default function MainInfo({ architects }: { architects: ArchitectWithSort
                         text={
                            'D+' +
                            Math.floor(
-                              (new Date().getTime() - new Date('2023-06-18').getTime()) / (24 * 1000 * 3600),
+                              (new Date().getTime() - recentNoobProHackerDate.getTime()) / (24 * 1000 * 3600),
                            ).toString()
                         }
                         fontSize="40px"
@@ -281,31 +290,3 @@ export default function MainInfo({ architects }: { architects: ArchitectWithSort
       </Layout>
    );
 }
-
-/*
-
-               <TextWrapper flexDirection="column">
-                  <TextWrapper flexDirection="row">                     
-                     <TextBox
-                        text="첫 눕프핵 날짜 : 2021년 6월 5일"
-                        fontSize="18px"
-                        fontWeight="500"
-                        textAlign="center"
-                        color="#333"
-                     />
-                     <TextBox
-                        text={
-                           '누적시간 : ' +
-                           Math.floor(
-                              (new Date().getTime() - new Date('2021-06-05').getTime()) / (24 * 1000 * 3600) - 1,
-                           ).toString() +
-                           '일'
-                        }
-                        fontSize="18px"
-                        fontWeight="500"
-                        textAlign="center"
-                        color="#666"
-                     />
-                  </TextWrapper>
-               </TextWrapper>
-*/
