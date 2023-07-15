@@ -368,7 +368,7 @@ export default function Home({
          </ContentBox>
          <MainInfo
             architects={architects}
-            recentNoobProHackerDate={new Date(noobProHacker[0].contentInfo.date)}
+            recentNoobProHackerDate={noobProHacker[0].contentInfo.date}
          />
          <RecentWinner noobProHackers={recentNoobProHacker} />
          <SweepLine sweepLine={sweepLine} />

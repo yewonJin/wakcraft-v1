@@ -130,9 +130,10 @@ export default function MainInfo({
    recentNoobProHackerDate,
 }: {
    architects: ArchitectWithSortPriority[];
-   recentNoobProHackerDate: Date;
+   recentNoobProHackerDate: string;
 }) {
-   recentNoobProHackerDate.setHours(0);
+   const date = new Date(recentNoobProHackerDate);
+   date.setHours(0);
 
    return (
       <Layout>
@@ -254,10 +255,7 @@ export default function MainInfo({
                      <TextBox text="최근 눕프핵" fontSize="18px" fontWeight="500" textAlign="center" color="#333" />
                      <TextBox
                         text={
-                           'D+' +
-                           Math.floor(
-                              (new Date().getTime() - recentNoobProHackerDate.getTime()) / (24 * 1000 * 3600),
-                           ).toString()
+                           'D+' + Math.floor((new Date().getTime() - date.getTime()) / (24 * 1000 * 3600)).toString()
                         }
                         fontSize="40px"
                         lineHeight="60px"
@@ -265,7 +263,12 @@ export default function MainInfo({
                         textAlign="center"
                         color="#333"
                      />
-                     <TextBox text="(2023-06-18)" fontSize="16px" textAlign="center" color="#777" />
+                     <TextBox
+                        text={`(${recentNoobProHackerDate.split('T')[0]})`}
+                        fontSize="16px"
+                        textAlign="center"
+                        color="#777"
+                     />
                   </DateBox>
                   <DateBox>
                      <TextBox text="시즌3" fontSize="18px" fontWeight="500" textAlign="center" color="#333" />
