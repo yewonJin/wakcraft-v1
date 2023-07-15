@@ -247,6 +247,8 @@ export default function Ranking() {
                         Math.floor((b.numberOfWin / b.numberOfParticipation) * 10000) -
                         Math.floor((a.numberOfWin / a.numberOfParticipation) * 10000),
                   )
+                  .filter(item => item.numberOfParticipation !== 0)
+                  .concat(data.filter(item => item.numberOfParticipation === 0))
                   .slice(page * 10, page * 10 + 10)
                   .map((item, index) => (
                      <RankingItem key={item.workInfo.subject}>
