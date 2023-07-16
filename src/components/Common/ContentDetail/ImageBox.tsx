@@ -2,7 +2,6 @@ import Image from 'next/image';
 import styled from 'styled-components';
 import YoutubeLink from './YoutubeLink';
 import { renameTo1080Webp, renameToWebp } from '@/domain/noobProHacker';
-import DateBox from './DateBox';
 
 const Layout = styled.div`
    position: relative;
@@ -11,6 +10,7 @@ const Layout = styled.div`
    box-shadow: 1px 1px 3px #333;
    border-radius: 10px;
    background-color: #ddd;
+   border-radius: 10px;
 
    :hover {
       cursor: pointer;
@@ -18,10 +18,6 @@ const Layout = styled.div`
 
    :hover > img {
       filter: brightness(0.9);
-   }
-
-   > img {
-      border-radius: 10px;
    }
 `;
 
@@ -37,14 +33,14 @@ export default function ImageBox(props: Props) {
    if (youtube_url === 'null') {
       return (
          <Layout onClick={() => window.open(renameTo1080Webp(image_url))}>
-            <Image fill sizes="400px" alt="noobProHacker image" src={renameToWebp(image_url)} />
+            <Image fill sizes="400px" alt="작품 이미지" src={renameToWebp(image_url)} />
          </Layout>
       );
    }
 
    return (
       <Layout onClick={() => window.open(renameTo1080Webp(image_url))}>
-         <Image fill sizes="400px" alt="noobProHacker image" src={renameToWebp(image_url)} />
+         <Image fill sizes="400px" alt="작품 이미지" src={renameToWebp(image_url)} />
          {youtube_url && <YoutubeLink url={youtube_url} isIconOnImage={true} />}
       </Layout>
    );
