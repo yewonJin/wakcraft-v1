@@ -95,7 +95,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             const data = await Architect.findOneByMinecraftId(originalId);
 
             data.portfolio.placementTest.forEach(async season => {
-               await Architect.findOneByMinecraftIdAndUpdatePortfolio(originalId, minecraft_id, season.season);
+               await Architect.findOneByMinecraftIdAndUpdatePortfolio(
+                  originalId,
+                  minecraft_id,
+                  season.season,
+                  season.date,
+               );
             });
          }
 
