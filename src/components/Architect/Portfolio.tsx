@@ -71,8 +71,18 @@ export default function Portfolio({ info }: { info: Architect }) {
       <Layout>
          <Category>
             <Divider />
-            {['전체보기', '눕프로해커', '배치고사', '이벤트 눕프핵', '치즐 건콘'].map((item, index) => {               
-               if (index < 4 && info.portfolio[categoryList[index]].length === 0) {
+            {['전체보기', '눕프로해커', '배치고사', '이벤트 눕프핵', '치즐 건콘'].map((item, index) => {
+               if (!info.portfolio[categoryList[index]])
+                  return (
+                     <Fragment key={item}>
+                        <CategoryItem index={index} contentState={contentState} onClick={() => setContentState(index)}>
+                           <TextBox text={item} fontSize="18px" lineHeight="24px" fontWeight="500" />
+                        </CategoryItem>
+                        <Divider />
+                     </Fragment>
+                  );
+
+               if (info.portfolio[categoryList[index]].length === 0) {
                   return;
                }
 
