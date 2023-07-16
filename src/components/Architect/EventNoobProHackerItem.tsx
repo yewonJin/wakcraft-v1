@@ -1,0 +1,50 @@
+import styled from 'styled-components';
+
+import { Architect } from '@/domain/architect';
+import ImageBox from '../Common/ContentDetail/ImageBox';
+import InfoBox from '../Common/ContentDetail/InfoBox';
+import RankingBox from '../Common/ContentDetail/RankingBox';
+
+const PortFolioBox = styled.div`
+   position: relative;
+   display: flex;
+   flex-direction: column;
+   gap: 15px;
+`;
+
+const ContentBox = styled.div`
+   display: flex;
+   justify-content: space-between;
+`;
+
+const TierBox = styled.span<{ tier: string }>`
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   width: 90px;
+   height: 53px;
+   border-radius: 10px;
+   font-size: 16px;
+   color: white;
+   text-shadow: 1px 1px 2px black;
+   background: rgb(65, 65, 65);
+`;
+
+export default function EventNoobProHackerItem({
+   item,
+   index,
+}: {
+   item: Architect['portfolio']['eventNoobProHacker'][0];
+   index: number;
+}) {
+   return (
+      <PortFolioBox>
+         <ImageBox image_url={item.image_url} youtube_url={item.youtube_url} date={new Date(item.date)}/>
+         <ContentBox>
+            <TierBox tier={item.line}>{item.line}</TierBox>
+            <InfoBox topText={`${item.contentName}`} bottomText={item.subject} />
+            <RankingBox ranking={item.ranking} />
+         </ContentBox>
+      </PortFolioBox>
+   );
+}

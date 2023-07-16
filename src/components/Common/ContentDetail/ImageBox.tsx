@@ -2,6 +2,7 @@ import Image from 'next/image';
 import styled from 'styled-components';
 import YoutubeLink from './YoutubeLink';
 import { renameTo1080Webp, renameToWebp } from '@/domain/noobProHacker';
+import DateBox from './DateBox';
 
 const Layout = styled.div`
    position: relative;
@@ -27,6 +28,7 @@ const Layout = styled.div`
 type Props = {
    image_url: string;
    youtube_url?: string;
+   date?: Date;
 };
 
 export default function ImageBox(props: Props) {

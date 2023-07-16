@@ -7,6 +7,7 @@ import NoobProHackerList from './NoobProHackerList';
 import PlacementTestList from './PlacementTestList';
 import EventNoobProHackerList from './EventNoobProHackerList';
 import ArchitectureContest from './ArchitectureContest';
+import All from './All';
 
 const Layout = styled.div`
    margin-top: 20px;
@@ -64,14 +65,14 @@ const CategoryItem = styled.li<{ contentState: number; index: number }>`
 `;
 
 export default function Portfolio({ info }: { info: Architect }) {
-   const [contentState, setContentState] = useState(initializeContentState(info));
+   const [contentState, setContentState] = useState(0);
 
    return (
       <Layout>
          <Category>
             <Divider />
-            {['눕프로해커', '배치고사', '이벤트 눕프핵', '치즐 건콘'].map((item, index) => {
-               if (info.portfolio[categoryList[index]].length === 0) {
+            {['전체보기', '눕프로해커', '배치고사', '이벤트 눕프핵', '치즐 건콘'].map((item, index) => {               
+               if (index < 4 && info.portfolio[categoryList[index]].length === 0) {
                   return;
                }
 
@@ -86,10 +87,12 @@ export default function Portfolio({ info }: { info: Architect }) {
             })}
          </Category>
          {contentState === 0 ? (
-            <NoobProHackerList info={info} />
+            <All info={info} />
          ) : contentState === 1 ? (
-            <PlacementTestList info={info} />
+            <NoobProHackerList info={info} />
          ) : contentState === 2 ? (
+            <PlacementTestList info={info} />
+         ) : contentState === 3 ? (
             <EventNoobProHackerList info={info} />
          ) : (
             <ArchitectureContest info={info} />
@@ -97,18 +100,6 @@ export default function Portfolio({ info }: { info: Architect }) {
       </Layout>
    );
 }
-
-const initializeContentState = (info: Architect) => {
-   if (info.portfolio.noobProHacker.length > 0) {
-      return 0;
-   } else {
-      if (info.portfolio.placementTest.length > 0) {
-         return 1;
-      } else {
-         return 2;
-      }
-   }
-};
 
 const categoryList: ('noobProHacker' | 'placementTest' | 'eventNoobProHacker' | 'architectureContest')[] = [
    'noobProHacker',
