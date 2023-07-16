@@ -7,7 +7,7 @@ import { useCreateContent, useCreateLine, useCreateNoobProHacker } from '@/appli
 import TextBox from '@/components/Common/TextBox';
 import { CommonLayout } from '@/components/Common/CommonLayout';
 import { AddContentInfo } from '@/components/Admin/content/AddContentInfo';
-import { ContentLineInfo } from '@/components/Admin/content/ContentLineInfo';
+import { ContentLineInfo } from '@/components/Admin/noobProHacker/ContentLineInfo';
 import { useQueryNoobProHackerById, useQueryNoobProHackerWithoutLine } from '@/services/noobProHackerAdapters';
 import { Button } from '@/components/Common/Button';
 
