@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import styled from 'styled-components';
+
 import YoutubeLink from './YoutubeLink';
 import { renameTo1080Webp, renameToWebp } from '@/domain/noobProHacker';
 
@@ -10,7 +11,10 @@ const Layout = styled.div`
    box-shadow: 1px 1px 3px #333;
    border-radius: 10px;
    background-color: #ddd;
-   border-radius: 10px;
+
+   > img {
+      border-radius: 10px;
+   }
 
    :hover {
       cursor: pointer;
