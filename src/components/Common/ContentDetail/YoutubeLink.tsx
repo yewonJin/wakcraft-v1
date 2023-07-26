@@ -1,44 +1,67 @@
-import { BsYoutube } from 'react-icons/bs';
+import { BsLink45Deg } from 'react-icons/bs';
 import styled from 'styled-components';
+import TextBox from '../TextBox';
 
 const Layout = styled.span<{ isIconOnImage?: boolean }>`
    position: ${props => (props.isIconOnImage ? 'absolute' : '')};
-   top: ${props => (props.isIconOnImage ? '12px' : '')};
-   right: ${props => (props.isIconOnImage ? '12px' : '')};
-   border-radius: 50px;
+   top: ${props => (props.isIconOnImage ? '8px' : '')};
+   right: ${props => (props.isIconOnImage ? '8px' : '')};
+   background-color: ${props => (props.isIconOnImage ? 'rgba(0,0,0,0.6)' : '')};
    z-index: 5;
-   display: flex;
-   justify-content: center;
+   display: ${props => (props.isIconOnImage ? 'none' : 'flex')};
+   justify-content: ${props => (props.isIconOnImage ? 'center' : 'start')};
    align-items: center;
+   width: 30px;
+   height: 30px;
+   border-radius: 8px;
+
+   :hover {
+      background-color: ${props => (props.isIconOnImage ? 'rgba(0,0,0,1)' : '')};
+      border-top-left-radius: 0px;
+      border-bottom-left-radius: 0px;
+   }
 
    > svg {
       z-index: 3;
-      font-size: 1.8rem;
-      color: red;
+      font-size: 1.6rem;
+      color: ${props => (!props.isIconOnImage ? '#777' : 'white')};
 
       :hover {
          cursor: pointer;
-         scale: 1.05;
+         color: ${props => (!props.isIconOnImage ? '#333' : 'white')};
       }
    }
 
-   ::after {
+   :hover > div {
       display: ${props => (props.isIconOnImage ? 'flex' : 'none')};
-      content: '';
-      position: absolute;
-      width: 10px;
-      height: 10px;
-      background-color: white;
    }
+`;
+
+const Popup = styled.div`
+   display: none;
+   justify-content: center;
+   align-items: center;
+   position: absolute;
+   top: 0px;
+   right: 25px;
+   width: 100px;
+   padding: 3px 3px;
+   background-color: rgba(0, 0, 0, 1);
+   color: white;
+   border-radius: 8px;
+   border-top-right-radius: 0px;
+   border-bottom-right-radius: 0px;
 `;
 
 type Props = {
    isIconOnImage?: boolean;
+   isHover?: boolean;
+   handleMouseOver?: (boolean: boolean) => void;
    url: string;
 };
 
 export default function YoutubeLink(props: Props) {
-   const { url, isIconOnImage } = props;
+   const { url, isIconOnImage, handleMouseOver } = props;
 
    const handleClick = (e: React.MouseEvent<SVGAElement>) => {
       e.preventDefault();
@@ -51,8 +74,21 @@ export default function YoutubeLink(props: Props) {
    }
 
    return (
-      <Layout isIconOnImage={isIconOnImage}>
-         <BsYoutube onClick={handleClick} />
+      <Layout
+         isIconOnImage={isIconOnImage}
+         onMouseOver={() => {
+            if (!handleMouseOver) return;
+            handleMouseOver(true);
+         }}
+         onMouseLeave={() => {
+            if (!handleMouseOver) return;
+            handleMouseOver(false);
+         }}
+      >
+         <BsLink45Deg onClick={handleClick} />
+         <Popup>
+            <TextBox text="유튜브로 이동" fontSize="14px" />
+         </Popup>
       </Layout>
    );
 }

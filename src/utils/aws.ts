@@ -1,6 +1,5 @@
 import { S3Client, PutObjectCommand, _Object } from '@aws-sdk/client-s3';
 import fs from 'fs';
-import { before } from 'node:test';
 
 const awsAccessKey = process.env.MY_AWS_ACCESS_KEY as string;
 const awsSecretKey = process.env.MY_AWS_SECRET_KEY as string;
