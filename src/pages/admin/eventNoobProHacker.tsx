@@ -11,7 +11,7 @@ import { AddLineDetails } from '@/components/Admin/eventNoobProHacker/AddLineDet
 import SetLineInfo from '@/components/Admin/eventNoobProHacker/SetLineInfo';
 import { CommonLayout } from '@/components/Common/CommonLayout';
 import TextBox from '@/components/Common/TextBox';
-import { ContentLineInfo } from '@/components/Admin/content/ContentLineInfo';
+import { ContentLineInfo } from '@/components/Admin/eventNoobProHacker/ContentLineInfo';
 import { useCreateLine } from '@/application/createNoobProHacker';
 import { SearchArchitect } from '@/components/Admin/content/SearchArchitect';
 import SetLineName from '@/components/Admin/eventNoobProHacker/SetLineName';
