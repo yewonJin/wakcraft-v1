@@ -119,6 +119,8 @@ interface ArchitectModel extends Model<Architect> {
       url: string,
       date: Date,
    ) => Promise<void>;
+   updateNumberOfParticipation: (minecraft_id: string, number: number) => Promise<Architect>;
+   updateNumberOfWin: (minecraft_id: string, number: number) => Promise<Architect>;
 }
 
 // Create new todo document
@@ -238,6 +240,24 @@ architectSchema.statics.findOneByMinecraftId = function (minecraft_id: string) {
    return this.findOne({ minecraft_id });
 };
 
+architectSchema.statics.updateNumberOfParticipation = function (minecraft_id: string, number: number) {
+   return this.findOneAndUpdate(
+      { minecraft_id },
+      {
+         $set: { 'noobProHackerInfo.participation': number },
+      },
+   );
+};
+
+architectSchema.statics.updateNumberOfWin = function (minecraft_id: string, number: number) {
+   return this.findOneAndUpdate(
+      { minecraft_id },
+      {
+         $set: { 'noobProHackerInfo.win': number },
+      },
+   );
+};
+
 architectSchema.statics.findOneAndPushToPortfolio = function (
    minecraft_id: string,
    payload: Architect['portfolio']['noobProHacker'][0],
@@ -299,6 +319,7 @@ architectSchema.statics.findOneAndPushToPlacementTest = function (
       { minecraft_id },
       {
          $push: { 'portfolio.placementTest': payload, tier: payload.placement_result },
+         $inc: { 'noobProHackerInfo.participation': 1 },
       },
    );
 };
@@ -307,24 +328,46 @@ architectSchema.statics.findOneAndPushToEventNoobProHacker = function (
    minecraft_id: string,
    payload: Architect['portfolio']['eventNoobProHacker'][0],
 ) {
-   return this.findOneAndUpdate(
-      { minecraft_id },
-      {
-         $push: { 'portfolio.eventNoobProHacker': payload },
-      },
-   );
+   if (payload.ranking == 1) {
+      return this.findOneAndUpdate(
+         { minecraft_id },
+         {
+            $push: { 'portfolio.eventNoobProHacker': payload },
+            $inc: { 'noobProHackerInfo.win': 1, 'noobProHackerInfo.participation': 1 },
+         },
+      );
+   } else {
+      return this.findOneAndUpdate(
+         { minecraft_id },
+         {
+            $push: { 'portfolio.eventNoobProHacker': payload },
+            $inc: { 'noobProHackerInfo.participation': 1 },
+         },
+      );
+   }
 };
 
 architectSchema.statics.findOneAndPushToArchitectureContest = function (
    minecraft_id: string,
    payload: Architect['portfolio']['architectureContest'][0],
 ) {
-   return this.findOneAndUpdate(
-      { minecraft_id },
-      {
-         $push: { 'portfolio.architectureContest': payload },
-      },
-   );
+   if (payload.ranking == 1) {
+      return this.findOneAndUpdate(
+         { minecraft_id },
+         {
+            $push: { 'portfolio.architectureContest': payload },
+            $inc: { 'noobProHackerInfo.win': 1, 'noobProHackerInfo.participation': 1 },
+         },
+      );
+   } else {
+      return this.findOneAndUpdate(
+         { minecraft_id },
+         {
+            $push: { 'portfolio.architectureContest': payload },
+            $inc: { 'noobProHackerInfo.participation': 1 },
+         },
+      );
+   }
 };
 
 architectSchema.statics.findOneByMinecraftIdAndUpdate = function (

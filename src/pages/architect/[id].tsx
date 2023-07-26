@@ -66,7 +66,6 @@ const SkeletonBox = styled.div`
 const IdBox = styled.div`
    display: flex;
    flex-direction: column;
-
 `;
 
 const ContentContainer = styled.div`
@@ -75,7 +74,7 @@ const ContentContainer = styled.div`
    gap: 20px;
    align-items: start;
 
-   @media screen and (max-width: 800px) {      
+   @media screen and (max-width: 800px) {
       gap: 5px;
 
       > div:nth-child(3) {
