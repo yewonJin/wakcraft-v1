@@ -52,8 +52,6 @@ type Props = {
 export default function ImageBox(props: Props) {
    const [isHover, setIsHover] = useState(false);
 
-   console.log(isHover);
-
    const handleMouseOver = (boolean: boolean) => {
       setIsHover(boolean);
    };
@@ -64,6 +62,9 @@ export default function ImageBox(props: Props) {
       return (
          <Layout onClick={() => window.open(renameTo1080Webp(image_url))}>
             <Image fill sizes="400px" alt="작품 이미지" src={renameToWebp(image_url)} />
+            <Popup>
+               <TextBox text="클릭하여 원본 이미지 보기" fontSize="14px" />
+            </Popup>
          </Layout>
       );
    }
