@@ -63,7 +63,7 @@ const Main = styled.main`
 const Box = styled.div<{ area: string }>`
    display: flex;
    flex-direction: column;
-   gap: 30px;
+   gap: ${props => (props.area === 'c' ? '20px' : '30px')};
    align-items: center;
    padding: 25px 5px;
    background-color: #f0f0f0;
@@ -201,6 +201,7 @@ export default function MainInfo({
                         fontSize="20px"
                         fontWeight="500"
                         color="#313131"
+                        textAlign="center"
                      />
                   ))}
                   <TextBox
@@ -221,6 +222,7 @@ export default function MainInfo({
                         fontSize="20px"
                         fontWeight="500"
                         color="#313131"
+                        textAlign="center"
                      />
                   ))}
                   <TextBox
