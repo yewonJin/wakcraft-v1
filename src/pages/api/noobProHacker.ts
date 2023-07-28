@@ -35,13 +35,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
    } else if (req.method === 'POST') {
       const architectsInfo = convertToArchitect(req);
 
+      const worldcupInfo = convertToWorldcup(req.body);
+
       await connectMongo();
 
       await NoobProHacker.create(req.body);
 
-      convertToWorldcup(req.body).forEach(async item => {
-         await Worldcup.create(item);
-      });
+      try {
+         worldcupInfo.forEach(async item => {
+            await Worldcup.create(item);
+         });
+      } catch (e) {
+         res.status(400).json({ error: '월드컵 추가 실패' });
+      }
 
       try {
          architectsInfo.forEach(async item => {
