@@ -61,9 +61,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
    } else if (req.method === 'PUT') {
       const architectsInfo = convertToArchitect(req);
 
+      const worldcupInfo = convertToWorldcup(req.body);
+
       await connectMongo();
 
       await NoobProHacker.findOneByEpisodeAndUpdate(req.body);
+
+      try {
+         worldcupInfo.forEach(async item => {
+            await Worldcup.updateYoutubeUrl(item.workInfo.minecraft_id, item.workInfo.youtube_url);
+         });
+      } catch (e) {
+         res.status(400).json({ error: '월드컵 유튜브 링크 수정 실패' });
+      }
 
       try {
          architectsInfo.forEach(async item => {

@@ -3,6 +3,7 @@ import { Model, Schema, model, models } from 'mongoose';
 
 interface WorldcupModel extends Model<Worldcup> {
    findAllByGameName: (game: Game) => Promise<Worldcup[]>;
+   updateYoutubeUrl: (subject: string, youtube_url: string) => Promise<void>;
    increaseNumberOfWin: (subject: string) => Promise<void>;
    increaseNumberOfParticipation: (subject: string) => Promise<void>;
    resetNumberOfWin: () => Promise<void>;
@@ -25,6 +26,17 @@ const worldcupSchema = new Schema<Worldcup, WorldcupModel>({
 worldcupSchema.statics.create = function (payload) {
    const worldcup = new this(payload);
    return worldcup.save();
+};
+
+worldcupSchema.statics.updateYoutubeUrl = function (subject: string, youtube_url: string) {
+   return this.updateOne(
+      {
+         'workInfo.subject': subject,
+      },
+      {
+         $set: { 'workInfo.youtube_url': youtube_url },
+      },
+   );
 };
 
 worldcupSchema.statics.findAllByGameName = function (game: Game) {
