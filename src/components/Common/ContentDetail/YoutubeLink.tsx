@@ -63,7 +63,7 @@ type Props = {
 export default function YoutubeLink(props: Props) {
    const { url, isIconOnImage, handleMouseOver } = props;
 
-   const handleClick = (e: React.MouseEvent<SVGAElement>) => {
+   const handleClick = (e: React.MouseEvent<SVGAElement> & React.MouseEvent<HTMLDivElement>) => {
       e.preventDefault();
       e.stopPropagation();
       return window.open(url);
@@ -86,7 +86,7 @@ export default function YoutubeLink(props: Props) {
          }}
       >
          <BsLink45Deg onClick={handleClick} />
-         <Popup>
+         <Popup onClick={handleClick}>
             <TextBox text="유튜브로 이동" fontSize="14px" />
          </Popup>
       </Layout>
