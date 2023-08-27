@@ -94,6 +94,7 @@ interface ArchitectModel extends Model<Architect> {
       wakzoo_id: string,
       tier: string,
    ) => Promise<void>;
+   findOneByMinecraftIdAndUpdateCurTier: (minecraft_id: string, tier: string) => Promise<void>;
    findOneByMinecraftIdAndUpdatePortfolio: (
       beforeId: string,
       afterId: string,
@@ -293,7 +294,7 @@ architectSchema.statics.findAllAndSetTierUnRanked = function () {
 };
 
 /** 시즌 선택해야함 */
-architectSchema.statics.findOneAndUnSetTierFirstIndex = function (minecraft_id) {
+architectSchema.statics.findOneAndUnSetTierFirstIndex = function (minecraft_id: string) {
    return this.findOneAndUpdate(
       { minecraft_id },
       {
@@ -382,6 +383,17 @@ architectSchema.statics.findOneByMinecraftIdAndUpdate = function (
          $set: {
             minecraft_id: minecraft_id,
             wakzoo_id: wakzoo_id,
+            curTier: tier,
+         },
+      },
+   );
+};
+
+architectSchema.statics.findOneByMinecraftIdAndUpdateCurTier = function (minecraft_id: string, tier: string) {
+   return this.findOneAndUpdate(
+      { minecraft_id },
+      {
+         $set: {
             curTier: tier,
          },
       },

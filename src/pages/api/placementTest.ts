@@ -37,13 +37,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
       await PlacementTest.create(body);
 
+      // 모든 건축가 배치고사 티어 언랭으로 설정
       await Architect.findAllAndSetTierUnRanked();
 
+      // 배치고사 참여한 건축가는 배치 티어로 티어 설정하기
       try {
-         body.participants.forEach(async item => {
+         body.participants.forEach(async item => {            
             await Architect.findOneAndUnSetTierFirstIndex(item.minecraft_id);
 
             await Architect.findOneAndPullTierNull(item.minecraft_id);
+
+            await Architect.findOneByMinecraftIdAndUpdateCurTier(item.minecraft_id, item.placement_result);
 
             await Architect.findOneAndPushToPlacementTest(item.minecraft_id, {
                season: body.season,
