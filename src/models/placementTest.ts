@@ -22,6 +22,7 @@ const placementTestSchema = new Schema({
          minecraft_id: String,
          image_url: String,
          placement_result: String,
+         cafe_url: String,
       },
    ],
 });

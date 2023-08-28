@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import Image from 'next/image';
 
 import { CommonLayout } from '@/components/Common/CommonLayout';
-import InputBox from '@/components/Common/InputBox';
 import TextBox from '@/components/Common/TextBox';
 import AwsStorage from '@/components/Storage/AwsStorage';
 import { Button } from '@/components/Common/Button';

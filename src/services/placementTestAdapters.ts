@@ -3,7 +3,7 @@ import { toast } from 'react-hot-toast';
 import { useRouter } from 'next/router';
 
 import { PlacementTest } from '@/domain/placementTest';
-import { addPlacementTest, getPlacementTestById } from './api/placementTest';
+import { addPlacementTest, getPlacementTestById, addTempPlacementTest } from './api/placementTest';
 
 export const useMutationPlacementTest = () => {
    var myHeaders = new Headers();
@@ -11,6 +11,21 @@ export const useMutationPlacementTest = () => {
 
    const mutation = useMutation((body: PlacementTest) =>
       toast.promise(addPlacementTest(body), {
+         loading: '추가중',
+         success: '추가 완료',
+         error: err => err.message,
+      }),
+   );
+
+   return mutation;
+};
+
+export const useMutationTempPlacementTest = () => {
+   var myHeaders = new Headers();
+   myHeaders.append('Content-Type', 'application/json');
+
+   const mutation = useMutation((body: PlacementTest) =>
+      toast.promise(addTempPlacementTest(body), {
          loading: '추가중',
          success: '추가 완료',
          error: err => err.message,

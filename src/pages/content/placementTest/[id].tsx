@@ -63,6 +63,15 @@ const ContentBox = styled.div`
    gap: 10px;
 `;
 
+const NoImageBox = styled.div`
+   position: relative;
+   width: 100%;
+   aspect-ratio: 16/9;
+   box-shadow: 1px 1px 3px #333;
+   border-radius: 10px;
+   background-color: #ddd;
+`;
+
 export default function Page() {
    const data = useQueryPlacementTest();
 
@@ -93,7 +102,7 @@ export default function Page() {
             {data.participants.map((item, index) => (
                <Fragment key={item.minecraft_id}>
                   <PortFolioBox>
-                     <ImageBox image_url={item.image_url} />
+                     {item.image_url ? <ImageBox image_url={item.image_url} /> : <NoImageBox />}
                      <ContentBox>
                         <Link href={`/architect/${item.minecraft_id}`}>
                            <TextBox
