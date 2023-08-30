@@ -106,7 +106,7 @@ export const getMostParticipationArchitect = (architects: ArchitectWithSortPrior
 };
 
 /** 티어 별 건축가 수 */
-export const getNumberOfArchitectsByTier = (architects: ArchitectWithSortPriority[]) => {
+export const getNumberOfArchitectsByTier = (architects: ArchitectWithSortPriority[] | Architect[]) => {
    return {
       hacker: architects.filter(item => createTierArray().indexOf(item.curTier) <= 2).length,
       gukbap: architects.filter(

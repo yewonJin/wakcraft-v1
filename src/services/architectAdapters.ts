@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient, UseQueryResult } from 'react-query';
+import { useMutation, useQueries, useQuery, useQueryClient, UseQueryResult } from 'react-query';
 import { useRouter } from 'next/router';
 import { toast } from 'react-hot-toast';
 
@@ -11,6 +11,7 @@ import {
    getArchitectsWithoutPortfolio,
    updateArchitect,
 } from './api/architect';
+import { PlacementTest } from '@/domain/placementTest';
 
 export const useQueryArchitect = () => {
    const { data: result }: UseQueryResult<Architect> = useQuery('architect', getArchitects);
@@ -32,6 +33,22 @@ export const useQueryArchitectById = () => {
    );
 
    return result;
+};
+
+export const useQueriesArchitectsById = (Architects: PlacementTest['participants'] | undefined) => {
+   const architects = Architects || [];
+
+   const results = useQueries(
+      architects.map(architect => {
+         return {
+            queryKey: ['architectsById', architect.minecraft_id],
+            queryFn: () => getArchitectById(architect.minecraft_id),
+            refetchOnWindowFocus: false,
+         };
+      }),
+   ).map(item => item.data);
+
+   return results;
 };
 
 export const useQueryArchitectWithoutPortfolio = () => {
