@@ -47,6 +47,7 @@ export const useAwsStorage = () => {
             minecraft_id: imageName.split('/')[2].split('.')[0],
             image_url: `https://wakcraft.s3.ap-northeast-2.amazonaws.com/${imageName}`,
             placement_result: '언랭',
+            cafe_url: '',
          };
 
          setParticipantsInfo(prev => [...prev, newValue]);
@@ -96,6 +97,7 @@ export const useAwsStorage = () => {
          minecraft_id: imageName.split('/')[2].split('.')[0],
          image_url: `https://wakcraft.s3.ap-northeast-2.amazonaws.com/${imageName}`,
          placement_result: '언랭',
+         cafe_url: '',
       };
 
       setParticipantsInfo(prev => [...prev, newValue]);
