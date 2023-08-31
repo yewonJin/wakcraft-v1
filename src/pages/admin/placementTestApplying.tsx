@@ -38,7 +38,7 @@ const Item = styled.li`
    position: relative;
 `;
 
-export default function TempPlacementTest() {
+export default function PlacementTestApplying() {
    const {
       placementTestInfo,
       participantsInfo,

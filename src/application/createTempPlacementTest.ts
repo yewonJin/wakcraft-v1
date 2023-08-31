@@ -4,15 +4,26 @@ import { produce } from 'immer';
 
 import { participantsInfoState, placementTestInfoState } from '@/services/store/placementTest';
 
-import { useMutationTempPlacementTest } from '@/services/placementTestAdapters';
+import { useMutationPlacementTestApplying } from '@/services/placementTestAdapters';
+
+export type PlacementTestApplyingPayload = {
+   minecraft_id: string;
+   cafe_url: string;
+};
 
 export const useCreateTempPlacementTest = () => {
    const [placementTestInfo, setPlacementTestInfo] = useRecoilState(placementTestInfoState);
    const [participantsInfo, setParticipantsInfo] = useRecoilState(participantsInfoState);
-   const mutation = useMutationTempPlacementTest();
+
+   const mutation = useMutationPlacementTestApplying();
 
    const addToDB = () => {
-      mutation.mutate({ ...placementTestInfo, participants: participantsInfo });
+      const arr: PlacementTestApplyingPayload[] = participantsInfo.map(item => ({
+         minecraft_id: item.minecraft_id,
+         cafe_url: item.cafe_url,
+      }));
+
+      mutation.mutate(arr);
    };
 
    const changePlacementTestInfo = (e: ChangeEvent<HTMLInputElement>) => {

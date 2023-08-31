@@ -6,13 +6,12 @@ import cafe from '../../../../public/assets/icons/cafe.png';
 import { CommonLayout } from '@/components/Common/CommonLayout';
 import TextBox from '@/components/Common/TextBox';
 import Skeleton from '@/components/Common/Skeleton';
-import { useQueryPlacementTest } from '@/services/placementTestAdapters';
-import { Architect, currentTier, getNumberOfArchitectsByTier } from '@/domain/architect';
+import { useQueryPlacementTest, useQueryPlacementTestApplying } from '@/services/placementTestAdapters';
+import { Architect, currentTier } from '@/domain/architect';
 import { useQueriesArchitectsById } from '@/services/architectAdapters';
 import Portfolio from '@/components/Architect/Portfolio';
 import { tierImage } from '@/utils/lib';
 import { Button } from '@/components/Common/Button';
-import { SearchArchitectWithProps } from '@/components/Architect/SearchArchitectWithProps';
 import { createTierArray } from '@/domain/architect';
 
 const Layout = styled.div`
@@ -218,12 +217,11 @@ const textArr = [
 ];
 
 export default function Page() {
-   const data = useQueryPlacementTest();
-   const results: Architect[] = useQueriesArchitectsById(data?.participants);
+   const data = useQueryPlacementTestApplying();
 
    const [count, setCount] = useState(0);
 
-   if (!data || !results.every(item => item !== undefined))
+   if (!data)
       return (
          <CommonLayout>
             <Skeleton width="120px" height="30px" />
@@ -239,7 +237,7 @@ export default function Page() {
       <Layout>
          <Title>
             <TextBox
-               text={'시즌 ' + data.season + ' 배치고사'}
+               text={'시즌 4 배치고사'}
                fontSize="24px"
                lineHeight="36px"
                fontWeight="500"
@@ -278,7 +276,7 @@ export default function Page() {
                onClick={() => setCount(prev => prev - 1)}
             />
             <CountBox>
-               <TextBox text={count + 1 + ' / ' + results.length} fontWeight="500" />
+               <TextBox text={count + 1 + ' / ' + data.length} fontWeight="500" />
             </CountBox>
             <Button
                backgroundColor="#333"
@@ -289,69 +287,48 @@ export default function Page() {
             />
          </ButtonWrapper>
          <Container>
-            {results.map((architect, index) => (
-               <ArchitectBox count={count} index={index} key={architect.minecraft_id + index}>
-                  <ProfileBox>
-                     <Wrapper>
-                        <TierImageBox style={{ backgroundImage: `url(${tierImage(currentTier(architect)).src})` }}>
-                           <TextBox
-                              text={currentTier(architect)}
-                              textShadow="1px 1px 1px black"
-                              fontSize="18px"
-                              lineHeight="24px"
-                              fontWeight="500"
-                              textAlign="center"
-                              color="white"
-                           />
-                        </TierImageBox>
-                        <IdBox>
-                           <TextBox text={architect.minecraft_id} fontSize="20px" lineHeight="32px" fontWeight="500" />
-                           <TextBox
-                              text={architect.wakzoo_id}
-                              fontSize="18px"
-                              lineHeight="24px"
-                              fontWeight="400"
-                              color="#535353"
-                           />
-                        </IdBox>
-                     </Wrapper>
-                     <LinkBox onClick={() => window.open(data.participants[index].cafe_url)}>
-                        <Image src={cafe} width={50} alt="네이버 카페 아이콘" />
-                        <TextBox text="왁물원 링크" />
-                     </LinkBox>
-                  </ProfileBox>
-                  <Portfolio info={architect} />
-               </ArchitectBox>
-            ))}
+            {data
+               .sort((a, b) => a.order - b.order)
+               .map((architect, index) => (
+                  <ArchitectBox count={count} index={index} key={architect.minecraft_id + index}>
+                     <ProfileBox>
+                        <Wrapper>
+                           <TierImageBox style={{ backgroundImage: `url(${tierImage(currentTier(architect)).src})` }}>
+                              <TextBox
+                                 text={currentTier(architect)}
+                                 textShadow="1px 1px 1px black"
+                                 fontSize="18px"
+                                 lineHeight="24px"
+                                 fontWeight="500"
+                                 textAlign="center"
+                                 color="white"
+                              />
+                           </TierImageBox>
+                           <IdBox>
+                              <TextBox
+                                 text={architect.minecraft_id}
+                                 fontSize="20px"
+                                 lineHeight="32px"
+                                 fontWeight="500"
+                              />
+                              <TextBox
+                                 text={architect.wakzoo_id}
+                                 fontSize="18px"
+                                 lineHeight="24px"
+                                 fontWeight="400"
+                                 color="#535353"
+                              />
+                           </IdBox>
+                        </Wrapper>
+                        <LinkBox onClick={() => window.open(architect.cafe_url)}>
+                           <Image src={cafe} width={50} alt="네이버 카페 아이콘" />
+                           <TextBox text="신청글 링크" />
+                        </LinkBox>
+                     </ProfileBox>
+                     <Portfolio info={architect} />
+                  </ArchitectBox>
+               ))}
          </Container>
       </Layout>
    );
 }
-
-export async function getServerSideProps({ params: { id } }: { params: { id: string } }) {
-   return {
-      props: {},
-   };
-}
-
-/*
-            <TextBox text="참가자 수" fontSize="18px" margin="5px 0px" fontWeight="500" />
-            <Wrapper>
-               <TextBox
-                  text={'첫 참가 : ' + results.filter(item => item.noobProHackerInfo.participation === 0).length + '명'}
-               />
-               <TextBox
-                  text={
-                     '언랭 : ' +
-                     results.filter(item => item.noobProHackerInfo.participation !== 0 && item.curTier === '언랭')
-                        .length +
-                     '명'
-                  }
-               />
-               <TextBox text={'눕 : ' + getNumberOfArchitectsByTier(results).noob + '명'} />
-               <TextBox text={'계륵 : ' + getNumberOfArchitectsByTier(results).gyeruik + '명'} />
-               <TextBox text={'프로 : ' + getNumberOfArchitectsByTier(results).pro + '명'} />
-               <TextBox text={'국밥 : ' + getNumberOfArchitectsByTier(results).gukbap + '명'} />
-               <TextBox text={'해커 : ' + getNumberOfArchitectsByTier(results).hacker + '명'} />
-            </Wrapper>
-*/
