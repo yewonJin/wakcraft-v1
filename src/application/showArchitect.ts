@@ -93,11 +93,15 @@ export const useShowArchitect = () => {
       const newArr: ArchitectWithIndexArr[] = [];
 
       architects
-         .filter(architect => fuzzySearch(architect.minecraft_id, inputA) || fuzzySearch(architect.wakzoo_id, inputA))
+         .filter(
+            architect =>
+               fuzzySearch(architect.minecraft_id.toLowerCase(), inputA.toLowerCase()) ||
+               fuzzySearch(architect.wakzoo_id.toLowerCase(), inputA.toLowerCase()),
+         )
          .forEach((architect, index) => {
             const charArray = {
-               minecraftId: architect.minecraft_id.split(''),
-               wakzooId: architect.wakzoo_id.split(''),
+               minecraftId: architect.minecraft_id.toLowerCase().split(''),
+               wakzooId: architect.wakzoo_id.toLowerCase().split(''),
             };
 
             const minecraftIdCharArray = architect.minecraft_id.toLowerCase().split('');

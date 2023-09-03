@@ -42,7 +42,7 @@ export const fuzzySearch = (str: string, input: string) => {
    };
 
    const createFuzzyMatcher = () => {
-      const pattern = input.toLocaleLowerCase().split('').map(createFuzzyPattern).join('.*?');
+      const pattern = input.split('').map(createFuzzyPattern).join('.*?');
       return new RegExp(pattern);
    };
 
