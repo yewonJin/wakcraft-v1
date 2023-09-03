@@ -29,19 +29,13 @@ export const useShowArchitect = () => {
          return architects.sort((a, b) => {
             if (a.curTier === '언랭') return 0;
 
-            return (
-               createTierArray().indexOf(a.curTier) -
-               createTierArray().indexOf(b.curTier)
-            );
+            return createTierArray().indexOf(a.curTier) - createTierArray().indexOf(b.curTier);
          });
       } else if (sortByTier === -1) {
          return architects.sort((a, b) => {
             if (a.curTier === '언랭') return 0;
 
-            return (
-               createTierArray().indexOf(b.curTier) -
-               createTierArray().indexOf(a.curTier)
-            );
+            return createTierArray().indexOf(b.curTier) - createTierArray().indexOf(a.curTier);
          });
       }
 
@@ -106,8 +100,8 @@ export const useShowArchitect = () => {
                wakzooId: architect.wakzoo_id.split(''),
             };
 
-            const minecraftIdCharArray = architect.minecraft_id.split('');
-            const wakzooIdCharArray = architect.wakzoo_id.split('');
+            const minecraftIdCharArray = architect.minecraft_id.toLowerCase().split('');
+            const wakzooIdCharArray = architect.wakzoo_id.toLowerCase().split('');
 
             const highlightIndex: HighlightIndex = {
                minecraftId: [],
@@ -115,6 +109,8 @@ export const useShowArchitect = () => {
             };
 
             inputA.split('').forEach(char => {
+               const lowerCaseChar = char.toLowerCase();
+
                if (char.match(/[ㄱ-힣]/g)) {
                   const korInput = fuzzySearchRegExp(char);
 
@@ -125,10 +121,10 @@ export const useShowArchitect = () => {
                   highlightIndex.wakzooId.push(a.index as number);
                }
 
-               if (minecraftIdCharArray.includes(char)) {
+               if (minecraftIdCharArray.includes(lowerCaseChar)) {
                   highlightIndex.minecraftId.push(
                      minecraftIdCharArray.indexOf(
-                        char,
+                        lowerCaseChar,
                         highlightIndex.minecraftId.length > 0
                            ? highlightIndex.minecraftId[highlightIndex.minecraftId.length - 1] + 1
                            : 0,
@@ -136,10 +132,10 @@ export const useShowArchitect = () => {
                   );
                }
 
-               if (wakzooIdCharArray.includes(char)) {
+               if (wakzooIdCharArray.includes(lowerCaseChar)) {
                   highlightIndex.wakzooId.push(
                      wakzooIdCharArray.indexOf(
-                        char,
+                        lowerCaseChar,
                         highlightIndex.wakzooId.length > 0
                            ? highlightIndex.wakzooId[highlightIndex.wakzooId.length - 1] + 1
                            : 0,
