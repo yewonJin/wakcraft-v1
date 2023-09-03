@@ -4,6 +4,7 @@ import { Architect } from '@/domain/architect';
 import ImageBox from '../Common/ContentDetail/ImageBox';
 import InfoBox from '../Common/ContentDetail/InfoBox';
 import RankingBox from '../Common/ContentDetail/RankingBox';
+import { isInfiniteTimeContent } from '@/domain/eventNoobProHacker';
 
 const PortFolioBox = styled.div`
    position: relative;
@@ -39,7 +40,12 @@ export default function EventNoobProHackerItem({
 }) {
    return (
       <PortFolioBox>
-         <ImageBox image_url={item.image_url} youtube_url={item.youtube_url} date={new Date(item.date)}/>
+         <ImageBox
+            image_url={item.image_url}
+            youtube_url={item.youtube_url}
+            date={new Date(item.date)}
+            isInfiniteTime={item.contentName !== '치즐 건콘 - 기술편' ? isInfiniteTimeContent(item.episode) : false}
+         />
          <ContentBox>
             <TierBox tier={item.line}>{item.line}</TierBox>
             <InfoBox topText={`${item.contentName}`} bottomText={item.subject} />

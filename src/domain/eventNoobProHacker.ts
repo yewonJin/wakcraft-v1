@@ -4,6 +4,7 @@ export type EventNoobProHacker = {
       episode: number;
       date: string;
       youtube_url: string;
+      isInFiniteTime: boolean;
    };
    lineInfo: {
       subject: string;
@@ -26,6 +27,7 @@ export const createEventNoobProHackerObject = (): EventNoobProHacker => {
          episode: 0,
          date: '',
          youtube_url: '',
+         isInFiniteTime: false,
       },
       lineInfo: [
          {
@@ -53,4 +55,12 @@ export const getLineWinnerSubject = (arr: EventNoobProHacker) => {
 export const getMinecraftIdText = (arr: EventNoobProHacker['lineInfo'][0]['line_details'][0]) => {
    if (arr.line.includes('x')) return arr.line.split('x').join(' x ');
    else return arr.line + ' x ' + arr.minecraft_id.length;
+};
+
+export const isInfiniteTimeContent = (episode: number) => {
+   const arr = [1, 4, 6];
+
+   if (arr.includes(episode)) return true;
+
+   return false;
 };

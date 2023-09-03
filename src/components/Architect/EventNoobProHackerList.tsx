@@ -4,6 +4,7 @@ import { Architect } from '@/domain/architect';
 import ImageBox from '../Common/ContentDetail/ImageBox';
 import InfoBox from '../Common/ContentDetail/InfoBox';
 import RankingBox from '../Common/ContentDetail/RankingBox';
+import { isInfiniteTimeContent } from '@/domain/eventNoobProHacker';
 
 const Layout = styled.div`
    display: grid;
@@ -51,7 +52,11 @@ export default function EventNoobProHackerList({ info }: { info: Architect }) {
          {info.portfolio.eventNoobProHacker.map((item, index) => {
             return (
                <PortFolioBox key={'eventNoobProHacker_' + index}>
-                  <ImageBox image_url={item.image_url} youtube_url={item.youtube_url} />
+                  <ImageBox
+                     image_url={item.image_url}
+                     youtube_url={item.youtube_url}
+                     isInfiniteTime={isInfiniteTimeContent(item.episode)}
+                  />
                   <ContentBox>
                      <TierBox tier={item.line}>{item.line}</TierBox>
                      <InfoBox topText={`${item.contentName}`} bottomText={item.subject} />

@@ -43,7 +43,7 @@ export default function All({ info }: { info: Architect }) {
          <Layout>
             {portfolioArr
                .sort((a, b) => new Date(b.props.item.date).getTime() - new Date(a.props.item.date).getTime())
-               .map((item, index) => item)}
+               .map((item) => item)}
          </Layout>
       </Fragment>
    );
