@@ -99,31 +99,42 @@ export default function Page() {
             />
          </Title>
          <PortFolioLayout>
-            {data.participants.map((item, index) => (
-               <Fragment key={item.minecraft_id}>
-                  <PortFolioBox>
-                     {item.image_url ? <ImageBox image_url={item.image_url} /> : <NoImageBox />}
-                     <ContentBox>
-                        <Link href={`/architect/${item.minecraft_id}`}>
+            {data.participants
+               .sort((a, b) => {
+                  const lowerA = a.minecraft_id.toLowerCase();
+                  const lowerB = b.minecraft_id.toLocaleLowerCase();
+
+                  if (lowerB > lowerA) return -1;
+
+                  if (lowerA < lowerB) return 1;
+
+                  return 0;
+               })
+               .map((item, index) => (
+                  <Fragment key={item.minecraft_id}>
+                     <PortFolioBox>
+                        {item.image_url ? <ImageBox image_url={item.image_url} /> : <NoImageBox />}
+                        <ContentBox>
+                           <Link href={`/architect/${item.minecraft_id}`}>
+                              <TextBox
+                                 text={item.minecraft_id}
+                                 textAlign="center"
+                                 fontSize="16px"
+                                 lineHeight="24px"
+                                 fontWeight="500"
+                              />
+                           </Link>
                            <TextBox
-                              text={item.minecraft_id}
+                              text={item.placement_result}
                               textAlign="center"
                               fontSize="16px"
                               lineHeight="24px"
-                              fontWeight="500"
+                              color="#646464"
                            />
-                        </Link>
-                        <TextBox
-                           text={item.placement_result}
-                           textAlign="center"
-                           fontSize="16px"
-                           lineHeight="24px"
-                           color="#646464"
-                        />
-                     </ContentBox>
-                  </PortFolioBox>
-               </Fragment>
-            ))}
+                        </ContentBox>
+                     </PortFolioBox>
+                  </Fragment>
+               ))}
          </PortFolioLayout>
       </CommonLayout>
    );
