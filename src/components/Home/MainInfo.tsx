@@ -273,12 +273,12 @@ export default function MainInfo({
                      />
                   </DateBox>
                   <DateBox>
-                     <TextBox text="시즌3" fontSize="18px" fontWeight="500" textAlign="center" color="#333" />
+                     <TextBox text="시즌4" fontSize="18px" fontWeight="500" textAlign="center" color="#333" />
                      <TextBox
                         text={
                            'D+' +
                            Math.floor(
-                              (new Date().getTime() - new Date('2023-03-19').getTime()) / (24 * 1000 * 3600),
+                              (new Date().getTime() - new Date('2023-09-03').getTime()) / (24 * 1000 * 3600),
                            ).toString()
                         }
                         fontSize="40px"

@@ -74,6 +74,7 @@ interface ArchitectModel extends Model<Architect> {
       payload: Architect['portfolio']['noobProHacker'][0],
    ) => Promise<void>;
    findAllAndSetTierUnRanked: () => Promise<void>;
+   findAllAndSetCurTierUnRanked: () => Promise<void>;
    findOneAndPushToPlacementTest: (
       minecraft_id: string,
       payload: Architect['portfolio']['placementTest'][0],
@@ -288,6 +289,17 @@ architectSchema.statics.findAllAndSetTierUnRanked = function () {
       {
          $push: {
             tier: '언랭',
+         },
+      },
+   );
+};
+
+architectSchema.statics.findAllAndSetCurTierUnRanked = function () {
+   return this.updateMany(
+      {},
+      {
+         $set: {
+            curTier: '언랭',
          },
       },
    );
