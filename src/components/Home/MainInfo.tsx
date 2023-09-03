@@ -287,7 +287,7 @@ export default function MainInfo({
                         textAlign="center"
                         color="#333"
                      />
-                     <TextBox text="(2023-03-19)" fontSize="16px" textAlign="center" color="#777" />
+                     <TextBox text="(2023-09-03)" fontSize="16px" textAlign="center" color="#777" />
                   </DateBox>
                </DateLayout>
             </Box>
