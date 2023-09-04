@@ -14,11 +14,7 @@ const Layout = styled.div`
    position: relative;
    display: flex;
    flex-direction: column;
-   padding-top: 130px;
-
-   @media screen and (max-width: 800px) {
-      padding-top: 110px;
-   }
+   padding-top: 110px;
 `;
 
 const Main = styled.main`

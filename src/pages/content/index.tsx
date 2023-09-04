@@ -14,7 +14,7 @@ const Layout = styled.div`
    gap: 50px;
    width: 1200px;
    margin: 0px auto;
-   padding-top: 130px;
+   padding-top: 110px;
    padding-bottom: 50px;
 
    @media screen and (max-width: 1200px) {
