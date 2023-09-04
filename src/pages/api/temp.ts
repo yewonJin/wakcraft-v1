@@ -27,8 +27,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                architect.portfolio['eventNoobProHacker'].filter(item => item.ranking === 1).length +
                architect.portfolio['architectureContest'].filter(item => item.ranking === 1).length;
 
+            const numberOfHackerWin = architect.portfolio['noobProHacker'].filter(
+               item => item.ranking === 1 && item.line === 'hacker',
+            ).length;
+            const numberOfProWin = architect.portfolio['noobProHacker'].filter(
+               item => item.ranking === 1 && item.line === 'pro',
+            ).length;
+
             await Architect.updateNumberOfParticipation(architect.minecraft_id, numberOfParticipation);
             await Architect.updateNumberOfWin(architect.minecraft_id, numberOfWin);
+            await Architect.updateNumberOfHackerWin(architect.minecraft_id, numberOfHackerWin);
+            await Architect.updateNumberOfProWin(architect.minecraft_id, numberOfProWin);
          });
 
          return res.status(200).send('변경 성공');

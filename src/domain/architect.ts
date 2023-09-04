@@ -25,7 +25,9 @@ export type Architect = {
    tier: Tier[];
    curTier: Tier;
    noobProHackerInfo: {
-      win: number;
+      win: number,
+      hackerWin: number,
+      proWin: number,
       participation: number;
    };
    portfolio: {

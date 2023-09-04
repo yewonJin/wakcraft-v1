@@ -172,7 +172,7 @@ const ArchitectInfoList = styled.ul`
    @media screen and (max-width: 800px) {
       padding: 5px 10px;
       height: auto;
-      gap: 20px;
+      gap: 40px;
 
       > li:first-child {
          display: flex;
@@ -186,6 +186,14 @@ const ArchitectInfoList = styled.ul`
       }
 
       > li:nth-child(4) {
+         display: none;
+      }
+
+      > li:nth-child(5) {
+         display: none;
+      }
+
+      > li:nth-child(6) {
          display: none;
       }
    }
@@ -215,7 +223,7 @@ const IdBox = styled.div`
    }
 `;
 
-const SortButton = styled.button<{sortIndex: number}>`
+const SortButton = styled.button<{ sortIndex: number }>`
    display: flex;
    align-items: center;
    padding-top: 2px;
@@ -228,15 +236,15 @@ const SortButton = styled.button<{sortIndex: number}>`
 
    > svg {
       font-size: 1.1rem;
-      color: #666;
-      transform: ${props => props.sortIndex === -1 ? 'rotate(180deg)' : ''};
+      color: ${props => (props.sortIndex === 0 ? '#888' : 'black')};
+      transform: ${props => (props.sortIndex === -1 ? 'rotate(180deg)' : '')};
    }
 
    :hover {
       cursor: pointer;
 
       > svg {
-         color: #222;
+         color: black;
       }
    }
 `;
@@ -254,7 +262,17 @@ export const getStaticProps: GetStaticProps<{ architects: Architect[] }> = async
 };
 
 export default function Search({ architects }: InferGetStaticPropsType<typeof getStaticProps>) {
-   const { sortByTier, sortByNumberOfWin, sortByParticipation,curTier, setNavCurrentTier, handleSortButtonClick, sort } = useShowArchitect();
+   const {
+      sortByTier,
+      sortByNumberOfWin,
+      sortByParticipation,
+      sortByNumberOfHackerWin,
+      sortByNumberOfProWin,
+      curTier,
+      setNavCurrentTier,
+      handleSortButtonClick,
+      sort,
+   } = useShowArchitect();
 
    return (
       <Layout>
@@ -279,16 +297,28 @@ export default function Search({ architects }: InferGetStaticPropsType<typeof ge
                </SortButton>
             </TableItem>
             <TableItem width="250px">마인크래프트 아이디</TableItem>
-            <TableItem width="220px">왁물원 아이디</TableItem>
-            <TableItem width="150px">
+            <TableItem width="200px">왁물원 아이디</TableItem>
+            <TableItem width="130px">
                <TextBox text="참여 횟수" />
                <SortButton sortIndex={sortByParticipation} name="participation" onClick={handleSortButtonClick}>
                   <AiFillCaretDown />
                </SortButton>
             </TableItem>
-            <TableItem width="150px">
-               <TextBox text="우승 횟수" />
+            <TableItem width="130px">
+               <TextBox text="총 우승" />
                <SortButton sortIndex={sortByNumberOfWin} name="win" onClick={handleSortButtonClick}>
+                  <AiFillCaretDown />
+               </SortButton>
+            </TableItem>
+            <TableItem width="130px">
+               <TextBox text="해커 우승" />
+               <SortButton sortIndex={sortByNumberOfHackerWin} name="hackerWin" onClick={handleSortButtonClick}>
+                  <AiFillCaretDown />
+               </SortButton>
+            </TableItem>
+            <TableItem width="130px">
+               <TextBox text="프로 우승" />
+               <SortButton sortIndex={sortByNumberOfProWin} name="proWin" onClick={handleSortButtonClick}>
                   <AiFillCaretDown />
                </SortButton>
             </TableItem>
@@ -302,12 +332,16 @@ export default function Search({ architects }: InferGetStaticPropsType<typeof ge
                            <ArchitectInfoItem width="180px">{currentTier(item)}</ArchitectInfoItem>
                            <IdBox>
                               <ArchitectInfoItem width="250px">{item.minecraft_id}</ArchitectInfoItem>
-                              <ArchitectInfoItem width="220px">{item.wakzoo_id}</ArchitectInfoItem>
+                              <ArchitectInfoItem width="200px">{item.wakzoo_id}</ArchitectInfoItem>
                            </IdBox>
-                           <ArchitectInfoItem width="150px">
+                           <ArchitectInfoItem width="130px">
                               {item.noobProHackerInfo.participation + '회'}
                            </ArchitectInfoItem>
-                           <ArchitectInfoItem width="150px">{item.noobProHackerInfo.win + '회'}</ArchitectInfoItem>
+                           <ArchitectInfoItem width="130px">{item.noobProHackerInfo.win + '회'}</ArchitectInfoItem>
+                           <ArchitectInfoItem width="130px">
+                              {item.noobProHackerInfo.hackerWin + '회'}
+                           </ArchitectInfoItem>
+                           <ArchitectInfoItem width="130px">{item.noobProHackerInfo.proWin + '회'}</ArchitectInfoItem>
                         </ArchitectInfoList>
                      </Link>
                   );

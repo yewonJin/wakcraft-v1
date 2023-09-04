@@ -174,40 +174,29 @@ export default function Page() {
                      fontWeight="500"
                      color="black"
                   />
-                  <TextBox text={'우승 횟수'} fontSize="16px" lineHeight="24px" fontWeight="400" color="#666" />
+                  <TextBox text={'총 우승'} fontSize="16px" lineHeight="24px" fontWeight="400" color="#666" />
                </ContentBox>
                <ContentBox>
                   <TextBox
                      textAlign="center"
-                     text={numberParticipationInLine(data, 'hacker')}
+                     text={data.noobProHackerInfo.hackerWin.toString()}
                      fontSize="18px"
                      lineHeight="24px"
                      fontWeight="500"
                      color="black"
                   />
-                  <TextBox text={'해커 참여'} fontSize="16px" lineHeight="24px" fontWeight="400" color="#666" />
+                  <TextBox text={'해커 우승'} fontSize="16px" lineHeight="24px" fontWeight="400" color="#666" />
                </ContentBox>
                <ContentBox>
                   <TextBox
                      textAlign="center"
-                     text={numberParticipationInLine(data, 'pro')}
+                     text={data.noobProHackerInfo.proWin.toString()}
                      fontSize="18px"
                      lineHeight="24px"
                      fontWeight="500"
                      color="black"
                   />
-                  <TextBox text={'프로 참여'} fontSize="16px" lineHeight="24px" fontWeight="400" color="#666" />
-               </ContentBox>
-               <ContentBox>
-                  <TextBox
-                     textAlign="center"
-                     text={numberParticipationInLine(data, 'noob')}
-                     fontSize="18px"
-                     lineHeight="24px"
-                     fontWeight="500"
-                     color="black"
-                  />
-                  <TextBox text={'눕 참여'} fontSize="16px" lineHeight="24px" fontWeight="400" color="#666" />
+                  <TextBox text={'프로 우승'} fontSize="16px" lineHeight="24px" fontWeight="400" color="#666" />
                </ContentBox>
             </ContentContainer>
          </ProfileBox>

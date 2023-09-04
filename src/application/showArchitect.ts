@@ -23,6 +23,8 @@ export const useShowArchitect = () => {
    const [sortByTier, setSortByTier] = useState(1);
    const [sortByParticipation, setSortByParticipation] = useState(0);
    const [sortByNumberOfWin, setSortByNumberOfWin] = useState(0);
+   const [sortByNumberOfHackerWin, setSortByNumberOfHackerWin] = useState(0);
+   const [sortByNumberOfProWin, setSortByNumberOfProWin] = useState(0);
 
    const sort = (architects: Architect[]) => {
       if (sortByTier === 1) {
@@ -49,30 +51,63 @@ export const useShowArchitect = () => {
          return architects.sort((a, b) => b.noobProHackerInfo.win - a.noobProHackerInfo.win);
       } else if (sortByNumberOfWin === -1) {
          return architects.sort((a, b) => a.noobProHackerInfo.win - b.noobProHackerInfo.win);
+      }
+
+      if (sortByNumberOfHackerWin === 1) {
+         return architects.sort((a, b) => b.noobProHackerInfo.hackerWin - a.noobProHackerInfo.hackerWin);
+      } else if (sortByNumberOfHackerWin === -1) {
+         return architects.sort((a, b) => a.noobProHackerInfo.hackerWin - b.noobProHackerInfo.hackerWin);
+      }
+
+      if (sortByNumberOfProWin === 1) {
+         return architects.sort((a, b) => b.noobProHackerInfo.proWin - a.noobProHackerInfo.proWin);
+      } else if (sortByNumberOfProWin === -1) {
+         return architects.sort((a, b) => a.noobProHackerInfo.proWin - b.noobProHackerInfo.proWin);
       } else return architects;
    };
 
    const handleSortButtonClick = (e: MouseEvent<HTMLButtonElement>) => {
+      const resetAll = (exception: number) => {
+         const arr = [
+            () => setSortByTier(0),
+            () => setSortByParticipation(0),
+            () => setSortByNumberOfWin(0),
+            () => setSortByNumberOfHackerWin(0),
+            () => setSortByNumberOfProWin(0),
+         ];
+
+         arr.filter((_, index) => index !== exception).forEach(item => item());
+      };
+
       switch (e.currentTarget.name) {
          case 'tier':
-            setSortByNumberOfWin(0);
-            setSortByParticipation(0);
+            resetAll(0);
+
             if (sortByTier === 0) setSortByTier(1);
             else setSortByTier(prev => prev * -1);
             break;
 
          case 'participation':
-            setSortByNumberOfWin(0);
-            setSortByTier(0);
+            resetAll(1);
+
             if (sortByParticipation === 0) setSortByParticipation(1);
             else setSortByParticipation(prev => prev * -1);
             break;
 
          case 'win':
-            setSortByParticipation(0);
-            setSortByTier(0);
+            resetAll(2);
             if (sortByNumberOfWin === 0) setSortByNumberOfWin(1);
             else setSortByNumberOfWin(prev => prev * -1);
+            break;
+         case 'hackerWin':
+            resetAll(3);
+            if (sortByNumberOfHackerWin === 0) setSortByNumberOfHackerWin(1);
+            else setSortByNumberOfHackerWin(prev => prev * -1);
+            break;
+         case 'proWin':
+            resetAll(4);
+            if (sortByNumberOfProWin === 0) setSortByNumberOfProWin(1);
+            else setSortByNumberOfProWin(prev => prev * -1);
             break;
       }
    };
@@ -164,6 +199,8 @@ export const useShowArchitect = () => {
       sortByTier,
       sortByNumberOfWin,
       sortByParticipation,
+      sortByNumberOfHackerWin,
+      sortByNumberOfProWin,
       input,
       handleChange,
       handleSortButtonClick,

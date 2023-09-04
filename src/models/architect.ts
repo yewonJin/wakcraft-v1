@@ -14,6 +14,8 @@ const architectSchema = new Schema<Architect>({
    curTier: { type: String },
    noobProHackerInfo: {
       win: { type: Number, default: 0 },
+      hackerWin: { type: Number, default: 0 },
+      proWin: { type: Number, default: 0 },
       participation: { type: Number, default: 0 },
    },
    portfolio: {
@@ -123,6 +125,8 @@ interface ArchitectModel extends Model<Architect> {
    ) => Promise<void>;
    updateNumberOfParticipation: (minecraft_id: string, number: number) => Promise<Architect>;
    updateNumberOfWin: (minecraft_id: string, number: number) => Promise<Architect>;
+   updateNumberOfHackerWin: (minecraft_id: string, number: number) => Promise<Architect>;
+   updateNumberOfProWin: (minecraft_id: string, number: number) => Promise<Architect>;
 }
 
 // Create new todo document
@@ -256,6 +260,24 @@ architectSchema.statics.updateNumberOfWin = function (minecraft_id: string, numb
       { minecraft_id },
       {
          $set: { 'noobProHackerInfo.win': number },
+      },
+   );
+};
+
+architectSchema.statics.updateNumberOfHackerWin = function (minecraft_id: string, number: number) {
+   return this.findOneAndUpdate(
+      { minecraft_id },
+      {
+         $set: { 'noobProHackerInfo.hackerWin': number },
+      },
+   );
+};
+
+architectSchema.statics.updateNumberOfProWin = function (minecraft_id: string, number: number) {
+   return this.findOneAndUpdate(
+      { minecraft_id },
+      {
+         $set: { 'noobProHackerInfo.proWin': number },
       },
    );
 };
