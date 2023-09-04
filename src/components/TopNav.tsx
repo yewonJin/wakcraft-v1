@@ -6,17 +6,19 @@ import styled from 'styled-components';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { AiOutlineClose } from 'react-icons/ai';
 
-const Container = styled.nav<{ isScrolled: boolean }>`
+const Container = styled.nav<{ isScrolled: boolean; position: number; isMainPage: boolean }>`
    width: 100%;
    position: fixed;
-   display: flex;
+   display: ${props => (!props.isScrolled && props.position >= 100 ? 'none' : 'flex')};
    height: 80px;
-   color: white;
-   background-color: ${props => (props.isScrolled ? 'rgba(16, 16, 16, 0.9)' : 'rgba(16, 16, 16, 0)')};
+   background-color: ${props => (props.isMainPage && props.position <= 100 ? '' : 'white')};
+   color: ${props => (props.position <= 100 && props.isMainPage ? 'white' : 'black')};
    z-index: 10;
 
    @media screen and (max-width: 1000px) {
-      background-color: black;
+      display: flex;
+      background-color: white;
+      color: black;
    }
 `;
 
@@ -55,7 +57,7 @@ const Menu = styled.span`
    display: none;
    > svg {
       font-size: 1.5rem;
-      color: white;
+      color: black;
    }
 `;
 
@@ -64,7 +66,7 @@ const MenuBox = styled.div<{ isOpened: boolean }>`
    position: fixed;
    width: 100vw;
    height: 100vh;
-   background-color: rgba(0, 0, 0, 0.9);
+   background-color: rgba(255, 255, 255, 0.9);
    flex-direction: column;
    margin-top: 80px;
    padding-top: 20px;
@@ -81,7 +83,6 @@ const MenuBox = styled.div<{ isOpened: boolean }>`
       top: 28px;
       right: 20px;
       font-size: 1.5rem;
-      color: white;
    }
 `;
 
@@ -89,6 +90,8 @@ export default function TopNav() {
    const router = useRouter();
 
    const [position, setPosition] = useState(0);
+   const [lastScroll, setLastScroll] = useState(0);
+
    const [isScrolled, setIsScrolled] = useState(false);
    const [isOpened, setIsOpened] = useState(false);
 
@@ -96,11 +99,14 @@ export default function TopNav() {
       const onScroll = () => {
          setPosition(window.scrollY);
 
-         if (position > 0) {
-            setIsScrolled(true);
-         } else {
+         if (Math.abs(lastScroll - position) <= 40) return;
+
+         if (position > lastScroll && lastScroll > 0) {
             setIsScrolled(false);
+         } else {
+            setIsScrolled(true);
          }
+         setLastScroll(window.scrollY);
       };
 
       onScroll();
@@ -129,7 +135,7 @@ export default function TopNav() {
 
    if (router.pathname === '/') {
       return (
-         <Container isScrolled={isScrolled}>
+         <Container isScrolled={isScrolled} position={position} isMainPage={true}>
             <Toaster />
             <NavList>
                <Title>
@@ -165,7 +171,7 @@ export default function TopNav() {
       );
    } else {
       return (
-         <Container isScrolled={true}>
+         <Container isScrolled={isScrolled} position={position} isMainPage={false}>
             <Toaster />
             <NavList>
                <Title>
