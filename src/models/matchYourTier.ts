@@ -3,6 +3,7 @@ import { Schema, Model, model, models } from 'mongoose';
 
 interface MatchYourTierModel extends Model<MatchYourTier> {
    findAll: () => Promise<MatchYourTier[]>;
+   findAllWithoutLineInfo: () => Promise<MatchYourTier[]>;
    findByEpisode: (episode: string) => Promise<MatchYourTier>;
    findLastestOne: () => Promise<MatchYourTier>;
    updateArchitectId: (beforeId: string, afterId: string) => Promise<MatchYourTier>;
@@ -36,6 +37,16 @@ matchYourTierSchema.statics.create = function (payload) {
 
 matchYourTierSchema.statics.findAll = function () {
    return this.find({});
+};
+
+matchYourTierSchema.statics.findAllWithoutLineInfo = function () {
+   return this.aggregate([
+      {
+         $project: {
+            contentInfo: 1,
+         },
+      },
+   ]);
 };
 
 matchYourTierSchema.statics.findByEpisode = function (episode: string) {

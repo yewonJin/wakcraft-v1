@@ -8,6 +8,7 @@ import EventNoobProHacker from '@/models/eventNoobProHacker';
 import PlacementTest, { PlacementTestWithNumberOfParticipants } from '@/models/placementTest';
 import TextBox from '@/components/Common/TextBox';
 import ArchitectureContest from '@/models/architectureContest';
+import MatchYourTier from '@/models/matchYourTier';
 
 const Layout = styled.div`
    display: flex;
@@ -138,18 +139,21 @@ export const getStaticProps: GetStaticProps<{
    eventNoobProHackers: EventNoobProHacker[];
    placementTests: PlacementTestWithNumberOfParticipants[];
    architectureContests: ArchitectureContest[];
+   matchYourTiers: MatchYourTier[];
 }> = async () => {
    await connectMongo();
 
    const placementTests = await PlacementTest.findAllWithoutParticipants();
    const eventNoobProHackers = await EventNoobProHacker.findAllWithoutLineInfo();
    const architectureContests = await ArchitectureContest.findAllWithoutLineInfo();
+   const matchYourTiers = await MatchYourTier.findAllWithoutLineInfo();
 
    return {
       props: {
          eventNoobProHackers: JSON.parse(JSON.stringify(eventNoobProHackers)),
          placementTests: JSON.parse(JSON.stringify(placementTests)),
          architectureContests: JSON.parse(JSON.stringify(architectureContests)),
+         matchYourTiers: JSON.parse(JSON.stringify(matchYourTiers)),
       },
    };
 };
@@ -158,6 +162,7 @@ export default function Content({
    eventNoobProHackers,
    placementTests,
    architectureContests,
+   matchYourTiers,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
    return (
       <Layout>
@@ -223,23 +228,33 @@ export default function Content({
                <TableItem width="100px">링크</TableItem>
             </TableHeader>
             <List>
-               {eventNoobProHackers.map((item, _) => {
-                  return (
-                     <Link
-                        key={item.contentInfo.episode}
-                        href={`/content/eventNoobProHacker/${item.contentInfo.episode}`}
-                     >
-                        <Box>
-                           <Item width="100px">{item.contentInfo.episode + '회'}</Item>
-                           <Item width="200px">{item.contentInfo.contentName}</Item>
-                           <Item width="170px">{item.contentInfo.date.split('T')[0]}</Item>
-                           <YoutubeLink url={item.contentInfo.youtube_url} />
-                        </Box>
-                     </Link>
-                  );
-               })}
+               {[...eventNoobProHackers, ...matchYourTiers]
+                  .sort((a, b) => a.contentInfo.episode - b.contentInfo.episode)
+                  .map((item, _) => {
+                     return (
+                        <Link
+                           key={item.contentInfo.episode}
+                           href={getContentUrl(item.contentInfo.contentName, item.contentInfo.episode)}
+                        >
+                           <Box>
+                              <Item width="100px">{item.contentInfo.episode + '회'}</Item>
+                              <Item width="200px">{item.contentInfo.contentName}</Item>
+                              <Item width="170px">{item.contentInfo.date.split('T')[0]}</Item>
+                              <YoutubeLink url={item.contentInfo.youtube_url} />
+                           </Box>
+                        </Link>
+                     );
+                  })}
             </List>
          </ContentLayout>
       </Layout>
    );
 }
+
+const getContentUrl = (contentName: string, episode: number) => {
+   if (contentName === '티어 맞추기') {
+      return `/content/matchYourTier/${episode}`;
+   } else {
+      return `/content/eventNoobProHacker/${episode}`;
+   }
+};
