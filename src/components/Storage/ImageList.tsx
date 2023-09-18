@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { useAwsStorage } from '@/application/accessAwsStorage';
 import { Button } from '../Common/Button';
 import TextBox from '../Common/TextBox';
+import { ContentType } from './AwsStorage';
 
 const List = styled.ul`
    display: grid;
@@ -33,8 +34,8 @@ const Item = styled.li`
    }
 `;
 
-export default function ImageList({ content }: { content: 'noobProHacker' | 'placementTest' | 'eventNoobProHacker' | 'architectureContest' }) {
-   const { storagePage, setContentImageUrl, setPlacementTestAllImageUrl } = useAwsStorage();
+export default function ImageList({ content }: { content: ContentType }) {
+   const { storagePage, setContentImageUrl, setPlacementTestAllImageUrl, setMathYourTierAllImageUrl } = useAwsStorage();
 
    const { data } = useQueryAwsImages(content, storagePage);
 
@@ -42,14 +43,21 @@ export default function ImageList({ content }: { content: 'noobProHacker' | 'pla
 
    return (
       <>
-         {content === 'placementTest' && (
-            <Button
-               text="모든 이미지 추가하기"
-               fontSize="14px"
-               padding="8px 12px"
-               onClick={() => setPlacementTestAllImageUrl(data)}
-            />
-         )}
+         {content === 'placementTest' ||
+            (content === 'matchYourTier' && (
+               <Button
+                  text="모든 이미지 추가하기"
+                  fontSize="14px"
+                  padding="8px 12px"
+                  onClick={() => {
+                     if (content === 'matchYourTier') {
+                        setMathYourTierAllImageUrl(data);
+                     } else {
+                        setPlacementTestAllImageUrl(data);
+                     }
+                  }}
+               />
+            ))}
          <List>
             {data.map(item => (
                <Item key={item} onClick={() => setContentImageUrl(content, item)}>

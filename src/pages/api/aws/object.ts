@@ -12,7 +12,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       try {
          const data = await s3.send(
             new ListObjectsCommand(
-               listObjectsBucketParams(content as 'noobProHacker' | 'placementTest' | 'eventNoobProHacker'),
+               listObjectsBucketParams(content as 'noobProHacker' | 'placementTest' | 'eventNoobProHacker' | 'matchYourTier'),
             ),
          );
 
@@ -30,7 +30,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             return res.status(400).send({ error: '에러' });
          }
 
-         await createFolder(content as 'noobProHacker' | 'placementTest' | 'eventNoobProHacker', episode as string);
+         await createFolder(content as 'noobProHacker' | 'placementTest' | 'eventNoobProHacker' | 'matchYourTier', episode as string);
 
          return res.status(201).json({
             message: 's3 uploading with fs succeeded',

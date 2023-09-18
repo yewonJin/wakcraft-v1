@@ -14,6 +14,8 @@ import { EventNoobProHacker } from '@/domain/eventNoobProHacker';
 import { eventNoobProHackerLineState } from '@/services/store/eventNoobProHacker';
 import { ArchitectureContest } from '@/domain/architectureContest';
 import { architectureContestLineState } from '@/services/store/architectureContest';
+import { matchYourTierParticipantsState } from '@/services/store/matchYourTier';
+import { MatchYourTier } from '@/domain/matchYourTier';
 
 export const useAwsStorage = () => {
    const [isViewable, setIsViewable] = useRecoilState(storageViewableState);
@@ -32,11 +34,14 @@ export const useAwsStorage = () => {
 
    const setParticipantsInfo = useSetRecoilState(participantsInfoState);
 
+   const setMatchYourTierInfo = useSetRecoilState(matchYourTierParticipantsState);
+
    const setContentImageUrl = (minecraftContent: string, imageName: string) => {
       if (minecraftContent === 'noobProHacker') setNoobProHackerImageUrl(imageName);
       else if (minecraftContent === 'placementTest') setPlacementTestImageUrl(imageName);
       else if (minecraftContent === 'eventNoobProHacker') setEventNoobProHackerImageUrl(imageName);
       else if (minecraftContent === 'architectureContest') setArchitectureContestImageUrl(imageName);
+      else if (minecraftContent === 'matchYourTier') setMatchYourTierImageUrl(imageName);
    };
 
    const setPlacementTestAllImageUrl = (imagesName: string[]) => {
@@ -51,6 +56,24 @@ export const useAwsStorage = () => {
          };
 
          setParticipantsInfo(prev => [...prev, newValue]);
+      });
+   };
+
+   const setMathYourTierAllImageUrl = (imagesName: string[]) => {
+      if (!imagesName) return;
+
+      imagesName.forEach(imageName => {
+         const newValue: MatchYourTier['participants'][0] = {
+            minecraft_id: imageName.split('/')[2].split('.')[0],
+            image_url: `https://wakcraft.s3.ap-northeast-2.amazonaws.com/${imageName}`,
+            expectedTier: '언랭',
+            currentTier: '언랭',
+            subject: '',
+            youtube_url: '',
+            ranking: 0,
+         };
+
+         setMatchYourTierInfo(prev => [...prev, newValue]);
       });
    };
 
@@ -103,6 +126,20 @@ export const useAwsStorage = () => {
       setParticipantsInfo(prev => [...prev, newValue]);
    };
 
+   const setMatchYourTierImageUrl = (imageName: string) => {
+      const newValue: MatchYourTier['participants'][0] = {
+         minecraft_id: imageName.split('/')[2].split('.')[0],
+         image_url: `https://wakcraft.s3.ap-northeast-2.amazonaws.com/${imageName}`,
+         expectedTier: '언랭',
+         currentTier: '언랭',
+         order: 0,
+         youtube_url: 'null',
+         ranking: 0,
+      };
+
+      setMatchYourTierInfo(prev => [...prev, newValue]);
+   };
+
    return {
       storagePage,
       setStoragePage,
@@ -111,6 +148,7 @@ export const useAwsStorage = () => {
       isViewable,
       setIsViewable,
       setContentImageUrl,
+      setMathYourTierAllImageUrl,
       setPlacementTestAllImageUrl,
       setEventNoobProHackerImageUrl,
       setArchitectureContestImageUrl,

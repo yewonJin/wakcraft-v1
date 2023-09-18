@@ -20,12 +20,12 @@ const Divider = styled.span`
    width: 1px;
    height: 30px;
    background-color: #cacaca;
-`
+`;
 
 export default function Index() {
    return (
       <CommonLayout>
-         <TextBox text="어드민 페이지" fontSize="24px" lineHeight="36px" fontWeight="500"/>
+         <TextBox text="어드민 페이지" fontSize="24px" lineHeight="36px" fontWeight="500" />
          <List>
             <Link href={'/admin/architect'}>
                <li>건축가</li>
@@ -41,6 +41,14 @@ export default function Index() {
             <Divider />
             <Link href={'/admin/eventNoobProHacker'}>
                <li>이벤트 눕프핵</li>
+            </Link>
+            <Divider />
+            <Link href={'/admin/architectureContest'}>
+               <li>건축 콘테스트</li>
+            </Link>
+            <Divider />
+            <Link href={'/admin/matchYourTier'}>
+               <li>티어 맞추기</li>
             </Link>
             <Divider />
             <Link href={'/admin/worldcup'}>

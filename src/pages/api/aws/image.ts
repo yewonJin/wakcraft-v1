@@ -33,7 +33,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
          const data = await s3.send(
             new ListObjectsCommand(
                listObjectsBucketParams(
-                  content as 'noobProHacker' | 'placementTest' | 'eventNoobProHacker',
+                  content as 'noobProHacker' | 'placementTest' | 'eventNoobProHacker' | 'matchYourTier',
                   req.query.episode as string,
                ),
             ),

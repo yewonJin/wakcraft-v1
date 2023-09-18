@@ -1,7 +1,5 @@
-import { PlacementTestApplying } from '@/models/placementTestApplying';
 import { handleFetchData } from '../../utils/handleFetchData';
 import { PlacementTest } from '@/domain/placementTest';
-import { Architect } from '@/domain/architect';
 import { PlacementTestApplyingPayload } from '@/application/createTempPlacementTest';
 
 export const addPlacementTest = async (body: PlacementTest) => {

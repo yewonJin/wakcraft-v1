@@ -17,7 +17,7 @@ export const s3 = new S3Client({
 
 /** 입력받은 눕프핵 에피소드를 반환하는 옵션  */
 export const listObjectsBucketParams = (
-   content: 'noobProHacker' | 'placementTest' | 'eventNoobProHacker',
+   content: 'noobProHacker' | 'placementTest' | 'eventNoobProHacker' | 'matchYourTier',
    episode?: string,
 ) => {
    if (!episode) {
@@ -71,7 +71,7 @@ export async function uploadFile(fileBuffer: fs.ReadStream, fileName: string, mi
 
 /** 다음 회차 폴더 만들기 */
 export async function createFolder(
-   content: 'noobProHacker' | 'placementTest' | 'eventNoobProHacker',
+   content: 'noobProHacker' | 'placementTest' | 'eventNoobProHacker' | 'matchYourTier',
    fileName: string,
 ) {
    const params = {

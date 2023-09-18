@@ -22,13 +22,13 @@ const TierBox = styled.span<{ tier: string }>`
    display: flex;
    justify-content: center;
    align-items: center;
-   width: 90px;
+   width: ${props => (props.tier === '' ? '60px' : '90px')};
    height: 53px;
    border-radius: 10px;
    font-size: 16px;
    color: white;
    text-shadow: 1px 1px 2px black;
-   background: rgb(65, 65, 65);
+   background: ${props => (props.tier === '' ? 'rgb(255, 255, 255)' : 'rgb(65, 65, 65)')};
 `;
 
 export default function EventNoobProHackerItem({
@@ -49,7 +49,7 @@ export default function EventNoobProHackerItem({
          <ContentBox>
             <TierBox tier={item.line}>{item.line}</TierBox>
             <InfoBox topText={`${item.contentName}`} bottomText={item.subject} />
-            <RankingBox ranking={item.ranking} />
+            <RankingBox tier={item.line} ranking={item.ranking} />
          </ContentBox>
       </PortFolioBox>
    );
