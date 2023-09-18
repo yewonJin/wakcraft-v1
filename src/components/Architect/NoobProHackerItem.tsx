@@ -31,7 +31,7 @@ export default function NoobProHackerItem({
          <ContentBox>
             <TierBox tier={item.line} />
             <InfoBox topText={`제 ${item.episode}회 눕프핵`} bottomText={item.subject} />
-            <RankingBox ranking={item.ranking} />
+            <RankingBox tier={item.line} ranking={item.ranking} />
          </ContentBox>
       </PortFolioBox>
    );

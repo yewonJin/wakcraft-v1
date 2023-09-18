@@ -55,7 +55,7 @@ export default function ArchitectureContest({ info }: { info: Architect }) {
                   <ContentBox>
                      <TierBox tier={item.line}>{item.line}</TierBox>
                      <InfoBox topText={`${item.contentName}`} bottomText={item.subject} />
-                     <RankingBox ranking={item.ranking} />
+                     <RankingBox tier={item.line} ranking={item.ranking} />
                   </ContentBox>
                </PortFolioBox>
             );

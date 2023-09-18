@@ -167,7 +167,7 @@ export default function Page() {
          <Layout>
             <SkeletonTitle>
                <Skeleton width="60px" height="22px" />
-               <Skeleton width="160px" height="28px"/>
+               <Skeleton width="160px" height="28px" />
             </SkeletonTitle>
             <SkeletonBox>
                {[...new Array(9).fill(0)].map((_, index) => (
@@ -228,7 +228,7 @@ export default function Page() {
                                  topText="건축가"
                                  bottomText={item.line_details[line].minecraft_id}
                               />
-                              <RankingBox ranking={item.line_details[line].ranking} />
+                              <RankingBox tier={line} ranking={item.line_details[line].ranking} />
                            </ContentBox>
                         </PortFolioBox>
                      ))}

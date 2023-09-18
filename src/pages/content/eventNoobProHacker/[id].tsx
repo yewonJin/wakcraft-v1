@@ -394,7 +394,7 @@ export default function Page() {
                                           />
                                        )}
                                     </InfoBox>
-                                    <RankingBox ranking={line.ranking} />
+                                    <RankingBox tier={line.line} ranking={line.ranking} />
                                  </ContentBox>
                               </PortFolioBox>
                            ))}

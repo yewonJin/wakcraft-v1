@@ -68,9 +68,9 @@ export const useAwsStorage = () => {
             image_url: `https://wakcraft.s3.ap-northeast-2.amazonaws.com/${imageName}`,
             expectedTier: '언랭',
             currentTier: '언랭',
-            subject: '',
             youtube_url: '',
             ranking: 0,
+            order: 0,
          };
 
          setMatchYourTierInfo(prev => [...prev, newValue]);
