@@ -10,7 +10,7 @@ import {
    getPlacementTestApplying,
 } from './api/placementTest';
 
-import { PlacementTestApplyingPayload } from '@/application/createTempPlacementTest';
+import { PlacementTestApplyingPayload } from '@/application/create/createTempPlacementTest';
 import { PlacementTestApplying } from '@/models/placementTestApplying';
 
 export const useMutationPlacementTest = () => {

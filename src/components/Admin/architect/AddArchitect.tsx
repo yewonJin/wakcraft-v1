@@ -3,7 +3,7 @@ import { Fragment } from 'react';
 
 import TextBox from '@/components/Common/TextBox';
 import InputBox from '@/components/Common/InputBox';
-import { useCreateArchitect } from '@/application/createArchitect';
+import { useCreateArchitect } from '@/application/create/createArchitect';
 import { Button } from '@/components/Common/Button';
 import SelectTierBox from '@/components/Common/SelectTierBox';
 

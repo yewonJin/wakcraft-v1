@@ -12,10 +12,10 @@ import {
    useCreateArchitectureContestContent,
    useCreateArchitectureContestLine,
    useCreateArchitectureContest,
-} from '@/application/createArchitectureContest';
+} from '@/application/create/createArchitectureContest';
 import { AddContentInfo } from '@/components/Admin/content/AddContentInfo';
 import { ContentLineInfo } from '@/components/Admin/content/ContentLineInfo';
-import { useCreateLine } from '@/application/createNoobProHacker';
+import { useCreateLine } from '@/application/create/createNoobProHacker';
 import { SearchArchitect } from '@/components/Admin/content/SearchArchitect';
 import { AddLineDetails } from '@/components/Admin/architectureContest/AddLineDetails';
 

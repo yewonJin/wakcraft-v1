@@ -1,8 +1,8 @@
-import { useUpload } from '@/application/uploadFiles';
+import { useUpload } from '@/application/aws/uploadFiles';
 import InputBox from '@/components/Common/InputBox';
-import { ContentType } from './AwsStorage';
+import { Content } from '@/domain/aws';
 
-export default function UploadFiles({ content, page }: { content: ContentType; page: number }) {
+export default function UploadFiles({ content, page }: { content: Content; page: number }) {
    const { handleFileChange } = useUpload(page);
 
    return (

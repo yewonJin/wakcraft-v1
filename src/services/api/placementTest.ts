@@ -1,6 +1,6 @@
 import { handleFetchData } from '../../utils/handleFetchData';
 import { PlacementTest } from '@/domain/placementTest';
-import { PlacementTestApplyingPayload } from '@/application/createTempPlacementTest';
+import { PlacementTestApplyingPayload } from '@/application/create/createTempPlacementTest';
 
 export const addPlacementTest = async (body: PlacementTest) => {
    var myHeaders = new Headers();

@@ -5,13 +5,13 @@ import { toast } from 'react-hot-toast';
 
 import { checkEmptyInDeepObject } from '@/utils/lib';
 import { curLineIndexState, lineDetailIndexState } from '@/services/store/noobProHacker';
-import { useAwsStorage } from './accessAwsStorage';
 import { architectureContestContentState, architectureContestLineState } from '@/services/store/architectureContest';
 import { ArchitectureContest } from '@/domain/architectureContest';
 import {
    useMutationArchitectureContest,
    useMutationEditArchitectureContest,
 } from '@/services/architectureContestAdapters';
+import { useAwsStorage } from '../aws/accessAwsStorage';
 
 export const useCreateArchitectureContestContent = () => {
    const [architectureContestContent, setArchitectureContestContent] = useRecoilState(architectureContestContentState);

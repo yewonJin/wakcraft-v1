@@ -5,10 +5,10 @@ import { IoMdClose } from 'react-icons/io';
 
 import TextBox from '@/components/Common/TextBox';
 import InputBox from '@/components/Common/InputBox';
-import { useCreateLine } from '@/application/createNoobProHacker';
+import { useCreateLine } from '@/application/create/createNoobProHacker';
 import { Button } from '@/components/Common/Button';
 import AwsStorage from '@/components/Storage/AwsStorage';
-import { useAwsStorage } from '@/application/accessAwsStorage';
+import { useAwsStorage } from '@/application/aws/accessAwsStorage';
 import { EventNoobProHacker } from '@/domain/eventNoobProHacker';
 
 const Layout = styled.div`

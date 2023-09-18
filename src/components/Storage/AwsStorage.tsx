@@ -9,7 +9,8 @@ import ImageList from './ImageList';
 import CreateFolder from './CreateFolder';
 import { useQueryAwsDirectory } from '@/services/awsAdapters';
 import UploadFiles from './UploadFiles';
-import { useAwsStorage } from '@/application/accessAwsStorage';
+import { useAwsStorage } from '@/application/aws/accessAwsStorage';
+import { Content, getContentName } from '@/domain/aws';
 
 const Layout = styled.div`
    padding: 25px;

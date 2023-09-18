@@ -6,8 +6,8 @@ import TextBox from '@/components/Common/TextBox';
 import AwsStorage from '@/components/Storage/AwsStorage';
 import { Button } from '@/components/Common/Button';
 import { Tier } from '@/domain/architect';
-import { useCreatePlacementTest } from '@/application/createPlacementTest';
-import { useAwsStorage } from '@/application/accessAwsStorage';
+import { useCreatePlacementTest } from '@/application/create/createPlacementTest';
+import { useAwsStorage } from '@/application/aws/accessAwsStorage';
 import SelectTierBox from '@/components/Common/SelectTierBox';
 import { AddContentInfo } from '@/components/Admin/content/AddContentInfo';
 

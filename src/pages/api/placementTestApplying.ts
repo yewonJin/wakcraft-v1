@@ -3,7 +3,7 @@ import connectMongo from '@/utils/connectMongo';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 import PlacementTestApplying from '@/models/placementTestApplying';
-import { PlacementTestApplyingPayload } from '@/application/createTempPlacementTest';
+import { PlacementTestApplyingPayload } from '@/application/create/createTempPlacementTest';
 import Architect from '@/models/architect';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {

@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import Image from 'next/image';
 
-import { useAwsStorage } from '@/application/accessAwsStorage';
-import { useCreateMatchYourTier } from '@/application/createMatchYourTier';
+import { useAwsStorage } from '@/application/aws/accessAwsStorage';
+import { useCreateMatchYourTier } from '@/application/create/createMatchYourTier';
 import { AddContentInfo } from '@/components/Admin/content/AddContentInfo';
 import { CommonLayout } from '@/components/Common/CommonLayout';
 import TextBox from '@/components/Common/TextBox';
@@ -11,7 +11,6 @@ import { Button } from '@/components/Common/Button';
 import SelectTierBox from '@/components/Common/SelectTierBox';
 import { Tier } from '@/domain/architect';
 import InputBox from '@/components/Common/InputBox';
-import { convertToArchitect } from '@/domain/matchYourTier';
 
 const Wrapper = styled.div<{ direction?: string; alignItems?: string }>`
    display: flex;

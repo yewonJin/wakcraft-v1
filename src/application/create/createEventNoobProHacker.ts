@@ -7,7 +7,7 @@ import { eventNoobProHackerContentState, eventNoobProHackerLineState } from '@/s
 import { EventNoobProHacker, createEventNoobProHackerObject } from '@/domain/eventNoobProHacker';
 import { checkEmptyInDeepObject } from '@/utils/lib';
 import { curLineIndexState, lineDetailIndexState } from '@/services/store/noobProHacker';
-import { useAwsStorage } from './accessAwsStorage';
+import { useAwsStorage } from '../aws/accessAwsStorage';
 import {
    useMutationEditEventNoobProHacker,
    useMutationEventNoobProHacker,

@@ -10,40 +10,30 @@ import {
 } from '@/services/store/noobProHacker';
 import { participantsInfoState } from '@/services/store/placementTest';
 import { storagePageState, storageViewableState } from '@/services/store/storage';
-import { EventNoobProHacker } from '@/domain/eventNoobProHacker';
 import { eventNoobProHackerLineState } from '@/services/store/eventNoobProHacker';
-import { ArchitectureContest } from '@/domain/architectureContest';
 import { architectureContestLineState } from '@/services/store/architectureContest';
 import { matchYourTierParticipantsState } from '@/services/store/matchYourTier';
 import { MatchYourTier } from '@/domain/matchYourTier';
+import { Content } from '@/domain/aws';
 
 export const useAwsStorage = () => {
    const [isViewable, setIsViewable] = useRecoilState(storageViewableState);
    const [storagePage, setStoragePage] = useRecoilState(storagePageState);
 
-   const [noobProHackerLine, setNoobProHackerLine] = useRecoilState(noobProHackerLineState);
    const curLineTier = useRecoilValue(curLineTierState);
    const curLineIndex = useRecoilValue(curLineIndexState);
-   const [lineDetailIndex, setLineDetailIndex] = useRecoilState(lineDetailIndexState);
+   const lineDetailIndex = useRecoilValue(lineDetailIndexState);
 
-   const [eventNoobProHackerLine, setEventNoobProHackerLine] =
-      useRecoilState<EventNoobProHacker['lineInfo']>(eventNoobProHackerLineState);
-
-   const [architectureContestLine, setArchitectureContestLine] =
-      useRecoilState<ArchitectureContest['lineInfo']>(architectureContestLineState);
-
+   const setNoobProHackerLine = useSetRecoilState(noobProHackerLineState);
+   const setEventNoobProHackerLine = useSetRecoilState(eventNoobProHackerLineState);
+   const setArchitectureContestLine = useSetRecoilState(architectureContestLineState);
    const setParticipantsInfo = useSetRecoilState(participantsInfoState);
-
    const setMatchYourTierInfo = useSetRecoilState(matchYourTierParticipantsState);
 
-   const setContentImageUrl = (minecraftContent: string, imageName: string) => {
-      if (minecraftContent === 'noobProHacker') setNoobProHackerImageUrl(imageName);
-      else if (minecraftContent === 'placementTest') setPlacementTestImageUrl(imageName);
-      else if (minecraftContent === 'eventNoobProHacker') setEventNoobProHackerImageUrl(imageName);
-      else if (minecraftContent === 'architectureContest') setArchitectureContestImageUrl(imageName);
-      else if (minecraftContent === 'matchYourTier') setMatchYourTierImageUrl(imageName);
+   const setContentAllImageUrl = (content: Content, imagesName: string[]) => {
+      if (content === 'placementTest') setPlacementTestAllImageUrl(imagesName);
+      else setMatchYourTierAllImageUrl(imagesName);
    };
-
    const setPlacementTestAllImageUrl = (imagesName: string[]) => {
       if (!imagesName) return;
 
@@ -58,8 +48,7 @@ export const useAwsStorage = () => {
          setParticipantsInfo(prev => [...prev, newValue]);
       });
    };
-
-   const setMathYourTierAllImageUrl = (imagesName: string[]) => {
+   const setMatchYourTierAllImageUrl = (imagesName: string[]) => {
       if (!imagesName) return;
 
       imagesName.forEach(imageName => {
@@ -77,6 +66,13 @@ export const useAwsStorage = () => {
       });
    };
 
+   const setContentImageUrl = (content: Content, imageName: string) => {
+      if (content === 'noobProHacker') setNoobProHackerImageUrl(imageName);
+      else if (content === 'placementTest') setPlacementTestImageUrl(imageName);
+      else if (content === 'eventNoobProHacker') setEventNoobProHackerImageUrl(imageName);
+      else if (content === 'architectureContest') setArchitectureContestImageUrl(imageName);
+      else if (content === 'matchYourTier') setMatchYourTierImageUrl(imageName);
+   };
    const setNoobProHackerImageUrl = (imageName: string) => {
       setNoobProHackerLine(prev =>
          produce(prev, draft => {
@@ -88,7 +84,6 @@ export const useAwsStorage = () => {
       setStoragePage(0);
       setIsViewable(false);
    };
-
    const setEventNoobProHackerImageUrl = (imageName: string) => {
       setEventNoobProHackerLine(prev =>
          produce(prev, draft => {
@@ -101,7 +96,6 @@ export const useAwsStorage = () => {
       setStoragePage(0);
       setIsViewable(false);
    };
-
    const setArchitectureContestImageUrl = (imageName: string) => {
       setArchitectureContestLine(prev =>
          produce(prev, draft => {
@@ -114,7 +108,6 @@ export const useAwsStorage = () => {
       setStoragePage(0);
       setIsViewable(false);
    };
-
    const setPlacementTestImageUrl = (imageName: string) => {
       const newValue: PlacementTest['participants'][0] = {
          minecraft_id: imageName.split('/')[2].split('.')[0],
@@ -125,7 +118,6 @@ export const useAwsStorage = () => {
 
       setParticipantsInfo(prev => [...prev, newValue]);
    };
-
    const setMatchYourTierImageUrl = (imageName: string) => {
       const newValue: MatchYourTier['participants'][0] = {
          minecraft_id: imageName.split('/')[2].split('.')[0],
@@ -140,16 +132,18 @@ export const useAwsStorage = () => {
       setMatchYourTierInfo(prev => [...prev, newValue]);
    };
 
+   const isSelectFolderPage = storagePage === 0;
+
    return {
       storagePage,
       setStoragePage,
       curLineTier,
       curLineIndex,
       isViewable,
+      isSelectFolderPage,
       setIsViewable,
       setContentImageUrl,
-      setMathYourTierAllImageUrl,
-      setPlacementTestAllImageUrl,
+      setContentAllImageUrl,
       setEventNoobProHackerImageUrl,
       setArchitectureContestImageUrl,
    };

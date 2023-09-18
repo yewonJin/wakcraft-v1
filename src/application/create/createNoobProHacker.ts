@@ -15,7 +15,7 @@ import {
    curLineIndexState,
 } from '@/services/store/noobProHacker';
 import { useMutationEditNoobProHacker, useMutationNoobProHacker } from '@/services/noobProHackerAdapters';
-import { useAwsStorage } from './accessAwsStorage';
+import { useAwsStorage } from '../aws/accessAwsStorage';
 
 export const useCreateContent = () => {
    const [noobProHackerContent, setNoobProHackerContent] = useRecoilState(noobProHackerContentState);

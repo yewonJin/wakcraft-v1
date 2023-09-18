@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import TextBox from '@/components/Common/TextBox';
 
 import { AddContentInfo } from '@/components/Admin/content/AddContentInfo';
-import { useCreateTempPlacementTest } from '@/application/createTempPlacementTest';
+import { useCreateTempPlacementTest } from '@/application/create/createTempPlacementTest';
 import { SearchArchitect } from '@/components/Architect/SearchArchitect';
 import { AddArchitect } from '@/components/Admin/architect/AddArchitect';
 import InputBox from '@/components/Common/InputBox';

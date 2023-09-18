@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import { AddLineDetails } from '@/components/Admin/noobProHacker/AddLineDetails';
 import { SearchArchitect } from '@/components/Admin/content/SearchArchitect';
-import { useCreateContent, useCreateLine, useCreateNoobProHacker } from '@/application/createNoobProHacker';
+import { useCreateContent, useCreateLine, useCreateNoobProHacker } from '@/application/create/createNoobProHacker';
 import TextBox from '@/components/Common/TextBox';
 import { CommonLayout } from '@/components/Common/CommonLayout';
 import { AddContentInfo } from '@/components/Admin/content/AddContentInfo';
