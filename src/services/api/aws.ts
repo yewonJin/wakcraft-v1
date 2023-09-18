@@ -1,6 +1,6 @@
-import { ContentType } from '@/components/Storage/AwsStorage';
+import { Content } from '@/domain/aws';
 
-export const getAwsDirectory = async (content: ContentType) => {
+export const getAwsDirectory = async (content: Content) => {
    try {
       return await fetch(`/api/aws/object?content=${content}`).then(res => res.json());
    } catch (e) {
@@ -8,7 +8,7 @@ export const getAwsDirectory = async (content: ContentType) => {
    }
 };
 
-export const getAwsImages = async (content: ContentType, page: number) => {
+export const getAwsImages = async (content: Content, page: number) => {
    try {
       return await fetch(`/api/aws/image?content=${content}&episode=${page}`).then(res => res.json());
    } catch (e) {
@@ -16,7 +16,7 @@ export const getAwsImages = async (content: ContentType, page: number) => {
    }
 };
 
-export const postAwsDirectory = async (content: ContentType, episode: number) => {
+export const postAwsDirectory = async (content: Content, episode: number) => {
    try {
       return await fetch(`/api/aws/object?content=${content}&episode=${episode}`, {
          method: 'POST',

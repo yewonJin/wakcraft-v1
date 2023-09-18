@@ -1,3 +1,4 @@
+import { Content } from '@/domain/aws';
 import { S3Client, PutObjectCommand, _Object } from '@aws-sdk/client-s3';
 import fs from 'fs';
 
@@ -16,10 +17,7 @@ export const s3 = new S3Client({
 });
 
 /** 입력받은 눕프핵 에피소드를 반환하는 옵션  */
-export const listObjectsBucketParams = (
-   content: 'noobProHacker' | 'placementTest' | 'eventNoobProHacker' | 'matchYourTier',
-   episode?: string,
-) => {
+export const listObjectsBucketParams = (content: Content, episode?: string) => {
    if (!episode) {
       return {
          Bucket: awsS3Bucket,
@@ -56,7 +54,6 @@ export const deleteObjectParams = (beforeId: string, season: number, extension: 
    };
 };
 
-// 파일 업로드
 export async function uploadFile(fileBuffer: fs.ReadStream, fileName: string, mimetype: string) {
    const uploadParams = {
       Bucket: awsS3Bucket,
@@ -69,11 +66,8 @@ export async function uploadFile(fileBuffer: fs.ReadStream, fileName: string, mi
    return res.$metadata.httpStatusCode;
 }
 
-/** 다음 회차 폴더 만들기 */
-export async function createFolder(
-   content: 'noobProHacker' | 'placementTest' | 'eventNoobProHacker' | 'matchYourTier',
-   fileName: string,
-) {
+/** 컨텐츠 다음 회차 폴더 만들기 */
+export async function createFolder(content: Content, fileName: string) {
    const params = {
       Bucket: awsS3Bucket,
       Key: `${content}/${content === 'placementTest' ? 'season' : 'episode'} ` + fileName + '/',

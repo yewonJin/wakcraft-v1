@@ -69,35 +69,18 @@ const Wrapper = styled.div`
    }
 `;
 
-export type ContentType =
-   | 'noobProHacker'
-   | 'placementTest'
-   | 'eventNoobProHacker'
-   | 'architectureContest'
-   | 'matchYourTier';
-
-export default function AwsStorage({ content }: { content: ContentType }) {
-   const { storagePage, setStoragePage, setIsViewable } = useAwsStorage();
+export default function AwsStorage({ content }: { content: Content }) {
+   const { storagePage, setStoragePage, setIsViewable, isSelectFolderPage } = useAwsStorage();
    const { data } = useQueryAwsDirectory(content);
 
    if (!data) return <div></div>;
 
-   if (storagePage == 0) {
+   if (isSelectFolderPage) {
       return (
          <Layout>
             <Wrapper>
                <TextBox
-                  text={
-                     content === 'noobProHacker'
-                        ? '눕프로해커'
-                        : content === 'placementTest'
-                        ? '배치고사'
-                        : content === 'eventNoobProHacker'
-                        ? '이벤트 눕프핵'
-                        : content === 'architectureContest'
-                        ? '건축 콘테스트'
-                        : '티어 맞추기'
-                  }
+                  text={getContentName(content)}
                   fontSize="24px"
                   fontWeight="500"
                   lineHeight="36px"

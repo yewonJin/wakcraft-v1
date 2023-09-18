@@ -4,6 +4,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { ListObjectsCommand } from '@aws-sdk/client-s3';
 
 import { hideFolder, hideWebp, listObjectsBucketParams, s3, uploadFile } from '@/utils/aws';
+import { Content } from '@/domain/aws';
 
 type Img = {
    size: string;
@@ -31,12 +32,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
       try {
          const data = await s3.send(
-            new ListObjectsCommand(
-               listObjectsBucketParams(
-                  content as 'noobProHacker' | 'placementTest' | 'eventNoobProHacker' | 'matchYourTier',
-                  req.query.episode as string,
-               ),
-            ),
+            new ListObjectsCommand(listObjectsBucketParams(content as Content, req.query.episode as string)),
          );
 
          if (!data.Contents) return res.status(400).send({ error: '해당 object가 없습니다.' });

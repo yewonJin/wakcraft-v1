@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { ListObjectsCommand } from '@aws-sdk/client-s3';
 
 import { createFolder, listObjectsBucketParams, s3 } from '@/utils/aws';
+import { Content } from '@/domain/aws';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
    if (req.method === 'GET') {
@@ -10,11 +11,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       if (!content) return res.status(400).send({ error: 'query string이 없습니다' });
 
       try {
-         const data = await s3.send(
-            new ListObjectsCommand(
-               listObjectsBucketParams(content as 'noobProHacker' | 'placementTest' | 'eventNoobProHacker' | 'matchYourTier'),
-            ),
-         );
+         const data = await s3.send(new ListObjectsCommand(listObjectsBucketParams(content as Content)));
 
          if (!data.CommonPrefixes) return res.status(400).send({ error: '해당 object가 없습니다.' });
 
@@ -30,7 +27,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             return res.status(400).send({ error: '에러' });
          }
 
-         await createFolder(content as 'noobProHacker' | 'placementTest' | 'eventNoobProHacker' | 'matchYourTier', episode as string);
+         await createFolder(content as Content, episode as string);
 
          return res.status(201).json({
             message: 's3 uploading with fs succeeded',

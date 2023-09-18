@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { AiOutlinePlus } from 'react-icons/ai';
 
 import { useMutationNewFolder } from '@/services/awsAdapters';
-import { ContentType } from '@/components/Storage/AwsStorage';
+import { Content } from '@/domain/aws';
 
 const Layout = styled.li`
    display: flex;
@@ -21,11 +21,11 @@ const Layout = styled.li`
    }
 `;
 
-export default function AddEpisode({ content, data }: { content: ContentType; data: string[] }) {
+export default function AddEpisode({ content, data }: { content: Content; data: string[] }) {
    const mutation = useMutationNewFolder(content, data.length + 1);
 
    return (
-      <Layout onClick={e => mutation.mutate()}>
+      <Layout onClick={() => mutation.mutate()}>
          <AiOutlinePlus />
       </Layout>
    );

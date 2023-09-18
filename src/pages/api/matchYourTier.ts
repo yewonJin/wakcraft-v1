@@ -39,23 +39,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
    } else if (req.method === 'POST') {
       const { body }: { body: MatchYourTierType } = req;
 
+      const architectsInfo = convertToArchitect(req);
+
       await connectMongo();
 
       await MatchYourTier.create(body);
 
       try {
-         body.participants.forEach(async item => {
-            await Architect.findOneAndPushToEventNoobProHacker(item.minecraft_id, {
-               episode: body.contentInfo.episode,
-               image_url: item.image_url,
-               subject: `${item.expectedTier} -> ${item.currentTier}`,
-               youtube_url: item.youtube_url,
-               contentName: body.contentInfo.contentName,
-               line: '',
-               ranking: item.ranking,
-               date: new Date(body.contentInfo.date),
-            });
+         architectsInfo.forEach(async item => {
+            await Architect.findOneAndPushToEventNoobProHacker(item.minecraft_id, item.portfolio.eventNoobProHacker[0]);
          });
+
          return res.status(200).json('DB에 추가 했습니다.');
       } catch (e) {
          res.status(400).json({ error: 'DB에 추가 하지 못했습니다.' });

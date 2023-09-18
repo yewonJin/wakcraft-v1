@@ -2,9 +2,9 @@ import { UseQueryResult, useMutation, useQuery, useQueryClient } from 'react-que
 import { toast } from 'react-hot-toast';
 
 import { getAwsDirectory, getAwsImages, patchAwsPlacementTestImages, postAwsDirectory, postAwsImages } from './api/aws';
-import { ContentType } from '@/components/Storage/AwsStorage';
+import { Content } from '@/domain/aws';
 
-export const useQueryAwsDirectory = (content: ContentType) => {
+export const useQueryAwsDirectory = (content: Content) => {
    const { data }: UseQueryResult<string[]> = useQuery('getAwsDirectory', () => getAwsDirectory(content), {
       refetchOnWindowFocus: false,
    });
@@ -12,7 +12,7 @@ export const useQueryAwsDirectory = (content: ContentType) => {
    return { data };
 };
 
-export const useQueryAwsImages = (content: ContentType, page: number) => {
+export const useQueryAwsImages = (content: Content, page: number) => {
    const { data }: UseQueryResult<string[]> = useQuery(
       ['getAwsImages', content, page],
       () => getAwsImages(content, page),
@@ -25,7 +25,7 @@ export const useQueryAwsImages = (content: ContentType, page: number) => {
    return { data };
 };
 
-export const useMutationNewFolder = (content: ContentType, episode: number) => {
+export const useMutationNewFolder = (content: Content, episode: number) => {
    const queryClient = useQueryClient();
 
    const mutation = useMutation(() => postAwsDirectory(content, episode), {
