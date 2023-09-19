@@ -57,21 +57,36 @@ const InfiniteTimeBox = styled.div`
    color: white;
 `;
 
+const NumberOfPeopleBox = styled.div`
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   position: absolute;
+   top: 6px;
+   left: 6px;
+   padding: 3px 10px;
+   border-radius: 6px;
+   font-size: 14px;
+   background-color: rgba(0, 0, 0, 1);
+   color: white;
+`;
+
 type Props = {
    image_url: string;
    youtube_url?: string;
    date?: Date;
    isInfiniteTime?: boolean;
+   numberOfPeople?: number;
 };
 
 export default function ImageBox(props: Props) {
+   const { image_url, youtube_url, isInfiniteTime, numberOfPeople } = props;
+
    const [isHover, setIsHover] = useState(false);
 
    const handleMouseOver = (boolean: boolean) => {
       setIsHover(boolean);
    };
-
-   const { image_url, youtube_url, isInfiniteTime } = props;
 
    if (youtube_url === 'null') {
       return (
@@ -81,6 +96,9 @@ export default function ImageBox(props: Props) {
                <TextBox text="클릭하여 원본 이미지 보기" fontSize="14px" />
             </Popup>
             {isInfiniteTime && <InfiniteTimeBox>무제한급</InfiniteTimeBox>}
+            {numberOfPeople && numberOfPeople > 1 && (
+               <NumberOfPeopleBox>{`${numberOfPeople}명 작품`}</NumberOfPeopleBox>
+            )}
          </Layout>
       );
    }
@@ -92,7 +110,7 @@ export default function ImageBox(props: Props) {
             <YoutubeLink url={youtube_url} isIconOnImage={true} isHover={isHover} handleMouseOver={handleMouseOver} />
          )}
          {isInfiniteTime && <InfiniteTimeBox>무제한급</InfiniteTimeBox>}
-
+         {numberOfPeople && numberOfPeople > 1 && <NumberOfPeopleBox>{`${numberOfPeople}명 작품`}</NumberOfPeopleBox>}
          <Popup>
             <TextBox text="클릭하여 원본 이미지 보기" fontSize="14px" />
          </Popup>
