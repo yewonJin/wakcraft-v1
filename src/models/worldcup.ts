@@ -29,10 +29,10 @@ worldcupSchema.statics.create = function (payload) {
    return worldcup.save();
 };
 
-worldcupSchema.statics.updateYoutubeUrl = function (subject: string, youtube_url: string) {
+worldcupSchema.statics.updateYoutubeUrl = function (minecraft_id: string, youtube_url: string) {
    return this.updateOne(
       {
-         'workInfo.subject': subject,
+         'workInfo.minecraft_id': minecraft_id,
       },
       {
          $set: { 'workInfo.youtube_url': youtube_url },
