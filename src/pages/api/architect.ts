@@ -6,6 +6,7 @@ import PlacementTest from '@/models/placementTest';
 import EventNoobProHacker from '@/models/eventNoobProHacker';
 import ArchitectureContest from '@/models/architectureContest';
 import MatchYourTier from '@/models/matchYourTier';
+import Worldcup from '@/models/worldcup';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
    if (req.method === 'POST') {
@@ -112,12 +113,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
          try {
             await ArchitectureContest.updateArchitectId(originalId as string, minecraft_id as string);
          } catch (e) {
-            return res.status(400).send({ error: '건축 콘테스트 변경 오류' });
+            return res.status(400).send({ error: e });
          }
 
+         // 티어 맞추기에서 마인크래프트 아이디 바꾸기
          try {
-            // 티어 맞추기에서 마인크래프트 아이디 바꾸기
             await MatchYourTier.updateArchitectId(originalId as string, minecraft_id as string);
+         } catch (e) {
+            return res.status(400).send({ error: e });
+         }
+
+         // 월드컵에서 마인크래프트 아이디 바꾸기
+         try {
+            await Worldcup.updateArchitectId(originalId as string, minecraft_id as string);
          } catch (e) {
             return res.status(400).send({ error: e });
          }

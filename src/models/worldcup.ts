@@ -4,6 +4,7 @@ import { Model, Schema, model, models } from 'mongoose';
 interface WorldcupModel extends Model<Worldcup> {
    findAllByGameName: (game: Game) => Promise<Worldcup[]>;
    updateYoutubeUrl: (subject: string, youtube_url: string) => Promise<void>;
+   updateArchitectId: (beforeId: string, afterId: string) => Promise<void>;
    increaseNumberOfWin: (subject: string) => Promise<void>;
    increaseNumberOfParticipation: (subject: string) => Promise<void>;
    resetNumberOfWin: () => Promise<void>;
@@ -35,6 +36,19 @@ worldcupSchema.statics.updateYoutubeUrl = function (subject: string, youtube_url
       },
       {
          $set: { 'workInfo.youtube_url': youtube_url },
+      },
+   );
+};
+
+worldcupSchema.statics.updateArchitectId = function (beforeId: string, afterId: string) {
+   return this.updateMany(
+      {
+         'workInfo.minecraft_id': beforeId,
+      },
+      {
+         $set: {
+            'workInfo.minecraft_id': afterId,
+         },
       },
    );
 };
