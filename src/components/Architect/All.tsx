@@ -6,7 +6,6 @@ import { Architect } from '@/domain/architect';
 import EventNoobProHackerItem from './EventNoobProHackerItem';
 import PlacementTestItem from './PlacementTestItem';
 import NoobProHackerItem from './NoobProHackerItem';
-import TextBox from '../Common/TextBox';
 
 const Layout = styled.div`
    display: grid;
@@ -22,6 +21,7 @@ const Layout = styled.div`
       grid-template-columns: repeat(1, minmax(300px, 1fr));
    }
 `;
+
 export default function All({ info }: { info: Architect }) {
    const portfolioArr: any[] = [];
 
@@ -43,7 +43,7 @@ export default function All({ info }: { info: Architect }) {
          <Layout>
             {portfolioArr
                .sort((a, b) => new Date(b.props.item.date).getTime() - new Date(a.props.item.date).getTime())
-               .map((item) => item)}
+               .map(item => item)}
          </Layout>
       </Fragment>
    );

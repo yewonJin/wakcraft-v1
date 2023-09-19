@@ -47,6 +47,9 @@ export const useAwsStorage = () => {
 
          setParticipantsInfo(prev => [...prev, newValue]);
       });
+
+      setStoragePage(0);
+      setIsViewable(false);
    };
    const setMatchYourTierAllImageUrl = (imagesName: string[]) => {
       if (!imagesName) return;
@@ -64,6 +67,9 @@ export const useAwsStorage = () => {
 
          setMatchYourTierInfo(prev => [...prev, newValue]);
       });
+
+      setStoragePage(0);
+      setIsViewable(false);
    };
 
    const setContentImageUrl = (content: Content, imageName: string) => {

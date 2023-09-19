@@ -3,6 +3,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import connectMongo from '@/utils/connectMongo';
 import Architect from '@/models/architect';
 
+// 참여횟수 및 우승횟수 등등 다시 반영하기
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
    if (req.method === 'PATCH') {
       await connectMongo();

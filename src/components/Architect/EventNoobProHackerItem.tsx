@@ -39,7 +39,7 @@ export default function EventNoobProHackerItem({
    index: number;
 }) {
    return (
-      <PortFolioBox>
+      <PortFolioBox key={'eventNoobProHacker_' + index}>
          <ImageBox
             image_url={item.image_url}
             youtube_url={item.youtube_url}
