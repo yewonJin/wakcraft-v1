@@ -4,6 +4,8 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import NoobProHacker from '@/models/noobProHacker';
 import PlacementTest from '@/models/placementTest';
 import EventNoobProHacker from '@/models/eventNoobProHacker';
+import ArchitectureContest from '@/models/architectureContest';
+import MatchYourTier from '@/models/matchYourTier';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
    if (req.method === 'POST') {
@@ -72,14 +74,20 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
    } else if (req.method === 'PATCH') {
       const { originalId, minecraft_id, wakzoo_id, tier } = req.body;
 
-      try {
-         await connectMongo();
+      await connectMongo();
 
-         if (originalId !== minecraft_id) {
+      if (originalId !== minecraft_id) {
+         // 눕프로해커에서 마인크래프트 아이디 바꾸기
+         try {
             ['noob', 'pro', 'hacker'].forEach(async tier => {
                await NoobProHacker.updateArchitectId(originalId as string, minecraft_id as string, tier as string);
             });
+         } catch (e) {
+            return res.status(400).send({ error: e });
+         }
 
+         // 배치고사에서 마인크래프트 아이디 바꾸기
+         try {
             const placementTests = await PlacementTest.findByArchitectId(originalId);
 
             placementTests.forEach(async placementTest => {
@@ -89,26 +97,38 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                   minecraft_id as string,
                );
             });
-
-            await EventNoobProHacker.updateArchitectId(originalId as string, minecraft_id as string);
-
-            const data = await Architect.findOneByMinecraftId(originalId);
-
-            data.portfolio.placementTest.forEach(async season => {
-               await Architect.findOneByMinecraftIdAndUpdatePortfolio(
-                  originalId,
-                  minecraft_id,
-                  season.season,
-                  season.date,
-               );
-            });
+         } catch (e) {
+            return res.status(400).send({ error: e });
          }
 
-         await Architect.findOneByMinecraftIdAndUpdate(originalId, minecraft_id, wakzoo_id, tier);
+         // 이벤트 눕프핵에서 마인크래프트 아이디 바꾸기
+         try {
+            await EventNoobProHacker.updateArchitectId(originalId as string, minecraft_id as string);
+         } catch (e) {
+            return res.status(400).send({ error: e });
+         }
 
-         return res.status(200).send('변경 성공');
-      } catch (e) {
-         console.log(e);
+         // 건축 콘테스트에서 마인크래프트 아이디 바꾸기
+         try {
+            await ArchitectureContest.updateArchitectId(originalId as string, minecraft_id as string);
+         } catch (e) {
+            return res.status(400).send({ error: '건축 콘테스트 변경 오류' });
+         }
+
+         try {
+            // 티어 맞추기에서 마인크래프트 아이디 바꾸기
+            await MatchYourTier.updateArchitectId(originalId as string, minecraft_id as string);
+         } catch (e) {
+            return res.status(400).send({ error: e });
+         }
       }
+
+      try {
+         await Architect.findOneByMinecraftIdAndUpdate(originalId as string, minecraft_id as string, wakzoo_id, tier);
+      } catch (e) {
+         return res.status(400).send({ error: e });
+      }
+
+      return res.status(200).send('변경 성공');
    }
 }

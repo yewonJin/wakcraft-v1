@@ -74,14 +74,7 @@ architectureContestSchema.statics.updateArchitectId = function (beforeId: string
       {
          arrayFilters: [
             {
-               'line.line_details': {
-                  $exists: true,
-               },
-            },
-            {
-               'detail.minecraft_id': {
-                  id: beforeId,
-               },
+               'detail.minecraft_id': beforeId,
             },
          ],
       },

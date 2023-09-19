@@ -36,13 +36,3 @@ export const postAwsImages = async (formData: FormData) => {
       console.error(e);
    }
 };
-
-export const patchAwsPlacementTestImages = async (beforeId: string, afterId: string) => {
-   try {
-      return await fetch(`/api/aws/rename?beforeId=${beforeId}&afterId=${afterId}`, {
-         method: 'PATCH',
-      });
-   } catch (e) {
-      console.error(e);
-   }
-};

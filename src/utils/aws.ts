@@ -32,28 +32,6 @@ export const listObjectsBucketParams = (content: Content, episode?: string) => {
    }
 };
 
-export const copyObjectBucketParams = (beforeId: string, afterId: string, season: number, extension: string) => {
-   return {
-      CopySource: `${awsS3Bucket}/placementTest/season ${season}/${beforeId}.${extension}`,
-      Bucket: awsS3Bucket,
-      Key: `placementTest/season ${season}/${afterId}.${extension}`,
-   };
-};
-
-export const headObjectParams = (beforeId: string, season: number, extension: string) => {
-   return {
-      Bucket: awsS3Bucket,
-      Key: `placementTest/season ${season}/${beforeId}.${extension}`,
-   };
-};
-
-export const deleteObjectParams = (beforeId: string, season: number, extension: string) => {
-   return {
-      Bucket: awsS3Bucket,
-      Key: `placementTest/season ${season}/${beforeId}.${extension}`,
-   };
-};
-
 export async function uploadFile(fileBuffer: fs.ReadStream, fileName: string, mimetype: string) {
    const uploadParams = {
       Bucket: awsS3Bucket,
@@ -77,13 +55,6 @@ export async function createFolder(content: Content, fileName: string) {
    const res = await s3.send(new PutObjectCommand(params));
    return res.$metadata.httpStatusCode;
 }
-
-export const renameBucketParams = (beforeId: string) => {
-   return {
-      Bucket: awsS3Bucket,
-      Prefix: `placementTest/season 1/${beforeId}`,
-   };
-};
 
 export const hideFolder = (arr: _Object[]) => {
    return arr.filter(item => item.Key?.split('/')[2] !== '');
