@@ -287,13 +287,31 @@ architectSchema.statics.findOneAndPushToPortfolio = function (
    payload: Architect['portfolio']['noobProHacker'][0],
 ) {
    if (payload.ranking == 1) {
-      return this.findOneAndUpdate(
-         { minecraft_id },
-         {
-            $push: { 'portfolio.noobProHacker': payload },
-            $inc: { 'noobProHackerInfo.win': 1, 'noobProHackerInfo.participation': 1 },
-         },
-      );
+      if (payload.line === 'hacker') {
+         return this.findOneAndUpdate(
+            { minecraft_id },
+            {
+               $push: { 'portfolio.noobProHacker': payload },
+               $inc: {
+                  'noobProHackerInfo.win': 1,
+                  'noobProHackerInfo.hackerWin': 1,
+                  'noobProHackerInfo.participation': 1,
+               },
+            },
+         );
+      } else if (payload.line === 'pro') {
+         return this.findOneAndUpdate(
+            { minecraft_id },
+            {
+               $push: { 'portfolio.noobProHacker': payload },
+               $inc: {
+                  'noobProHackerInfo.win': 1,
+                  'noobProHackerInfo.proWin': 1,
+                  'noobProHackerInfo.participation': 1,
+               },
+            },
+         );
+      }
    } else {
       return this.findOneAndUpdate(
          { minecraft_id },
