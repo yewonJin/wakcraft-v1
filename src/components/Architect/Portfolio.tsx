@@ -50,14 +50,18 @@ const CategoryItem = styled.li<{ contentState: number; index: number }>`
    gap: 20px;
    list-style: none;
 
-   @media screen and (max-width: 800px) {
+   @media screen and (min-width: 800px) {
       > h2 {
          color: ${props => (props.contentState === props.index ? 'black' : '#aaa')};
+
+         :hover {
+            color: black;
+
+         }
       }
 
       :hover {
          cursor: pointer;
-         color: black;
       }
    }
 
