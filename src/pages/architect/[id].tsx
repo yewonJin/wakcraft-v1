@@ -6,7 +6,7 @@ import TextBox from '@/components/Common/TextBox';
 import Skeleton from '@/components/Common/Skeleton';
 import { tierImage } from '@/utils/lib';
 import Portfolio from '@/components/Architect/Portfolio';
-import { currentTier, numberParticipationInLine } from '@/domain/architect';
+import { currentTier } from '@/domain/architect';
 
 const ProfileBox = styled.div`
    position: relative;
@@ -75,15 +75,14 @@ const ContentContainer = styled.div`
    align-items: start;
 
    @media screen and (max-width: 800px) {
-      gap: 5px;
+      gap: 10px;
+   }
 
+   @media screen and (max-width: 400px) {
       > div:nth-child(3) {
          display: none;
       }
       > div:nth-child(4) {
-         display: none;
-      }
-      > div:nth-child(5) {
          display: none;
       }
    }
@@ -98,6 +97,10 @@ const ContentBox = styled.div`
       flex-direction: row-reverse;
       align-items: center;
       gap: 0px;
+
+      > h2 {
+         font-size: 16px;
+      }
    }
 
    > h2:first-child {
@@ -163,7 +166,7 @@ export default function Page() {
                      fontWeight="500"
                      color="black"
                   />
-                  <TextBox text={'참여 횟수'} fontSize="16px" lineHeight="24px" fontWeight="400" color="#666" />
+                  <TextBox text={'참여 횟수'} fontSize="18px" lineHeight="24px" fontWeight="400" color="#666" />
                </ContentBox>
                <ContentBox>
                   <TextBox
@@ -174,7 +177,7 @@ export default function Page() {
                      fontWeight="500"
                      color="black"
                   />
-                  <TextBox text={'총 우승'} fontSize="16px" lineHeight="24px" fontWeight="400" color="#666" />
+                  <TextBox text={'총 우승'} fontSize="18px" lineHeight="24px" fontWeight="400" color="#666" />
                </ContentBox>
                <ContentBox>
                   <TextBox
@@ -185,7 +188,7 @@ export default function Page() {
                      fontWeight="500"
                      color="black"
                   />
-                  <TextBox text={'해커 우승'} fontSize="16px" lineHeight="24px" fontWeight="400" color="#666" />
+                  <TextBox text={'해커 우승'} fontSize="18px" lineHeight="24px" fontWeight="400" color="#666" />
                </ContentBox>
                <ContentBox>
                   <TextBox
@@ -196,7 +199,7 @@ export default function Page() {
                      fontWeight="500"
                      color="black"
                   />
-                  <TextBox text={'프로 우승'} fontSize="16px" lineHeight="24px" fontWeight="400" color="#666" />
+                  <TextBox text={'프로 우승'} fontSize="18px" lineHeight="24px" fontWeight="400" color="#666" />
                </ContentBox>
             </ContentContainer>
          </ProfileBox>

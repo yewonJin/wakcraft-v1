@@ -26,7 +26,7 @@ const Layout = styled.div`
       }
       > h2:nth-child(2),
       > h2:nth-child(3) {
-         font-size: 14px;
+         font-size: 18px;
       }
    }
 `;
@@ -43,14 +43,18 @@ const Main = styled.main`
    margin-top: 35px;
 
    @media screen and (max-width: 1400px) {
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(2, 1fr);
       grid-template-rows: repeat(2, 1fr);
       grid-template-areas:
-         'a b c'
-         'd d d';
+         'a b'
+         'a c'
+         'd d'
+         'd d';
    }
 
-   @media screen and (max-width: 1000px) {
+   @media screen and (max-width: 700px) {
+      gap: 15px;
+      column-gap: 10px;
       grid-template-columns: repeat(2, 1fr);
       grid-template-rows: repeat(3, 200px);
       grid-template-areas:
@@ -87,12 +91,14 @@ const DateLayout = styled.div`
    display: flex;
    gap: 30px;
    width: 100%;
-   height: 50%;
    padding: 0px 50px;
 
-   @media screen and (max-width: 1000px) {
+   @media screen and (max-width: 700px) {
       padding: 0px;
-      margin-top: 10px;
+
+      > div:nth-child(2) {
+         display: none;
+      }
    }
 `;
 
@@ -105,11 +111,12 @@ const DateBox = styled.div`
    flex: 1;
    padding-bottom: 20px;
 
-   @media screen and (max-width: 1000px) {
+   @media screen and (max-width: 700px) {
       gap: 10px;
 
       > h2:nth-child(1) {
-         font-size: 16px;
+         font-size: 20px;
+         font-weight: 500;
          line-height: 24px;
       }
 
@@ -119,7 +126,7 @@ const DateBox = styled.div`
       }
 
       > h2:nth-child(3) {
-         font-size: 12px;
+         font-size: 16px;
          line-height: 20px;
       }
    }
@@ -148,7 +155,7 @@ export default function MainInfo({
          <TextBox
             text="눕, 프로, 해커가 한 라인이 되어 주제를 선정해 작품을 건축하면 우왁굳이 감상하고 평가한다."
             fontSize="18px"
-            lineHeight="24px"
+            lineHeight="1.7"
             color="#646464"
          />
          <Main>

@@ -75,13 +75,20 @@ const ContentNav = styled.div`
    }
 
    @media screen and (max-width: 1000px) {
+      width: 100%;
+
       > h2:first-child {
+         width: 90%;
+         margin: 0px auto;
+         margin-bottom: 10px;
          color: #535353;
          font-size: 18px;
          line-height: 24px;
       }
 
       > h2:nth-child(2) {
+         width: 90%;
+         margin: 0px auto;
          color: black;
          font-size: 24px;
          line-height: 36px;
@@ -93,6 +100,21 @@ const Divider = styled.div`
    width: 1px;
    height: 29px;
    background-color: #cacaca;
+`;
+
+const CategoryContainer = styled.div`
+   width: 100%;
+
+   @media screen and (max-width: 1000px) {
+      width: 90%;
+      margin: 0px auto;
+   }
+
+   @media screen and (max-width: 800px) {
+      width: 100%;
+      padding: 0px 5%;
+      overflow-x: scroll;
+   }
 `;
 
 const Category = styled.ul`
@@ -112,7 +134,8 @@ const Category = styled.ul`
    }
 
    @media screen and (max-width: 800px) {
-      gap: 15px;
+      width: fit-content;
+      gap: 10px;
       > div {
          display: none;
       }
@@ -133,14 +156,19 @@ const LineSubject = styled.li<{ line: number; index: number }>`
 
    @media screen and (max-width: 1000px) {
       color: ${props => (props.line === props.index ? 'black' : '#aaa')};
+   }
+
+   @media screen and (max-width: 800px) {
+      font-size: 16px;
+      background-color: #dfdfdf;
+      padding: 6px 12px;
+      border-radius: 16px;
+      white-space: nowrap;
+      color: ${props => (props.line === props.index ? 'black' : '#999')};
 
       :hover {
          color: black;
       }
-   }
-
-   @media screen and (max-width: 600px) {
-      font-size: 14px;
    }
 `;
 
@@ -310,17 +338,19 @@ export default function Home({
                   fontWeight="500"
                   lineHeight="48px"
                />
-               <Category>
-                  {noobProHacker[0].lineInfo.map((item, index) => (
-                     <Fragment key={item + index.toString()}>
-                        <Divider />
-                        <LineSubject line={line} index={index} onClick={() => setLine(index)}>
-                           {item.subject}
-                        </LineSubject>
-                     </Fragment>
-                  ))}
-                  <Divider />
-               </Category>
+               <CategoryContainer>
+                  <Category>
+                     {noobProHacker[0].lineInfo.map((item, index) => (
+                        <Fragment key={item + index.toString()}>
+                           <Divider />
+                           <LineSubject line={line} index={index} onClick={() => setLine(index)}>
+                              {item.subject}
+                           </LineSubject>
+                        </Fragment>
+                     ))}
+                     <Divider />
+                  </Category>
+               </CategoryContainer>
             </ContentNav>
             <LineContainer>
                <LineList line={line}>
@@ -366,10 +396,7 @@ export default function Home({
                </LineList>
             </LineContainer>
          </ContentBox>
-         <MainInfo
-            architects={architects}
-            recentNoobProHackerDate={noobProHacker[0].contentInfo.date}
-         />
+         <MainInfo architects={architects} recentNoobProHackerDate={noobProHacker[0].contentInfo.date} />
          <RecentWinner noobProHackers={recentNoobProHacker} />
          <SweepLine sweepLine={sweepLine} />
       </Layout>
