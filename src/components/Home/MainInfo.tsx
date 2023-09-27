@@ -65,6 +65,7 @@ const Box = styled.div<{ area: string }>`
    flex-direction: column;
    gap: ${props => (props.area === 'c' ? '20px' : '30px')};
    align-items: center;
+   justify-content: space-between;
    padding: 25px 5px;
    background-color: #f0f0f0;
    border-radius: 15px;
@@ -79,7 +80,7 @@ const Box = styled.div<{ area: string }>`
 const TextWrapper = styled.div<{ flexDirection?: string }>`
    display: flex;
    flex-direction: ${props => (props.flexDirection === 'column' ? 'column' : 'row')};
-   gap: 20px;
+   gap: 16px;
 `;
 
 const DateLayout = styled.div`
@@ -87,7 +88,6 @@ const DateLayout = styled.div`
    gap: 30px;
    width: 100%;
    height: 50%;
-   margin-top: 50px;
    padding: 0px 50px;
 
    @media screen and (max-width: 1000px) {
@@ -190,6 +190,7 @@ export default function MainInfo({
                   fontWeight="500"
                   color="#313131"
                />
+               <TextBox text="" fontSize="18px" fontWeight="500" color="#868686" />
             </Box>
             <Box area="b">
                <TextBox text="최다 우승" fontSize="18px" fontWeight="500" color="#868686" />
@@ -204,13 +205,13 @@ export default function MainInfo({
                         textAlign="center"
                      />
                   ))}
-                  <TextBox
-                     text={`(${getMostWinsArchitect(architects)[0].noobProHackerInfo.win}회)`}
-                     fontSize="18px"
-                     fontWeight="500"
-                     textAlign="center"
-                  />
                </TextWrapper>
+               <TextBox
+                  text={`(${getMostWinsArchitect(architects)[0].noobProHackerInfo.win}회)`}
+                  fontSize="18px"
+                  fontWeight="500"
+                  textAlign="center"
+               />
             </Box>
             <Box area="c">
                <TextBox text="최다 참여" fontSize="18px" fontWeight="500" color="#868686" />
@@ -225,13 +226,13 @@ export default function MainInfo({
                         textAlign="center"
                      />
                   ))}
-                  <TextBox
-                     text={`(${getMostParticipationArchitect(architects)[0].noobProHackerInfo.participation}회)`}
-                     fontSize="18px"
-                     fontWeight="500"
-                     textAlign="center"
-                  />
                </TextWrapper>
+               <TextBox
+                  text={`(${getMostParticipationArchitect(architects)[0].noobProHackerInfo.participation}회)`}
+                  fontSize="18px"
+                  fontWeight="500"
+                  textAlign="center"
+               />
             </Box>
             <Box area="d">
                <TextBox text="형 마크 컨텐츠 많이 해줘" fontSize="18px" fontWeight="500" color="#868686" />
@@ -290,6 +291,7 @@ export default function MainInfo({
                      <TextBox text="(2023-09-03)" fontSize="16px" textAlign="center" color="#777" />
                   </DateBox>
                </DateLayout>
+               <TextBox text="" fontSize="18px" fontWeight="500" textAlign="center" />
             </Box>
          </Main>
       </Layout>
