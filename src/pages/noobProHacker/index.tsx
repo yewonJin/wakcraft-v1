@@ -92,7 +92,7 @@ const NoobProHackerBox = styled.li`
    border-bottom: 1px solid #cacaca;
 
    > p:nth-child(4) {
-      color: #555;
+      color: #888;
       :hover {
          color: black;
       }
@@ -163,7 +163,7 @@ export default function Search({ noobProHackers }: InferGetStaticPropsType<typeo
             <TableItem width="150px">링크</TableItem>
          </TableHeader>
          <NoobProHackerList>
-            {noobProHackers.map((item, _) => {
+            {noobProHackers.sort((a, b) => b.contentInfo.episode - a.contentInfo.episode).map((item, _) => {
                return (
                   <Link key={item.contentInfo.episode} href={`/noobProHacker/${item.contentInfo.episode}`}>
                      <NoobProHackerBox>
