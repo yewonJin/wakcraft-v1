@@ -127,7 +127,7 @@ export default function Page() {
                   <Skeleton width="80px" height="18px" />
                </IdBox>
             </SkeletonProfileBox>
-            <Skeleton width="140px" height="22px" margin="25px 0px 0px 0px" />
+            <Skeleton width="140px" height="22px" margin="25px 0px 0px 10px" />
             <SkeletonBox>
                {[...new Array(9).fill(0)].map((_, index) => (
                   <Skeleton key={'Skeleton' + index} width="100%" aspectRatio="16/9" borderRadius="10px" />

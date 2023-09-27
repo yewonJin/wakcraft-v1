@@ -15,7 +15,7 @@ const Layout = styled.div`
    }
 
    @media screen and (max-width: 1000px) {
-      margin-top: 60px;
+      margin-top: 80px;
       > h2 {
          font-size: 22px;
       }
@@ -32,7 +32,7 @@ const ContentLayout = styled.div`
       grid-template-columns: repeat(3, 1fr);
 
       > div:nth-child(2n-1) {
-         margin-top: 60px;
+         margin-top: 30px;
       }
 
       > div:nth-child(1) {

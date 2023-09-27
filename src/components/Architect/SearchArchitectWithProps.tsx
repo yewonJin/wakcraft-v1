@@ -33,6 +33,18 @@ const Layout = styled.div`
    > input {
       z-index: 2;
    }
+
+   @media screen and (max-width: 800px) {
+      width: 100%;
+
+      > input {
+         width: 100%;
+      }
+
+      > ul {
+         width: 100%;
+      }
+   }
 `;
 
 const List = styled.ul`

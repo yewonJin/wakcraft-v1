@@ -50,24 +50,30 @@ const CategoryItem = styled.li<{ contentState: number; index: number }>`
    gap: 20px;
    list-style: none;
 
-   > h2 {
-      color: ${props => (props.contentState === props.index ? 'black' : '#888')};
+   @media screen and (max-width: 800px) {
+      > h2 {
+         color: ${props => (props.contentState === props.index ? 'black' : '#aaa')};
+      }
+
+      :hover {
+         cursor: pointer;
+         color: black;
+      }
    }
 
    @media screen and (max-width: 800px) {
       font-size: 16px;
-      background-color: #dfdfdf;
+      > h2 {
+         color: ${props => (props.contentState === props.index ? 'white' : '#aaa')};
+      }
+      background-color: ${props => (props.contentState === props.index ? '#555' : '#dfdfdf')};
       padding: 6px 12px;
       border-radius: 16px;
       white-space: nowrap;
 
       :hover {
-         color: black;
+         color: none;
       }
-   }
-
-   :hover {
-      cursor: pointer;
    }
 `;
 

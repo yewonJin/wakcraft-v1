@@ -164,11 +164,8 @@ const LineSubject = styled.li<{ line: number; index: number }>`
       padding: 6px 12px;
       border-radius: 16px;
       white-space: nowrap;
-      color: ${props => (props.line === props.index ? 'black' : '#999')};
-
-      :hover {
-         color: black;
-      }
+      color: ${props => (props.line === props.index ? 'white' : '#aaa')};
+      background-color: ${props => (props.line === props.index ? '#555' : '#dfdfdf')};
    }
 `;
 

@@ -34,24 +34,16 @@ const Layout = styled.div`
 `;
 
 const TierNav = styled.nav`
+   position: relative;
    display: flex;
    align-items: center;
    justify-content: space-between;
    width: 100%;
 
-   @media screen and (max-width: 1000px) {
-      > div:last-child {
-         width: 200px;
-      }
-   }
-
    @media screen and (max-width: 800px) {
       flex-direction: column-reverse;
-      gap: 10px;
-
-      > div:last-child {
-         width: 95%;
-      }
+      gap: 14px;
+      margin-bottom: 8px;
    }
 `;
 
@@ -119,7 +111,7 @@ const TierList = styled.ul`
    align-items: center;
    gap: 15px;
 
-   @media screen and (max-width: 1050px) {
+   @media screen and (max-width: 1000px) {
       gap: 5px;
    }
 
@@ -141,10 +133,14 @@ const NavItem = styled.div<{ curTier: string }>`
       background-color: #aaa;
    }
 
-   @media screen and (max-width: 1050px) {
+   @media screen and (max-width: 1000px) {
       padding: 5px 10px;
-      border-radius: 0px;
+      border-radius: 12px;
       gap: 5px;
+
+      :hover {
+         background-color: none;
+      }
 
       > span {
          display: none;

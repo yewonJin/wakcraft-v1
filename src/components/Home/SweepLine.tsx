@@ -16,7 +16,9 @@ const Layout = styled.div`
 
    @media screen and (max-width: 1400px) {
       width: 90%;
-      margin-top: 60px;
+      margin-top: 80px;
+      margin-bottom: 40px;
+
    }
 `;
 
