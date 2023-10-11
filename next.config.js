@@ -24,6 +24,7 @@ const nextConfig = {
       MONGO_URI: process.env.MONGO_URI,
    },
    images: {
+      unoptimized: true,
       domains: ['wakcraft.s3.ap-northeast-2.amazonaws.com'],
       sizes: '400px',
    },
