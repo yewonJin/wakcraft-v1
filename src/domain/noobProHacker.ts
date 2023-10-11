@@ -25,29 +25,29 @@ export const createNoobProHackerObject = (): NoobProHacker => {
          episode: 0,
          main_subject: '',
          date: '',
-         youtube_url: '',
+         youtube_url: 'null',
       },
       lineInfo: [
          {
             subject: '',
-            youtube_url: '',
+            youtube_url: 'null',
             line_ranking: 0,
             line_details: {
                noob: {
                   minecraft_id: '',
-                  youtube_url: '',
+                  youtube_url: 'null',
                   image_url: '',
                   ranking: 0,
                },
                pro: {
                   minecraft_id: '',
-                  youtube_url: '',
+                  youtube_url: 'null',
                   image_url: '',
                   ranking: 0,
                },
                hacker: {
                   minecraft_id: '',
-                  youtube_url: '',
+                  youtube_url: 'null',
                   image_url: '',
                   ranking: 0,
                },
