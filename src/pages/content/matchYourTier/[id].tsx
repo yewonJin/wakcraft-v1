@@ -123,7 +123,11 @@ export default function Page() {
                .map((item, index) => (
                   <Fragment key={item.minecraft_id}>
                      <PortFolioBox>
-                        {item.image_url ? <ImageBox image_url={item.image_url} /> : <NoImageBox />}
+                        {item.image_url ? (
+                           <ImageBox image_url={item.image_url} youtube_url={item.youtube_url} />
+                        ) : (
+                           <NoImageBox />
+                        )}
                         <ContentBox>
                            <ArchitectBox>
                               <TextBox
