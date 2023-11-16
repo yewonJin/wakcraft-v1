@@ -9,6 +9,7 @@ import PlacementTest, { PlacementTestWithNumberOfParticipants } from '@/models/p
 import TextBox from '@/components/Common/TextBox';
 import ArchitectureContest from '@/models/architectureContest';
 import MatchYourTier from '@/models/matchYourTier';
+import GuessTime from '@/models/guessTime';
 
 const Layout = styled.div`
    display: flex;
@@ -140,6 +141,7 @@ export const getStaticProps: GetStaticProps<{
    placementTests: PlacementTestWithNumberOfParticipants[];
    architectureContests: ArchitectureContest[];
    matchYourTiers: MatchYourTier[];
+   guessTimes: GuessTime[];
 }> = async () => {
    await connectMongo();
 
@@ -147,6 +149,7 @@ export const getStaticProps: GetStaticProps<{
    const eventNoobProHackers = await EventNoobProHacker.findAllWithoutLineInfo();
    const architectureContests = await ArchitectureContest.findAllWithoutLineInfo();
    const matchYourTiers = await MatchYourTier.findAllWithoutLineInfo();
+   const guessTimes = await GuessTime.findAllWithoutLineInfo();
 
    return {
       props: {
@@ -154,6 +157,7 @@ export const getStaticProps: GetStaticProps<{
          placementTests: JSON.parse(JSON.stringify(placementTests)),
          architectureContests: JSON.parse(JSON.stringify(architectureContests)),
          matchYourTiers: JSON.parse(JSON.stringify(matchYourTiers)),
+         guessTimes: JSON.parse(JSON.stringify(guessTimes)),
       },
    };
 };
@@ -163,6 +167,7 @@ export default function Content({
    placementTests,
    architectureContests,
    matchYourTiers,
+   guessTimes,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
    return (
       <Layout>
@@ -228,7 +233,7 @@ export default function Content({
                <TableItem width="100px">링크</TableItem>
             </TableHeader>
             <List>
-               {[...eventNoobProHackers, ...matchYourTiers]
+               {[...eventNoobProHackers, ...matchYourTiers, ...guessTimes]
                   .sort((a, b) => a.contentInfo.episode - b.contentInfo.episode)
                   .map((item, _) => {
                      return (
@@ -254,6 +259,8 @@ export default function Content({
 const getContentUrl = (contentName: string, episode: number) => {
    if (contentName === '티어 맞추기') {
       return `/content/matchYourTier/${episode}`;
+   } else if (contentName === '시간 맞추기') {
+      return `/content/guessTime/${episode}`;
    } else {
       return `/content/eventNoobProHacker/${episode}`;
    }
