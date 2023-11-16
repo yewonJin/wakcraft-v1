@@ -7,7 +7,6 @@ import {
    getMostWinsArchitect,
    getNumberOfArchitectsByTier,
 } from '@/domain/architect';
-import { useCallback } from 'react';
 
 const Layout = styled.div`
    width: 1200px;
