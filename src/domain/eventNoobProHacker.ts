@@ -72,8 +72,10 @@ export const getNumberOfPeople = (item: Architect['portfolio']['eventNoobProHack
 
    if (item.episode === 3 && item.line === '눕') return 10;
 
-   const numberOfPeople = item.line.split('x')[1];   
-   
+   const numberOfPeople = item.line?.split('x')[1];
+
+   if (!numberOfPeople) return 1;
+
    if (item.episode === 5 && numberOfPeople) return parseInt(numberOfPeople);
 
    return 1;

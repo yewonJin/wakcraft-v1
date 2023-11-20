@@ -59,9 +59,9 @@ export default function EventNoobProHackerList({ info }: { info: Architect }) {
                      numberOfPeople={getNumberOfPeople(item)}
                   />
                   <ContentBox>
-                     <TierBox tier={item.line}>{item.line}</TierBox>
+                     {item.line ? <TierBox tier={item.line}>{item.line}</TierBox> : ''}
                      <InfoBox topText={`${item.contentName}`} bottomText={item.subject} />
-                     <RankingBox tier={item.line} ranking={item.ranking} />
+                     {item.line && <RankingBox tier={item.line} ranking={item.ranking} />}
                   </ContentBox>
                </PortFolioBox>
             );
